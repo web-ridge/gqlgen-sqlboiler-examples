@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/patrickmn/go-cache"
-	"github.com/web-ridge/gqlgen-sqlboiler/examples/social-network/models"
+	"github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/models"
 	"github.com/web-ridge/utils-go/api"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -35,6 +35,8 @@ func Middleware(db *sql.DB) func(http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			email, password, ok := r.BasicAuth()
 			if !ok {
+				// not all routes require authentication
+				// see c.Directives.IsAuthenticated in the server.go file
 				next.ServeHTTP(w, r)
 				return
 			}
@@ -58,13 +60,13 @@ func Middleware(db *sql.DB) func(http.Handler) http.Handler {
 				models.UserWhere.Email.EQ(email),
 			).One(r.Context(), db)
 			if err != nil {
-				api.WriteJSONError(w, "ss", "ss", http.StatusUnauthorized)
+				api.WriteJSONError(w, "Not authorized", "NOT_AUTHORIZED", http.StatusUnauthorized)
 				return
 			}
 
 			// check if password is right
 			if err = bcrypt.CompareHashAndPassword(user.Password, []byte(password)); err != nil {
-				api.WriteJSONError(w, "dd", "dd", http.StatusUnauthorized)
+				api.WriteJSONError(w, "Not authorized", "NOT_AUTHORIZED", http.StatusUnauthorized)
 				return
 			}
 

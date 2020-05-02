@@ -25,4 +25,4 @@ TODO: make Youtube video for this example
    `go run convert_plugin.go`
 
 5. ...Let's go!  
-   `go run server.go resolver.go`
+   `go run server.go resolver.go database.go`

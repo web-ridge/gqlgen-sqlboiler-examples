@@ -20,14 +20,14 @@ import (
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/web-ridge/gqlgen-sqlboiler/examples/social-network/auth"
-	"github.com/web-ridge/gqlgen-sqlboiler/examples/social-network/graphql_models"
+	"github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/auth"
+	"github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models"
 	"github.com/web-ridge/utils-go/api"
 )
 
 func main() {
 	initLogger()
-	db := initDb()
+	db := getDatabase()
 
 	port := os.Getenv("PORT")
 
