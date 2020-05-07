@@ -1,4 +1,5 @@
 This is a reproduction for string id's for to test and resolve this issue: https://github.com/web-ridge/gqlgen-sqlboiler/issues/12
+Not a real example!
 
 ## Generated files in this example
 

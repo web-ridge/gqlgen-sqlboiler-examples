@@ -1,7 +1,7 @@
 directive @isAuthenticated on FIELD_DEFINITION
 
 type Comment {
-  id: String!
+  id: ID!
   content: String!
   post: Post
   user: User!
@@ -9,7 +9,7 @@ type Comment {
 }
 
 type CommentLike {
-  id: String!
+  id: ID!
   comment: Comment!
   user: User!
   likeType: String!
@@ -17,13 +17,13 @@ type CommentLike {
 }
 
 type Friendship {
-  id: String!
+  id: ID!
   createdAt: Int
   users: [User]
 }
 
 type Image {
-  id: String!
+  id: ID!
   post: Post!
   views: Int
   originalUrl: String
@@ -31,12 +31,12 @@ type Image {
 }
 
 type ImageVariation {
-  id: String!
+  id: ID!
   image: Image!
 }
 
 type Like {
-  id: String!
+  id: ID!
   post: Post!
   user: User!
   likeType: String!
@@ -44,7 +44,7 @@ type Like {
 }
 
 type Post {
-  id: String!
+  id: ID!
   content: String!
   user: User!
   comments: [Comment]
@@ -53,7 +53,7 @@ type Post {
 }
 
 type User {
-  id: String!
+  id: ID!
   firstName: String!
   lastName: String!
   email: String!
@@ -129,7 +129,7 @@ input CommentFilter {
 }
 
 input CommentWhere {
-  id: StringFilter
+  id: IDFilter
   content: StringFilter
   post: PostWhere
   user: UserWhere
@@ -144,7 +144,7 @@ input CommentLikeFilter {
 }
 
 input CommentLikeWhere {
-  id: StringFilter
+  id: IDFilter
   comment: CommentWhere
   user: UserWhere
   likeType: StringFilter
@@ -159,7 +159,7 @@ input FriendshipFilter {
 }
 
 input FriendshipWhere {
-  id: StringFilter
+  id: IDFilter
   createdAt: IntFilter
   users: UserWhere
   or: FriendshipWhere
@@ -172,7 +172,7 @@ input ImageFilter {
 }
 
 input ImageWhere {
-  id: StringFilter
+  id: IDFilter
   post: PostWhere
   views: IntFilter
   originalUrl: StringFilter
@@ -187,7 +187,7 @@ input ImageVariationFilter {
 }
 
 input ImageVariationWhere {
-  id: StringFilter
+  id: IDFilter
   image: ImageWhere
   or: ImageVariationWhere
   and: ImageVariationWhere
@@ -199,7 +199,7 @@ input LikeFilter {
 }
 
 input LikeWhere {
-  id: StringFilter
+  id: IDFilter
   post: PostWhere
   user: UserWhere
   likeType: StringFilter
@@ -214,7 +214,7 @@ input PostFilter {
 }
 
 input PostWhere {
-  id: StringFilter
+  id: IDFilter
   content: StringFilter
   user: UserWhere
   comments: CommentWhere
@@ -230,7 +230,7 @@ input UserFilter {
 }
 
 input UserWhere {
-  id: StringFilter
+  id: IDFilter
   firstName: StringFilter
   lastName: StringFilter
   email: StringFilter
@@ -265,12 +265,12 @@ type Query {
 
 input CommentCreateInput {
   content: String!
-  postId: String
+  postId: ID
 }
 
 input CommentUpdateInput {
   content: String
-  postId: String
+  postId: ID
 }
 
 input CommentsCreateInput {
@@ -298,13 +298,13 @@ type CommentsUpdatePayload {
 }
 
 input CommentLikeCreateInput {
-  commentId: String!
+  commentId: ID!
   likeType: String!
   createdAt: Int
 }
 
 input CommentLikeUpdateInput {
-  commentId: String
+  commentId: ID
   likeType: String
   createdAt: Int
 }
@@ -366,13 +366,13 @@ type FriendshipsUpdatePayload {
 }
 
 input ImageCreateInput {
-  postId: String!
+  postId: ID!
   views: Int
   originalUrl: String
 }
 
 input ImageUpdateInput {
-  postId: String
+  postId: ID
   views: Int
   originalUrl: String
 }
@@ -402,11 +402,11 @@ type ImagesUpdatePayload {
 }
 
 input ImageVariationCreateInput {
-  imageId: String!
+  imageId: ID!
 }
 
 input ImageVariationUpdateInput {
-  imageId: String
+  imageId: ID
 }
 
 input ImageVariationsCreateInput {
@@ -434,13 +434,13 @@ type ImageVariationsUpdatePayload {
 }
 
 input LikeCreateInput {
-  postId: String!
+  postId: ID!
   likeType: String!
   createdAt: Int
 }
 
 input LikeUpdateInput {
-  postId: String
+  postId: ID
   likeType: String
   createdAt: Int
 }

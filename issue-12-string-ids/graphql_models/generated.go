@@ -1818,7 +1818,7 @@ var sources = []*ast.Source{
 	&ast.Source{Name: "schema.graphql", Input: `directive @isAuthenticated on FIELD_DEFINITION
 
 type Comment {
-  id: String!
+  id: ID!
   content: String!
   post: Post
   user: User!
@@ -1826,7 +1826,7 @@ type Comment {
 }
 
 type CommentLike {
-  id: String!
+  id: ID!
   comment: Comment!
   user: User!
   likeType: String!
@@ -1834,13 +1834,13 @@ type CommentLike {
 }
 
 type Friendship {
-  id: String!
+  id: ID!
   createdAt: Int
   users: [User]
 }
 
 type Image {
-  id: String!
+  id: ID!
   post: Post!
   views: Int
   originalUrl: String
@@ -1848,12 +1848,12 @@ type Image {
 }
 
 type ImageVariation {
-  id: String!
+  id: ID!
   image: Image!
 }
 
 type Like {
-  id: String!
+  id: ID!
   post: Post!
   user: User!
   likeType: String!
@@ -1861,7 +1861,7 @@ type Like {
 }
 
 type Post {
-  id: String!
+  id: ID!
   content: String!
   user: User!
   comments: [Comment]
@@ -1870,7 +1870,7 @@ type Post {
 }
 
 type User {
-  id: String!
+  id: ID!
   firstName: String!
   lastName: String!
   email: String!
@@ -1946,7 +1946,7 @@ input CommentFilter {
 }
 
 input CommentWhere {
-  id: StringFilter
+  id: IDFilter
   content: StringFilter
   post: PostWhere
   user: UserWhere
@@ -1961,7 +1961,7 @@ input CommentLikeFilter {
 }
 
 input CommentLikeWhere {
-  id: StringFilter
+  id: IDFilter
   comment: CommentWhere
   user: UserWhere
   likeType: StringFilter
@@ -1976,7 +1976,7 @@ input FriendshipFilter {
 }
 
 input FriendshipWhere {
-  id: StringFilter
+  id: IDFilter
   createdAt: IntFilter
   users: UserWhere
   or: FriendshipWhere
@@ -1989,7 +1989,7 @@ input ImageFilter {
 }
 
 input ImageWhere {
-  id: StringFilter
+  id: IDFilter
   post: PostWhere
   views: IntFilter
   originalUrl: StringFilter
@@ -2004,7 +2004,7 @@ input ImageVariationFilter {
 }
 
 input ImageVariationWhere {
-  id: StringFilter
+  id: IDFilter
   image: ImageWhere
   or: ImageVariationWhere
   and: ImageVariationWhere
@@ -2016,7 +2016,7 @@ input LikeFilter {
 }
 
 input LikeWhere {
-  id: StringFilter
+  id: IDFilter
   post: PostWhere
   user: UserWhere
   likeType: StringFilter
@@ -2031,7 +2031,7 @@ input PostFilter {
 }
 
 input PostWhere {
-  id: StringFilter
+  id: IDFilter
   content: StringFilter
   user: UserWhere
   comments: CommentWhere
@@ -2047,7 +2047,7 @@ input UserFilter {
 }
 
 input UserWhere {
-  id: StringFilter
+  id: IDFilter
   firstName: StringFilter
   lastName: StringFilter
   email: StringFilter
@@ -2082,12 +2082,12 @@ type Query {
 
 input CommentCreateInput {
   content: String!
-  postId: String
+  postId: ID
 }
 
 input CommentUpdateInput {
   content: String
-  postId: String
+  postId: ID
 }
 
 input CommentsCreateInput {
@@ -2115,13 +2115,13 @@ type CommentsUpdatePayload {
 }
 
 input CommentLikeCreateInput {
-  commentId: String!
+  commentId: ID!
   likeType: String!
   createdAt: Int
 }
 
 input CommentLikeUpdateInput {
-  commentId: String
+  commentId: ID
   likeType: String
   createdAt: Int
 }
@@ -2183,13 +2183,13 @@ type FriendshipsUpdatePayload {
 }
 
 input ImageCreateInput {
-  postId: String!
+  postId: ID!
   views: Int
   originalUrl: String
 }
 
 input ImageUpdateInput {
-  postId: String
+  postId: ID
   views: Int
   originalUrl: String
 }
@@ -2219,11 +2219,11 @@ type ImagesUpdatePayload {
 }
 
 input ImageVariationCreateInput {
-  imageId: String!
+  imageId: ID!
 }
 
 input ImageVariationUpdateInput {
-  imageId: String
+  imageId: ID
 }
 
 input ImageVariationsCreateInput {
@@ -2251,13 +2251,13 @@ type ImageVariationsUpdatePayload {
 }
 
 input LikeCreateInput {
-  postId: String!
+  postId: ID!
   likeType: String!
   createdAt: Int
 }
 
 input LikeUpdateInput {
-  postId: String
+  postId: ID
   likeType: String
   createdAt: Int
 }
@@ -3555,7 +3555,7 @@ func (ec *executionContext) _Comment_id(ctx context.Context, field graphql.Colle
 	}
 	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNID2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Comment_content(ctx context.Context, field graphql.CollectedField, obj *Comment) (ret graphql.Marshaler) {
@@ -3753,7 +3753,7 @@ func (ec *executionContext) _CommentLike_id(ctx context.Context, field graphql.C
 	}
 	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNID2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _CommentLike_comment(ctx context.Context, field graphql.CollectedField, obj *CommentLike) (ret graphql.Marshaler) {
@@ -4226,7 +4226,7 @@ func (ec *executionContext) _Friendship_id(ctx context.Context, field graphql.Co
 	}
 	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNID2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Friendship_createdAt(ctx context.Context, field graphql.CollectedField, obj *Friendship) (ret graphql.Marshaler) {
@@ -4492,7 +4492,7 @@ func (ec *executionContext) _Image_id(ctx context.Context, field graphql.Collect
 	}
 	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNID2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Image_post(ctx context.Context, field graphql.CollectedField, obj *Image) (ret graphql.Marshaler) {
@@ -4721,7 +4721,7 @@ func (ec *executionContext) _ImageVariation_id(ctx context.Context, field graphq
 	}
 	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNID2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _ImageVariation_image(ctx context.Context, field graphql.CollectedField, obj *ImageVariation) (ret graphql.Marshaler) {
@@ -5061,7 +5061,7 @@ func (ec *executionContext) _Like_id(ctx context.Context, field graphql.Collecte
 	}
 	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNID2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Like_post(ctx context.Context, field graphql.CollectedField, obj *Like) (ret graphql.Marshaler) {
@@ -8326,7 +8326,7 @@ func (ec *executionContext) _Post_id(ctx context.Context, field graphql.Collecte
 	}
 	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNID2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Post_content(ctx context.Context, field graphql.CollectedField, obj *Post) (ret graphql.Marshaler) {
@@ -9736,7 +9736,7 @@ func (ec *executionContext) _User_id(ctx context.Context, field graphql.Collecte
 	}
 	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNID2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _User_firstName(ctx context.Context, field graphql.CollectedField, obj *User) (ret graphql.Marshaler) {
@@ -11265,7 +11265,7 @@ func (ec *executionContext) unmarshalInputCommentCreateInput(ctx context.Context
 			}
 		case "postId":
 			var err error
-			it.PostID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PostID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11307,7 +11307,7 @@ func (ec *executionContext) unmarshalInputCommentLikeCreateInput(ctx context.Con
 		switch k {
 		case "commentId":
 			var err error
-			it.CommentID, err = ec.unmarshalNString2string(ctx, v)
+			it.CommentID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11361,7 +11361,7 @@ func (ec *executionContext) unmarshalInputCommentLikeUpdateInput(ctx context.Con
 		switch k {
 		case "commentId":
 			var err error
-			it.CommentID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.CommentID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11391,7 +11391,7 @@ func (ec *executionContext) unmarshalInputCommentLikeWhere(ctx context.Context, 
 		switch k {
 		case "id":
 			var err error
-			it.ID, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐStringFilter(ctx, v)
+			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11469,7 +11469,7 @@ func (ec *executionContext) unmarshalInputCommentUpdateInput(ctx context.Context
 			}
 		case "postId":
 			var err error
-			it.PostID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PostID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11487,7 +11487,7 @@ func (ec *executionContext) unmarshalInputCommentWhere(ctx context.Context, obj 
 		switch k {
 		case "id":
 			var err error
-			it.ID, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐStringFilter(ctx, v)
+			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11679,7 +11679,7 @@ func (ec *executionContext) unmarshalInputFriendshipWhere(ctx context.Context, o
 		switch k {
 		case "id":
 			var err error
-			it.ID, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐStringFilter(ctx, v)
+			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11775,7 +11775,7 @@ func (ec *executionContext) unmarshalInputImageCreateInput(ctx context.Context, 
 		switch k {
 		case "postId":
 			var err error
-			it.PostID, err = ec.unmarshalNString2string(ctx, v)
+			it.PostID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11829,7 +11829,7 @@ func (ec *executionContext) unmarshalInputImageUpdateInput(ctx context.Context, 
 		switch k {
 		case "postId":
 			var err error
-			it.PostID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PostID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11859,7 +11859,7 @@ func (ec *executionContext) unmarshalInputImageVariationCreateInput(ctx context.
 		switch k {
 		case "imageId":
 			var err error
-			it.ImageID, err = ec.unmarshalNString2string(ctx, v)
+			it.ImageID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11901,7 +11901,7 @@ func (ec *executionContext) unmarshalInputImageVariationUpdateInput(ctx context.
 		switch k {
 		case "imageId":
 			var err error
-			it.ImageID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.ImageID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11919,7 +11919,7 @@ func (ec *executionContext) unmarshalInputImageVariationWhere(ctx context.Contex
 		switch k {
 		case "id":
 			var err error
-			it.ID, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐStringFilter(ctx, v)
+			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11973,7 +11973,7 @@ func (ec *executionContext) unmarshalInputImageWhere(ctx context.Context, obj in
 		switch k {
 		case "id":
 			var err error
-			it.ID, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐStringFilter(ctx, v)
+			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -12105,7 +12105,7 @@ func (ec *executionContext) unmarshalInputLikeCreateInput(ctx context.Context, o
 		switch k {
 		case "postId":
 			var err error
-			it.PostID, err = ec.unmarshalNString2string(ctx, v)
+			it.PostID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -12159,7 +12159,7 @@ func (ec *executionContext) unmarshalInputLikeUpdateInput(ctx context.Context, o
 		switch k {
 		case "postId":
 			var err error
-			it.PostID, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			it.PostID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -12189,7 +12189,7 @@ func (ec *executionContext) unmarshalInputLikeWhere(ctx context.Context, obj int
 		switch k {
 		case "id":
 			var err error
-			it.ID, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐStringFilter(ctx, v)
+			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -12321,7 +12321,7 @@ func (ec *executionContext) unmarshalInputPostWhere(ctx context.Context, obj int
 		switch k {
 		case "id":
 			var err error
-			it.ID, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐStringFilter(ctx, v)
+			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -12591,7 +12591,7 @@ func (ec *executionContext) unmarshalInputUserWhere(ctx context.Context, obj int
 		switch k {
 		case "id":
 			var err error
-			it.ID, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐStringFilter(ctx, v)
+			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -16826,6 +16826,18 @@ func (ec *executionContext) marshalOID2ᚖstring(ctx context.Context, sel ast.Se
 		return graphql.Null
 	}
 	return ec.marshalOID2string(ctx, sel, *v)
+}
+
+func (ec *executionContext) unmarshalOIDFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐIDFilter(ctx context.Context, v interface{}) (IDFilter, error) {
+	return ec.unmarshalInputIDFilter(ctx, v)
+}
+
+func (ec *executionContext) unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐIDFilter(ctx context.Context, v interface{}) (*IDFilter, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalOIDFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐIDFilter(ctx, v)
+	return &res, err
 }
 
 func (ec *executionContext) marshalOImage2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImage(ctx context.Context, sel ast.SelectionSet, v Image) graphql.Marshaler {

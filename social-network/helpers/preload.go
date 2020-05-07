@@ -8,155 +8,1007 @@ import (
 )
 
 var CommentPreloadMap = map[string]boilergql.ColumnSetting{
-	"commentLikes": boilergql.ColumnSetting{
+	"commentLikes": {
 		Name:        models.CommentRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"commentLikes.comment": boilergql.ColumnSetting{
+	"commentLikes.comment": {
 		Name:        models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment,
 		IDAvailable: false,
 	},
-	"commentLikes.user": boilergql.ColumnSetting{
+	"commentLikes.comment.commentLikes": {
+		Name:        models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"commentLikes.comment.post": {
+		Name:        models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"commentLikes.comment.user": {
+		Name:        models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"commentLikes.user": {
 		Name:        models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User,
 		IDAvailable: false,
 	},
-	"post": boilergql.ColumnSetting{
+	"commentLikes.user.commentLikes": {
+		Name:        models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"commentLikes.user.comments": {
+		Name:        models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"commentLikes.user.friendships": {
+		Name:        models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"commentLikes.user.likes": {
+		Name:        models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"commentLikes.user.posts": {
+		Name:        models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"post": {
 		Name:        models.CommentRels.Post,
 		IDAvailable: true,
 	},
-	"post.comments": boilergql.ColumnSetting{
+	"post.comments": {
 		Name:        models.CommentRels.Post + "." + models.PostRels.Comments,
 		IDAvailable: false,
 	},
-	"post.comments.commentLikes": boilergql.ColumnSetting{
+	"post.comments.commentLikes": {
 		Name:        models.CommentRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"post.comments.post": boilergql.ColumnSetting{
+	"post.comments.post": {
 		Name:        models.CommentRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post,
 		IDAvailable: false,
 	},
-	"post.comments.user": boilergql.ColumnSetting{
+	"post.comments.user": {
 		Name:        models.CommentRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User,
 		IDAvailable: false,
 	},
-	"post.images": boilergql.ColumnSetting{
+	"post.images": {
 		Name:        models.CommentRels.Post + "." + models.PostRels.Images,
 		IDAvailable: false,
 	},
-	"post.likes": boilergql.ColumnSetting{
+	"post.images.imageVariations": {
+		Name:        models.CommentRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations,
+		IDAvailable: false,
+	},
+	"post.images.post": {
+		Name:        models.CommentRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.Post,
+		IDAvailable: false,
+	},
+	"post.likes": {
 		Name:        models.CommentRels.Post + "." + models.PostRels.Likes,
 		IDAvailable: false,
 	},
-	"post.user": boilergql.ColumnSetting{
+	"post.likes.post": {
+		Name:        models.CommentRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"post.likes.user": {
+		Name:        models.CommentRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"post.user": {
 		Name:        models.CommentRels.Post + "." + models.PostRels.User,
 		IDAvailable: false,
 	},
-	"post.user.commentLikes": boilergql.ColumnSetting{
+	"post.user.commentLikes": {
 		Name:        models.CommentRels.Post + "." + models.PostRels.User + "." + models.UserRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"post.user.comments": boilergql.ColumnSetting{
+	"post.user.comments": {
 		Name:        models.CommentRels.Post + "." + models.PostRels.User + "." + models.UserRels.Comments,
 		IDAvailable: false,
 	},
-	"post.user.friendships": boilergql.ColumnSetting{
+	"post.user.friendships": {
 		Name:        models.CommentRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships,
 		IDAvailable: false,
 	},
-	"post.user.likes": boilergql.ColumnSetting{
+	"post.user.likes": {
 		Name:        models.CommentRels.Post + "." + models.PostRels.User + "." + models.UserRels.Likes,
 		IDAvailable: false,
 	},
-	"post.user.posts": boilergql.ColumnSetting{
+	"post.user.posts": {
 		Name:        models.CommentRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts,
 		IDAvailable: false,
 	},
-	"user": boilergql.ColumnSetting{
+	"user": {
 		Name:        models.CommentRels.User,
 		IDAvailable: true,
 	},
-	"user.commentLikes": boilergql.ColumnSetting{
+	"user.commentLikes": {
 		Name:        models.CommentRels.User + "." + models.UserRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"user.comments": boilergql.ColumnSetting{
+	"user.commentLikes.comment": {
+		Name:        models.CommentRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.commentLikes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.post": {
+		Name:        models.CommentRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.user": {
+		Name:        models.CommentRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user": {
+		Name:        models.CommentRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.commentLikes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.comments": {
+		Name:        models.CommentRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.friendships": {
+		Name:        models.CommentRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.likes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.posts": {
+		Name:        models.CommentRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.comments": {
 		Name:        models.CommentRels.User + "." + models.UserRels.Comments,
 		IDAvailable: false,
 	},
-	"user.friendships": boilergql.ColumnSetting{
+	"user.comments.commentLikes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.comments.commentLikes.comment": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"user.comments.commentLikes.user": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"user.comments.post": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"user.comments.post.comments": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"user.comments.post.images": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"user.comments.post.likes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"user.comments.post.user": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user.comments.user": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"user.comments.user.commentLikes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.comments.user.comments": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.comments.user.friendships": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.comments.user.likes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.comments.user.posts": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.friendships": {
 		Name:        models.CommentRels.User + "." + models.UserRels.Friendships,
 		IDAvailable: false,
 	},
-	"user.likes": boilergql.ColumnSetting{
+	"user.friendships.users": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users,
+		IDAvailable: false,
+	},
+	"user.friendships.users.commentLikes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.friendships.users.comments": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.friendships.users.friendships": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.friendships.users.likes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.friendships.users.posts": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.likes": {
 		Name:        models.CommentRels.User + "." + models.UserRels.Likes,
 		IDAvailable: false,
 	},
-	"user.posts": boilergql.ColumnSetting{
+	"user.likes.post": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"user.likes.post.comments": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"user.likes.post.images": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"user.likes.post.likes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"user.likes.post.user": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user.likes.user": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"user.likes.user.commentLikes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.likes.user.comments": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.likes.user.friendships": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.likes.user.likes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.likes.user.posts": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.posts": {
 		Name:        models.CommentRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.posts.comments": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"user.posts.comments.commentLikes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.posts.comments.post": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"user.posts.comments.user": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"user.posts.images": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"user.posts.images.imageVariations": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations,
+		IDAvailable: false,
+	},
+	"user.posts.images.post": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.Post,
+		IDAvailable: false,
+	},
+	"user.posts.likes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"user.posts.likes.post": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"user.posts.likes.user": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"user.posts.user": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user.posts.user.commentLikes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.posts.user.comments": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.posts.user.friendships": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.posts.user.likes": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.posts.user.posts": {
+		Name:        models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Posts,
 		IDAvailable: false,
 	},
 }
 
 var CommentLikePreloadMap = map[string]boilergql.ColumnSetting{
-	"comment": boilergql.ColumnSetting{
+	"comment": {
 		Name:        models.CommentLikeRels.Comment,
 		IDAvailable: true,
 	},
-	"comment.commentLikes": boilergql.ColumnSetting{
+	"comment.commentLikes": {
 		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"comment.post": boilergql.ColumnSetting{
+	"comment.commentLikes.comment": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.comment.commentLikes": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.comment.post": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.comment.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.user.commentLikes": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.user.commentLikes.comment": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.user.commentLikes.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.user.comments": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.user.comments.commentLikes": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.user.comments.post": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.user.comments.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.user.friendships": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.user.likes": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.user.likes.post": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.user.likes.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"comment.commentLikes.user.posts": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"comment.post": {
 		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post,
 		IDAvailable: false,
 	},
-	"comment.user": boilergql.ColumnSetting{
+	"comment.post.comments": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"comment.post.comments.commentLikes": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"comment.post.comments.post": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"comment.post.comments.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"comment.post.images": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"comment.post.images.imageVariations": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations,
+		IDAvailable: false,
+	},
+	"comment.post.images.post": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.Post,
+		IDAvailable: false,
+	},
+	"comment.post.likes": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"comment.post.likes.post": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"comment.post.likes.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"comment.post.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"comment.post.user.commentLikes": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"comment.post.user.comments": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"comment.post.user.friendships": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"comment.post.user.likes": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"comment.post.user.posts": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"comment.user": {
 		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User,
 		IDAvailable: false,
 	},
-	"comment.user.commentLikes": boilergql.ColumnSetting{
+	"comment.user.commentLikes": {
 		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"comment.user.comments": boilergql.ColumnSetting{
+	"comment.user.commentLikes.comment": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"comment.user.commentLikes.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"comment.user.comments": {
 		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Comments,
 		IDAvailable: false,
 	},
-	"comment.user.friendships": boilergql.ColumnSetting{
+	"comment.user.comments.commentLikes": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"comment.user.comments.post": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"comment.user.comments.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"comment.user.friendships": {
 		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Friendships,
 		IDAvailable: false,
 	},
-	"comment.user.likes": boilergql.ColumnSetting{
+	"comment.user.friendships.users": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users,
+		IDAvailable: false,
+	},
+	"comment.user.likes": {
 		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Likes,
 		IDAvailable: false,
 	},
-	"comment.user.posts": boilergql.ColumnSetting{
+	"comment.user.likes.post": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"comment.user.likes.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"comment.user.posts": {
 		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts,
 		IDAvailable: false,
 	},
-	"user": boilergql.ColumnSetting{
+	"comment.user.posts.comments": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"comment.user.posts.comments.commentLikes": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"comment.user.posts.comments.post": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"comment.user.posts.comments.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"comment.user.posts.images": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"comment.user.posts.images.imageVariations": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations,
+		IDAvailable: false,
+	},
+	"comment.user.posts.images.post": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.Post,
+		IDAvailable: false,
+	},
+	"comment.user.posts.likes": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"comment.user.posts.likes.post": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"comment.user.posts.likes.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.commentLikes": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.commentLikes.comment": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.commentLikes.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.comments": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.comments.commentLikes": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.comments.post": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.comments.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.friendships": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.friendships.users": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.likes": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.likes.post": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.likes.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.posts": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.posts.comments": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.posts.images": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.posts.likes": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"comment.user.posts.user.posts.user": {
+		Name:        models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user": {
 		Name:        models.CommentLikeRels.User,
 		IDAvailable: true,
 	},
-	"user.commentLikes": boilergql.ColumnSetting{
+	"user.commentLikes": {
 		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"user.comments": boilergql.ColumnSetting{
+	"user.commentLikes.comment": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.commentLikes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.commentLikes.comment": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.commentLikes.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.post": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.post.comments": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.post.images": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.post.likes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.post.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.user.commentLikes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.user.comments": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.user.friendships": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.user.likes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.user.posts": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.commentLikes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.commentLikes.comment": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.commentLikes.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.comments": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.comments.commentLikes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.comments.post": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.comments.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.friendships": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.friendships.users": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.likes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.likes.post": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.likes.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.posts": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.posts.comments": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.posts.images": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.posts.likes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.posts.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user.comments": {
 		Name:        models.CommentLikeRels.User + "." + models.UserRels.Comments,
 		IDAvailable: false,
 	},
-	"user.friendships": boilergql.ColumnSetting{
+	"user.comments.commentLikes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.comments.commentLikes.comment": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"user.comments.commentLikes.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"user.comments.post": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"user.comments.post.comments": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"user.comments.post.images": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"user.comments.post.likes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"user.comments.post.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user.comments.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"user.comments.user.commentLikes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.comments.user.comments": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.comments.user.friendships": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.comments.user.likes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.comments.user.posts": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.friendships": {
 		Name:        models.CommentLikeRels.User + "." + models.UserRels.Friendships,
 		IDAvailable: false,
 	},
-	"user.likes": boilergql.ColumnSetting{
+	"user.friendships.users": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users,
+		IDAvailable: false,
+	},
+	"user.likes": {
 		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes,
 		IDAvailable: false,
 	},
-	"user.posts": boilergql.ColumnSetting{
+	"user.likes.post": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"user.likes.post.comments": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"user.likes.post.comments.commentLikes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.likes.post.comments.post": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"user.likes.post.comments.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"user.likes.post.images": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"user.likes.post.images.imageVariations": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations,
+		IDAvailable: false,
+	},
+	"user.likes.post.images.post": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.Post,
+		IDAvailable: false,
+	},
+	"user.likes.post.likes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"user.likes.post.likes.post": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"user.likes.post.likes.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"user.likes.post.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user.likes.post.user.commentLikes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.likes.post.user.comments": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.likes.post.user.friendships": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.likes.post.user.likes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.likes.post.user.posts": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.likes.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"user.likes.user.commentLikes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.likes.user.comments": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.likes.user.friendships": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.likes.user.likes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.likes.user.posts": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.posts": {
 		Name:        models.CommentLikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.posts.comments": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"user.posts.images": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"user.posts.likes": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"user.posts.user": {
+		Name:        models.CommentLikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User,
 		IDAvailable: false,
 	},
 }
@@ -174,75 +1026,199 @@ var CommentPayloadPreloadLevels = struct {
 }
 
 var FriendshipPreloadMap = map[string]boilergql.ColumnSetting{
-	"users": boilergql.ColumnSetting{
+	"users": {
 		Name:        models.FriendshipRels.Users,
 		IDAvailable: false,
 	},
-	"users.commentLikes": boilergql.ColumnSetting{
+	"users.commentLikes": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"users.commentLikes.comment": boilergql.ColumnSetting{
+	"users.commentLikes.comment": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment,
 		IDAvailable: false,
 	},
-	"users.commentLikes.user": boilergql.ColumnSetting{
+	"users.commentLikes.comment.commentLikes": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"users.commentLikes.comment.post": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"users.commentLikes.comment.post.comments": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"users.commentLikes.comment.post.images": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"users.commentLikes.comment.post.likes": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"users.commentLikes.comment.post.user": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"users.commentLikes.comment.user": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"users.commentLikes.comment.user.commentLikes": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"users.commentLikes.comment.user.comments": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"users.commentLikes.comment.user.friendships": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"users.commentLikes.comment.user.likes": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"users.commentLikes.comment.user.posts": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"users.commentLikes.user": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User,
 		IDAvailable: false,
 	},
-	"users.comments": boilergql.ColumnSetting{
+	"users.commentLikes.user.commentLikes": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"users.commentLikes.user.comments": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"users.commentLikes.user.friendships": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"users.commentLikes.user.likes": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"users.commentLikes.user.posts": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"users.comments": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.Comments,
 		IDAvailable: false,
 	},
-	"users.comments.commentLikes": boilergql.ColumnSetting{
+	"users.comments.commentLikes": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"users.comments.post": boilergql.ColumnSetting{
+	"users.comments.post": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.Comments + "." + models.CommentRels.Post,
 		IDAvailable: false,
 	},
-	"users.comments.user": boilergql.ColumnSetting{
+	"users.comments.user": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.Comments + "." + models.CommentRels.User,
 		IDAvailable: false,
 	},
-	"users.friendships": boilergql.ColumnSetting{
+	"users.friendships": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.Friendships,
 		IDAvailable: false,
 	},
-	"users.friendships.users": boilergql.ColumnSetting{
+	"users.friendships.users": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users,
 		IDAvailable: false,
 	},
-	"users.likes": boilergql.ColumnSetting{
+	"users.friendships.users.commentLikes": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"users.friendships.users.comments": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"users.friendships.users.friendships": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"users.friendships.users.likes": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"users.friendships.users.posts": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"users.likes": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.Likes,
 		IDAvailable: false,
 	},
-	"users.likes.post": boilergql.ColumnSetting{
+	"users.likes.post": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.Likes + "." + models.LikeRels.Post,
 		IDAvailable: false,
 	},
-	"users.likes.user": boilergql.ColumnSetting{
+	"users.likes.post.comments": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"users.likes.post.images": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"users.likes.post.likes": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"users.likes.post.user": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"users.likes.user": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.Likes + "." + models.LikeRels.User,
 		IDAvailable: false,
 	},
-	"users.posts": boilergql.ColumnSetting{
+	"users.likes.user.commentLikes": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"users.likes.user.comments": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"users.likes.user.friendships": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"users.likes.user.likes": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"users.likes.user.posts": {
+		Name:        models.FriendshipRels.Users + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"users.posts": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.Posts,
 		IDAvailable: false,
 	},
-	"users.posts.comments": boilergql.ColumnSetting{
+	"users.posts.comments": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.Posts + "." + models.PostRels.Comments,
 		IDAvailable: false,
 	},
-	"users.posts.images": boilergql.ColumnSetting{
+	"users.posts.images": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.Posts + "." + models.PostRels.Images,
 		IDAvailable: false,
 	},
-	"users.posts.likes": boilergql.ColumnSetting{
+	"users.posts.likes": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.Posts + "." + models.PostRels.Likes,
 		IDAvailable: false,
 	},
-	"users.posts.user": boilergql.ColumnSetting{
+	"users.posts.user": {
 		Name:        models.FriendshipRels.Users + "." + models.UserRels.Posts + "." + models.PostRels.User,
 		IDAvailable: false,
 	},
@@ -255,108 +1231,324 @@ var FriendshipPayloadPreloadLevels = struct {
 }
 
 var ImagePreloadMap = map[string]boilergql.ColumnSetting{
-	"imageVariations": boilergql.ColumnSetting{
+	"imageVariations": {
 		Name:        models.ImageRels.ImageVariations,
 		IDAvailable: false,
 	},
-	"imageVariations.image": boilergql.ColumnSetting{
+	"imageVariations.image": {
 		Name:        models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image,
 		IDAvailable: false,
 	},
-	"imageVariations.image.imageVariations": boilergql.ColumnSetting{
+	"imageVariations.image.imageVariations": {
 		Name:        models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image + "." + models.ImageRels.ImageVariations,
 		IDAvailable: false,
 	},
-	"imageVariations.image.post": boilergql.ColumnSetting{
+	"imageVariations.image.imageVariations.image": {
+		Name:        models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image + "." + models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image,
+		IDAvailable: false,
+	},
+	"imageVariations.image.post": {
 		Name:        models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image + "." + models.ImageRels.Post,
 		IDAvailable: false,
 	},
-	"post": boilergql.ColumnSetting{
+	"imageVariations.image.post.comments": {
+		Name:        models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"imageVariations.image.post.images": {
+		Name:        models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"imageVariations.image.post.likes": {
+		Name:        models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"imageVariations.image.post.user": {
+		Name:        models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"post": {
 		Name:        models.ImageRels.Post,
 		IDAvailable: true,
 	},
-	"post.comments": boilergql.ColumnSetting{
+	"post.comments": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.Comments,
 		IDAvailable: false,
 	},
-	"post.comments.commentLikes": boilergql.ColumnSetting{
+	"post.comments.commentLikes": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"post.comments.post": boilergql.ColumnSetting{
+	"post.comments.commentLikes.comment": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"post.comments.commentLikes.user": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"post.comments.post": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post,
 		IDAvailable: false,
 	},
-	"post.comments.user": boilergql.ColumnSetting{
+	"post.comments.post.comments": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"post.comments.post.images": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"post.comments.post.likes": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"post.comments.post.user": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"post.comments.user": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User,
 		IDAvailable: false,
 	},
-	"post.images": boilergql.ColumnSetting{
+	"post.comments.user.commentLikes": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"post.comments.user.comments": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"post.comments.user.friendships": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"post.comments.user.likes": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"post.comments.user.posts": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"post.images": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.Images,
 		IDAvailable: false,
 	},
-	"post.images.imageVariations": boilergql.ColumnSetting{
+	"post.images.imageVariations": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations,
 		IDAvailable: false,
 	},
-	"post.images.post": boilergql.ColumnSetting{
+	"post.images.imageVariations.image": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image,
+		IDAvailable: false,
+	},
+	"post.images.post": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.Post,
 		IDAvailable: false,
 	},
-	"post.likes": boilergql.ColumnSetting{
+	"post.images.post.comments": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"post.images.post.images": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"post.images.post.likes": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"post.images.post.user": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"post.likes": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.Likes,
 		IDAvailable: false,
 	},
-	"post.likes.post": boilergql.ColumnSetting{
+	"post.likes.post": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post,
 		IDAvailable: false,
 	},
-	"post.likes.user": boilergql.ColumnSetting{
+	"post.likes.post.comments": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"post.likes.post.images": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"post.likes.post.likes": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"post.likes.post.user": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"post.likes.user": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User,
 		IDAvailable: false,
 	},
-	"post.likes.user.commentLikes": boilergql.ColumnSetting{
+	"post.likes.user.commentLikes": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"post.likes.user.comments": boilergql.ColumnSetting{
+	"post.likes.user.comments": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Comments,
 		IDAvailable: false,
 	},
-	"post.likes.user.friendships": boilergql.ColumnSetting{
+	"post.likes.user.friendships": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Friendships,
 		IDAvailable: false,
 	},
-	"post.likes.user.likes": boilergql.ColumnSetting{
+	"post.likes.user.likes": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Likes,
 		IDAvailable: false,
 	},
-	"post.likes.user.posts": boilergql.ColumnSetting{
+	"post.likes.user.posts": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Posts,
 		IDAvailable: false,
 	},
-	"post.user": boilergql.ColumnSetting{
+	"post.user": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.User,
 		IDAvailable: false,
 	},
-	"post.user.commentLikes": boilergql.ColumnSetting{
+	"post.user.commentLikes": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"post.user.comments": boilergql.ColumnSetting{
+	"post.user.commentLikes.comment": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"post.user.commentLikes.user": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"post.user.comments": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Comments,
 		IDAvailable: false,
 	},
-	"post.user.friendships": boilergql.ColumnSetting{
+	"post.user.comments.commentLikes": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"post.user.comments.post": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"post.user.comments.user": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"post.user.friendships": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships,
 		IDAvailable: false,
 	},
-	"post.user.likes": boilergql.ColumnSetting{
+	"post.user.friendships.users": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users,
+		IDAvailable: false,
+	},
+	"post.user.friendships.users.commentLikes": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"post.user.friendships.users.comments": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"post.user.friendships.users.friendships": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"post.user.friendships.users.likes": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"post.user.friendships.users.posts": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"post.user.likes": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Likes,
 		IDAvailable: false,
 	},
-	"post.user.posts": boilergql.ColumnSetting{
+	"post.user.likes.post": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"post.user.likes.user": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"post.user.posts": {
 		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"post.user.posts.comments": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"post.user.posts.comments.commentLikes": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"post.user.posts.comments.post": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"post.user.posts.comments.user": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"post.user.posts.images": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"post.user.posts.images.imageVariations": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations,
+		IDAvailable: false,
+	},
+	"post.user.posts.images.post": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.Post,
+		IDAvailable: false,
+	},
+	"post.user.posts.likes": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"post.user.posts.likes.post": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"post.user.posts.likes.user": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"post.user.posts.user": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"post.user.posts.user.commentLikes": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"post.user.posts.user.comments": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"post.user.posts.user.friendships": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"post.user.posts.user.likes": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"post.user.posts.user.posts": {
+		Name:        models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Posts,
 		IDAvailable: false,
 	},
 }
@@ -368,91 +1560,91 @@ var ImagePayloadPreloadLevels = struct {
 }
 
 var ImageVariationPreloadMap = map[string]boilergql.ColumnSetting{
-	"image": boilergql.ColumnSetting{
+	"image": {
 		Name:        models.ImageVariationRels.Image,
 		IDAvailable: true,
 	},
-	"image.imageVariations": boilergql.ColumnSetting{
+	"image.imageVariations": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.ImageVariations,
 		IDAvailable: false,
 	},
-	"image.imageVariations.image": boilergql.ColumnSetting{
+	"image.imageVariations.image": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image,
 		IDAvailable: false,
 	},
-	"image.imageVariations.image.imageVariations": boilergql.ColumnSetting{
+	"image.imageVariations.image.imageVariations": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image + "." + models.ImageRels.ImageVariations,
 		IDAvailable: false,
 	},
-	"image.imageVariations.image.post": boilergql.ColumnSetting{
+	"image.imageVariations.image.post": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image + "." + models.ImageRels.Post,
 		IDAvailable: false,
 	},
-	"image.post": boilergql.ColumnSetting{
+	"image.post": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post,
 		IDAvailable: false,
 	},
-	"image.post.comments": boilergql.ColumnSetting{
+	"image.post.comments": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.Comments,
 		IDAvailable: false,
 	},
-	"image.post.comments.commentLikes": boilergql.ColumnSetting{
+	"image.post.comments.commentLikes": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"image.post.comments.post": boilergql.ColumnSetting{
+	"image.post.comments.post": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post,
 		IDAvailable: false,
 	},
-	"image.post.comments.user": boilergql.ColumnSetting{
+	"image.post.comments.user": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User,
 		IDAvailable: false,
 	},
-	"image.post.images": boilergql.ColumnSetting{
+	"image.post.images": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.Images,
 		IDAvailable: false,
 	},
-	"image.post.images.imageVariations": boilergql.ColumnSetting{
+	"image.post.images.imageVariations": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations,
 		IDAvailable: false,
 	},
-	"image.post.images.post": boilergql.ColumnSetting{
+	"image.post.images.post": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.Post,
 		IDAvailable: false,
 	},
-	"image.post.likes": boilergql.ColumnSetting{
+	"image.post.likes": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.Likes,
 		IDAvailable: false,
 	},
-	"image.post.likes.post": boilergql.ColumnSetting{
+	"image.post.likes.post": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post,
 		IDAvailable: false,
 	},
-	"image.post.likes.user": boilergql.ColumnSetting{
+	"image.post.likes.user": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User,
 		IDAvailable: false,
 	},
-	"image.post.user": boilergql.ColumnSetting{
+	"image.post.user": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.User,
 		IDAvailable: false,
 	},
-	"image.post.user.commentLikes": boilergql.ColumnSetting{
+	"image.post.user.commentLikes": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"image.post.user.comments": boilergql.ColumnSetting{
+	"image.post.user.comments": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Comments,
 		IDAvailable: false,
 	},
-	"image.post.user.friendships": boilergql.ColumnSetting{
+	"image.post.user.friendships": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships,
 		IDAvailable: false,
 	},
-	"image.post.user.likes": boilergql.ColumnSetting{
+	"image.post.user.likes": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Likes,
 		IDAvailable: false,
 	},
-	"image.post.user.posts": boilergql.ColumnSetting{
+	"image.post.user.posts": {
 		Name:        models.ImageVariationRels.Image + "." + models.ImageRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts,
 		IDAvailable: false,
 	},
@@ -465,96 +1657,348 @@ var ImageVariationPayloadPreloadLevels = struct {
 }
 
 var LikePreloadMap = map[string]boilergql.ColumnSetting{
-	"post": boilergql.ColumnSetting{
+	"post": {
 		Name:        models.LikeRels.Post,
 		IDAvailable: true,
 	},
-	"post.comments": boilergql.ColumnSetting{
+	"post.comments": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.Comments,
 		IDAvailable: false,
 	},
-	"post.comments.commentLikes": boilergql.ColumnSetting{
+	"post.comments.commentLikes": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"post.comments.post": boilergql.ColumnSetting{
+	"post.comments.commentLikes.comment": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"post.comments.commentLikes.user": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"post.comments.post": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post,
 		IDAvailable: false,
 	},
-	"post.comments.user": boilergql.ColumnSetting{
+	"post.comments.post.comments": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"post.comments.post.images": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"post.comments.post.likes": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"post.comments.post.user": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"post.comments.user": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User,
 		IDAvailable: false,
 	},
-	"post.images": boilergql.ColumnSetting{
+	"post.comments.user.commentLikes": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"post.comments.user.comments": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"post.comments.user.friendships": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"post.comments.user.likes": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"post.comments.user.posts": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"post.images": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.Images,
 		IDAvailable: false,
 	},
-	"post.images.imageVariations": boilergql.ColumnSetting{
+	"post.images.imageVariations": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations,
 		IDAvailable: false,
 	},
-	"post.images.post": boilergql.ColumnSetting{
+	"post.images.post": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.Post,
 		IDAvailable: false,
 	},
-	"post.likes": boilergql.ColumnSetting{
+	"post.likes": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.Likes,
 		IDAvailable: false,
 	},
-	"post.likes.post": boilergql.ColumnSetting{
+	"post.likes.post": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post,
 		IDAvailable: false,
 	},
-	"post.likes.user": boilergql.ColumnSetting{
+	"post.likes.post.comments": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"post.likes.post.images": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"post.likes.post.likes": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"post.likes.post.user": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"post.likes.user": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User,
 		IDAvailable: false,
 	},
-	"post.user": boilergql.ColumnSetting{
+	"post.likes.user.commentLikes": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"post.likes.user.comments": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"post.likes.user.friendships": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"post.likes.user.likes": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"post.likes.user.posts": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"post.user": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.User,
 		IDAvailable: false,
 	},
-	"post.user.commentLikes": boilergql.ColumnSetting{
+	"post.user.commentLikes": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"post.user.comments": boilergql.ColumnSetting{
+	"post.user.commentLikes.comment": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"post.user.commentLikes.user": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"post.user.comments": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Comments,
 		IDAvailable: false,
 	},
-	"post.user.friendships": boilergql.ColumnSetting{
+	"post.user.comments.commentLikes": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"post.user.comments.post": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"post.user.comments.user": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"post.user.friendships": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships,
 		IDAvailable: false,
 	},
-	"post.user.likes": boilergql.ColumnSetting{
+	"post.user.friendships.users": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users,
+		IDAvailable: false,
+	},
+	"post.user.likes": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Likes,
 		IDAvailable: false,
 	},
-	"post.user.posts": boilergql.ColumnSetting{
+	"post.user.likes.post": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"post.user.likes.user": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"post.user.posts": {
 		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts,
 		IDAvailable: false,
 	},
-	"user": boilergql.ColumnSetting{
+	"post.user.posts.comments": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"post.user.posts.images": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"post.user.posts.likes": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"post.user.posts.user": {
+		Name:        models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user": {
 		Name:        models.LikeRels.User,
 		IDAvailable: true,
 	},
-	"user.commentLikes": boilergql.ColumnSetting{
+	"user.commentLikes": {
 		Name:        models.LikeRels.User + "." + models.UserRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"user.comments": boilergql.ColumnSetting{
+	"user.commentLikes.comment": {
+		Name:        models.LikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.commentLikes": {
+		Name:        models.LikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.post": {
+		Name:        models.LikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.user": {
+		Name:        models.LikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user": {
+		Name:        models.LikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.commentLikes": {
+		Name:        models.LikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.comments": {
+		Name:        models.LikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.friendships": {
+		Name:        models.LikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.likes": {
+		Name:        models.LikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.posts": {
+		Name:        models.LikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.comments": {
 		Name:        models.LikeRels.User + "." + models.UserRels.Comments,
 		IDAvailable: false,
 	},
-	"user.friendships": boilergql.ColumnSetting{
+	"user.comments.commentLikes": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.comments.commentLikes.comment": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"user.comments.commentLikes.user": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"user.comments.post": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"user.comments.post.comments": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"user.comments.post.images": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"user.comments.post.likes": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"user.comments.post.user": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user.comments.user": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"user.comments.user.commentLikes": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.comments.user.comments": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.comments.user.friendships": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.comments.user.likes": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.comments.user.posts": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.friendships": {
 		Name:        models.LikeRels.User + "." + models.UserRels.Friendships,
 		IDAvailable: false,
 	},
-	"user.likes": boilergql.ColumnSetting{
+	"user.friendships.users": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users,
+		IDAvailable: false,
+	},
+	"user.likes": {
 		Name:        models.LikeRels.User + "." + models.UserRels.Likes,
 		IDAvailable: false,
 	},
-	"user.posts": boilergql.ColumnSetting{
+	"user.likes.post": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"user.likes.user": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"user.posts": {
 		Name:        models.LikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.posts.comments": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"user.posts.images": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"user.posts.likes": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"user.posts.user": {
+		Name:        models.LikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User,
 		IDAvailable: false,
 	},
 }
@@ -566,84 +2010,676 @@ var LikePayloadPreloadLevels = struct {
 }
 
 var PostPreloadMap = map[string]boilergql.ColumnSetting{
-	"comments": boilergql.ColumnSetting{
+	"comments": {
 		Name:        models.PostRels.Comments,
 		IDAvailable: false,
 	},
-	"comments.commentLikes": boilergql.ColumnSetting{
+	"comments.commentLikes": {
 		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"comments.post": boilergql.ColumnSetting{
+	"comments.commentLikes.comment": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"comments.commentLikes.comment.commentLikes": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"comments.commentLikes.comment.post": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"comments.commentLikes.comment.user": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"comments.commentLikes.user": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"comments.commentLikes.user.commentLikes": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"comments.commentLikes.user.comments": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"comments.commentLikes.user.friendships": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"comments.commentLikes.user.likes": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"comments.commentLikes.user.posts": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"comments.post": {
 		Name:        models.PostRels.Comments + "." + models.CommentRels.Post,
 		IDAvailable: false,
 	},
-	"comments.user": boilergql.ColumnSetting{
+	"comments.post.comments": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"comments.post.images": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"comments.post.likes": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"comments.post.user": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"comments.user": {
 		Name:        models.PostRels.Comments + "." + models.CommentRels.User,
 		IDAvailable: false,
 	},
-	"images": boilergql.ColumnSetting{
+	"comments.user.commentLikes": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"comments.user.comments": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"comments.user.friendships": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"comments.user.likes": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"comments.user.posts": {
+		Name:        models.PostRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"images": {
 		Name:        models.PostRels.Images,
 		IDAvailable: false,
 	},
-	"images.imageVariations": boilergql.ColumnSetting{
+	"images.imageVariations": {
 		Name:        models.PostRels.Images + "." + models.ImageRels.ImageVariations,
 		IDAvailable: false,
 	},
-	"images.post": boilergql.ColumnSetting{
+	"images.imageVariations.image": {
+		Name:        models.PostRels.Images + "." + models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image,
+		IDAvailable: false,
+	},
+	"images.post": {
 		Name:        models.PostRels.Images + "." + models.ImageRels.Post,
 		IDAvailable: false,
 	},
-	"likes": boilergql.ColumnSetting{
+	"images.post.comments": {
+		Name:        models.PostRels.Images + "." + models.ImageRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"images.post.images": {
+		Name:        models.PostRels.Images + "." + models.ImageRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"images.post.likes": {
+		Name:        models.PostRels.Images + "." + models.ImageRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"images.post.user": {
+		Name:        models.PostRels.Images + "." + models.ImageRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"likes": {
 		Name:        models.PostRels.Likes,
 		IDAvailable: false,
 	},
-	"likes.post": boilergql.ColumnSetting{
+	"likes.post": {
 		Name:        models.PostRels.Likes + "." + models.LikeRels.Post,
 		IDAvailable: false,
 	},
-	"likes.user": boilergql.ColumnSetting{
+	"likes.post.comments": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"likes.post.images": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"likes.post.images.imageVariations": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations,
+		IDAvailable: false,
+	},
+	"likes.post.images.post": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.Post,
+		IDAvailable: false,
+	},
+	"likes.post.likes": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"likes.post.user": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"likes.post.user.commentLikes": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"likes.post.user.comments": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"likes.post.user.friendships": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"likes.post.user.likes": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"likes.post.user.posts": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"likes.user": {
 		Name:        models.PostRels.Likes + "." + models.LikeRels.User,
 		IDAvailable: false,
 	},
-	"user": boilergql.ColumnSetting{
+	"likes.user.commentLikes": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"likes.user.commentLikes.comment": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"likes.user.commentLikes.user": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"likes.user.comments": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"likes.user.comments.commentLikes": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"likes.user.comments.post": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"likes.user.comments.user": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"likes.user.friendships": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"likes.user.friendships.users": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users,
+		IDAvailable: false,
+	},
+	"likes.user.likes": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"likes.user.likes.post": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"likes.user.likes.user": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"likes.user.posts": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"likes.user.posts.comments": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"likes.user.posts.images": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"likes.user.posts.likes": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"likes.user.posts.user": {
+		Name:        models.PostRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user": {
 		Name:        models.PostRels.User,
 		IDAvailable: true,
 	},
-	"user.commentLikes": boilergql.ColumnSetting{
+	"user.commentLikes": {
 		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"user.comments": boilergql.ColumnSetting{
+	"user.commentLikes.comment": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.commentLikes": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.commentLikes.comment": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.commentLikes.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.post": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.post.comments": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.post.images": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.post.likes": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.post.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.user.commentLikes": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.user.comments": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.user.friendships": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.user.likes": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.comment.user.posts": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.commentLikes": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.comments": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.friendships": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.likes": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.commentLikes.user.posts": {
+		Name:        models.PostRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.comments": {
 		Name:        models.PostRels.User + "." + models.UserRels.Comments,
 		IDAvailable: false,
 	},
-	"user.comments.commentLikes": boilergql.ColumnSetting{
+	"user.comments.commentLikes": {
 		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"user.comments.post": boilergql.ColumnSetting{
+	"user.comments.commentLikes.comment": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"user.comments.commentLikes.comment.commentLikes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.comments.commentLikes.comment.post": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"user.comments.commentLikes.comment.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"user.comments.commentLikes.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"user.comments.commentLikes.user.commentLikes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.comments.commentLikes.user.comments": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.comments.commentLikes.user.friendships": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.comments.commentLikes.user.likes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.comments.commentLikes.user.posts": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.comments.post": {
 		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post,
 		IDAvailable: false,
 	},
-	"user.comments.user": boilergql.ColumnSetting{
+	"user.comments.post.comments": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"user.comments.post.images": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"user.comments.post.likes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"user.comments.post.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user.comments.user": {
 		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User,
 		IDAvailable: false,
 	},
-	"user.friendships": boilergql.ColumnSetting{
+	"user.comments.user.commentLikes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.comments.user.commentLikes.comment": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"user.comments.user.commentLikes.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"user.comments.user.comments": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.comments.user.comments.commentLikes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.comments.user.comments.post": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"user.comments.user.comments.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"user.comments.user.friendships": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.comments.user.friendships.users": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users,
+		IDAvailable: false,
+	},
+	"user.comments.user.friendships.users.commentLikes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.comments.user.friendships.users.comments": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.comments.user.friendships.users.friendships": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.comments.user.friendships.users.likes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.comments.user.friendships.users.posts": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.comments.user.likes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.comments.user.likes.post": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"user.comments.user.likes.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"user.comments.user.posts": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.comments.user.posts.comments": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"user.comments.user.posts.images": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"user.comments.user.posts.likes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"user.comments.user.posts.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user.friendships": {
 		Name:        models.PostRels.User + "." + models.UserRels.Friendships,
 		IDAvailable: false,
 	},
-	"user.friendships.users": boilergql.ColumnSetting{
+	"user.friendships.users": {
 		Name:        models.PostRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users,
 		IDAvailable: false,
 	},
-	"user.likes": boilergql.ColumnSetting{
+	"user.likes": {
 		Name:        models.PostRels.User + "." + models.UserRels.Likes,
 		IDAvailable: false,
 	},
-	"user.posts": boilergql.ColumnSetting{
+	"user.likes.post": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"user.likes.post.comments": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"user.likes.post.comments.commentLikes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.likes.post.comments.post": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"user.likes.post.comments.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"user.likes.post.images": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"user.likes.post.images.imageVariations": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations,
+		IDAvailable: false,
+	},
+	"user.likes.post.images.post": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.Post,
+		IDAvailable: false,
+	},
+	"user.likes.post.likes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"user.likes.post.likes.post": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"user.likes.post.likes.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"user.likes.post.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user.likes.post.user.commentLikes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.likes.post.user.comments": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.likes.post.user.friendships": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.likes.post.user.likes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.likes.post.user.posts": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.likes.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"user.likes.user.commentLikes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.likes.user.comments": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.likes.user.friendships": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.likes.user.likes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.likes.user.posts": {
+		Name:        models.PostRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.posts": {
 		Name:        models.PostRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"user.posts.comments": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"user.posts.comments.commentLikes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.posts.comments.post": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"user.posts.comments.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"user.posts.images": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"user.posts.images.imageVariations": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations,
+		IDAvailable: false,
+	},
+	"user.posts.images.post": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.Post,
+		IDAvailable: false,
+	},
+	"user.posts.likes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"user.posts.likes.post": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"user.posts.likes.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"user.posts.user": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"user.posts.user.commentLikes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"user.posts.user.comments": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"user.posts.user.friendships": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"user.posts.user.likes": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"user.posts.user.posts": {
+		Name:        models.PostRels.User + "." + models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Posts,
 		IDAvailable: false,
 	},
 }
@@ -655,108 +2691,332 @@ var PostPayloadPreloadLevels = struct {
 }
 
 var UserPreloadMap = map[string]boilergql.ColumnSetting{
-	"commentLikes": boilergql.ColumnSetting{
+	"commentLikes": {
 		Name:        models.UserRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"commentLikes.comment": boilergql.ColumnSetting{
+	"commentLikes.comment": {
 		Name:        models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment,
 		IDAvailable: false,
 	},
-	"commentLikes.user": boilergql.ColumnSetting{
+	"commentLikes.comment.commentLikes": {
+		Name:        models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"commentLikes.comment.post": {
+		Name:        models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"commentLikes.comment.user": {
+		Name:        models.UserRels.CommentLikes + "." + models.CommentLikeRels.Comment + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"commentLikes.user": {
 		Name:        models.UserRels.CommentLikes + "." + models.CommentLikeRels.User,
 		IDAvailable: false,
 	},
-	"comments": boilergql.ColumnSetting{
+	"commentLikes.user.commentLikes": {
+		Name:        models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"commentLikes.user.comments": {
+		Name:        models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"commentLikes.user.friendships": {
+		Name:        models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"commentLikes.user.likes": {
+		Name:        models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"commentLikes.user.posts": {
+		Name:        models.UserRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"comments": {
 		Name:        models.UserRels.Comments,
 		IDAvailable: false,
 	},
-	"comments.commentLikes": boilergql.ColumnSetting{
+	"comments.commentLikes": {
 		Name:        models.UserRels.Comments + "." + models.CommentRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"comments.post": boilergql.ColumnSetting{
+	"comments.commentLikes.comment": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.Comment,
+		IDAvailable: false,
+	},
+	"comments.commentLikes.user": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User,
+		IDAvailable: false,
+	},
+	"comments.post": {
 		Name:        models.UserRels.Comments + "." + models.CommentRels.Post,
 		IDAvailable: false,
 	},
-	"comments.user": boilergql.ColumnSetting{
+	"comments.post.comments": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"comments.post.comments.commentLikes": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"comments.post.comments.post": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"comments.post.comments.user": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"comments.post.images": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"comments.post.images.imageVariations": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations,
+		IDAvailable: false,
+	},
+	"comments.post.images.post": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Images + "." + models.ImageRels.Post,
+		IDAvailable: false,
+	},
+	"comments.post.likes": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"comments.post.likes.post": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"comments.post.likes.user": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"comments.post.user": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"comments.post.user.commentLikes": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"comments.post.user.comments": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"comments.post.user.friendships": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"comments.post.user.likes": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"comments.post.user.posts": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.Post + "." + models.PostRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"comments.user": {
 		Name:        models.UserRels.Comments + "." + models.CommentRels.User,
 		IDAvailable: false,
 	},
-	"friendships": boilergql.ColumnSetting{
+	"comments.user.commentLikes": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"comments.user.comments": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"comments.user.friendships": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"comments.user.friendships.users": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users,
+		IDAvailable: false,
+	},
+	"comments.user.likes": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"comments.user.posts": {
+		Name:        models.UserRels.Comments + "." + models.CommentRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"friendships": {
 		Name:        models.UserRels.Friendships,
 		IDAvailable: false,
 	},
-	"friendships.users": boilergql.ColumnSetting{
+	"friendships.users": {
 		Name:        models.UserRels.Friendships + "." + models.FriendshipRels.Users,
 		IDAvailable: false,
 	},
-	"friendships.users.commentLikes": boilergql.ColumnSetting{
+	"friendships.users.commentLikes": {
 		Name:        models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.CommentLikes,
 		IDAvailable: false,
 	},
-	"friendships.users.comments": boilergql.ColumnSetting{
+	"friendships.users.comments": {
 		Name:        models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Comments,
 		IDAvailable: false,
 	},
-	"friendships.users.comments.commentLikes": boilergql.ColumnSetting{
-		Name:        models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Comments + "." + models.CommentRels.CommentLikes,
-		IDAvailable: false,
-	},
-	"friendships.users.comments.post": boilergql.ColumnSetting{
-		Name:        models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Comments + "." + models.CommentRels.Post,
-		IDAvailable: false,
-	},
-	"friendships.users.comments.user": boilergql.ColumnSetting{
-		Name:        models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Comments + "." + models.CommentRels.User,
-		IDAvailable: false,
-	},
-	"friendships.users.friendships": boilergql.ColumnSetting{
+	"friendships.users.friendships": {
 		Name:        models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Friendships,
 		IDAvailable: false,
 	},
-	"friendships.users.friendships.users": boilergql.ColumnSetting{
-		Name:        models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Friendships + "." + models.FriendshipRels.Users,
-		IDAvailable: false,
-	},
-	"friendships.users.likes": boilergql.ColumnSetting{
+	"friendships.users.likes": {
 		Name:        models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Likes,
 		IDAvailable: false,
 	},
-	"friendships.users.posts": boilergql.ColumnSetting{
+	"friendships.users.posts": {
 		Name:        models.UserRels.Friendships + "." + models.FriendshipRels.Users + "." + models.UserRels.Posts,
 		IDAvailable: false,
 	},
-	"likes": boilergql.ColumnSetting{
+	"likes": {
 		Name:        models.UserRels.Likes,
 		IDAvailable: false,
 	},
-	"likes.post": boilergql.ColumnSetting{
+	"likes.post": {
 		Name:        models.UserRels.Likes + "." + models.LikeRels.Post,
 		IDAvailable: false,
 	},
-	"likes.user": boilergql.ColumnSetting{
+	"likes.post.comments": {
+		Name:        models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"likes.post.images": {
+		Name:        models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"likes.post.likes": {
+		Name:        models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"likes.post.user": {
+		Name:        models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"likes.user": {
 		Name:        models.UserRels.Likes + "." + models.LikeRels.User,
 		IDAvailable: false,
 	},
-	"posts": boilergql.ColumnSetting{
+	"likes.user.commentLikes": {
+		Name:        models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"likes.user.comments": {
+		Name:        models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"likes.user.friendships": {
+		Name:        models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"likes.user.likes": {
+		Name:        models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"likes.user.posts": {
+		Name:        models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Posts,
+		IDAvailable: false,
+	},
+	"posts": {
 		Name:        models.UserRels.Posts,
 		IDAvailable: false,
 	},
-	"posts.comments": boilergql.ColumnSetting{
+	"posts.comments": {
 		Name:        models.UserRels.Posts + "." + models.PostRels.Comments,
 		IDAvailable: false,
 	},
-	"posts.images": boilergql.ColumnSetting{
+	"posts.comments.commentLikes": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.Comments + "." + models.CommentRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"posts.comments.post": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.Comments + "." + models.CommentRels.Post,
+		IDAvailable: false,
+	},
+	"posts.comments.user": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.Comments + "." + models.CommentRels.User,
+		IDAvailable: false,
+	},
+	"posts.images": {
 		Name:        models.UserRels.Posts + "." + models.PostRels.Images,
 		IDAvailable: false,
 	},
-	"posts.likes": boilergql.ColumnSetting{
+	"posts.images.imageVariations": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations,
+		IDAvailable: false,
+	},
+	"posts.images.imageVariations.image": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image,
+		IDAvailable: false,
+	},
+	"posts.images.imageVariations.image.imageVariations": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image + "." + models.ImageRels.ImageVariations,
+		IDAvailable: false,
+	},
+	"posts.images.imageVariations.image.post": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.ImageVariations + "." + models.ImageVariationRels.Image + "." + models.ImageRels.Post,
+		IDAvailable: false,
+	},
+	"posts.images.post": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.Post,
+		IDAvailable: false,
+	},
+	"posts.images.post.comments": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.Post + "." + models.PostRels.Comments,
+		IDAvailable: false,
+	},
+	"posts.images.post.images": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.Post + "." + models.PostRels.Images,
+		IDAvailable: false,
+	},
+	"posts.images.post.likes": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.Post + "." + models.PostRels.Likes,
+		IDAvailable: false,
+	},
+	"posts.images.post.user": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.Images + "." + models.ImageRels.Post + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"posts.likes": {
 		Name:        models.UserRels.Posts + "." + models.PostRels.Likes,
 		IDAvailable: false,
 	},
-	"posts.user": boilergql.ColumnSetting{
+	"posts.likes.post": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.Likes + "." + models.LikeRels.Post,
+		IDAvailable: false,
+	},
+	"posts.likes.user": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.Likes + "." + models.LikeRels.User,
+		IDAvailable: false,
+	},
+	"posts.user": {
 		Name:        models.UserRels.Posts + "." + models.PostRels.User,
+		IDAvailable: false,
+	},
+	"posts.user.commentLikes": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.CommentLikes,
+		IDAvailable: false,
+	},
+	"posts.user.comments": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Comments,
+		IDAvailable: false,
+	},
+	"posts.user.friendships": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Friendships,
+		IDAvailable: false,
+	},
+	"posts.user.likes": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Likes,
+		IDAvailable: false,
+	},
+	"posts.user.posts": {
+		Name:        models.UserRels.Posts + "." + models.PostRels.User + "." + models.UserRels.Posts,
 		IDAvailable: false,
 	},
 }

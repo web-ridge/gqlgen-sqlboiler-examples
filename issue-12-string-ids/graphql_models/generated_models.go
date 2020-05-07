@@ -64,7 +64,7 @@ type CommentLikeUpdateInput struct {
 }
 
 type CommentLikeWhere struct {
-	ID        *StringFilter     `json:"id"`
+	ID        *IDFilter         `json:"id"`
 	Comment   *CommentWhere     `json:"comment"`
 	User      *UserWhere        `json:"user"`
 	LikeType  *StringFilter     `json:"likeType"`
@@ -99,7 +99,7 @@ type CommentUpdateInput struct {
 }
 
 type CommentWhere struct {
-	ID           *StringFilter     `json:"id"`
+	ID           *IDFilter         `json:"id"`
 	Content      *StringFilter     `json:"content"`
 	Post         *PostWhere        `json:"post"`
 	User         *UserWhere        `json:"user"`
@@ -163,7 +163,7 @@ type FriendshipUpdateInput struct {
 }
 
 type FriendshipWhere struct {
-	ID        *StringFilter    `json:"id"`
+	ID        *IDFilter        `json:"id"`
 	CreatedAt *IntFilter       `json:"createdAt"`
 	Users     *UserWhere       `json:"users"`
 	Or        *FriendshipWhere `json:"or"`
@@ -253,7 +253,7 @@ type ImageVariationUpdateInput struct {
 }
 
 type ImageVariationWhere struct {
-	ID    *StringFilter        `json:"id"`
+	ID    *IDFilter            `json:"id"`
 	Image *ImageWhere          `json:"image"`
 	Or    *ImageVariationWhere `json:"or"`
 	And   *ImageVariationWhere `json:"and"`
@@ -276,7 +276,7 @@ type ImageVariationsUpdatePayload struct {
 }
 
 type ImageWhere struct {
-	ID              *StringFilter        `json:"id"`
+	ID              *IDFilter            `json:"id"`
 	Post            *PostWhere           `json:"post"`
 	Views           *IntFilter           `json:"views"`
 	OriginalURL     *StringFilter        `json:"originalUrl"`
@@ -346,7 +346,7 @@ type LikeUpdateInput struct {
 }
 
 type LikeWhere struct {
-	ID        *StringFilter `json:"id"`
+	ID        *IDFilter     `json:"id"`
 	Post      *PostWhere    `json:"post"`
 	User      *UserWhere    `json:"user"`
 	LikeType  *StringFilter `json:"likeType"`
@@ -402,7 +402,7 @@ type PostUpdateInput struct {
 }
 
 type PostWhere struct {
-	ID       *StringFilter `json:"id"`
+	ID       *IDFilter     `json:"id"`
 	Content  *StringFilter `json:"content"`
 	User     *UserWhere    `json:"user"`
 	Comments *CommentWhere `json:"comments"`
@@ -485,7 +485,7 @@ type UserUpdateInput struct {
 }
 
 type UserWhere struct {
-	ID           *StringFilter     `json:"id"`
+	ID           *IDFilter         `json:"id"`
 	FirstName    *StringFilter     `json:"firstName"`
 	LastName     *StringFilter     `json:"lastName"`
 	Email        *StringFilter     `json:"email"`
