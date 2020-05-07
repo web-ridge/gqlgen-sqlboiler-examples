@@ -19,8 +19,6 @@ require (
 	github.com/volatiletech/randomize v0.0.1
 	github.com/volatiletech/sqlboiler/v4 v4.1.1
 	github.com/volatiletech/strmangle v0.0.1
-	github.com/web-ridge/gqlgen-sqlboiler/v2 v2.0.5-0.20200507222015-230d02385c56
-	github.com/web-ridge/sqlboiler-graphql-schema v1.0.0 // indirect
 	github.com/web-ridge/utils-go/api v0.0.0-20200507214709-fb8617ccdd87
 	github.com/web-ridge/utils-go/boilergql v0.0.0-20200507221017-d7c1f34df769
 	golang.org/x/crypto v0.0.0-20200429183012-4b2356b1ed79
