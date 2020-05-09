@@ -13,15 +13,14 @@ require (
 	github.com/kat-co/vala v0.0.0-20170210184112-42e1d8b61f12
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/rs/zerolog v1.18.0
-	github.com/spf13/viper v1.6.3
+	github.com/spf13/viper v1.7.0
 	github.com/vektah/gqlparser/v2 v2.0.1
 	github.com/volatiletech/null/v8 v8.1.0
 	github.com/volatiletech/randomize v0.0.1
 	github.com/volatiletech/sqlboiler/v4 v4.1.1
 	github.com/volatiletech/strmangle v0.0.1
-	github.com/web-ridge/sqlboiler-graphql-schema v1.0.2 // indirect
-	github.com/web-ridge/utils-go/api v0.0.0-20200507214709-fb8617ccdd87
-	github.com/web-ridge/utils-go/boilergql v0.0.0-20200507221017-d7c1f34df769
+	github.com/web-ridge/gqlgen-sqlboiler/v2 v2.0.7
+	github.com/web-ridge/utils-go/api v0.0.0-20200507221017-d7c1f34df769
+	github.com/web-ridge/utils-go/boilergql v0.0.0-20200509100914-a40710648c71
 	golang.org/x/crypto v0.0.0-20200429183012-4b2356b1ed79
-	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543 // indirect
 )

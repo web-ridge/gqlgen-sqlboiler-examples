@@ -27,7 +27,7 @@ func CommentCreateInputToBoiler(
 	}
 	r := &models.Comment{
 		Content: m.Content,
-		PostID:  boilergql.IDToNullBoiler(boilergql.PointerStringToString(m.PostID)),
+		PostID:  boilergql.PointerStringToNullDotString(m.PostID),
 	}
 	return r
 }
@@ -42,7 +42,7 @@ func CommentCreateInputToModelM(
 		case "content":
 			modelM[models.CommentColumns.Content] = m.Content
 		case "postId":
-			modelM[models.CommentColumns.PostID] = boilergql.IDToNullBoiler(boilergql.PointerStringToString(m.PostID))
+			modelM[models.CommentColumns.PostID] = boilergql.PointerStringToNullDotString(m.PostID)
 		}
 	}
 	return modelM
@@ -196,7 +196,7 @@ func CommentUpdateInputToBoiler(
 	}
 	r := &models.Comment{
 		Content: boilergql.PointerStringToString(m.Content),
-		PostID:  boilergql.IDToNullBoiler(boilergql.PointerStringToString(m.PostID)),
+		PostID:  boilergql.PointerStringToNullDotString(m.PostID),
 	}
 	return r
 }
@@ -211,7 +211,7 @@ func CommentUpdateInputToModelM(
 		case "content":
 			modelM[models.CommentColumns.Content] = boilergql.PointerStringToString(m.Content)
 		case "postId":
-			modelM[models.CommentColumns.PostID] = boilergql.IDToNullBoiler(boilergql.PointerStringToString(m.PostID))
+			modelM[models.CommentColumns.PostID] = boilergql.PointerStringToNullDotString(m.PostID)
 		}
 	}
 	return modelM
