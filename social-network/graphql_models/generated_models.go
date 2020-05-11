@@ -3,9 +3,8 @@
 package graphql_models
 
 type BooleanFilter struct {
-	IsTrue  *bool `json:"isTrue"`
-	IsFalse *bool `json:"isFalse"`
-	IsNull  *bool `json:"isNull"`
+	EqualTo    *bool `json:"equalTo"`
+	NotEqualTo *bool `json:"notEqualTo"`
 }
 
 type Comment struct {

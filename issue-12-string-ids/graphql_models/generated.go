@@ -1935,9 +1935,8 @@ input FloatFilter {
 }
 
 input BooleanFilter {
-  isTrue: Boolean
-  isFalse: Boolean
-  isNull: Boolean
+  equalTo: Boolean
+  notEqualTo: Boolean
 }
 
 input CommentFilter {
@@ -11227,21 +11226,15 @@ func (ec *executionContext) unmarshalInputBooleanFilter(ctx context.Context, obj
 
 	for k, v := range asMap {
 		switch k {
-		case "isTrue":
+		case "equalTo":
 			var err error
-			it.IsTrue, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			it.EqualTo, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
-		case "isFalse":
+		case "notEqualTo":
 			var err error
-			it.IsFalse, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "isNull":
-			var err error
-			it.IsNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			it.NotEqualTo, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
