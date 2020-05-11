@@ -14,7 +14,6 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/extension"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	tb "github.com/didip/tollbooth"
-	tbc "github.com/didip/tollbooth_chi"
 	"github.com/go-chi/chi"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/joho/godotenv/autoload"
@@ -60,7 +59,7 @@ func main() {
 	// srv.Use(apollotracing.Tracer{})
 
 	r := chi.NewRouter()
-	r.Use(tbc.LimitHandler(lmt))
+
 	r.Use(auth.Middleware(db))
 	r.Handle("/", playground.Handler("GraphQL playground", "/graphql"))
 

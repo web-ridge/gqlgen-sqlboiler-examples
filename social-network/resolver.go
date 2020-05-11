@@ -39,7 +39,7 @@ func (r *mutationResolver) CreateComment(ctx context.Context, input fm.CommentCr
 	}
 
 	// resolve requested fields after creating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, CommentPreloadMap, CommentPayloadPreloadLevels.Comment)
+	mods := GetCommentPreloadModsWithLevel(ctx, CommentPayloadPreloadLevels.Comment)
 	mods = append(mods, dm.CommentWhere.ID.EQ(m.ID))
 	mods = append(mods, dm.CommentWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
@@ -77,7 +77,7 @@ func (r *mutationResolver) UpdateComment(ctx context.Context, id string, input f
 	}
 
 	// resolve requested fields after updating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, CommentPreloadMap, CommentPayloadPreloadLevels.Comment)
+	mods := GetCommentPreloadModsWithLevel(ctx, CommentPayloadPreloadLevels.Comment)
 	mods = append(mods, dm.CommentWhere.ID.EQ(dbID))
 	mods = append(mods, dm.CommentWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
@@ -174,7 +174,7 @@ func (r *mutationResolver) CreateCommentLike(ctx context.Context, input fm.Comme
 	}
 
 	// resolve requested fields after creating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, CommentLikePreloadMap, CommentLikePayloadPreloadLevels.CommentLike)
+	mods := GetCommentLikePreloadModsWithLevel(ctx, CommentLikePayloadPreloadLevels.CommentLike)
 	mods = append(mods, dm.CommentLikeWhere.ID.EQ(m.ID))
 	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
@@ -212,7 +212,7 @@ func (r *mutationResolver) UpdateCommentLike(ctx context.Context, id string, inp
 	}
 
 	// resolve requested fields after updating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, CommentLikePreloadMap, CommentLikePayloadPreloadLevels.CommentLike)
+	mods := GetCommentLikePreloadModsWithLevel(ctx, CommentLikePayloadPreloadLevels.CommentLike)
 	mods = append(mods, dm.CommentLikeWhere.ID.EQ(dbID))
 	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
@@ -306,7 +306,7 @@ func (r *mutationResolver) CreateFriendship(ctx context.Context, input fm.Friend
 	}
 
 	// resolve requested fields after creating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, FriendshipPreloadMap, FriendshipPayloadPreloadLevels.Friendship)
+	mods := GetFriendshipPreloadModsWithLevel(ctx, FriendshipPayloadPreloadLevels.Friendship)
 	mods = append(mods, dm.FriendshipWhere.ID.EQ(m.ID))
 	pM, err := dm.Friendships(mods...).One(ctx, r.db)
 	if err != nil {
@@ -340,7 +340,7 @@ func (r *mutationResolver) UpdateFriendship(ctx context.Context, id string, inpu
 	}
 
 	// resolve requested fields after updating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, FriendshipPreloadMap, FriendshipPayloadPreloadLevels.Friendship)
+	mods := GetFriendshipPreloadModsWithLevel(ctx, FriendshipPayloadPreloadLevels.Friendship)
 	mods = append(mods, dm.FriendshipWhere.ID.EQ(dbID))
 
 	pM, err := dm.Friendships(mods...).One(ctx, r.db)
@@ -426,7 +426,7 @@ func (r *mutationResolver) CreateImage(ctx context.Context, input fm.ImageCreate
 	}
 
 	// resolve requested fields after creating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, ImagePreloadMap, ImagePayloadPreloadLevels.Image)
+	mods := GetImagePreloadModsWithLevel(ctx, ImagePayloadPreloadLevels.Image)
 	mods = append(mods, dm.ImageWhere.ID.EQ(m.ID))
 	pM, err := dm.Images(mods...).One(ctx, r.db)
 	if err != nil {
@@ -460,7 +460,7 @@ func (r *mutationResolver) UpdateImage(ctx context.Context, id string, input fm.
 	}
 
 	// resolve requested fields after updating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, ImagePreloadMap, ImagePayloadPreloadLevels.Image)
+	mods := GetImagePreloadModsWithLevel(ctx, ImagePayloadPreloadLevels.Image)
 	mods = append(mods, dm.ImageWhere.ID.EQ(dbID))
 
 	pM, err := dm.Images(mods...).One(ctx, r.db)
@@ -546,7 +546,7 @@ func (r *mutationResolver) CreateImageVariation(ctx context.Context, input fm.Im
 	}
 
 	// resolve requested fields after creating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, ImageVariationPreloadMap, ImageVariationPayloadPreloadLevels.ImageVariation)
+	mods := GetImageVariationPreloadModsWithLevel(ctx, ImageVariationPayloadPreloadLevels.ImageVariation)
 	mods = append(mods, dm.ImageVariationWhere.ID.EQ(m.ID))
 	pM, err := dm.ImageVariations(mods...).One(ctx, r.db)
 	if err != nil {
@@ -580,7 +580,7 @@ func (r *mutationResolver) UpdateImageVariation(ctx context.Context, id string, 
 	}
 
 	// resolve requested fields after updating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, ImageVariationPreloadMap, ImageVariationPayloadPreloadLevels.ImageVariation)
+	mods := GetImageVariationPreloadModsWithLevel(ctx, ImageVariationPayloadPreloadLevels.ImageVariation)
 	mods = append(mods, dm.ImageVariationWhere.ID.EQ(dbID))
 
 	pM, err := dm.ImageVariations(mods...).One(ctx, r.db)
@@ -669,7 +669,7 @@ func (r *mutationResolver) CreateLike(ctx context.Context, input fm.LikeCreateIn
 	}
 
 	// resolve requested fields after creating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, LikePreloadMap, LikePayloadPreloadLevels.Like)
+	mods := GetLikePreloadModsWithLevel(ctx, LikePayloadPreloadLevels.Like)
 	mods = append(mods, dm.LikeWhere.ID.EQ(m.ID))
 	mods = append(mods, dm.LikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
@@ -707,7 +707,7 @@ func (r *mutationResolver) UpdateLike(ctx context.Context, id string, input fm.L
 	}
 
 	// resolve requested fields after updating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, LikePreloadMap, LikePayloadPreloadLevels.Like)
+	mods := GetLikePreloadModsWithLevel(ctx, LikePayloadPreloadLevels.Like)
 	mods = append(mods, dm.LikeWhere.ID.EQ(dbID))
 	mods = append(mods, dm.LikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
@@ -804,7 +804,7 @@ func (r *mutationResolver) CreatePost(ctx context.Context, input fm.PostCreateIn
 	}
 
 	// resolve requested fields after creating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, PostPreloadMap, PostPayloadPreloadLevels.Post)
+	mods := GetPostPreloadModsWithLevel(ctx, PostPayloadPreloadLevels.Post)
 	mods = append(mods, dm.PostWhere.ID.EQ(m.ID))
 	mods = append(mods, dm.PostWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
@@ -842,7 +842,7 @@ func (r *mutationResolver) UpdatePost(ctx context.Context, id string, input fm.P
 	}
 
 	// resolve requested fields after updating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, PostPreloadMap, PostPayloadPreloadLevels.Post)
+	mods := GetPostPreloadModsWithLevel(ctx, PostPayloadPreloadLevels.Post)
 	mods = append(mods, dm.PostWhere.ID.EQ(dbID))
 	mods = append(mods, dm.PostWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
@@ -936,7 +936,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input fm.UserCreateIn
 	}
 
 	// resolve requested fields after creating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, UserPreloadMap, UserPayloadPreloadLevels.User)
+	mods := GetUserPreloadModsWithLevel(ctx, UserPayloadPreloadLevels.User)
 	mods = append(mods, dm.UserWhere.ID.EQ(m.ID))
 	pM, err := dm.Users(mods...).One(ctx, r.db)
 	if err != nil {
@@ -970,7 +970,7 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input fm.U
 	}
 
 	// resolve requested fields after updating
-	mods := boilergql.GetPreloadModsWithLevel(ctx, UserPreloadMap, UserPayloadPreloadLevels.User)
+	mods := GetUserPreloadModsWithLevel(ctx, UserPayloadPreloadLevels.User)
 	mods = append(mods, dm.UserWhere.ID.EQ(dbID))
 
 	pM, err := dm.Users(mods...).One(ctx, r.db)
@@ -1046,7 +1046,7 @@ const publicCommentSingleError = "Could not get comment"
 func (r *queryResolver) Comment(ctx context.Context, id string) (*fm.Comment, error) {
 	dbID := CommentID(id)
 
-	mods := boilergql.GetPreloadMods(ctx, CommentPreloadMap)
+	mods := GetCommentPreloadMods(ctx)
 	mods = append(mods, dm.CommentWhere.ID.EQ(dbID))
 	mods = append(mods, dm.CommentWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
@@ -1062,7 +1062,7 @@ func (r *queryResolver) Comment(ctx context.Context, id string) (*fm.Comment, er
 const publicCommentListError = "Could not list comments"
 
 func (r *queryResolver) Comments(ctx context.Context, filter *fm.CommentFilter) ([]*fm.Comment, error) {
-	mods := boilergql.GetPreloadMods(ctx, CommentPreloadMap)
+	mods := GetCommentPreloadMods(ctx)
 	mods = append(mods, dm.CommentWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
@@ -1080,7 +1080,7 @@ const publicCommentLikeSingleError = "Could not get commentLike"
 func (r *queryResolver) CommentLike(ctx context.Context, id string) (*fm.CommentLike, error) {
 	dbID := CommentLikeID(id)
 
-	mods := boilergql.GetPreloadMods(ctx, CommentLikePreloadMap)
+	mods := GetCommentLikePreloadMods(ctx)
 	mods = append(mods, dm.CommentLikeWhere.ID.EQ(dbID))
 	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
@@ -1096,7 +1096,7 @@ func (r *queryResolver) CommentLike(ctx context.Context, id string) (*fm.Comment
 const publicCommentLikeListError = "Could not list commentLikes"
 
 func (r *queryResolver) CommentLikes(ctx context.Context, filter *fm.CommentLikeFilter) ([]*fm.CommentLike, error) {
-	mods := boilergql.GetPreloadMods(ctx, CommentLikePreloadMap)
+	mods := GetCommentLikePreloadMods(ctx)
 	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
@@ -1114,7 +1114,7 @@ const publicFriendshipSingleError = "Could not get friendship"
 func (r *queryResolver) Friendship(ctx context.Context, id string) (*fm.Friendship, error) {
 	dbID := FriendshipID(id)
 
-	mods := boilergql.GetPreloadMods(ctx, FriendshipPreloadMap)
+	mods := GetFriendshipPreloadMods(ctx)
 	mods = append(mods, dm.FriendshipWhere.ID.EQ(dbID))
 	m, err := dm.Friendships(mods...).One(ctx, r.db)
 	if err != nil {
@@ -1127,7 +1127,7 @@ func (r *queryResolver) Friendship(ctx context.Context, id string) (*fm.Friendsh
 const publicFriendshipListError = "Could not list friendships"
 
 func (r *queryResolver) Friendships(ctx context.Context, filter *fm.FriendshipFilter) ([]*fm.Friendship, error) {
-	mods := boilergql.GetPreloadMods(ctx, FriendshipPreloadMap)
+	mods := GetFriendshipPreloadMods(ctx)
 	mods = append(mods, FriendshipFilterToMods(filter)...)
 	a, err := dm.Friendships(mods...).All(ctx, r.db)
 	if err != nil {
@@ -1142,7 +1142,7 @@ const publicImageSingleError = "Could not get image"
 func (r *queryResolver) Image(ctx context.Context, id string) (*fm.Image, error) {
 	dbID := ImageID(id)
 
-	mods := boilergql.GetPreloadMods(ctx, ImagePreloadMap)
+	mods := GetImagePreloadMods(ctx)
 	mods = append(mods, dm.ImageWhere.ID.EQ(dbID))
 	m, err := dm.Images(mods...).One(ctx, r.db)
 	if err != nil {
@@ -1155,7 +1155,7 @@ func (r *queryResolver) Image(ctx context.Context, id string) (*fm.Image, error)
 const publicImageListError = "Could not list images"
 
 func (r *queryResolver) Images(ctx context.Context, filter *fm.ImageFilter) ([]*fm.Image, error) {
-	mods := boilergql.GetPreloadMods(ctx, ImagePreloadMap)
+	mods := GetImagePreloadMods(ctx)
 	mods = append(mods, ImageFilterToMods(filter)...)
 	a, err := dm.Images(mods...).All(ctx, r.db)
 	if err != nil {
@@ -1170,7 +1170,7 @@ const publicImageVariationSingleError = "Could not get imageVariation"
 func (r *queryResolver) ImageVariation(ctx context.Context, id string) (*fm.ImageVariation, error) {
 	dbID := ImageVariationID(id)
 
-	mods := boilergql.GetPreloadMods(ctx, ImageVariationPreloadMap)
+	mods := GetImageVariationPreloadMods(ctx)
 	mods = append(mods, dm.ImageVariationWhere.ID.EQ(dbID))
 	m, err := dm.ImageVariations(mods...).One(ctx, r.db)
 	if err != nil {
@@ -1183,7 +1183,7 @@ func (r *queryResolver) ImageVariation(ctx context.Context, id string) (*fm.Imag
 const publicImageVariationListError = "Could not list imageVariations"
 
 func (r *queryResolver) ImageVariations(ctx context.Context, filter *fm.ImageVariationFilter) ([]*fm.ImageVariation, error) {
-	mods := boilergql.GetPreloadMods(ctx, ImageVariationPreloadMap)
+	mods := GetImageVariationPreloadMods(ctx)
 	mods = append(mods, ImageVariationFilterToMods(filter)...)
 	a, err := dm.ImageVariations(mods...).All(ctx, r.db)
 	if err != nil {
@@ -1198,7 +1198,7 @@ const publicLikeSingleError = "Could not get like"
 func (r *queryResolver) Like(ctx context.Context, id string) (*fm.Like, error) {
 	dbID := LikeID(id)
 
-	mods := boilergql.GetPreloadMods(ctx, LikePreloadMap)
+	mods := GetLikePreloadMods(ctx)
 	mods = append(mods, dm.LikeWhere.ID.EQ(dbID))
 	mods = append(mods, dm.LikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
@@ -1214,7 +1214,7 @@ func (r *queryResolver) Like(ctx context.Context, id string) (*fm.Like, error) {
 const publicLikeListError = "Could not list likes"
 
 func (r *queryResolver) Likes(ctx context.Context, filter *fm.LikeFilter) ([]*fm.Like, error) {
-	mods := boilergql.GetPreloadMods(ctx, LikePreloadMap)
+	mods := GetLikePreloadMods(ctx)
 	mods = append(mods, dm.LikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
@@ -1232,7 +1232,7 @@ const publicPostSingleError = "Could not get post"
 func (r *queryResolver) Post(ctx context.Context, id string) (*fm.Post, error) {
 	dbID := PostID(id)
 
-	mods := boilergql.GetPreloadMods(ctx, PostPreloadMap)
+	mods := GetPostPreloadMods(ctx)
 	mods = append(mods, dm.PostWhere.ID.EQ(dbID))
 	mods = append(mods, dm.PostWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
@@ -1248,7 +1248,7 @@ func (r *queryResolver) Post(ctx context.Context, id string) (*fm.Post, error) {
 const publicPostListError = "Could not list posts"
 
 func (r *queryResolver) Posts(ctx context.Context, filter *fm.PostFilter) ([]*fm.Post, error) {
-	mods := boilergql.GetPreloadMods(ctx, PostPreloadMap)
+	mods := GetPostPreloadMods(ctx)
 	mods = append(mods, dm.PostWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
@@ -1266,7 +1266,7 @@ const publicUserSingleError = "Could not get user"
 func (r *queryResolver) User(ctx context.Context, id string) (*fm.User, error) {
 	dbID := UserID(id)
 
-	mods := boilergql.GetPreloadMods(ctx, UserPreloadMap)
+	mods := GetUserPreloadMods(ctx)
 	mods = append(mods, dm.UserWhere.ID.EQ(dbID))
 	m, err := dm.Users(mods...).One(ctx, r.db)
 	if err != nil {
@@ -1279,7 +1279,7 @@ func (r *queryResolver) User(ctx context.Context, id string) (*fm.User, error) {
 const publicUserListError = "Could not list users"
 
 func (r *queryResolver) Users(ctx context.Context, filter *fm.UserFilter) ([]*fm.User, error) {
-	mods := boilergql.GetPreloadMods(ctx, UserPreloadMap)
+	mods := GetUserPreloadMods(ctx)
 	mods = append(mods, UserFilterToMods(filter)...)
 	a, err := dm.Users(mods...).All(ctx, r.db)
 	if err != nil {
