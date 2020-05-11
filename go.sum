@@ -288,6 +288,7 @@ github.com/web-ridge/gqlgen-sqlboiler/v2 v2.0.6 h1:aNU/V8DnBsmB5j1nA4soxHvccEZQ/
 github.com/web-ridge/gqlgen-sqlboiler/v2 v2.0.6/go.mod h1:OIPsaGI6OEOJfF/DAg3jbdJao8/RezndHmjVOz2rbCw=
 github.com/web-ridge/gqlgen-sqlboiler/v2 v2.0.7 h1:dLIxbUOOzF7nVheNiTHZI4N15ABQ0FJH7IxywF/4mSE=
 github.com/web-ridge/gqlgen-sqlboiler/v2 v2.0.7/go.mod h1:OIPsaGI6OEOJfF/DAg3jbdJao8/RezndHmjVOz2rbCw=
+github.com/web-ridge/gqlgen-sqlboiler/v2 v2.0.9/go.mod h1:OIPsaGI6OEOJfF/DAg3jbdJao8/RezndHmjVOz2rbCw=
 github.com/web-ridge/utils-go/api v0.0.0-20200507221017-d7c1f34df769 h1:39EqmezwUqzZlyrnjJfNzXgVbN0IlyP00J9WgJ3Y5x8=
 github.com/web-ridge/utils-go/api v0.0.0-20200507221017-d7c1f34df769/go.mod h1:KzTsqW+f/OV441uiPnQgI3Oqlx+sY7qUyqI+pffaaHc=
 github.com/web-ridge/utils-go/boilergql v0.0.0-20200507221017-d7c1f34df769 h1:5aek/cxZ5twBFo3XJr5xkZkFE3oH58ynQOWaTl/oAs4=
