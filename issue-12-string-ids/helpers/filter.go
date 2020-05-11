@@ -211,7 +211,6 @@ func CommentLikeWhereSubqueryToMods(m *graphql_models.CommentLikeWhere, foreignC
 		return nil
 	}
 	var queryMods []qm.QueryMod
-	queryMods = append(queryMods)
 
 	// if foreign key exist so we can filter on ID in the root table instead of subquery
 	hasForeignKeyInRoot := foreignColumn != ""
@@ -233,7 +232,9 @@ func CommentLikeWhereToMods(m *graphql_models.CommentLikeWhere, withPrimaryID bo
 	}
 	var queryMods []qm.QueryMod
 
-	queryMods = append(queryMods, IDFilterToMods(m.ID, models.CommentLikeColumns.ID)...)
+	if withPrimaryID {
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.CommentLikeColumns.ID)...)
+	}
 	queryMods = append(queryMods, CommentWhereSubqueryToMods(m.Comment, models.CommentLikeColumns.CommentID)...)
 	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.CommentLikeColumns.UserID)...)
 	queryMods = append(queryMods, StringFilterToMods(m.LikeType, models.CommentLikeColumns.LikeType)...)
@@ -252,7 +253,6 @@ func CommentWhereSubqueryToMods(m *graphql_models.CommentWhere, foreignColumn st
 		return nil
 	}
 	var queryMods []qm.QueryMod
-	queryMods = append(queryMods)
 
 	// if foreign key exist so we can filter on ID in the root table instead of subquery
 	hasForeignKeyInRoot := foreignColumn != ""
@@ -274,7 +274,9 @@ func CommentWhereToMods(m *graphql_models.CommentWhere, withPrimaryID bool) []qm
 	}
 	var queryMods []qm.QueryMod
 
-	queryMods = append(queryMods, IDFilterToMods(m.ID, models.CommentColumns.ID)...)
+	if withPrimaryID {
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.CommentColumns.ID)...)
+	}
 	queryMods = append(queryMods, StringFilterToMods(m.Content, models.CommentColumns.Content)...)
 	queryMods = append(queryMods, PostWhereSubqueryToMods(m.Post, models.CommentColumns.PostID)...)
 	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.CommentColumns.UserID)...)
@@ -314,7 +316,6 @@ func FriendshipWhereSubqueryToMods(m *graphql_models.FriendshipWhere, foreignCol
 		return nil
 	}
 	var queryMods []qm.QueryMod
-	queryMods = append(queryMods)
 
 	// if foreign key exist so we can filter on ID in the root table instead of subquery
 	hasForeignKeyInRoot := foreignColumn != ""
@@ -336,7 +337,9 @@ func FriendshipWhereToMods(m *graphql_models.FriendshipWhere, withPrimaryID bool
 	}
 	var queryMods []qm.QueryMod
 
-	queryMods = append(queryMods, IDFilterToMods(m.ID, models.FriendshipColumns.ID)...)
+	if withPrimaryID {
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.FriendshipColumns.ID)...)
+	}
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.FriendshipColumns.CreatedAt)...)
 	queryMods = append(queryMods, UserWhereSubqueryToMods(m.Users, "")...)
 	if m.Or != nil {
@@ -395,7 +398,6 @@ func ImageVariationWhereSubqueryToMods(m *graphql_models.ImageVariationWhere, fo
 		return nil
 	}
 	var queryMods []qm.QueryMod
-	queryMods = append(queryMods)
 
 	// if foreign key exist so we can filter on ID in the root table instead of subquery
 	hasForeignKeyInRoot := foreignColumn != ""
@@ -417,7 +419,9 @@ func ImageVariationWhereToMods(m *graphql_models.ImageVariationWhere, withPrimar
 	}
 	var queryMods []qm.QueryMod
 
-	queryMods = append(queryMods, IDFilterToMods(m.ID, models.ImageVariationColumns.ID)...)
+	if withPrimaryID {
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.ImageVariationColumns.ID)...)
+	}
 	queryMods = append(queryMods, ImageWhereSubqueryToMods(m.Image, models.ImageVariationColumns.ImageID)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(ImageVariationWhereToMods(m.Or, true)...)))
@@ -433,7 +437,6 @@ func ImageWhereSubqueryToMods(m *graphql_models.ImageWhere, foreignColumn string
 		return nil
 	}
 	var queryMods []qm.QueryMod
-	queryMods = append(queryMods)
 
 	// if foreign key exist so we can filter on ID in the root table instead of subquery
 	hasForeignKeyInRoot := foreignColumn != ""
@@ -455,7 +458,9 @@ func ImageWhereToMods(m *graphql_models.ImageWhere, withPrimaryID bool) []qm.Que
 	}
 	var queryMods []qm.QueryMod
 
-	queryMods = append(queryMods, IDFilterToMods(m.ID, models.ImageColumns.ID)...)
+	if withPrimaryID {
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.ImageColumns.ID)...)
+	}
 	queryMods = append(queryMods, PostWhereSubqueryToMods(m.Post, models.ImageColumns.PostID)...)
 	queryMods = append(queryMods, IntFilterToMods(m.Views, models.ImageColumns.Views)...)
 	queryMods = append(queryMods, StringFilterToMods(m.OriginalURL, models.ImageColumns.OriginalURL)...)
@@ -495,7 +500,6 @@ func LikeWhereSubqueryToMods(m *graphql_models.LikeWhere, foreignColumn string) 
 		return nil
 	}
 	var queryMods []qm.QueryMod
-	queryMods = append(queryMods)
 
 	// if foreign key exist so we can filter on ID in the root table instead of subquery
 	hasForeignKeyInRoot := foreignColumn != ""
@@ -517,7 +521,9 @@ func LikeWhereToMods(m *graphql_models.LikeWhere, withPrimaryID bool) []qm.Query
 	}
 	var queryMods []qm.QueryMod
 
-	queryMods = append(queryMods, IDFilterToMods(m.ID, models.LikeColumns.ID)...)
+	if withPrimaryID {
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.LikeColumns.ID)...)
+	}
 	queryMods = append(queryMods, PostWhereSubqueryToMods(m.Post, models.LikeColumns.PostID)...)
 	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.LikeColumns.UserID)...)
 	queryMods = append(queryMods, StringFilterToMods(m.LikeType, models.LikeColumns.LikeType)...)
@@ -557,7 +563,6 @@ func PostWhereSubqueryToMods(m *graphql_models.PostWhere, foreignColumn string) 
 		return nil
 	}
 	var queryMods []qm.QueryMod
-	queryMods = append(queryMods)
 
 	// if foreign key exist so we can filter on ID in the root table instead of subquery
 	hasForeignKeyInRoot := foreignColumn != ""
@@ -579,7 +584,9 @@ func PostWhereToMods(m *graphql_models.PostWhere, withPrimaryID bool) []qm.Query
 	}
 	var queryMods []qm.QueryMod
 
-	queryMods = append(queryMods, IDFilterToMods(m.ID, models.PostColumns.ID)...)
+	if withPrimaryID {
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.PostColumns.ID)...)
+	}
 	queryMods = append(queryMods, StringFilterToMods(m.Content, models.PostColumns.Content)...)
 	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.PostColumns.UserID)...)
 	queryMods = append(queryMods, CommentWhereSubqueryToMods(m.Comments, "")...)
@@ -620,7 +627,6 @@ func UserWhereSubqueryToMods(m *graphql_models.UserWhere, foreignColumn string) 
 		return nil
 	}
 	var queryMods []qm.QueryMod
-	queryMods = append(queryMods)
 
 	// if foreign key exist so we can filter on ID in the root table instead of subquery
 	hasForeignKeyInRoot := foreignColumn != ""
@@ -642,7 +648,9 @@ func UserWhereToMods(m *graphql_models.UserWhere, withPrimaryID bool) []qm.Query
 	}
 	var queryMods []qm.QueryMod
 
-	queryMods = append(queryMods, IDFilterToMods(m.ID, models.UserColumns.ID)...)
+	if withPrimaryID {
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.UserColumns.ID)...)
+	}
 	queryMods = append(queryMods, StringFilterToMods(m.FirstName, models.UserColumns.FirstName)...)
 	queryMods = append(queryMods, StringFilterToMods(m.LastName, models.UserColumns.LastName)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Email, models.UserColumns.Email)...)
