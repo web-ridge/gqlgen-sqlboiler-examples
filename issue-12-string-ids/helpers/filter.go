@@ -233,17 +233,17 @@ func CommentLikeWhereToMods(m *graphql_models.CommentLikeWhere, withPrimaryID bo
 	var queryMods []qm.QueryMod
 
 	if withPrimaryID {
-		queryMods = append(queryMods, *IDFilterToMods(m.ID, models.CommentLikeColumns.ID)...)
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.CommentLikeColumns.ID)...)
 	}
-	queryMods = append(queryMods, *CommentWhereSubqueryToMods(m.Comment, models.CommentLikeColumns.CommentID)...)
-	queryMods = append(queryMods, *UserWhereSubqueryToMods(m.User, models.CommentLikeColumns.UserID)...)
-	queryMods = append(queryMods, *StringFilterToMods(m.LikeType, models.CommentLikeColumns.LikeType)...)
-	queryMods = append(queryMods, *IntFilterToMods(m.CreatedAt, models.CommentLikeColumns.CreatedAt)...)
+	queryMods = append(queryMods, CommentWhereSubqueryToMods(m.Comment, models.CommentLikeColumns.CommentID)...)
+	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.CommentLikeColumns.UserID)...)
+	queryMods = append(queryMods, StringFilterToMods(m.LikeType, models.CommentLikeColumns.LikeType)...)
+	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.CommentLikeColumns.CreatedAt)...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(*CommentLikeWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(CommentLikeWhereToMods(m.Or, true)...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(*CommentLikeWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(CommentLikeWhereToMods(m.And, true)...))
 	}
 	return queryMods
 }
@@ -275,17 +275,17 @@ func CommentWhereToMods(m *graphql_models.CommentWhere, withPrimaryID bool) []qm
 	var queryMods []qm.QueryMod
 
 	if withPrimaryID {
-		queryMods = append(queryMods, *IDFilterToMods(m.ID, models.CommentColumns.ID)...)
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.CommentColumns.ID)...)
 	}
-	queryMods = append(queryMods, *StringFilterToMods(m.Content, models.CommentColumns.Content)...)
-	queryMods = append(queryMods, *PostWhereSubqueryToMods(m.Post, models.CommentColumns.PostID)...)
-	queryMods = append(queryMods, *UserWhereSubqueryToMods(m.User, models.CommentColumns.UserID)...)
-	queryMods = append(queryMods, *CommentLikeWhereSubqueryToMods(m.CommentLikes, "")...)
+	queryMods = append(queryMods, StringFilterToMods(m.Content, models.CommentColumns.Content)...)
+	queryMods = append(queryMods, PostWhereSubqueryToMods(m.Post, models.CommentColumns.PostID)...)
+	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.CommentColumns.UserID)...)
+	queryMods = append(queryMods, CommentLikeWhereSubqueryToMods(m.CommentLikes, "")...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(*CommentWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(CommentWhereToMods(m.Or, true)...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(*CommentWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(CommentWhereToMods(m.And, true)...))
 	}
 	return queryMods
 }
@@ -338,15 +338,15 @@ func FriendshipWhereToMods(m *graphql_models.FriendshipWhere, withPrimaryID bool
 	var queryMods []qm.QueryMod
 
 	if withPrimaryID {
-		queryMods = append(queryMods, *IDFilterToMods(m.ID, models.FriendshipColumns.ID)...)
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.FriendshipColumns.ID)...)
 	}
-	queryMods = append(queryMods, *IntFilterToMods(m.CreatedAt, models.FriendshipColumns.CreatedAt)...)
-	queryMods = append(queryMods, *UserWhereSubqueryToMods(m.Users, "")...)
+	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.FriendshipColumns.CreatedAt)...)
+	queryMods = append(queryMods, UserWhereSubqueryToMods(m.Users, "")...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(*FriendshipWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(FriendshipWhereToMods(m.Or, true)...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(*FriendshipWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(FriendshipWhereToMods(m.And, true)...))
 	}
 	return queryMods
 }
@@ -420,14 +420,14 @@ func ImageVariationWhereToMods(m *graphql_models.ImageVariationWhere, withPrimar
 	var queryMods []qm.QueryMod
 
 	if withPrimaryID {
-		queryMods = append(queryMods, *IDFilterToMods(m.ID, models.ImageVariationColumns.ID)...)
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.ImageVariationColumns.ID)...)
 	}
-	queryMods = append(queryMods, *ImageWhereSubqueryToMods(m.Image, models.ImageVariationColumns.ImageID)...)
+	queryMods = append(queryMods, ImageWhereSubqueryToMods(m.Image, models.ImageVariationColumns.ImageID)...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(*ImageVariationWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(ImageVariationWhereToMods(m.Or, true)...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(*ImageVariationWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(ImageVariationWhereToMods(m.And, true)...))
 	}
 	return queryMods
 }
@@ -459,17 +459,17 @@ func ImageWhereToMods(m *graphql_models.ImageWhere, withPrimaryID bool) []qm.Que
 	var queryMods []qm.QueryMod
 
 	if withPrimaryID {
-		queryMods = append(queryMods, *IDFilterToMods(m.ID, models.ImageColumns.ID)...)
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.ImageColumns.ID)...)
 	}
-	queryMods = append(queryMods, *PostWhereSubqueryToMods(m.Post, models.ImageColumns.PostID)...)
-	queryMods = append(queryMods, *IntFilterToMods(m.Views, models.ImageColumns.Views)...)
-	queryMods = append(queryMods, *StringFilterToMods(m.OriginalURL, models.ImageColumns.OriginalURL)...)
-	queryMods = append(queryMods, *ImageVariationWhereSubqueryToMods(m.ImageVariations, "")...)
+	queryMods = append(queryMods, PostWhereSubqueryToMods(m.Post, models.ImageColumns.PostID)...)
+	queryMods = append(queryMods, IntFilterToMods(m.Views, models.ImageColumns.Views)...)
+	queryMods = append(queryMods, StringFilterToMods(m.OriginalURL, models.ImageColumns.OriginalURL)...)
+	queryMods = append(queryMods, ImageVariationWhereSubqueryToMods(m.ImageVariations, "")...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(*ImageWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(ImageWhereToMods(m.Or, true)...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(*ImageWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(ImageWhereToMods(m.And, true)...))
 	}
 	return queryMods
 }
@@ -522,17 +522,17 @@ func LikeWhereToMods(m *graphql_models.LikeWhere, withPrimaryID bool) []qm.Query
 	var queryMods []qm.QueryMod
 
 	if withPrimaryID {
-		queryMods = append(queryMods, *IDFilterToMods(m.ID, models.LikeColumns.ID)...)
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.LikeColumns.ID)...)
 	}
-	queryMods = append(queryMods, *PostWhereSubqueryToMods(m.Post, models.LikeColumns.PostID)...)
-	queryMods = append(queryMods, *UserWhereSubqueryToMods(m.User, models.LikeColumns.UserID)...)
-	queryMods = append(queryMods, *StringFilterToMods(m.LikeType, models.LikeColumns.LikeType)...)
-	queryMods = append(queryMods, *IntFilterToMods(m.CreatedAt, models.LikeColumns.CreatedAt)...)
+	queryMods = append(queryMods, PostWhereSubqueryToMods(m.Post, models.LikeColumns.PostID)...)
+	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.LikeColumns.UserID)...)
+	queryMods = append(queryMods, StringFilterToMods(m.LikeType, models.LikeColumns.LikeType)...)
+	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.LikeColumns.CreatedAt)...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(*LikeWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(LikeWhereToMods(m.Or, true)...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(*LikeWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(LikeWhereToMods(m.And, true)...))
 	}
 	return queryMods
 }
@@ -585,18 +585,18 @@ func PostWhereToMods(m *graphql_models.PostWhere, withPrimaryID bool) []qm.Query
 	var queryMods []qm.QueryMod
 
 	if withPrimaryID {
-		queryMods = append(queryMods, *IDFilterToMods(m.ID, models.PostColumns.ID)...)
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.PostColumns.ID)...)
 	}
-	queryMods = append(queryMods, *StringFilterToMods(m.Content, models.PostColumns.Content)...)
-	queryMods = append(queryMods, *UserWhereSubqueryToMods(m.User, models.PostColumns.UserID)...)
-	queryMods = append(queryMods, *CommentWhereSubqueryToMods(m.Comments, "")...)
-	queryMods = append(queryMods, *ImageWhereSubqueryToMods(m.Images, "")...)
-	queryMods = append(queryMods, *LikeWhereSubqueryToMods(m.Likes, "")...)
+	queryMods = append(queryMods, StringFilterToMods(m.Content, models.PostColumns.Content)...)
+	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.PostColumns.UserID)...)
+	queryMods = append(queryMods, CommentWhereSubqueryToMods(m.Comments, "")...)
+	queryMods = append(queryMods, ImageWhereSubqueryToMods(m.Images, "")...)
+	queryMods = append(queryMods, LikeWhereSubqueryToMods(m.Likes, "")...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(*PostWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(PostWhereToMods(m.Or, true)...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(*PostWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(PostWhereToMods(m.And, true)...))
 	}
 	return queryMods
 }
@@ -649,21 +649,21 @@ func UserWhereToMods(m *graphql_models.UserWhere, withPrimaryID bool) []qm.Query
 	var queryMods []qm.QueryMod
 
 	if withPrimaryID {
-		queryMods = append(queryMods, *IDFilterToMods(m.ID, models.UserColumns.ID)...)
+		queryMods = append(queryMods, IDFilterToMods(m.ID, models.UserColumns.ID)...)
 	}
-	queryMods = append(queryMods, *StringFilterToMods(m.FirstName, models.UserColumns.FirstName)...)
-	queryMods = append(queryMods, *StringFilterToMods(m.LastName, models.UserColumns.LastName)...)
-	queryMods = append(queryMods, *StringFilterToMods(m.Email, models.UserColumns.Email)...)
-	queryMods = append(queryMods, *CommentWhereSubqueryToMods(m.Comments, "")...)
-	queryMods = append(queryMods, *CommentLikeWhereSubqueryToMods(m.CommentLikes, "")...)
-	queryMods = append(queryMods, *LikeWhereSubqueryToMods(m.Likes, "")...)
-	queryMods = append(queryMods, *PostWhereSubqueryToMods(m.Posts, "")...)
-	queryMods = append(queryMods, *FriendshipWhereSubqueryToMods(m.Friendships, "")...)
+	queryMods = append(queryMods, StringFilterToMods(m.FirstName, models.UserColumns.FirstName)...)
+	queryMods = append(queryMods, StringFilterToMods(m.LastName, models.UserColumns.LastName)...)
+	queryMods = append(queryMods, StringFilterToMods(m.Email, models.UserColumns.Email)...)
+	queryMods = append(queryMods, CommentWhereSubqueryToMods(m.Comments, "")...)
+	queryMods = append(queryMods, CommentLikeWhereSubqueryToMods(m.CommentLikes, "")...)
+	queryMods = append(queryMods, LikeWhereSubqueryToMods(m.Likes, "")...)
+	queryMods = append(queryMods, PostWhereSubqueryToMods(m.Posts, "")...)
+	queryMods = append(queryMods, FriendshipWhereSubqueryToMods(m.Friendships, "")...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(*UserWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(UserWhereToMods(m.Or, true)...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(*UserWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(UserWhereToMods(m.And, true)...))
 	}
 	return queryMods
 }
