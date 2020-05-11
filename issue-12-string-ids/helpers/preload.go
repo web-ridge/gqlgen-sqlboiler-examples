@@ -20850,44 +20850,8 @@ var PostPreloadMap = map[string]boilergql.ColumnSetting{
 		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post,
 		IDAvailable: false,
 	},
-	"comments.commentLikes.user.likes.post.comments": {
-		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Comments,
-		IDAvailable: false,
-	},
-	"comments.commentLikes.user.likes.post.images": {
-		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Images,
-		IDAvailable: false,
-	},
-	"comments.commentLikes.user.likes.post.likes": {
-		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.Likes,
-		IDAvailable: false,
-	},
-	"comments.commentLikes.user.likes.post.user": {
-		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.Post + "." + models.PostRels.User,
-		IDAvailable: false,
-	},
 	"comments.commentLikes.user.likes.user": {
 		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User,
-		IDAvailable: false,
-	},
-	"comments.commentLikes.user.likes.user.commentLikes": {
-		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.CommentLikes,
-		IDAvailable: false,
-	},
-	"comments.commentLikes.user.likes.user.comments": {
-		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Comments,
-		IDAvailable: false,
-	},
-	"comments.commentLikes.user.likes.user.friendships": {
-		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Friendships,
-		IDAvailable: false,
-	},
-	"comments.commentLikes.user.likes.user.likes": {
-		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Likes,
-		IDAvailable: false,
-	},
-	"comments.commentLikes.user.likes.user.posts": {
-		Name:        models.PostRels.Comments + "." + models.CommentRels.CommentLikes + "." + models.CommentLikeRels.User + "." + models.UserRels.Likes + "." + models.LikeRels.User + "." + models.UserRels.Posts,
 		IDAvailable: false,
 	},
 	"comments.commentLikes.user.posts": {
