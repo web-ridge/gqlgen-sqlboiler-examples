@@ -9,8 +9,8 @@ import (
 	"github.com/99designs/gqlgen/api"
 	"github.com/99designs/gqlgen/codegen/config"
 
-	gbgen "github.com/web-ridge/gqlgen-sqlboiler"
-	// gbgen "github.com/web-ridge/gqlgen-sqlboiler/v2"
+	// gbgen "github.com/web-ridge/gqlgen-sqlboiler"
+	gbgen "github.com/web-ridge/gqlgen-sqlboiler/v2"
 )
 
 func main() {
