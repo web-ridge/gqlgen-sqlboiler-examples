@@ -20,21 +20,30 @@ func main() {
 		os.Exit(2)
 	}
 
-	convertHelpersDir := "helpers"
-	sqlboilerDir := "models"
-	gqlgenModelDir := "graphql_models"
+	output := gbgen.Config{
+		Directory:   "helpers", // supports root or sub directories
+		PackageName: "helpers",
+	}
+	backend := gbgen.Config{
+		Directory:   "models",
+		PackageName: "models",
+	}
+	frontend := gbgen.Config{
+		Directory:   "graphql_models",
+		PackageName: "graphql_models",
+	}
 
 	err = api.Generate(cfg,
 		api.AddPlugin(gbgen.NewConvertPlugin(
-			convertHelpersDir, // directory where convert.go, convert_input.go and preload.go should live
-			sqlboilerDir,      // directory where sqlboiler files are put
-			gqlgenModelDir,    // directory where gqlgen models live
+			output,   // directory where convert.go, convert_input.go and preload.go should live
+			backend,  // directory where sqlboiler files are put
+			frontend, // directory where gqlgen models live
 		)),
 		api.AddPlugin(gbgen.NewResolverPlugin(
-			convertHelpersDir,
-			sqlboilerDir,
-			gqlgenModelDir,
-			"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/auth",
+			output,
+			backend,
+			frontend,
+			"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/auth", // leave empty if you don't have auth
 		)),
 	)
 	if err != nil {
