@@ -299,6 +299,8 @@ github.com/web-ridge/gqlgen-sqlboiler/v2 v2.0.11 h1:AdkJRFOAL14Y3L1wN+p8q9PAJeaN
 github.com/web-ridge/gqlgen-sqlboiler/v2 v2.0.11/go.mod h1:OIPsaGI6OEOJfF/DAg3jbdJao8/RezndHmjVOz2rbCw=
 github.com/web-ridge/gqlgen-sqlboiler/v2 v2.0.12 h1:l51ByeWJYvmfRFqKNu365DzzrLgqMsTYpsKRESBaG58=
 github.com/web-ridge/gqlgen-sqlboiler/v2 v2.0.12/go.mod h1:OIPsaGI6OEOJfF/DAg3jbdJao8/RezndHmjVOz2rbCw=
+github.com/web-ridge/gqlgen-sqlboiler/v2 v2.0.14 h1:U4C/vRpiE74dpE9mBHcYBBKlL9vBDfRknMeMMN1C6Aw=
+github.com/web-ridge/gqlgen-sqlboiler/v2 v2.0.14/go.mod h1:OIPsaGI6OEOJfF/DAg3jbdJao8/RezndHmjVOz2rbCw=
 github.com/web-ridge/sqlboiler-graphql-schema v1.0.3 h1:0FpVzudYqFvf9gvsxU/Y9kE7dJSWlhNcxfZE8f71WV8=
 github.com/web-ridge/sqlboiler-graphql-schema v1.0.3/go.mod h1:mv0ZIsRd0zvVFfpGAZ6LNecjig1/IdMsJ6n1n2pLKWs=
 github.com/web-ridge/sqlboiler-graphql-schema v1.0.4 h1:XNW0s8ZuzzyngDrV5icQyaLSc1BwxQfE9NKvK/0NSYA=

@@ -11,7 +11,7 @@ import (
 )
 
 var TablePreloadMap = map[string]map[string]boilergql.ColumnSetting{
-	models.TableNames.Comment: map[string]boilergql.ColumnSetting{
+	models.TableNames.Comment: {
 		"commentLikes": {
 			Name:                  models.CommentRels.CommentLikes,
 			RelationshipModelName: models.TableNames.CommentLike,
@@ -28,7 +28,7 @@ var TablePreloadMap = map[string]map[string]boilergql.ColumnSetting{
 			IDAvailable:           true,
 		},
 	},
-	models.TableNames.CommentLike: map[string]boilergql.ColumnSetting{
+	models.TableNames.CommentLike: {
 		"comment": {
 			Name:                  models.CommentLikeRels.Comment,
 			RelationshipModelName: models.TableNames.Comment,
@@ -40,14 +40,14 @@ var TablePreloadMap = map[string]map[string]boilergql.ColumnSetting{
 			IDAvailable:           true,
 		},
 	},
-	models.TableNames.Friendship: map[string]boilergql.ColumnSetting{
+	models.TableNames.Friendship: {
 		"users": {
 			Name:                  models.FriendshipRels.Users,
 			RelationshipModelName: models.TableNames.User,
 			IDAvailable:           false,
 		},
 	},
-	models.TableNames.Image: map[string]boilergql.ColumnSetting{
+	models.TableNames.Image: {
 		"imageVariations": {
 			Name:                  models.ImageRels.ImageVariations,
 			RelationshipModelName: models.TableNames.ImageVariation,
@@ -59,14 +59,14 @@ var TablePreloadMap = map[string]map[string]boilergql.ColumnSetting{
 			IDAvailable:           true,
 		},
 	},
-	models.TableNames.ImageVariation: map[string]boilergql.ColumnSetting{
+	models.TableNames.ImageVariation: {
 		"image": {
 			Name:                  models.ImageVariationRels.Image,
 			RelationshipModelName: models.TableNames.Image,
 			IDAvailable:           true,
 		},
 	},
-	models.TableNames.Like: map[string]boilergql.ColumnSetting{
+	models.TableNames.Like: {
 		"post": {
 			Name:                  models.LikeRels.Post,
 			RelationshipModelName: models.TableNames.Post,
@@ -78,7 +78,7 @@ var TablePreloadMap = map[string]map[string]boilergql.ColumnSetting{
 			IDAvailable:           true,
 		},
 	},
-	models.TableNames.Post: map[string]boilergql.ColumnSetting{
+	models.TableNames.Post: {
 		"comments": {
 			Name:                  models.PostRels.Comments,
 			RelationshipModelName: models.TableNames.Comment,
@@ -100,7 +100,7 @@ var TablePreloadMap = map[string]map[string]boilergql.ColumnSetting{
 			IDAvailable:           true,
 		},
 	},
-	models.TableNames.User: map[string]boilergql.ColumnSetting{
+	models.TableNames.User: {
 		"commentLikes": {
 			Name:                  models.UserRels.CommentLikes,
 			RelationshipModelName: models.TableNames.CommentLike,
