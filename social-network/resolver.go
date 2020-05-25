@@ -141,7 +141,7 @@ func (r *mutationResolver) DeleteComments(ctx context.Context, filter *fm.Commen
 	mods = append(mods, qm.Select(dm.CommentColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.Comment))
 	var IDsToRemove []boilergql.RemovedID
-	if err := dm.Comments(mods...).Bind(ctx, r.db, IDsToRemove); err != nil {
+	if err := dm.Comments(mods...).Bind(ctx, r.db, &IDsToRemove); err != nil {
 		log.Error().Err(err).Msg(publicCommentBatchDeleteError)
 		return nil, errors.New(publicCommentBatchDeleteError)
 	}
@@ -276,7 +276,7 @@ func (r *mutationResolver) DeleteCommentLikes(ctx context.Context, filter *fm.Co
 	mods = append(mods, qm.Select(dm.CommentLikeColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.CommentLike))
 	var IDsToRemove []boilergql.RemovedID
-	if err := dm.CommentLikes(mods...).Bind(ctx, r.db, IDsToRemove); err != nil {
+	if err := dm.CommentLikes(mods...).Bind(ctx, r.db, &IDsToRemove); err != nil {
 		log.Error().Err(err).Msg(publicCommentLikeBatchDeleteError)
 		return nil, errors.New(publicCommentLikeBatchDeleteError)
 	}
@@ -396,7 +396,7 @@ func (r *mutationResolver) DeleteFriendships(ctx context.Context, filter *fm.Fri
 	mods = append(mods, qm.Select(dm.FriendshipColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.Friendship))
 	var IDsToRemove []boilergql.RemovedID
-	if err := dm.Friendships(mods...).Bind(ctx, r.db, IDsToRemove); err != nil {
+	if err := dm.Friendships(mods...).Bind(ctx, r.db, &IDsToRemove); err != nil {
 		log.Error().Err(err).Msg(publicFriendshipBatchDeleteError)
 		return nil, errors.New(publicFriendshipBatchDeleteError)
 	}
@@ -516,7 +516,7 @@ func (r *mutationResolver) DeleteImages(ctx context.Context, filter *fm.ImageFil
 	mods = append(mods, qm.Select(dm.ImageColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.Image))
 	var IDsToRemove []boilergql.RemovedID
-	if err := dm.Images(mods...).Bind(ctx, r.db, IDsToRemove); err != nil {
+	if err := dm.Images(mods...).Bind(ctx, r.db, &IDsToRemove); err != nil {
 		log.Error().Err(err).Msg(publicImageBatchDeleteError)
 		return nil, errors.New(publicImageBatchDeleteError)
 	}
@@ -636,7 +636,7 @@ func (r *mutationResolver) DeleteImageVariations(ctx context.Context, filter *fm
 	mods = append(mods, qm.Select(dm.ImageVariationColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.ImageVariation))
 	var IDsToRemove []boilergql.RemovedID
-	if err := dm.ImageVariations(mods...).Bind(ctx, r.db, IDsToRemove); err != nil {
+	if err := dm.ImageVariations(mods...).Bind(ctx, r.db, &IDsToRemove); err != nil {
 		log.Error().Err(err).Msg(publicImageVariationBatchDeleteError)
 		return nil, errors.New(publicImageVariationBatchDeleteError)
 	}
@@ -771,7 +771,7 @@ func (r *mutationResolver) DeleteLikes(ctx context.Context, filter *fm.LikeFilte
 	mods = append(mods, qm.Select(dm.LikeColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.Like))
 	var IDsToRemove []boilergql.RemovedID
-	if err := dm.Likes(mods...).Bind(ctx, r.db, IDsToRemove); err != nil {
+	if err := dm.Likes(mods...).Bind(ctx, r.db, &IDsToRemove); err != nil {
 		log.Error().Err(err).Msg(publicLikeBatchDeleteError)
 		return nil, errors.New(publicLikeBatchDeleteError)
 	}
@@ -906,7 +906,7 @@ func (r *mutationResolver) DeletePosts(ctx context.Context, filter *fm.PostFilte
 	mods = append(mods, qm.Select(dm.PostColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.Post))
 	var IDsToRemove []boilergql.RemovedID
-	if err := dm.Posts(mods...).Bind(ctx, r.db, IDsToRemove); err != nil {
+	if err := dm.Posts(mods...).Bind(ctx, r.db, &IDsToRemove); err != nil {
 		log.Error().Err(err).Msg(publicPostBatchDeleteError)
 		return nil, errors.New(publicPostBatchDeleteError)
 	}
@@ -1026,7 +1026,7 @@ func (r *mutationResolver) DeleteUsers(ctx context.Context, filter *fm.UserFilte
 	mods = append(mods, qm.Select(dm.UserColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.User))
 	var IDsToRemove []boilergql.RemovedID
-	if err := dm.Users(mods...).Bind(ctx, r.db, IDsToRemove); err != nil {
+	if err := dm.Users(mods...).Bind(ctx, r.db, &IDsToRemove); err != nil {
 		log.Error().Err(err).Msg(publicUserBatchDeleteError)
 		return nil, errors.New(publicUserBatchDeleteError)
 	}
