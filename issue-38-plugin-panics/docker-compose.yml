@@ -5,8 +5,11 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      - DATABASE_SSL_MODE=disable
+      - POSTGRES_PASSWORD=password
     volumes:
       - ./soap.sql:/docker-entrypoint-initdb.d/soap.sql
+    expose:
+      - 5432
     ports:
-      - "3308:3306"
+      - 5432:5432

@@ -32,7 +32,7 @@ CREATE TABLE public.additive (
 );
 
 
-ALTER TABLE public.additive OWNER TO soap;
+
 
 --
 -- Name: additive_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -47,7 +47,7 @@ CREATE SEQUENCE public.additive_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.additive_id_seq OWNER TO soap;
+
 
 --
 -- Name: additive_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -74,7 +74,7 @@ CREATE TABLE public.additive_inventory (
 );
 
 
-ALTER TABLE public.additive_inventory OWNER TO soap;
+
 
 --
 -- Name: additive_inventory_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -89,7 +89,7 @@ CREATE SEQUENCE public.additive_inventory_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.additive_inventory_id_seq OWNER TO soap;
+
 
 --
 -- Name: additive_inventory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -108,7 +108,7 @@ CREATE TABLE public.auth_group (
 );
 
 
-ALTER TABLE public.auth_group OWNER TO soap;
+
 
 --
 -- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -123,7 +123,7 @@ CREATE SEQUENCE public.auth_group_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.auth_group_id_seq OWNER TO soap;
+
 
 --
 -- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -143,7 +143,7 @@ CREATE TABLE public.auth_group_permissions (
 );
 
 
-ALTER TABLE public.auth_group_permissions OWNER TO soap;
+
 
 --
 -- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -158,7 +158,7 @@ CREATE SEQUENCE public.auth_group_permissions_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.auth_group_permissions_id_seq OWNER TO soap;
+
 
 --
 -- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -179,7 +179,7 @@ CREATE TABLE public.auth_permission (
 );
 
 
-ALTER TABLE public.auth_permission OWNER TO soap;
+
 
 --
 -- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -194,7 +194,6 @@ CREATE SEQUENCE public.auth_permission_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.auth_permission_id_seq OWNER TO soap;
 
 --
 -- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -222,7 +221,6 @@ CREATE TABLE public.auth_user (
 );
 
 
-ALTER TABLE public.auth_user OWNER TO soap;
 
 --
 -- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: soap
@@ -235,7 +233,6 @@ CREATE TABLE public.auth_user_groups (
 );
 
 
-ALTER TABLE public.auth_user_groups OWNER TO soap;
 
 --
 -- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -250,7 +247,6 @@ CREATE SEQUENCE public.auth_user_groups_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.auth_user_groups_id_seq OWNER TO soap;
 
 --
 -- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -272,7 +268,6 @@ CREATE SEQUENCE public.auth_user_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.auth_user_id_seq OWNER TO soap;
 
 --
 -- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -292,7 +287,6 @@ CREATE TABLE public.auth_user_user_permissions (
 );
 
 
-ALTER TABLE public.auth_user_user_permissions OWNER TO soap;
 
 --
 -- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -307,7 +301,6 @@ CREATE SEQUENCE public.auth_user_user_permissions_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO soap;
 
 --
 -- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -333,7 +326,6 @@ CREATE TABLE public.django_admin_log (
 );
 
 
-ALTER TABLE public.django_admin_log OWNER TO soap;
 
 --
 -- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -348,7 +340,6 @@ CREATE SEQUENCE public.django_admin_log_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.django_admin_log_id_seq OWNER TO soap;
 
 --
 -- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -368,7 +359,6 @@ CREATE TABLE public.django_content_type (
 );
 
 
-ALTER TABLE public.django_content_type OWNER TO soap;
 
 --
 -- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -383,7 +373,6 @@ CREATE SEQUENCE public.django_content_type_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.django_content_type_id_seq OWNER TO soap;
 
 --
 -- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -404,7 +393,6 @@ CREATE TABLE public.django_migrations (
 );
 
 
-ALTER TABLE public.django_migrations OWNER TO soap;
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -419,7 +407,6 @@ CREATE SEQUENCE public.django_migrations_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.django_migrations_id_seq OWNER TO soap;
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -439,7 +426,6 @@ CREATE TABLE public.django_session (
 );
 
 
-ALTER TABLE public.django_session OWNER TO soap;
 
 --
 -- Name: fragrance; Type: TABLE; Schema: public; Owner: soap
@@ -455,7 +441,6 @@ CREATE TABLE public.fragrance (
 );
 
 
-ALTER TABLE public.fragrance OWNER TO soap;
 
 --
 -- Name: fragrance_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -470,7 +455,6 @@ CREATE SEQUENCE public.fragrance_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.fragrance_id_seq OWNER TO soap;
 
 --
 -- Name: fragrance_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -497,7 +481,6 @@ CREATE TABLE public.fragrance_inventory (
 );
 
 
-ALTER TABLE public.fragrance_inventory OWNER TO soap;
 
 --
 -- Name: fragrance_inventory_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -512,7 +495,6 @@ CREATE SEQUENCE public.fragrance_inventory_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.fragrance_inventory_id_seq OWNER TO soap;
 
 --
 -- Name: fragrance_inventory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -552,7 +534,6 @@ CREATE TABLE public.lipid (
 );
 
 
-ALTER TABLE public.lipid OWNER TO soap;
 
 --
 -- Name: lipid_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -567,7 +548,6 @@ CREATE SEQUENCE public.lipid_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.lipid_id_seq OWNER TO soap;
 
 --
 -- Name: lipid_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -598,7 +578,6 @@ CREATE TABLE public.lipid_inventory (
 );
 
 
-ALTER TABLE public.lipid_inventory OWNER TO soap;
 
 --
 -- Name: lipid_inventory_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -613,7 +592,6 @@ CREATE SEQUENCE public.lipid_inventory_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.lipid_inventory_id_seq OWNER TO soap;
 
 --
 -- Name: lipid_inventory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -637,7 +615,6 @@ CREATE TABLE public.lye (
 );
 
 
-ALTER TABLE public.lye OWNER TO soap;
 
 --
 -- Name: lye_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -652,7 +629,6 @@ CREATE SEQUENCE public.lye_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.lye_id_seq OWNER TO soap;
 
 --
 -- Name: lye_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -680,7 +656,6 @@ CREATE TABLE public.lye_inventory (
 );
 
 
-ALTER TABLE public.lye_inventory OWNER TO soap;
 
 --
 -- Name: lye_inventory_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -695,7 +670,6 @@ CREATE SEQUENCE public.lye_inventory_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.lye_inventory_id_seq OWNER TO soap;
 
 --
 -- Name: lye_inventory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -718,7 +692,7 @@ CREATE TABLE public.recipe (
 );
 
 
-ALTER TABLE public.recipe OWNER TO soap;
+
 
 --
 -- Name: recipe_additive; Type: TABLE; Schema: public; Owner: soap
@@ -735,7 +709,6 @@ CREATE TABLE public.recipe_additive (
 );
 
 
-ALTER TABLE public.recipe_additive OWNER TO soap;
 
 --
 -- Name: recipe_additive_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -750,7 +723,6 @@ CREATE SEQUENCE public.recipe_additive_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.recipe_additive_id_seq OWNER TO soap;
 
 --
 -- Name: recipe_additive_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -779,7 +751,7 @@ CREATE TABLE public.recipe_batch (
 );
 
 
-ALTER TABLE public.recipe_batch OWNER TO soap;
+
 
 --
 -- Name: recipe_batch_additive; Type: TABLE; Schema: public; Owner: soap
@@ -797,7 +769,7 @@ CREATE TABLE public.recipe_batch_additive (
 );
 
 
-ALTER TABLE public.recipe_batch_additive OWNER TO soap;
+
 
 --
 -- Name: recipe_batch_additive_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -812,7 +784,7 @@ CREATE SEQUENCE public.recipe_batch_additive_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.recipe_batch_additive_id_seq OWNER TO soap;
+
 
 --
 -- Name: recipe_batch_additive_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -837,7 +809,7 @@ CREATE TABLE public.recipe_batch_fragrance (
 );
 
 
-ALTER TABLE public.recipe_batch_fragrance OWNER TO soap;
+
 
 --
 -- Name: recipe_batch_fragrance_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -852,7 +824,7 @@ CREATE SEQUENCE public.recipe_batch_fragrance_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.recipe_batch_fragrance_id_seq OWNER TO soap;
+
 
 --
 -- Name: recipe_batch_fragrance_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -874,7 +846,7 @@ CREATE SEQUENCE public.recipe_batch_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.recipe_batch_id_seq OWNER TO soap;
+
 
 --
 -- Name: recipe_batch_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -899,7 +871,7 @@ CREATE TABLE public.recipe_batch_lipid (
 );
 
 
-ALTER TABLE public.recipe_batch_lipid OWNER TO soap;
+
 
 --
 -- Name: recipe_batch_lipid_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -914,7 +886,7 @@ CREATE SEQUENCE public.recipe_batch_lipid_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.recipe_batch_lipid_id_seq OWNER TO soap;
+
 
 --
 -- Name: recipe_batch_lipid_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -940,7 +912,7 @@ CREATE TABLE public.recipe_batch_lye (
 );
 
 
-ALTER TABLE public.recipe_batch_lye OWNER TO soap;
+
 
 --
 -- Name: recipe_batch_lye_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -955,7 +927,7 @@ CREATE SEQUENCE public.recipe_batch_lye_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.recipe_batch_lye_id_seq OWNER TO soap;
+
 
 --
 -- Name: recipe_batch_lye_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -979,7 +951,7 @@ CREATE TABLE public.recipe_batch_note (
 );
 
 
-ALTER TABLE public.recipe_batch_note OWNER TO soap;
+
 
 --
 -- Name: recipe_batch_note_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -994,7 +966,7 @@ CREATE SEQUENCE public.recipe_batch_note_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.recipe_batch_note_id_seq OWNER TO soap;
+
 
 --
 -- Name: recipe_batch_note_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -1018,7 +990,7 @@ CREATE TABLE public.recipe_fragrance (
 );
 
 
-ALTER TABLE public.recipe_fragrance OWNER TO soap;
+
 
 --
 -- Name: recipe_fragrance_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -1033,7 +1005,7 @@ CREATE SEQUENCE public.recipe_fragrance_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.recipe_fragrance_id_seq OWNER TO soap;
+
 
 --
 -- Name: recipe_fragrance_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -1055,7 +1027,7 @@ CREATE SEQUENCE public.recipe_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.recipe_id_seq OWNER TO soap;
+
 
 --
 -- Name: recipe_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -1079,7 +1051,7 @@ CREATE TABLE public.recipe_lipid (
 );
 
 
-ALTER TABLE public.recipe_lipid OWNER TO soap;
+
 
 --
 -- Name: recipe_lipid_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -1094,7 +1066,7 @@ CREATE SEQUENCE public.recipe_lipid_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.recipe_lipid_id_seq OWNER TO soap;
+
 
 --
 -- Name: recipe_lipid_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -1118,7 +1090,7 @@ CREATE TABLE public.recipe_step (
 );
 
 
-ALTER TABLE public.recipe_step OWNER TO soap;
+
 
 --
 -- Name: recipe_step_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -1133,7 +1105,7 @@ CREATE SEQUENCE public.recipe_step_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.recipe_step_id_seq OWNER TO soap;
+
 
 --
 -- Name: recipe_step_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
@@ -1157,7 +1129,7 @@ CREATE TABLE public.supplier (
 );
 
 
-ALTER TABLE public.supplier OWNER TO soap;
+
 
 --
 -- Name: supplier_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
@@ -1172,7 +1144,7 @@ CREATE SEQUENCE public.supplier_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.supplier_id_seq OWNER TO soap;
+
 
 --
 -- Name: supplier_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap

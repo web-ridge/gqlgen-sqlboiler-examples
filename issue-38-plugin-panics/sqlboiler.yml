@@ -1,7 +1,7 @@
-mysql:
-  dbname: soap
+psql:
+  dbname: postgres
   host: localhost
   port: 5432
-  user: root
-  pass: root
-  sslmode: "false"
+  user: postgres
+  pass: password
+  sslmode: "disable"

@@ -19,7 +19,17 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bfafb5c5-a505-409f-8b4a-0a3aaef1a279" name="Default Changelist" comment="" />
+    <list default="true" id="bfafb5c5-a505-409f-8b4a-0a3aaef1a279" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/issue-38-plugin-panics/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/.env" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/soap.sql" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/soap.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/sqlboiler.yml" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/sqlboiler.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,5 +79,11 @@
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="-1287" y="433" width="730" height="616" key="find.popup" timestamp="1602795913742">
+      <screen x="-1920" y="23" width="1920" height="1057" />
+    </state>
+    <state x="-1287" y="433" width="730" height="616" key="find.popup/-1920.23.1920.1057/0.23.1920.989/1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1602795913742" />
   </component>
 </project>

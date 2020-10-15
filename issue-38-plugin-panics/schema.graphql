@@ -1,0 +1,2763 @@
+type Additive {
+  id: ID!
+  name: String!
+  note: String!
+  createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
+  recipeAdditive: RecipeAdditive
+  recipeBatchAdditive: RecipeBatchAdditive
+  additiveInventories: [AdditiveInventory]
+}
+
+type AdditiveInventory {
+  id: ID!
+  purchaseDate: Int!
+  expiryDate: Int!
+  cost: Float!
+  weight: Float!
+  additive: Additive!
+  supplier: Supplier!
+  updatedAt: Int!
+  deletedAt: Int
+  createdAt: Int!
+}
+
+type AuthGroup {
+  id: ID!
+  name: String!
+  groupAuthGroupPermissions: [AuthGroupPermission]
+  groupAuthUserGroups: [AuthUserGroup]
+}
+
+type AuthGroupPermission {
+  id: ID!
+  group: AuthGroup!
+  permission: AuthPermission!
+}
+
+type AuthPermission {
+  id: ID!
+  name: String!
+  contentType: DjangoContentType!
+  codename: String!
+  permissionAuthGroupPermissions: [AuthGroupPermission]
+  permissionAuthUserUserPermissions: [AuthUserUserPermission]
+}
+
+type AuthUser {
+  id: ID!
+  password: String!
+  lastLogin: Int
+  isSuperuser: Boolean!
+  username: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  isStaff: Boolean!
+  isActive: Boolean!
+  dateJoined: Int!
+  userAuthUserGroups: [AuthUserGroup]
+  userAuthUserUserPermissions: [AuthUserUserPermission]
+  userDjangoAdminLogs: [DjangoAdminLog]
+}
+
+type AuthUserGroup {
+  id: ID!
+  user: AuthUser!
+  group: AuthGroup!
+}
+
+type AuthUserUserPermission {
+  id: ID!
+  user: AuthUser!
+  permission: AuthPermission!
+}
+
+type DjangoAdminLog {
+  id: ID!
+  actionTime: Int!
+  objectId: ID
+  objectRepr: String!
+  actionFlag: Int!
+  changeMessage: String!
+  contentType: DjangoContentType
+  user: AuthUser!
+}
+
+type DjangoContentType {
+  id: ID!
+  appLabel: String!
+  model: String!
+  contentTypeAuthPermissions: [AuthPermission]
+  contentTypeDjangoAdminLogs: [DjangoAdminLog]
+}
+
+type DjangoMigration {
+  id: ID!
+  app: String!
+  name: String!
+  applied: Int!
+}
+
+type DjangoSession {
+  sessionKey: String!
+  sessionData: String!
+  expireDate: Int!
+}
+
+type Fragrance {
+  id: ID!
+  name: String!
+  note: String!
+  deletedAt: Int
+  updatedAt: Int!
+  createdAt: Int!
+  recipeBatchFragrance: RecipeBatchFragrance
+  recipeFragrance: RecipeFragrance
+  fragranceInventories: [FragranceInventory]
+}
+
+type FragranceInventory {
+  id: ID!
+  purchaseDate: Int!
+  expiryDate: Int!
+  cost: Float!
+  weight: Float!
+  fragrance: Fragrance!
+  supplier: Supplier!
+  updatedAt: Int!
+  createdAt: Int!
+  deletedAt: Int
+}
+
+type Lipid {
+  id: ID!
+  name: String!
+  lauric: Int!
+  myristic: Int!
+  palmitic: Int!
+  stearic: Int!
+  ricinoleic: Int!
+  oleic: Int!
+  linoleic: Int!
+  linolenic: Int!
+  hardness: Int!
+  cleansing: Int!
+  conditioning: Int!
+  bubbly: Int!
+  creamy: Int!
+  iodine: Int!
+  ins: Int!
+  inciName: String!
+  family: String!
+  naoh: Float!
+  createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
+  recipeBatchLipid: RecipeBatchLipid
+  recipeLipid: RecipeLipid
+  lipidInventories: [LipidInventory]
+}
+
+type LipidInventory {
+  id: ID!
+  purchaseDate: Int!
+  expiryDate: Int!
+  cost: Float!
+  weight: Float!
+  sap: Float!
+  naoh: Float!
+  koh: Float!
+  gramsPerLiter: Float!
+  lipid: Lipid!
+  supplier: Supplier!
+  deletedAt: Int
+  updatedAt: Int!
+  createdAt: Int!
+}
+
+type Lye {
+  id: ID!
+  kind: String!
+  name: String!
+  note: String!
+  createdAt: Int!
+  updatedAt: Int!
+  deletedAt: Int
+  recipeBatchLye: RecipeBatchLye
+  lyeInventories: [LyeInventory]
+}
+
+type LyeInventory {
+  id: ID!
+  purchaseDate: Int!
+  expiryDate: Int!
+  cost: Float!
+  weight: Float!
+  concentration: Float!
+  lye: Lye!
+  supplier: Supplier!
+  deletedAt: Int
+  createdAt: Int!
+  updatedAt: Int!
+}
+
+type Recipe {
+  id: ID!
+  name: String!
+  note: String!
+  deletedAt: Int
+  createdAt: Int!
+  updatedAt: Int!
+  recipeAdditives: [RecipeAdditive]
+  recipeBatches: [RecipeBatch]
+  recipeFragrances: [RecipeFragrance]
+  recipeLipids: [RecipeLipid]
+  recipeSteps: [RecipeStep]
+}
+
+type RecipeAdditive {
+  id: ID!
+  percentage: Float!
+  additive: Additive!
+  recipe: Recipe!
+  updatedAt: Int!
+  createdAt: Int!
+  deletedAt: Int
+}
+
+type RecipeBatch {
+  id: ID!
+  tag: String!
+  productionDate: Int!
+  sellableDate: Int!
+  note: String!
+  lipidWeight: Float!
+  productionWeight: Float!
+  curedWeight: Float!
+  recipe: Recipe!
+  createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
+  batchRecipeBatchAdditives: [RecipeBatchAdditive]
+  batchRecipeBatchFragrances: [RecipeBatchFragrance]
+  batchRecipeBatchLipids: [RecipeBatchLipid]
+  batchRecipeBatchLyes: [RecipeBatchLye]
+  batchRecipeBatchNotes: [RecipeBatchNote]
+}
+
+type RecipeBatchAdditive {
+  id: ID!
+  weight: Float!
+  cost: Float!
+  additive: Additive!
+  batch: RecipeBatch!
+  deletedAt: Int
+  createdAt: Int!
+  updatedAt: Int!
+}
+
+type RecipeBatchFragrance {
+  id: ID!
+  weight: Float!
+  cost: Float!
+  fragrance: Fragrance!
+  batch: RecipeBatch!
+  updatedAt: Int!
+  deletedAt: Int
+  createdAt: Int!
+}
+
+type RecipeBatchLipid {
+  id: ID!
+  weight: Float!
+  cost: Float!
+  lipid: Lipid!
+  batch: RecipeBatch!
+  createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
+}
+
+type RecipeBatchLye {
+  id: ID!
+  weight: Float!
+  discount: Float!
+  cost: Float!
+  lye: Lye!
+  batch: RecipeBatch!
+  createdAt: Int!
+  updatedAt: Int!
+  deletedAt: Int
+}
+
+type RecipeBatchNote {
+  id: ID!
+  note: String!
+  link: String!
+  batch: RecipeBatch!
+  updatedAt: Int!
+  deletedAt: Int
+  createdAt: Int!
+}
+
+type RecipeFragrance {
+  id: ID!
+  percentage: Float!
+  fragrance: Fragrance!
+  recipe: Recipe!
+  deletedAt: Int
+  createdAt: Int!
+  updatedAt: Int!
+}
+
+type RecipeLipid {
+  id: ID!
+  percentage: Float!
+  lipid: Lipid!
+  recipe: Recipe!
+  updatedAt: Int!
+  createdAt: Int!
+  deletedAt: Int
+}
+
+type RecipeStep {
+  id: ID!
+  num: Int!
+  note: String!
+  recipe: Recipe!
+  deletedAt: Int
+  createdAt: Int!
+  updatedAt: Int!
+}
+
+type Supplier {
+  id: ID!
+  name: String!
+  website: String!
+  note: String!
+  updatedAt: Int!
+  deletedAt: Int
+  createdAt: Int!
+  additiveInventories: [AdditiveInventory]
+  fragranceInventories: [FragranceInventory]
+  lipidInventories: [LipidInventory]
+  lyeInventories: [LyeInventory]
+}
+
+input IDFilter {
+  equalTo: ID
+  notEqualTo: ID
+  in: [ID!]
+  notIn: [ID!]
+}
+
+input StringFilter {
+  equalTo: String
+  notEqualTo: String
+
+  in: [String!]
+  notIn: [String!]
+
+  startWith: String
+  notStartWith: String
+
+  endWith: String
+  notEndWith: String
+
+  contain: String
+  notContain: String
+
+  startWithStrict: String # Camel sensitive
+  notStartWithStrict: String # Camel sensitive
+  endWithStrict: String # Camel sensitive
+  notEndWithStrict: String # Camel sensitive
+  containStrict: String # Camel sensitive
+  notContainStrict: String # Camel sensitive
+}
+
+input IntFilter {
+  equalTo: Int
+  notEqualTo: Int
+  lessThan: Int
+  lessThanOrEqualTo: Int
+  moreThan: Int
+  moreThanOrEqualTo: Int
+  in: [Int!]
+  notIn: [Int!]
+}
+
+input FloatFilter {
+  equalTo: Float
+  notEqualTo: Float
+  lessThan: Float
+  lessThanOrEqualTo: Float
+  moreThan: Float
+  moreThanOrEqualTo: Float
+  in: [Float!]
+  notIn: [Float!]
+}
+
+input BooleanFilter {
+  equalTo: Boolean
+  notEqualTo: Boolean
+}
+
+input AdditiveFilter {
+  search: String
+  where: AdditiveWhere
+}
+
+input AdditiveWhere {
+  id: IDFilter
+  name: StringFilter
+  note: StringFilter
+  createdAt: IntFilter
+  deletedAt: IntFilter
+  updatedAt: IntFilter
+  recipeAdditive: RecipeAdditiveWhere
+  recipeBatchAdditive: RecipeBatchAdditiveWhere
+  additiveInventories: AdditiveInventoryWhere
+  or: AdditiveWhere
+  and: AdditiveWhere
+}
+
+input AdditiveInventoryFilter {
+  search: String
+  where: AdditiveInventoryWhere
+}
+
+input AdditiveInventoryWhere {
+  id: IDFilter
+  purchaseDate: IntFilter
+  expiryDate: IntFilter
+  cost: FloatFilter
+  weight: FloatFilter
+  additive: AdditiveWhere
+  supplier: SupplierWhere
+  updatedAt: IntFilter
+  deletedAt: IntFilter
+  createdAt: IntFilter
+  or: AdditiveInventoryWhere
+  and: AdditiveInventoryWhere
+}
+
+input AuthGroupFilter {
+  search: String
+  where: AuthGroupWhere
+}
+
+input AuthGroupWhere {
+  id: IDFilter
+  name: StringFilter
+  groupAuthGroupPermissions: AuthGroupPermissionWhere
+  groupAuthUserGroups: AuthUserGroupWhere
+  or: AuthGroupWhere
+  and: AuthGroupWhere
+}
+
+input AuthGroupPermissionFilter {
+  search: String
+  where: AuthGroupPermissionWhere
+}
+
+input AuthGroupPermissionWhere {
+  id: IDFilter
+  group: AuthGroupWhere
+  permission: AuthPermissionWhere
+  or: AuthGroupPermissionWhere
+  and: AuthGroupPermissionWhere
+}
+
+input AuthPermissionFilter {
+  search: String
+  where: AuthPermissionWhere
+}
+
+input AuthPermissionWhere {
+  id: IDFilter
+  name: StringFilter
+  contentType: DjangoContentTypeWhere
+  codename: StringFilter
+  permissionAuthGroupPermissions: AuthGroupPermissionWhere
+  permissionAuthUserUserPermissions: AuthUserUserPermissionWhere
+  or: AuthPermissionWhere
+  and: AuthPermissionWhere
+}
+
+input AuthUserFilter {
+  search: String
+  where: AuthUserWhere
+}
+
+input AuthUserWhere {
+  id: IDFilter
+  password: StringFilter
+  lastLogin: IntFilter
+  isSuperuser: BooleanFilter
+  username: StringFilter
+  firstName: StringFilter
+  lastName: StringFilter
+  email: StringFilter
+  isStaff: BooleanFilter
+  isActive: BooleanFilter
+  dateJoined: IntFilter
+  userAuthUserGroups: AuthUserGroupWhere
+  userAuthUserUserPermissions: AuthUserUserPermissionWhere
+  userDjangoAdminLogs: DjangoAdminLogWhere
+  or: AuthUserWhere
+  and: AuthUserWhere
+}
+
+input AuthUserGroupFilter {
+  search: String
+  where: AuthUserGroupWhere
+}
+
+input AuthUserGroupWhere {
+  id: IDFilter
+  user: AuthUserWhere
+  group: AuthGroupWhere
+  or: AuthUserGroupWhere
+  and: AuthUserGroupWhere
+}
+
+input AuthUserUserPermissionFilter {
+  search: String
+  where: AuthUserUserPermissionWhere
+}
+
+input AuthUserUserPermissionWhere {
+  id: IDFilter
+  user: AuthUserWhere
+  permission: AuthPermissionWhere
+  or: AuthUserUserPermissionWhere
+  and: AuthUserUserPermissionWhere
+}
+
+input DjangoAdminLogFilter {
+  search: String
+  where: DjangoAdminLogWhere
+}
+
+input DjangoAdminLogWhere {
+  id: IDFilter
+  actionTime: IntFilter
+  objectId: IDFilter
+  objectRepr: StringFilter
+  actionFlag: IntFilter
+  changeMessage: StringFilter
+  contentType: DjangoContentTypeWhere
+  user: AuthUserWhere
+  or: DjangoAdminLogWhere
+  and: DjangoAdminLogWhere
+}
+
+input DjangoContentTypeFilter {
+  search: String
+  where: DjangoContentTypeWhere
+}
+
+input DjangoContentTypeWhere {
+  id: IDFilter
+  appLabel: StringFilter
+  model: StringFilter
+  contentTypeAuthPermissions: AuthPermissionWhere
+  contentTypeDjangoAdminLogs: DjangoAdminLogWhere
+  or: DjangoContentTypeWhere
+  and: DjangoContentTypeWhere
+}
+
+input DjangoMigrationFilter {
+  search: String
+  where: DjangoMigrationWhere
+}
+
+input DjangoMigrationWhere {
+  id: IDFilter
+  app: StringFilter
+  name: StringFilter
+  applied: IntFilter
+  or: DjangoMigrationWhere
+  and: DjangoMigrationWhere
+}
+
+input DjangoSessionFilter {
+  search: String
+  where: DjangoSessionWhere
+}
+
+input DjangoSessionWhere {
+  sessionKey: StringFilter
+  sessionData: StringFilter
+  expireDate: IntFilter
+  or: DjangoSessionWhere
+  and: DjangoSessionWhere
+}
+
+input FragranceFilter {
+  search: String
+  where: FragranceWhere
+}
+
+input FragranceWhere {
+  id: IDFilter
+  name: StringFilter
+  note: StringFilter
+  deletedAt: IntFilter
+  updatedAt: IntFilter
+  createdAt: IntFilter
+  recipeBatchFragrance: RecipeBatchFragranceWhere
+  recipeFragrance: RecipeFragranceWhere
+  fragranceInventories: FragranceInventoryWhere
+  or: FragranceWhere
+  and: FragranceWhere
+}
+
+input FragranceInventoryFilter {
+  search: String
+  where: FragranceInventoryWhere
+}
+
+input FragranceInventoryWhere {
+  id: IDFilter
+  purchaseDate: IntFilter
+  expiryDate: IntFilter
+  cost: FloatFilter
+  weight: FloatFilter
+  fragrance: FragranceWhere
+  supplier: SupplierWhere
+  updatedAt: IntFilter
+  createdAt: IntFilter
+  deletedAt: IntFilter
+  or: FragranceInventoryWhere
+  and: FragranceInventoryWhere
+}
+
+input LipidFilter {
+  search: String
+  where: LipidWhere
+}
+
+input LipidWhere {
+  id: IDFilter
+  name: StringFilter
+  lauric: IntFilter
+  myristic: IntFilter
+  palmitic: IntFilter
+  stearic: IntFilter
+  ricinoleic: IntFilter
+  oleic: IntFilter
+  linoleic: IntFilter
+  linolenic: IntFilter
+  hardness: IntFilter
+  cleansing: IntFilter
+  conditioning: IntFilter
+  bubbly: IntFilter
+  creamy: IntFilter
+  iodine: IntFilter
+  ins: IntFilter
+  inciName: StringFilter
+  family: StringFilter
+  naoh: FloatFilter
+  createdAt: IntFilter
+  deletedAt: IntFilter
+  updatedAt: IntFilter
+  recipeBatchLipid: RecipeBatchLipidWhere
+  recipeLipid: RecipeLipidWhere
+  lipidInventories: LipidInventoryWhere
+  or: LipidWhere
+  and: LipidWhere
+}
+
+input LipidInventoryFilter {
+  search: String
+  where: LipidInventoryWhere
+}
+
+input LipidInventoryWhere {
+  id: IDFilter
+  purchaseDate: IntFilter
+  expiryDate: IntFilter
+  cost: FloatFilter
+  weight: FloatFilter
+  sap: FloatFilter
+  naoh: FloatFilter
+  koh: FloatFilter
+  gramsPerLiter: FloatFilter
+  lipid: LipidWhere
+  supplier: SupplierWhere
+  deletedAt: IntFilter
+  updatedAt: IntFilter
+  createdAt: IntFilter
+  or: LipidInventoryWhere
+  and: LipidInventoryWhere
+}
+
+input LyeFilter {
+  search: String
+  where: LyeWhere
+}
+
+input LyeWhere {
+  id: IDFilter
+  kind: StringFilter
+  name: StringFilter
+  note: StringFilter
+  createdAt: IntFilter
+  updatedAt: IntFilter
+  deletedAt: IntFilter
+  recipeBatchLye: RecipeBatchLyeWhere
+  lyeInventories: LyeInventoryWhere
+  or: LyeWhere
+  and: LyeWhere
+}
+
+input LyeInventoryFilter {
+  search: String
+  where: LyeInventoryWhere
+}
+
+input LyeInventoryWhere {
+  id: IDFilter
+  purchaseDate: IntFilter
+  expiryDate: IntFilter
+  cost: FloatFilter
+  weight: FloatFilter
+  concentration: FloatFilter
+  lye: LyeWhere
+  supplier: SupplierWhere
+  deletedAt: IntFilter
+  createdAt: IntFilter
+  updatedAt: IntFilter
+  or: LyeInventoryWhere
+  and: LyeInventoryWhere
+}
+
+input RecipeFilter {
+  search: String
+  where: RecipeWhere
+}
+
+input RecipeWhere {
+  id: IDFilter
+  name: StringFilter
+  note: StringFilter
+  deletedAt: IntFilter
+  createdAt: IntFilter
+  updatedAt: IntFilter
+  recipeAdditives: RecipeAdditiveWhere
+  recipeBatches: RecipeBatchWhere
+  recipeFragrances: RecipeFragranceWhere
+  recipeLipids: RecipeLipidWhere
+  recipeSteps: RecipeStepWhere
+  or: RecipeWhere
+  and: RecipeWhere
+}
+
+input RecipeAdditiveFilter {
+  search: String
+  where: RecipeAdditiveWhere
+}
+
+input RecipeAdditiveWhere {
+  id: IDFilter
+  percentage: FloatFilter
+  additive: AdditiveWhere
+  recipe: RecipeWhere
+  updatedAt: IntFilter
+  createdAt: IntFilter
+  deletedAt: IntFilter
+  or: RecipeAdditiveWhere
+  and: RecipeAdditiveWhere
+}
+
+input RecipeBatchFilter {
+  search: String
+  where: RecipeBatchWhere
+}
+
+input RecipeBatchWhere {
+  id: IDFilter
+  tag: StringFilter
+  productionDate: IntFilter
+  sellableDate: IntFilter
+  note: StringFilter
+  lipidWeight: FloatFilter
+  productionWeight: FloatFilter
+  curedWeight: FloatFilter
+  recipe: RecipeWhere
+  createdAt: IntFilter
+  deletedAt: IntFilter
+  updatedAt: IntFilter
+  batchRecipeBatchAdditives: RecipeBatchAdditiveWhere
+  batchRecipeBatchFragrances: RecipeBatchFragranceWhere
+  batchRecipeBatchLipids: RecipeBatchLipidWhere
+  batchRecipeBatchLyes: RecipeBatchLyeWhere
+  batchRecipeBatchNotes: RecipeBatchNoteWhere
+  or: RecipeBatchWhere
+  and: RecipeBatchWhere
+}
+
+input RecipeBatchAdditiveFilter {
+  search: String
+  where: RecipeBatchAdditiveWhere
+}
+
+input RecipeBatchAdditiveWhere {
+  id: IDFilter
+  weight: FloatFilter
+  cost: FloatFilter
+  additive: AdditiveWhere
+  batch: RecipeBatchWhere
+  deletedAt: IntFilter
+  createdAt: IntFilter
+  updatedAt: IntFilter
+  or: RecipeBatchAdditiveWhere
+  and: RecipeBatchAdditiveWhere
+}
+
+input RecipeBatchFragranceFilter {
+  search: String
+  where: RecipeBatchFragranceWhere
+}
+
+input RecipeBatchFragranceWhere {
+  id: IDFilter
+  weight: FloatFilter
+  cost: FloatFilter
+  fragrance: FragranceWhere
+  batch: RecipeBatchWhere
+  updatedAt: IntFilter
+  deletedAt: IntFilter
+  createdAt: IntFilter
+  or: RecipeBatchFragranceWhere
+  and: RecipeBatchFragranceWhere
+}
+
+input RecipeBatchLipidFilter {
+  search: String
+  where: RecipeBatchLipidWhere
+}
+
+input RecipeBatchLipidWhere {
+  id: IDFilter
+  weight: FloatFilter
+  cost: FloatFilter
+  lipid: LipidWhere
+  batch: RecipeBatchWhere
+  createdAt: IntFilter
+  deletedAt: IntFilter
+  updatedAt: IntFilter
+  or: RecipeBatchLipidWhere
+  and: RecipeBatchLipidWhere
+}
+
+input RecipeBatchLyeFilter {
+  search: String
+  where: RecipeBatchLyeWhere
+}
+
+input RecipeBatchLyeWhere {
+  id: IDFilter
+  weight: FloatFilter
+  discount: FloatFilter
+  cost: FloatFilter
+  lye: LyeWhere
+  batch: RecipeBatchWhere
+  createdAt: IntFilter
+  updatedAt: IntFilter
+  deletedAt: IntFilter
+  or: RecipeBatchLyeWhere
+  and: RecipeBatchLyeWhere
+}
+
+input RecipeBatchNoteFilter {
+  search: String
+  where: RecipeBatchNoteWhere
+}
+
+input RecipeBatchNoteWhere {
+  id: IDFilter
+  note: StringFilter
+  link: StringFilter
+  batch: RecipeBatchWhere
+  updatedAt: IntFilter
+  deletedAt: IntFilter
+  createdAt: IntFilter
+  or: RecipeBatchNoteWhere
+  and: RecipeBatchNoteWhere
+}
+
+input RecipeFragranceFilter {
+  search: String
+  where: RecipeFragranceWhere
+}
+
+input RecipeFragranceWhere {
+  id: IDFilter
+  percentage: FloatFilter
+  fragrance: FragranceWhere
+  recipe: RecipeWhere
+  deletedAt: IntFilter
+  createdAt: IntFilter
+  updatedAt: IntFilter
+  or: RecipeFragranceWhere
+  and: RecipeFragranceWhere
+}
+
+input RecipeLipidFilter {
+  search: String
+  where: RecipeLipidWhere
+}
+
+input RecipeLipidWhere {
+  id: IDFilter
+  percentage: FloatFilter
+  lipid: LipidWhere
+  recipe: RecipeWhere
+  updatedAt: IntFilter
+  createdAt: IntFilter
+  deletedAt: IntFilter
+  or: RecipeLipidWhere
+  and: RecipeLipidWhere
+}
+
+input RecipeStepFilter {
+  search: String
+  where: RecipeStepWhere
+}
+
+input RecipeStepWhere {
+  id: IDFilter
+  num: IntFilter
+  note: StringFilter
+  recipe: RecipeWhere
+  deletedAt: IntFilter
+  createdAt: IntFilter
+  updatedAt: IntFilter
+  or: RecipeStepWhere
+  and: RecipeStepWhere
+}
+
+input SupplierFilter {
+  search: String
+  where: SupplierWhere
+}
+
+input SupplierWhere {
+  id: IDFilter
+  name: StringFilter
+  website: StringFilter
+  note: StringFilter
+  updatedAt: IntFilter
+  deletedAt: IntFilter
+  createdAt: IntFilter
+  additiveInventories: AdditiveInventoryWhere
+  fragranceInventories: FragranceInventoryWhere
+  lipidInventories: LipidInventoryWhere
+  lyeInventories: LyeInventoryWhere
+  or: SupplierWhere
+  and: SupplierWhere
+}
+
+type Query {
+  additive(id: ID!): Additive!
+  additives(filter: AdditiveFilter): [Additive!]!
+  additiveInventory(id: ID!): AdditiveInventory!
+  additiveInventories(filter: AdditiveInventoryFilter): [AdditiveInventory!]!
+  authGroup(id: ID!): AuthGroup!
+  authGroups(filter: AuthGroupFilter): [AuthGroup!]!
+  authGroupPermission(id: ID!): AuthGroupPermission!
+  authGroupPermissions(
+    filter: AuthGroupPermissionFilter
+  ): [AuthGroupPermission!]!
+  authPermission(id: ID!): AuthPermission!
+  authPermissions(filter: AuthPermissionFilter): [AuthPermission!]!
+  authUser(id: ID!): AuthUser!
+  authUsers(filter: AuthUserFilter): [AuthUser!]!
+  authUserGroup(id: ID!): AuthUserGroup!
+  authUserGroups(filter: AuthUserGroupFilter): [AuthUserGroup!]!
+  authUserUserPermission(id: ID!): AuthUserUserPermission!
+  authUserUserPermissions(
+    filter: AuthUserUserPermissionFilter
+  ): [AuthUserUserPermission!]!
+  djangoAdminLog(id: ID!): DjangoAdminLog!
+  djangoAdminLogs(filter: DjangoAdminLogFilter): [DjangoAdminLog!]!
+  djangoContentType(id: ID!): DjangoContentType!
+  djangoContentTypes(filter: DjangoContentTypeFilter): [DjangoContentType!]!
+  djangoMigration(id: ID!): DjangoMigration!
+  djangoMigrations(filter: DjangoMigrationFilter): [DjangoMigration!]!
+  djangoSession(id: ID!): DjangoSession!
+  djangoSessions(filter: DjangoSessionFilter): [DjangoSession!]!
+  fragrance(id: ID!): Fragrance!
+  fragrances(filter: FragranceFilter): [Fragrance!]!
+  fragranceInventory(id: ID!): FragranceInventory!
+  fragranceInventories(filter: FragranceInventoryFilter): [FragranceInventory!]!
+  lipid(id: ID!): Lipid!
+  lipids(filter: LipidFilter): [Lipid!]!
+  lipidInventory(id: ID!): LipidInventory!
+  lipidInventories(filter: LipidInventoryFilter): [LipidInventory!]!
+  lye(id: ID!): Lye!
+  lyes(filter: LyeFilter): [Lye!]!
+  lyeInventory(id: ID!): LyeInventory!
+  lyeInventories(filter: LyeInventoryFilter): [LyeInventory!]!
+  recipe(id: ID!): Recipe!
+  recipes(filter: RecipeFilter): [Recipe!]!
+  recipeAdditive(id: ID!): RecipeAdditive!
+  recipeAdditives(filter: RecipeAdditiveFilter): [RecipeAdditive!]!
+  recipeBatch(id: ID!): RecipeBatch!
+  recipeBatches(filter: RecipeBatchFilter): [RecipeBatch!]!
+  recipeBatchAdditive(id: ID!): RecipeBatchAdditive!
+  recipeBatchAdditives(
+    filter: RecipeBatchAdditiveFilter
+  ): [RecipeBatchAdditive!]!
+  recipeBatchFragrance(id: ID!): RecipeBatchFragrance!
+  recipeBatchFragrances(
+    filter: RecipeBatchFragranceFilter
+  ): [RecipeBatchFragrance!]!
+  recipeBatchLipid(id: ID!): RecipeBatchLipid!
+  recipeBatchLipids(filter: RecipeBatchLipidFilter): [RecipeBatchLipid!]!
+  recipeBatchLye(id: ID!): RecipeBatchLye!
+  recipeBatchLyes(filter: RecipeBatchLyeFilter): [RecipeBatchLye!]!
+  recipeBatchNote(id: ID!): RecipeBatchNote!
+  recipeBatchNotes(filter: RecipeBatchNoteFilter): [RecipeBatchNote!]!
+  recipeFragrance(id: ID!): RecipeFragrance!
+  recipeFragrances(filter: RecipeFragranceFilter): [RecipeFragrance!]!
+  recipeLipid(id: ID!): RecipeLipid!
+  recipeLipids(filter: RecipeLipidFilter): [RecipeLipid!]!
+  recipeStep(id: ID!): RecipeStep!
+  recipeSteps(filter: RecipeStepFilter): [RecipeStep!]!
+  supplier(id: ID!): Supplier!
+  suppliers(filter: SupplierFilter): [Supplier!]!
+}
+
+input AdditiveCreateInput {
+  name: String!
+  note: String!
+  createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
+}
+
+input AdditiveUpdateInput {
+  name: String
+  note: String
+  createdAt: Int
+  deletedAt: Int
+  updatedAt: Int
+}
+
+input AdditivesCreateInput {
+  additives: [AdditiveCreateInput!]!
+}
+
+type AdditivePayload {
+  additive: Additive!
+}
+
+type AdditiveDeletePayload {
+  id: ID!
+}
+
+type AdditivesPayload {
+  additives: [Additive!]!
+}
+
+type AdditivesDeletePayload {
+  ids: [ID!]!
+}
+
+type AdditivesUpdatePayload {
+  ok: Boolean!
+}
+
+input AdditiveInventoryCreateInput {
+  purchaseDate: Int!
+  expiryDate: Int!
+  cost: Float!
+  weight: Float!
+  additiveId: ID!
+  supplierId: ID!
+  updatedAt: Int!
+  deletedAt: Int
+  createdAt: Int!
+}
+
+input AdditiveInventoryUpdateInput {
+  purchaseDate: Int
+  expiryDate: Int
+  cost: Float
+  weight: Float
+  additiveId: ID
+  supplierId: ID
+  updatedAt: Int
+  deletedAt: Int
+  createdAt: Int
+}
+
+input AdditiveInventoriesCreateInput {
+  additiveInventories: [AdditiveInventoryCreateInput!]!
+}
+
+type AdditiveInventoryPayload {
+  additiveInventory: AdditiveInventory!
+}
+
+type AdditiveInventoryDeletePayload {
+  id: ID!
+}
+
+type AdditiveInventoriesPayload {
+  additiveInventories: [AdditiveInventory!]!
+}
+
+type AdditiveInventoriesDeletePayload {
+  ids: [ID!]!
+}
+
+type AdditiveInventoriesUpdatePayload {
+  ok: Boolean!
+}
+
+input AuthGroupCreateInput {
+  name: String!
+}
+
+input AuthGroupUpdateInput {
+  name: String
+}
+
+input AuthGroupsCreateInput {
+  authGroups: [AuthGroupCreateInput!]!
+}
+
+type AuthGroupPayload {
+  authGroup: AuthGroup!
+}
+
+type AuthGroupDeletePayload {
+  id: ID!
+}
+
+type AuthGroupsPayload {
+  authGroups: [AuthGroup!]!
+}
+
+type AuthGroupsDeletePayload {
+  ids: [ID!]!
+}
+
+type AuthGroupsUpdatePayload {
+  ok: Boolean!
+}
+
+input AuthGroupPermissionCreateInput {
+  groupId: ID!
+  permissionId: ID!
+}
+
+input AuthGroupPermissionUpdateInput {
+  groupId: ID
+  permissionId: ID
+}
+
+input AuthGroupPermissionsCreateInput {
+  authGroupPermissions: [AuthGroupPermissionCreateInput!]!
+}
+
+type AuthGroupPermissionPayload {
+  authGroupPermission: AuthGroupPermission!
+}
+
+type AuthGroupPermissionDeletePayload {
+  id: ID!
+}
+
+type AuthGroupPermissionsPayload {
+  authGroupPermissions: [AuthGroupPermission!]!
+}
+
+type AuthGroupPermissionsDeletePayload {
+  ids: [ID!]!
+}
+
+type AuthGroupPermissionsUpdatePayload {
+  ok: Boolean!
+}
+
+input AuthPermissionCreateInput {
+  name: String!
+  contentTypeId: ID!
+  codename: String!
+}
+
+input AuthPermissionUpdateInput {
+  name: String
+  contentTypeId: ID
+  codename: String
+}
+
+input AuthPermissionsCreateInput {
+  authPermissions: [AuthPermissionCreateInput!]!
+}
+
+type AuthPermissionPayload {
+  authPermission: AuthPermission!
+}
+
+type AuthPermissionDeletePayload {
+  id: ID!
+}
+
+type AuthPermissionsPayload {
+  authPermissions: [AuthPermission!]!
+}
+
+type AuthPermissionsDeletePayload {
+  ids: [ID!]!
+}
+
+type AuthPermissionsUpdatePayload {
+  ok: Boolean!
+}
+
+input AuthUserCreateInput {
+  password: String!
+  lastLogin: Int
+  isSuperuser: Boolean!
+  username: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  isStaff: Boolean!
+  isActive: Boolean!
+  dateJoined: Int!
+}
+
+input AuthUserUpdateInput {
+  password: String
+  lastLogin: Int
+  isSuperuser: Boolean
+  username: String
+  firstName: String
+  lastName: String
+  email: String
+  isStaff: Boolean
+  isActive: Boolean
+  dateJoined: Int
+}
+
+input AuthUsersCreateInput {
+  authUsers: [AuthUserCreateInput!]!
+}
+
+type AuthUserPayload {
+  authUser: AuthUser!
+}
+
+type AuthUserDeletePayload {
+  id: ID!
+}
+
+type AuthUsersPayload {
+  authUsers: [AuthUser!]!
+}
+
+type AuthUsersDeletePayload {
+  ids: [ID!]!
+}
+
+type AuthUsersUpdatePayload {
+  ok: Boolean!
+}
+
+input AuthUserGroupCreateInput {
+  userId: ID!
+  groupId: ID!
+}
+
+input AuthUserGroupUpdateInput {
+  userId: ID
+  groupId: ID
+}
+
+input AuthUserGroupsCreateInput {
+  authUserGroups: [AuthUserGroupCreateInput!]!
+}
+
+type AuthUserGroupPayload {
+  authUserGroup: AuthUserGroup!
+}
+
+type AuthUserGroupDeletePayload {
+  id: ID!
+}
+
+type AuthUserGroupsPayload {
+  authUserGroups: [AuthUserGroup!]!
+}
+
+type AuthUserGroupsDeletePayload {
+  ids: [ID!]!
+}
+
+type AuthUserGroupsUpdatePayload {
+  ok: Boolean!
+}
+
+input AuthUserUserPermissionCreateInput {
+  userId: ID!
+  permissionId: ID!
+}
+
+input AuthUserUserPermissionUpdateInput {
+  userId: ID
+  permissionId: ID
+}
+
+input AuthUserUserPermissionsCreateInput {
+  authUserUserPermissions: [AuthUserUserPermissionCreateInput!]!
+}
+
+type AuthUserUserPermissionPayload {
+  authUserUserPermission: AuthUserUserPermission!
+}
+
+type AuthUserUserPermissionDeletePayload {
+  id: ID!
+}
+
+type AuthUserUserPermissionsPayload {
+  authUserUserPermissions: [AuthUserUserPermission!]!
+}
+
+type AuthUserUserPermissionsDeletePayload {
+  ids: [ID!]!
+}
+
+type AuthUserUserPermissionsUpdatePayload {
+  ok: Boolean!
+}
+
+input DjangoAdminLogCreateInput {
+  actionTime: Int!
+  objectId: ID
+  objectRepr: String!
+  actionFlag: Int!
+  changeMessage: String!
+  contentTypeId: ID
+  userId: ID!
+}
+
+input DjangoAdminLogUpdateInput {
+  actionTime: Int
+  objectId: ID
+  objectRepr: String
+  actionFlag: Int
+  changeMessage: String
+  contentTypeId: ID
+  userId: ID
+}
+
+input DjangoAdminLogsCreateInput {
+  djangoAdminLogs: [DjangoAdminLogCreateInput!]!
+}
+
+type DjangoAdminLogPayload {
+  djangoAdminLog: DjangoAdminLog!
+}
+
+type DjangoAdminLogDeletePayload {
+  id: ID!
+}
+
+type DjangoAdminLogsPayload {
+  djangoAdminLogs: [DjangoAdminLog!]!
+}
+
+type DjangoAdminLogsDeletePayload {
+  ids: [ID!]!
+}
+
+type DjangoAdminLogsUpdatePayload {
+  ok: Boolean!
+}
+
+input DjangoContentTypeCreateInput {
+  appLabel: String!
+  model: String!
+}
+
+input DjangoContentTypeUpdateInput {
+  appLabel: String
+  model: String
+}
+
+input DjangoContentTypesCreateInput {
+  djangoContentTypes: [DjangoContentTypeCreateInput!]!
+}
+
+type DjangoContentTypePayload {
+  djangoContentType: DjangoContentType!
+}
+
+type DjangoContentTypeDeletePayload {
+  id: ID!
+}
+
+type DjangoContentTypesPayload {
+  djangoContentTypes: [DjangoContentType!]!
+}
+
+type DjangoContentTypesDeletePayload {
+  ids: [ID!]!
+}
+
+type DjangoContentTypesUpdatePayload {
+  ok: Boolean!
+}
+
+input DjangoMigrationCreateInput {
+  app: String!
+  name: String!
+  applied: Int!
+}
+
+input DjangoMigrationUpdateInput {
+  app: String
+  name: String
+  applied: Int
+}
+
+input DjangoMigrationsCreateInput {
+  djangoMigrations: [DjangoMigrationCreateInput!]!
+}
+
+type DjangoMigrationPayload {
+  djangoMigration: DjangoMigration!
+}
+
+type DjangoMigrationDeletePayload {
+  id: ID!
+}
+
+type DjangoMigrationsPayload {
+  djangoMigrations: [DjangoMigration!]!
+}
+
+type DjangoMigrationsDeletePayload {
+  ids: [ID!]!
+}
+
+type DjangoMigrationsUpdatePayload {
+  ok: Boolean!
+}
+
+input DjangoSessionCreateInput {
+  sessionKey: String!
+  sessionData: String!
+  expireDate: Int!
+}
+
+input DjangoSessionUpdateInput {
+  sessionKey: String
+  sessionData: String
+  expireDate: Int
+}
+
+input DjangoSessionsCreateInput {
+  djangoSessions: [DjangoSessionCreateInput!]!
+}
+
+type DjangoSessionPayload {
+  djangoSession: DjangoSession!
+}
+
+type DjangoSessionDeletePayload {
+  id: ID!
+}
+
+type DjangoSessionsPayload {
+  djangoSessions: [DjangoSession!]!
+}
+
+type DjangoSessionsDeletePayload {
+  ids: [ID!]!
+}
+
+type DjangoSessionsUpdatePayload {
+  ok: Boolean!
+}
+
+input FragranceCreateInput {
+  name: String!
+  note: String!
+  deletedAt: Int
+  updatedAt: Int!
+  createdAt: Int!
+}
+
+input FragranceUpdateInput {
+  name: String
+  note: String
+  deletedAt: Int
+  updatedAt: Int
+  createdAt: Int
+}
+
+input FragrancesCreateInput {
+  fragrances: [FragranceCreateInput!]!
+}
+
+type FragrancePayload {
+  fragrance: Fragrance!
+}
+
+type FragranceDeletePayload {
+  id: ID!
+}
+
+type FragrancesPayload {
+  fragrances: [Fragrance!]!
+}
+
+type FragrancesDeletePayload {
+  ids: [ID!]!
+}
+
+type FragrancesUpdatePayload {
+  ok: Boolean!
+}
+
+input FragranceInventoryCreateInput {
+  purchaseDate: Int!
+  expiryDate: Int!
+  cost: Float!
+  weight: Float!
+  fragranceId: ID!
+  supplierId: ID!
+  updatedAt: Int!
+  createdAt: Int!
+  deletedAt: Int
+}
+
+input FragranceInventoryUpdateInput {
+  purchaseDate: Int
+  expiryDate: Int
+  cost: Float
+  weight: Float
+  fragranceId: ID
+  supplierId: ID
+  updatedAt: Int
+  createdAt: Int
+  deletedAt: Int
+}
+
+input FragranceInventoriesCreateInput {
+  fragranceInventories: [FragranceInventoryCreateInput!]!
+}
+
+type FragranceInventoryPayload {
+  fragranceInventory: FragranceInventory!
+}
+
+type FragranceInventoryDeletePayload {
+  id: ID!
+}
+
+type FragranceInventoriesPayload {
+  fragranceInventories: [FragranceInventory!]!
+}
+
+type FragranceInventoriesDeletePayload {
+  ids: [ID!]!
+}
+
+type FragranceInventoriesUpdatePayload {
+  ok: Boolean!
+}
+
+input LipidCreateInput {
+  name: String!
+  lauric: Int!
+  myristic: Int!
+  palmitic: Int!
+  stearic: Int!
+  ricinoleic: Int!
+  oleic: Int!
+  linoleic: Int!
+  linolenic: Int!
+  hardness: Int!
+  cleansing: Int!
+  conditioning: Int!
+  bubbly: Int!
+  creamy: Int!
+  iodine: Int!
+  ins: Int!
+  inciName: String!
+  family: String!
+  naoh: Float!
+  createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
+}
+
+input LipidUpdateInput {
+  name: String
+  lauric: Int
+  myristic: Int
+  palmitic: Int
+  stearic: Int
+  ricinoleic: Int
+  oleic: Int
+  linoleic: Int
+  linolenic: Int
+  hardness: Int
+  cleansing: Int
+  conditioning: Int
+  bubbly: Int
+  creamy: Int
+  iodine: Int
+  ins: Int
+  inciName: String
+  family: String
+  naoh: Float
+  createdAt: Int
+  deletedAt: Int
+  updatedAt: Int
+}
+
+input LipidsCreateInput {
+  lipids: [LipidCreateInput!]!
+}
+
+type LipidPayload {
+  lipid: Lipid!
+}
+
+type LipidDeletePayload {
+  id: ID!
+}
+
+type LipidsPayload {
+  lipids: [Lipid!]!
+}
+
+type LipidsDeletePayload {
+  ids: [ID!]!
+}
+
+type LipidsUpdatePayload {
+  ok: Boolean!
+}
+
+input LipidInventoryCreateInput {
+  purchaseDate: Int!
+  expiryDate: Int!
+  cost: Float!
+  weight: Float!
+  sap: Float!
+  naoh: Float!
+  koh: Float!
+  gramsPerLiter: Float!
+  lipidId: ID!
+  supplierId: ID!
+  deletedAt: Int
+  updatedAt: Int!
+  createdAt: Int!
+}
+
+input LipidInventoryUpdateInput {
+  purchaseDate: Int
+  expiryDate: Int
+  cost: Float
+  weight: Float
+  sap: Float
+  naoh: Float
+  koh: Float
+  gramsPerLiter: Float
+  lipidId: ID
+  supplierId: ID
+  deletedAt: Int
+  updatedAt: Int
+  createdAt: Int
+}
+
+input LipidInventoriesCreateInput {
+  lipidInventories: [LipidInventoryCreateInput!]!
+}
+
+type LipidInventoryPayload {
+  lipidInventory: LipidInventory!
+}
+
+type LipidInventoryDeletePayload {
+  id: ID!
+}
+
+type LipidInventoriesPayload {
+  lipidInventories: [LipidInventory!]!
+}
+
+type LipidInventoriesDeletePayload {
+  ids: [ID!]!
+}
+
+type LipidInventoriesUpdatePayload {
+  ok: Boolean!
+}
+
+input LyeCreateInput {
+  kind: String!
+  name: String!
+  note: String!
+  createdAt: Int!
+  updatedAt: Int!
+  deletedAt: Int
+}
+
+input LyeUpdateInput {
+  kind: String
+  name: String
+  note: String
+  createdAt: Int
+  updatedAt: Int
+  deletedAt: Int
+}
+
+input LyesCreateInput {
+  lyes: [LyeCreateInput!]!
+}
+
+type LyePayload {
+  lye: Lye!
+}
+
+type LyeDeletePayload {
+  id: ID!
+}
+
+type LyesPayload {
+  lyes: [Lye!]!
+}
+
+type LyesDeletePayload {
+  ids: [ID!]!
+}
+
+type LyesUpdatePayload {
+  ok: Boolean!
+}
+
+input LyeInventoryCreateInput {
+  purchaseDate: Int!
+  expiryDate: Int!
+  cost: Float!
+  weight: Float!
+  concentration: Float!
+  lyeId: ID!
+  supplierId: ID!
+  deletedAt: Int
+  createdAt: Int!
+  updatedAt: Int!
+}
+
+input LyeInventoryUpdateInput {
+  purchaseDate: Int
+  expiryDate: Int
+  cost: Float
+  weight: Float
+  concentration: Float
+  lyeId: ID
+  supplierId: ID
+  deletedAt: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+input LyeInventoriesCreateInput {
+  lyeInventories: [LyeInventoryCreateInput!]!
+}
+
+type LyeInventoryPayload {
+  lyeInventory: LyeInventory!
+}
+
+type LyeInventoryDeletePayload {
+  id: ID!
+}
+
+type LyeInventoriesPayload {
+  lyeInventories: [LyeInventory!]!
+}
+
+type LyeInventoriesDeletePayload {
+  ids: [ID!]!
+}
+
+type LyeInventoriesUpdatePayload {
+  ok: Boolean!
+}
+
+input RecipeCreateInput {
+  name: String!
+  note: String!
+  deletedAt: Int
+  createdAt: Int!
+  updatedAt: Int!
+}
+
+input RecipeUpdateInput {
+  name: String
+  note: String
+  deletedAt: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+input RecipesCreateInput {
+  recipes: [RecipeCreateInput!]!
+}
+
+type RecipePayload {
+  recipe: Recipe!
+}
+
+type RecipeDeletePayload {
+  id: ID!
+}
+
+type RecipesPayload {
+  recipes: [Recipe!]!
+}
+
+type RecipesDeletePayload {
+  ids: [ID!]!
+}
+
+type RecipesUpdatePayload {
+  ok: Boolean!
+}
+
+input RecipeAdditiveCreateInput {
+  percentage: Float!
+  additiveId: ID!
+  recipeId: ID!
+  updatedAt: Int!
+  createdAt: Int!
+  deletedAt: Int
+}
+
+input RecipeAdditiveUpdateInput {
+  percentage: Float
+  additiveId: ID
+  recipeId: ID
+  updatedAt: Int
+  createdAt: Int
+  deletedAt: Int
+}
+
+input RecipeAdditivesCreateInput {
+  recipeAdditives: [RecipeAdditiveCreateInput!]!
+}
+
+type RecipeAdditivePayload {
+  recipeAdditive: RecipeAdditive!
+}
+
+type RecipeAdditiveDeletePayload {
+  id: ID!
+}
+
+type RecipeAdditivesPayload {
+  recipeAdditives: [RecipeAdditive!]!
+}
+
+type RecipeAdditivesDeletePayload {
+  ids: [ID!]!
+}
+
+type RecipeAdditivesUpdatePayload {
+  ok: Boolean!
+}
+
+input RecipeBatchCreateInput {
+  tag: String!
+  productionDate: Int!
+  sellableDate: Int!
+  note: String!
+  lipidWeight: Float!
+  productionWeight: Float!
+  curedWeight: Float!
+  recipeId: ID!
+  createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
+}
+
+input RecipeBatchUpdateInput {
+  tag: String
+  productionDate: Int
+  sellableDate: Int
+  note: String
+  lipidWeight: Float
+  productionWeight: Float
+  curedWeight: Float
+  recipeId: ID
+  createdAt: Int
+  deletedAt: Int
+  updatedAt: Int
+}
+
+input RecipeBatchesCreateInput {
+  recipeBatches: [RecipeBatchCreateInput!]!
+}
+
+type RecipeBatchPayload {
+  recipeBatch: RecipeBatch!
+}
+
+type RecipeBatchDeletePayload {
+  id: ID!
+}
+
+type RecipeBatchesPayload {
+  recipeBatches: [RecipeBatch!]!
+}
+
+type RecipeBatchesDeletePayload {
+  ids: [ID!]!
+}
+
+type RecipeBatchesUpdatePayload {
+  ok: Boolean!
+}
+
+input RecipeBatchAdditiveCreateInput {
+  weight: Float!
+  cost: Float!
+  additiveId: ID!
+  batchId: ID!
+  deletedAt: Int
+  createdAt: Int!
+  updatedAt: Int!
+}
+
+input RecipeBatchAdditiveUpdateInput {
+  weight: Float
+  cost: Float
+  additiveId: ID
+  batchId: ID
+  deletedAt: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+input RecipeBatchAdditivesCreateInput {
+  recipeBatchAdditives: [RecipeBatchAdditiveCreateInput!]!
+}
+
+type RecipeBatchAdditivePayload {
+  recipeBatchAdditive: RecipeBatchAdditive!
+}
+
+type RecipeBatchAdditiveDeletePayload {
+  id: ID!
+}
+
+type RecipeBatchAdditivesPayload {
+  recipeBatchAdditives: [RecipeBatchAdditive!]!
+}
+
+type RecipeBatchAdditivesDeletePayload {
+  ids: [ID!]!
+}
+
+type RecipeBatchAdditivesUpdatePayload {
+  ok: Boolean!
+}
+
+input RecipeBatchFragranceCreateInput {
+  weight: Float!
+  cost: Float!
+  fragranceId: ID!
+  batchId: ID!
+  updatedAt: Int!
+  deletedAt: Int
+  createdAt: Int!
+}
+
+input RecipeBatchFragranceUpdateInput {
+  weight: Float
+  cost: Float
+  fragranceId: ID
+  batchId: ID
+  updatedAt: Int
+  deletedAt: Int
+  createdAt: Int
+}
+
+input RecipeBatchFragrancesCreateInput {
+  recipeBatchFragrances: [RecipeBatchFragranceCreateInput!]!
+}
+
+type RecipeBatchFragrancePayload {
+  recipeBatchFragrance: RecipeBatchFragrance!
+}
+
+type RecipeBatchFragranceDeletePayload {
+  id: ID!
+}
+
+type RecipeBatchFragrancesPayload {
+  recipeBatchFragrances: [RecipeBatchFragrance!]!
+}
+
+type RecipeBatchFragrancesDeletePayload {
+  ids: [ID!]!
+}
+
+type RecipeBatchFragrancesUpdatePayload {
+  ok: Boolean!
+}
+
+input RecipeBatchLipidCreateInput {
+  weight: Float!
+  cost: Float!
+  lipidId: ID!
+  batchId: ID!
+  createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
+}
+
+input RecipeBatchLipidUpdateInput {
+  weight: Float
+  cost: Float
+  lipidId: ID
+  batchId: ID
+  createdAt: Int
+  deletedAt: Int
+  updatedAt: Int
+}
+
+input RecipeBatchLipidsCreateInput {
+  recipeBatchLipids: [RecipeBatchLipidCreateInput!]!
+}
+
+type RecipeBatchLipidPayload {
+  recipeBatchLipid: RecipeBatchLipid!
+}
+
+type RecipeBatchLipidDeletePayload {
+  id: ID!
+}
+
+type RecipeBatchLipidsPayload {
+  recipeBatchLipids: [RecipeBatchLipid!]!
+}
+
+type RecipeBatchLipidsDeletePayload {
+  ids: [ID!]!
+}
+
+type RecipeBatchLipidsUpdatePayload {
+  ok: Boolean!
+}
+
+input RecipeBatchLyeCreateInput {
+  weight: Float!
+  discount: Float!
+  cost: Float!
+  lyeId: ID!
+  batchId: ID!
+  createdAt: Int!
+  updatedAt: Int!
+  deletedAt: Int
+}
+
+input RecipeBatchLyeUpdateInput {
+  weight: Float
+  discount: Float
+  cost: Float
+  lyeId: ID
+  batchId: ID
+  createdAt: Int
+  updatedAt: Int
+  deletedAt: Int
+}
+
+input RecipeBatchLyesCreateInput {
+  recipeBatchLyes: [RecipeBatchLyeCreateInput!]!
+}
+
+type RecipeBatchLyePayload {
+  recipeBatchLye: RecipeBatchLye!
+}
+
+type RecipeBatchLyeDeletePayload {
+  id: ID!
+}
+
+type RecipeBatchLyesPayload {
+  recipeBatchLyes: [RecipeBatchLye!]!
+}
+
+type RecipeBatchLyesDeletePayload {
+  ids: [ID!]!
+}
+
+type RecipeBatchLyesUpdatePayload {
+  ok: Boolean!
+}
+
+input RecipeBatchNoteCreateInput {
+  note: String!
+  link: String!
+  batchId: ID!
+  updatedAt: Int!
+  deletedAt: Int
+  createdAt: Int!
+}
+
+input RecipeBatchNoteUpdateInput {
+  note: String
+  link: String
+  batchId: ID
+  updatedAt: Int
+  deletedAt: Int
+  createdAt: Int
+}
+
+input RecipeBatchNotesCreateInput {
+  recipeBatchNotes: [RecipeBatchNoteCreateInput!]!
+}
+
+type RecipeBatchNotePayload {
+  recipeBatchNote: RecipeBatchNote!
+}
+
+type RecipeBatchNoteDeletePayload {
+  id: ID!
+}
+
+type RecipeBatchNotesPayload {
+  recipeBatchNotes: [RecipeBatchNote!]!
+}
+
+type RecipeBatchNotesDeletePayload {
+  ids: [ID!]!
+}
+
+type RecipeBatchNotesUpdatePayload {
+  ok: Boolean!
+}
+
+input RecipeFragranceCreateInput {
+  percentage: Float!
+  fragranceId: ID!
+  recipeId: ID!
+  deletedAt: Int
+  createdAt: Int!
+  updatedAt: Int!
+}
+
+input RecipeFragranceUpdateInput {
+  percentage: Float
+  fragranceId: ID
+  recipeId: ID
+  deletedAt: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+input RecipeFragrancesCreateInput {
+  recipeFragrances: [RecipeFragranceCreateInput!]!
+}
+
+type RecipeFragrancePayload {
+  recipeFragrance: RecipeFragrance!
+}
+
+type RecipeFragranceDeletePayload {
+  id: ID!
+}
+
+type RecipeFragrancesPayload {
+  recipeFragrances: [RecipeFragrance!]!
+}
+
+type RecipeFragrancesDeletePayload {
+  ids: [ID!]!
+}
+
+type RecipeFragrancesUpdatePayload {
+  ok: Boolean!
+}
+
+input RecipeLipidCreateInput {
+  percentage: Float!
+  lipidId: ID!
+  recipeId: ID!
+  updatedAt: Int!
+  createdAt: Int!
+  deletedAt: Int
+}
+
+input RecipeLipidUpdateInput {
+  percentage: Float
+  lipidId: ID
+  recipeId: ID
+  updatedAt: Int
+  createdAt: Int
+  deletedAt: Int
+}
+
+input RecipeLipidsCreateInput {
+  recipeLipids: [RecipeLipidCreateInput!]!
+}
+
+type RecipeLipidPayload {
+  recipeLipid: RecipeLipid!
+}
+
+type RecipeLipidDeletePayload {
+  id: ID!
+}
+
+type RecipeLipidsPayload {
+  recipeLipids: [RecipeLipid!]!
+}
+
+type RecipeLipidsDeletePayload {
+  ids: [ID!]!
+}
+
+type RecipeLipidsUpdatePayload {
+  ok: Boolean!
+}
+
+input RecipeStepCreateInput {
+  num: Int!
+  note: String!
+  recipeId: ID!
+  deletedAt: Int
+  createdAt: Int!
+  updatedAt: Int!
+}
+
+input RecipeStepUpdateInput {
+  num: Int
+  note: String
+  recipeId: ID
+  deletedAt: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+input RecipeStepsCreateInput {
+  recipeSteps: [RecipeStepCreateInput!]!
+}
+
+type RecipeStepPayload {
+  recipeStep: RecipeStep!
+}
+
+type RecipeStepDeletePayload {
+  id: ID!
+}
+
+type RecipeStepsPayload {
+  recipeSteps: [RecipeStep!]!
+}
+
+type RecipeStepsDeletePayload {
+  ids: [ID!]!
+}
+
+type RecipeStepsUpdatePayload {
+  ok: Boolean!
+}
+
+input SupplierCreateInput {
+  name: String!
+  website: String!
+  note: String!
+  updatedAt: Int!
+  deletedAt: Int
+  createdAt: Int!
+}
+
+input SupplierUpdateInput {
+  name: String
+  website: String
+  note: String
+  updatedAt: Int
+  deletedAt: Int
+  createdAt: Int
+}
+
+input SuppliersCreateInput {
+  suppliers: [SupplierCreateInput!]!
+}
+
+type SupplierPayload {
+  supplier: Supplier!
+}
+
+type SupplierDeletePayload {
+  id: ID!
+}
+
+type SuppliersPayload {
+  suppliers: [Supplier!]!
+}
+
+type SuppliersDeletePayload {
+  ids: [ID!]!
+}
+
+type SuppliersUpdatePayload {
+  ok: Boolean!
+}
+
+type Mutation {
+  createAdditive(input: AdditiveCreateInput!): AdditivePayload!
+  createAdditives(input: AdditivesCreateInput!): AdditivesPayload!
+  updateAdditive(id: ID!, input: AdditiveUpdateInput!): AdditivePayload!
+  updateAdditives(
+    filter: AdditiveFilter
+    input: AdditiveUpdateInput!
+  ): AdditivesUpdatePayload!
+  deleteAdditive(id: ID!): AdditiveDeletePayload!
+  deleteAdditives(filter: AdditiveFilter): AdditivesDeletePayload!
+  createAdditiveInventory(
+    input: AdditiveInventoryCreateInput!
+  ): AdditiveInventoryPayload!
+  createAdditiveInventories(
+    input: AdditiveInventoriesCreateInput!
+  ): AdditiveInventoriesPayload!
+  updateAdditiveInventory(
+    id: ID!
+    input: AdditiveInventoryUpdateInput!
+  ): AdditiveInventoryPayload!
+  updateAdditiveInventories(
+    filter: AdditiveInventoryFilter
+    input: AdditiveInventoryUpdateInput!
+  ): AdditiveInventoriesUpdatePayload!
+  deleteAdditiveInventory(id: ID!): AdditiveInventoryDeletePayload!
+  deleteAdditiveInventories(
+    filter: AdditiveInventoryFilter
+  ): AdditiveInventoriesDeletePayload!
+  createAuthGroup(input: AuthGroupCreateInput!): AuthGroupPayload!
+  createAuthGroups(input: AuthGroupsCreateInput!): AuthGroupsPayload!
+  updateAuthGroup(id: ID!, input: AuthGroupUpdateInput!): AuthGroupPayload!
+  updateAuthGroups(
+    filter: AuthGroupFilter
+    input: AuthGroupUpdateInput!
+  ): AuthGroupsUpdatePayload!
+  deleteAuthGroup(id: ID!): AuthGroupDeletePayload!
+  deleteAuthGroups(filter: AuthGroupFilter): AuthGroupsDeletePayload!
+  createAuthGroupPermission(
+    input: AuthGroupPermissionCreateInput!
+  ): AuthGroupPermissionPayload!
+  createAuthGroupPermissions(
+    input: AuthGroupPermissionsCreateInput!
+  ): AuthGroupPermissionsPayload!
+  updateAuthGroupPermission(
+    id: ID!
+    input: AuthGroupPermissionUpdateInput!
+  ): AuthGroupPermissionPayload!
+  updateAuthGroupPermissions(
+    filter: AuthGroupPermissionFilter
+    input: AuthGroupPermissionUpdateInput!
+  ): AuthGroupPermissionsUpdatePayload!
+  deleteAuthGroupPermission(id: ID!): AuthGroupPermissionDeletePayload!
+  deleteAuthGroupPermissions(
+    filter: AuthGroupPermissionFilter
+  ): AuthGroupPermissionsDeletePayload!
+  createAuthPermission(
+    input: AuthPermissionCreateInput!
+  ): AuthPermissionPayload!
+  createAuthPermissions(
+    input: AuthPermissionsCreateInput!
+  ): AuthPermissionsPayload!
+  updateAuthPermission(
+    id: ID!
+    input: AuthPermissionUpdateInput!
+  ): AuthPermissionPayload!
+  updateAuthPermissions(
+    filter: AuthPermissionFilter
+    input: AuthPermissionUpdateInput!
+  ): AuthPermissionsUpdatePayload!
+  deleteAuthPermission(id: ID!): AuthPermissionDeletePayload!
+  deleteAuthPermissions(
+    filter: AuthPermissionFilter
+  ): AuthPermissionsDeletePayload!
+  createAuthUser(input: AuthUserCreateInput!): AuthUserPayload!
+  createAuthUsers(input: AuthUsersCreateInput!): AuthUsersPayload!
+  updateAuthUser(id: ID!, input: AuthUserUpdateInput!): AuthUserPayload!
+  updateAuthUsers(
+    filter: AuthUserFilter
+    input: AuthUserUpdateInput!
+  ): AuthUsersUpdatePayload!
+  deleteAuthUser(id: ID!): AuthUserDeletePayload!
+  deleteAuthUsers(filter: AuthUserFilter): AuthUsersDeletePayload!
+  createAuthUserGroup(input: AuthUserGroupCreateInput!): AuthUserGroupPayload!
+  createAuthUserGroups(
+    input: AuthUserGroupsCreateInput!
+  ): AuthUserGroupsPayload!
+  updateAuthUserGroup(
+    id: ID!
+    input: AuthUserGroupUpdateInput!
+  ): AuthUserGroupPayload!
+  updateAuthUserGroups(
+    filter: AuthUserGroupFilter
+    input: AuthUserGroupUpdateInput!
+  ): AuthUserGroupsUpdatePayload!
+  deleteAuthUserGroup(id: ID!): AuthUserGroupDeletePayload!
+  deleteAuthUserGroups(
+    filter: AuthUserGroupFilter
+  ): AuthUserGroupsDeletePayload!
+  createAuthUserUserPermission(
+    input: AuthUserUserPermissionCreateInput!
+  ): AuthUserUserPermissionPayload!
+  createAuthUserUserPermissions(
+    input: AuthUserUserPermissionsCreateInput!
+  ): AuthUserUserPermissionsPayload!
+  updateAuthUserUserPermission(
+    id: ID!
+    input: AuthUserUserPermissionUpdateInput!
+  ): AuthUserUserPermissionPayload!
+  updateAuthUserUserPermissions(
+    filter: AuthUserUserPermissionFilter
+    input: AuthUserUserPermissionUpdateInput!
+  ): AuthUserUserPermissionsUpdatePayload!
+  deleteAuthUserUserPermission(id: ID!): AuthUserUserPermissionDeletePayload!
+  deleteAuthUserUserPermissions(
+    filter: AuthUserUserPermissionFilter
+  ): AuthUserUserPermissionsDeletePayload!
+  createDjangoAdminLog(
+    input: DjangoAdminLogCreateInput!
+  ): DjangoAdminLogPayload!
+  createDjangoAdminLogs(
+    input: DjangoAdminLogsCreateInput!
+  ): DjangoAdminLogsPayload!
+  updateDjangoAdminLog(
+    id: ID!
+    input: DjangoAdminLogUpdateInput!
+  ): DjangoAdminLogPayload!
+  updateDjangoAdminLogs(
+    filter: DjangoAdminLogFilter
+    input: DjangoAdminLogUpdateInput!
+  ): DjangoAdminLogsUpdatePayload!
+  deleteDjangoAdminLog(id: ID!): DjangoAdminLogDeletePayload!
+  deleteDjangoAdminLogs(
+    filter: DjangoAdminLogFilter
+  ): DjangoAdminLogsDeletePayload!
+  createDjangoContentType(
+    input: DjangoContentTypeCreateInput!
+  ): DjangoContentTypePayload!
+  createDjangoContentTypes(
+    input: DjangoContentTypesCreateInput!
+  ): DjangoContentTypesPayload!
+  updateDjangoContentType(
+    id: ID!
+    input: DjangoContentTypeUpdateInput!
+  ): DjangoContentTypePayload!
+  updateDjangoContentTypes(
+    filter: DjangoContentTypeFilter
+    input: DjangoContentTypeUpdateInput!
+  ): DjangoContentTypesUpdatePayload!
+  deleteDjangoContentType(id: ID!): DjangoContentTypeDeletePayload!
+  deleteDjangoContentTypes(
+    filter: DjangoContentTypeFilter
+  ): DjangoContentTypesDeletePayload!
+  createDjangoMigration(
+    input: DjangoMigrationCreateInput!
+  ): DjangoMigrationPayload!
+  createDjangoMigrations(
+    input: DjangoMigrationsCreateInput!
+  ): DjangoMigrationsPayload!
+  updateDjangoMigration(
+    id: ID!
+    input: DjangoMigrationUpdateInput!
+  ): DjangoMigrationPayload!
+  updateDjangoMigrations(
+    filter: DjangoMigrationFilter
+    input: DjangoMigrationUpdateInput!
+  ): DjangoMigrationsUpdatePayload!
+  deleteDjangoMigration(id: ID!): DjangoMigrationDeletePayload!
+  deleteDjangoMigrations(
+    filter: DjangoMigrationFilter
+  ): DjangoMigrationsDeletePayload!
+  createDjangoSession(input: DjangoSessionCreateInput!): DjangoSessionPayload!
+  createDjangoSessions(
+    input: DjangoSessionsCreateInput!
+  ): DjangoSessionsPayload!
+  updateDjangoSession(
+    id: ID!
+    input: DjangoSessionUpdateInput!
+  ): DjangoSessionPayload!
+  updateDjangoSessions(
+    filter: DjangoSessionFilter
+    input: DjangoSessionUpdateInput!
+  ): DjangoSessionsUpdatePayload!
+  deleteDjangoSession(id: ID!): DjangoSessionDeletePayload!
+  deleteDjangoSessions(
+    filter: DjangoSessionFilter
+  ): DjangoSessionsDeletePayload!
+  createFragrance(input: FragranceCreateInput!): FragrancePayload!
+  createFragrances(input: FragrancesCreateInput!): FragrancesPayload!
+  updateFragrance(id: ID!, input: FragranceUpdateInput!): FragrancePayload!
+  updateFragrances(
+    filter: FragranceFilter
+    input: FragranceUpdateInput!
+  ): FragrancesUpdatePayload!
+  deleteFragrance(id: ID!): FragranceDeletePayload!
+  deleteFragrances(filter: FragranceFilter): FragrancesDeletePayload!
+  createFragranceInventory(
+    input: FragranceInventoryCreateInput!
+  ): FragranceInventoryPayload!
+  createFragranceInventories(
+    input: FragranceInventoriesCreateInput!
+  ): FragranceInventoriesPayload!
+  updateFragranceInventory(
+    id: ID!
+    input: FragranceInventoryUpdateInput!
+  ): FragranceInventoryPayload!
+  updateFragranceInventories(
+    filter: FragranceInventoryFilter
+    input: FragranceInventoryUpdateInput!
+  ): FragranceInventoriesUpdatePayload!
+  deleteFragranceInventory(id: ID!): FragranceInventoryDeletePayload!
+  deleteFragranceInventories(
+    filter: FragranceInventoryFilter
+  ): FragranceInventoriesDeletePayload!
+  createLipid(input: LipidCreateInput!): LipidPayload!
+  createLipids(input: LipidsCreateInput!): LipidsPayload!
+  updateLipid(id: ID!, input: LipidUpdateInput!): LipidPayload!
+  updateLipids(
+    filter: LipidFilter
+    input: LipidUpdateInput!
+  ): LipidsUpdatePayload!
+  deleteLipid(id: ID!): LipidDeletePayload!
+  deleteLipids(filter: LipidFilter): LipidsDeletePayload!
+  createLipidInventory(
+    input: LipidInventoryCreateInput!
+  ): LipidInventoryPayload!
+  createLipidInventories(
+    input: LipidInventoriesCreateInput!
+  ): LipidInventoriesPayload!
+  updateLipidInventory(
+    id: ID!
+    input: LipidInventoryUpdateInput!
+  ): LipidInventoryPayload!
+  updateLipidInventories(
+    filter: LipidInventoryFilter
+    input: LipidInventoryUpdateInput!
+  ): LipidInventoriesUpdatePayload!
+  deleteLipidInventory(id: ID!): LipidInventoryDeletePayload!
+  deleteLipidInventories(
+    filter: LipidInventoryFilter
+  ): LipidInventoriesDeletePayload!
+  createLye(input: LyeCreateInput!): LyePayload!
+  createLyes(input: LyesCreateInput!): LyesPayload!
+  updateLye(id: ID!, input: LyeUpdateInput!): LyePayload!
+  updateLyes(filter: LyeFilter, input: LyeUpdateInput!): LyesUpdatePayload!
+  deleteLye(id: ID!): LyeDeletePayload!
+  deleteLyes(filter: LyeFilter): LyesDeletePayload!
+  createLyeInventory(input: LyeInventoryCreateInput!): LyeInventoryPayload!
+  createLyeInventories(
+    input: LyeInventoriesCreateInput!
+  ): LyeInventoriesPayload!
+  updateLyeInventory(
+    id: ID!
+    input: LyeInventoryUpdateInput!
+  ): LyeInventoryPayload!
+  updateLyeInventories(
+    filter: LyeInventoryFilter
+    input: LyeInventoryUpdateInput!
+  ): LyeInventoriesUpdatePayload!
+  deleteLyeInventory(id: ID!): LyeInventoryDeletePayload!
+  deleteLyeInventories(filter: LyeInventoryFilter): LyeInventoriesDeletePayload!
+  createRecipe(input: RecipeCreateInput!): RecipePayload!
+  createRecipes(input: RecipesCreateInput!): RecipesPayload!
+  updateRecipe(id: ID!, input: RecipeUpdateInput!): RecipePayload!
+  updateRecipes(
+    filter: RecipeFilter
+    input: RecipeUpdateInput!
+  ): RecipesUpdatePayload!
+  deleteRecipe(id: ID!): RecipeDeletePayload!
+  deleteRecipes(filter: RecipeFilter): RecipesDeletePayload!
+  createRecipeAdditive(
+    input: RecipeAdditiveCreateInput!
+  ): RecipeAdditivePayload!
+  createRecipeAdditives(
+    input: RecipeAdditivesCreateInput!
+  ): RecipeAdditivesPayload!
+  updateRecipeAdditive(
+    id: ID!
+    input: RecipeAdditiveUpdateInput!
+  ): RecipeAdditivePayload!
+  updateRecipeAdditives(
+    filter: RecipeAdditiveFilter
+    input: RecipeAdditiveUpdateInput!
+  ): RecipeAdditivesUpdatePayload!
+  deleteRecipeAdditive(id: ID!): RecipeAdditiveDeletePayload!
+  deleteRecipeAdditives(
+    filter: RecipeAdditiveFilter
+  ): RecipeAdditivesDeletePayload!
+  createRecipeBatch(input: RecipeBatchCreateInput!): RecipeBatchPayload!
+  createRecipeBatches(input: RecipeBatchesCreateInput!): RecipeBatchesPayload!
+  updateRecipeBatch(
+    id: ID!
+    input: RecipeBatchUpdateInput!
+  ): RecipeBatchPayload!
+  updateRecipeBatches(
+    filter: RecipeBatchFilter
+    input: RecipeBatchUpdateInput!
+  ): RecipeBatchesUpdatePayload!
+  deleteRecipeBatch(id: ID!): RecipeBatchDeletePayload!
+  deleteRecipeBatches(filter: RecipeBatchFilter): RecipeBatchesDeletePayload!
+  createRecipeBatchAdditive(
+    input: RecipeBatchAdditiveCreateInput!
+  ): RecipeBatchAdditivePayload!
+  createRecipeBatchAdditives(
+    input: RecipeBatchAdditivesCreateInput!
+  ): RecipeBatchAdditivesPayload!
+  updateRecipeBatchAdditive(
+    id: ID!
+    input: RecipeBatchAdditiveUpdateInput!
+  ): RecipeBatchAdditivePayload!
+  updateRecipeBatchAdditives(
+    filter: RecipeBatchAdditiveFilter
+    input: RecipeBatchAdditiveUpdateInput!
+  ): RecipeBatchAdditivesUpdatePayload!
+  deleteRecipeBatchAdditive(id: ID!): RecipeBatchAdditiveDeletePayload!
+  deleteRecipeBatchAdditives(
+    filter: RecipeBatchAdditiveFilter
+  ): RecipeBatchAdditivesDeletePayload!
+  createRecipeBatchFragrance(
+    input: RecipeBatchFragranceCreateInput!
+  ): RecipeBatchFragrancePayload!
+  createRecipeBatchFragrances(
+    input: RecipeBatchFragrancesCreateInput!
+  ): RecipeBatchFragrancesPayload!
+  updateRecipeBatchFragrance(
+    id: ID!
+    input: RecipeBatchFragranceUpdateInput!
+  ): RecipeBatchFragrancePayload!
+  updateRecipeBatchFragrances(
+    filter: RecipeBatchFragranceFilter
+    input: RecipeBatchFragranceUpdateInput!
+  ): RecipeBatchFragrancesUpdatePayload!
+  deleteRecipeBatchFragrance(id: ID!): RecipeBatchFragranceDeletePayload!
+  deleteRecipeBatchFragrances(
+    filter: RecipeBatchFragranceFilter
+  ): RecipeBatchFragrancesDeletePayload!
+  createRecipeBatchLipid(
+    input: RecipeBatchLipidCreateInput!
+  ): RecipeBatchLipidPayload!
+  createRecipeBatchLipids(
+    input: RecipeBatchLipidsCreateInput!
+  ): RecipeBatchLipidsPayload!
+  updateRecipeBatchLipid(
+    id: ID!
+    input: RecipeBatchLipidUpdateInput!
+  ): RecipeBatchLipidPayload!
+  updateRecipeBatchLipids(
+    filter: RecipeBatchLipidFilter
+    input: RecipeBatchLipidUpdateInput!
+  ): RecipeBatchLipidsUpdatePayload!
+  deleteRecipeBatchLipid(id: ID!): RecipeBatchLipidDeletePayload!
+  deleteRecipeBatchLipids(
+    filter: RecipeBatchLipidFilter
+  ): RecipeBatchLipidsDeletePayload!
+  createRecipeBatchLye(
+    input: RecipeBatchLyeCreateInput!
+  ): RecipeBatchLyePayload!
+  createRecipeBatchLyes(
+    input: RecipeBatchLyesCreateInput!
+  ): RecipeBatchLyesPayload!
+  updateRecipeBatchLye(
+    id: ID!
+    input: RecipeBatchLyeUpdateInput!
+  ): RecipeBatchLyePayload!
+  updateRecipeBatchLyes(
+    filter: RecipeBatchLyeFilter
+    input: RecipeBatchLyeUpdateInput!
+  ): RecipeBatchLyesUpdatePayload!
+  deleteRecipeBatchLye(id: ID!): RecipeBatchLyeDeletePayload!
+  deleteRecipeBatchLyes(
+    filter: RecipeBatchLyeFilter
+  ): RecipeBatchLyesDeletePayload!
+  createRecipeBatchNote(
+    input: RecipeBatchNoteCreateInput!
+  ): RecipeBatchNotePayload!
+  createRecipeBatchNotes(
+    input: RecipeBatchNotesCreateInput!
+  ): RecipeBatchNotesPayload!
+  updateRecipeBatchNote(
+    id: ID!
+    input: RecipeBatchNoteUpdateInput!
+  ): RecipeBatchNotePayload!
+  updateRecipeBatchNotes(
+    filter: RecipeBatchNoteFilter
+    input: RecipeBatchNoteUpdateInput!
+  ): RecipeBatchNotesUpdatePayload!
+  deleteRecipeBatchNote(id: ID!): RecipeBatchNoteDeletePayload!
+  deleteRecipeBatchNotes(
+    filter: RecipeBatchNoteFilter
+  ): RecipeBatchNotesDeletePayload!
+  createRecipeFragrance(
+    input: RecipeFragranceCreateInput!
+  ): RecipeFragrancePayload!
+  createRecipeFragrances(
+    input: RecipeFragrancesCreateInput!
+  ): RecipeFragrancesPayload!
+  updateRecipeFragrance(
+    id: ID!
+    input: RecipeFragranceUpdateInput!
+  ): RecipeFragrancePayload!
+  updateRecipeFragrances(
+    filter: RecipeFragranceFilter
+    input: RecipeFragranceUpdateInput!
+  ): RecipeFragrancesUpdatePayload!
+  deleteRecipeFragrance(id: ID!): RecipeFragranceDeletePayload!
+  deleteRecipeFragrances(
+    filter: RecipeFragranceFilter
+  ): RecipeFragrancesDeletePayload!
+  createRecipeLipid(input: RecipeLipidCreateInput!): RecipeLipidPayload!
+  createRecipeLipids(input: RecipeLipidsCreateInput!): RecipeLipidsPayload!
+  updateRecipeLipid(
+    id: ID!
+    input: RecipeLipidUpdateInput!
+  ): RecipeLipidPayload!
+  updateRecipeLipids(
+    filter: RecipeLipidFilter
+    input: RecipeLipidUpdateInput!
+  ): RecipeLipidsUpdatePayload!
+  deleteRecipeLipid(id: ID!): RecipeLipidDeletePayload!
+  deleteRecipeLipids(filter: RecipeLipidFilter): RecipeLipidsDeletePayload!
+  createRecipeStep(input: RecipeStepCreateInput!): RecipeStepPayload!
+  createRecipeSteps(input: RecipeStepsCreateInput!): RecipeStepsPayload!
+  updateRecipeStep(id: ID!, input: RecipeStepUpdateInput!): RecipeStepPayload!
+  updateRecipeSteps(
+    filter: RecipeStepFilter
+    input: RecipeStepUpdateInput!
+  ): RecipeStepsUpdatePayload!
+  deleteRecipeStep(id: ID!): RecipeStepDeletePayload!
+  deleteRecipeSteps(filter: RecipeStepFilter): RecipeStepsDeletePayload!
+  createSupplier(input: SupplierCreateInput!): SupplierPayload!
+  createSuppliers(input: SuppliersCreateInput!): SuppliersPayload!
+  updateSupplier(id: ID!, input: SupplierUpdateInput!): SupplierPayload!
+  updateSuppliers(
+    filter: SupplierFilter
+    input: SupplierUpdateInput!
+  ): SuppliersUpdatePayload!
+  deleteSupplier(id: ID!): SupplierDeletePayload!
+  deleteSuppliers(filter: SupplierFilter): SuppliersDeletePayload!
+}
