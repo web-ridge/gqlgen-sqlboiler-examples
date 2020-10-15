@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./soap.sql:/docker-entrypoint-initdb.d/soap.sql
+    ports:
+      - "3308:3306"
