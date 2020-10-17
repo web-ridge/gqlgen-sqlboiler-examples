@@ -26,9 +26,7 @@ func CommentCreateInputToBoiler(
 		return nil
 	}
 	r := &models.Comment{
-		Content: m.Content,
-		PostID:  boilergql.PointerStringToNullDotString(m.PostID),
-	}
+		Content: m.Content, PostID: boilergql.PointerStringToNullDotString(m.PostID)}
 	return r
 }
 
@@ -37,7 +35,7 @@ func CommentCreateInputToModelM(
 	m graphql_models.CommentCreateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "content":
 			modelM[models.CommentColumns.Content] = m.Content
@@ -50,7 +48,7 @@ func CommentCreateInputToModelM(
 
 func CommentCreateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "content":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentColumns.Content)
@@ -79,10 +77,7 @@ func CommentLikeCreateInputToBoiler(
 		return nil
 	}
 	r := &models.CommentLike{
-		CommentID: m.CommentID,
-		LikeType:  m.LikeType,
-		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
-	}
+		CommentID: m.CommentID, LikeType: m.LikeType, CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt)}
 	return r
 }
 
@@ -91,7 +86,7 @@ func CommentLikeCreateInputToModelM(
 	m graphql_models.CommentLikeCreateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "commentId":
 			modelM[models.CommentLikeColumns.CommentID] = m.CommentID
@@ -106,7 +101,7 @@ func CommentLikeCreateInputToModelM(
 
 func CommentLikeCreateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "commentId":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentLikeColumns.CommentID)
@@ -137,10 +132,7 @@ func CommentLikeUpdateInputToBoiler(
 		return nil
 	}
 	r := &models.CommentLike{
-		CommentID: boilergql.PointerStringToString(m.CommentID),
-		LikeType:  boilergql.PointerStringToString(m.LikeType),
-		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
-	}
+		CommentID: boilergql.PointerStringToString(m.CommentID), LikeType: boilergql.PointerStringToString(m.LikeType), CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt)}
 	return r
 }
 
@@ -149,7 +141,7 @@ func CommentLikeUpdateInputToModelM(
 	m graphql_models.CommentLikeUpdateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "commentId":
 			modelM[models.CommentLikeColumns.CommentID] = boilergql.PointerStringToString(m.CommentID)
@@ -164,7 +156,7 @@ func CommentLikeUpdateInputToModelM(
 
 func CommentLikeUpdateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "commentId":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentLikeColumns.CommentID)
@@ -195,9 +187,7 @@ func CommentUpdateInputToBoiler(
 		return nil
 	}
 	r := &models.Comment{
-		Content: boilergql.PointerStringToString(m.Content),
-		PostID:  boilergql.PointerStringToNullDotString(m.PostID),
-	}
+		Content: boilergql.PointerStringToString(m.Content), PostID: boilergql.PointerStringToNullDotString(m.PostID)}
 	return r
 }
 
@@ -206,7 +196,7 @@ func CommentUpdateInputToModelM(
 	m graphql_models.CommentUpdateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "content":
 			modelM[models.CommentColumns.Content] = boilergql.PointerStringToString(m.Content)
@@ -219,7 +209,7 @@ func CommentUpdateInputToModelM(
 
 func CommentUpdateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "content":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentColumns.Content)
@@ -248,8 +238,7 @@ func FriendshipCreateInputToBoiler(
 		return nil
 	}
 	r := &models.Friendship{
-		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
-	}
+		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt)}
 	return r
 }
 
@@ -258,7 +247,7 @@ func FriendshipCreateInputToModelM(
 	m graphql_models.FriendshipCreateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "createdAt":
 			modelM[models.FriendshipColumns.CreatedAt] = boilergql.PointerIntToNullDotTime(m.CreatedAt)
@@ -269,7 +258,7 @@ func FriendshipCreateInputToModelM(
 
 func FriendshipCreateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "createdAt":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.FriendshipColumns.CreatedAt)
@@ -296,8 +285,7 @@ func FriendshipUpdateInputToBoiler(
 		return nil
 	}
 	r := &models.Friendship{
-		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
-	}
+		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt)}
 	return r
 }
 
@@ -306,7 +294,7 @@ func FriendshipUpdateInputToModelM(
 	m graphql_models.FriendshipUpdateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "createdAt":
 			modelM[models.FriendshipColumns.CreatedAt] = boilergql.PointerIntToNullDotTime(m.CreatedAt)
@@ -317,7 +305,7 @@ func FriendshipUpdateInputToModelM(
 
 func FriendshipUpdateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "createdAt":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.FriendshipColumns.CreatedAt)
@@ -344,10 +332,7 @@ func ImageCreateInputToBoiler(
 		return nil
 	}
 	r := &models.Image{
-		PostID:      m.PostID,
-		Views:       boilergql.PointerIntToNullDotInt(m.Views),
-		OriginalURL: boilergql.PointerStringToNullDotString(m.OriginalURL),
-	}
+		PostID: m.PostID, Views: boilergql.PointerIntToNullDotInt(m.Views), OriginalURL: boilergql.PointerStringToNullDotString(m.OriginalURL)}
 	return r
 }
 
@@ -356,7 +341,7 @@ func ImageCreateInputToModelM(
 	m graphql_models.ImageCreateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "postId":
 			modelM[models.ImageColumns.PostID] = m.PostID
@@ -371,7 +356,7 @@ func ImageCreateInputToModelM(
 
 func ImageCreateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "postId":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.ImageColumns.PostID)
@@ -402,10 +387,7 @@ func ImageUpdateInputToBoiler(
 		return nil
 	}
 	r := &models.Image{
-		PostID:      boilergql.PointerStringToString(m.PostID),
-		Views:       boilergql.PointerIntToNullDotInt(m.Views),
-		OriginalURL: boilergql.PointerStringToNullDotString(m.OriginalURL),
-	}
+		PostID: boilergql.PointerStringToString(m.PostID), Views: boilergql.PointerIntToNullDotInt(m.Views), OriginalURL: boilergql.PointerStringToNullDotString(m.OriginalURL)}
 	return r
 }
 
@@ -414,7 +396,7 @@ func ImageUpdateInputToModelM(
 	m graphql_models.ImageUpdateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "postId":
 			modelM[models.ImageColumns.PostID] = boilergql.PointerStringToString(m.PostID)
@@ -429,7 +411,7 @@ func ImageUpdateInputToModelM(
 
 func ImageUpdateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "postId":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.ImageColumns.PostID)
@@ -460,8 +442,7 @@ func ImageVariationCreateInputToBoiler(
 		return nil
 	}
 	r := &models.ImageVariation{
-		ImageID: m.ImageID,
-	}
+		ImageID: m.ImageID}
 	return r
 }
 
@@ -470,7 +451,7 @@ func ImageVariationCreateInputToModelM(
 	m graphql_models.ImageVariationCreateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "imageId":
 			modelM[models.ImageVariationColumns.ImageID] = m.ImageID
@@ -481,7 +462,7 @@ func ImageVariationCreateInputToModelM(
 
 func ImageVariationCreateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "imageId":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.ImageVariationColumns.ImageID)
@@ -508,8 +489,7 @@ func ImageVariationUpdateInputToBoiler(
 		return nil
 	}
 	r := &models.ImageVariation{
-		ImageID: boilergql.PointerStringToString(m.ImageID),
-	}
+		ImageID: boilergql.PointerStringToString(m.ImageID)}
 	return r
 }
 
@@ -518,7 +498,7 @@ func ImageVariationUpdateInputToModelM(
 	m graphql_models.ImageVariationUpdateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "imageId":
 			modelM[models.ImageVariationColumns.ImageID] = boilergql.PointerStringToString(m.ImageID)
@@ -529,7 +509,7 @@ func ImageVariationUpdateInputToModelM(
 
 func ImageVariationUpdateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "imageId":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.ImageVariationColumns.ImageID)
@@ -556,10 +536,7 @@ func LikeCreateInputToBoiler(
 		return nil
 	}
 	r := &models.Like{
-		PostID:    m.PostID,
-		LikeType:  m.LikeType,
-		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
-	}
+		PostID: m.PostID, LikeType: m.LikeType, CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt)}
 	return r
 }
 
@@ -568,7 +545,7 @@ func LikeCreateInputToModelM(
 	m graphql_models.LikeCreateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "postId":
 			modelM[models.LikeColumns.PostID] = m.PostID
@@ -583,7 +560,7 @@ func LikeCreateInputToModelM(
 
 func LikeCreateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "postId":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.LikeColumns.PostID)
@@ -614,10 +591,7 @@ func LikeUpdateInputToBoiler(
 		return nil
 	}
 	r := &models.Like{
-		PostID:    boilergql.PointerStringToString(m.PostID),
-		LikeType:  boilergql.PointerStringToString(m.LikeType),
-		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
-	}
+		PostID: boilergql.PointerStringToString(m.PostID), LikeType: boilergql.PointerStringToString(m.LikeType), CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt)}
 	return r
 }
 
@@ -626,7 +600,7 @@ func LikeUpdateInputToModelM(
 	m graphql_models.LikeUpdateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "postId":
 			modelM[models.LikeColumns.PostID] = boilergql.PointerStringToString(m.PostID)
@@ -641,7 +615,7 @@ func LikeUpdateInputToModelM(
 
 func LikeUpdateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "postId":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.LikeColumns.PostID)
@@ -672,8 +646,7 @@ func PostCreateInputToBoiler(
 		return nil
 	}
 	r := &models.Post{
-		Content: m.Content,
-	}
+		Content: m.Content}
 	return r
 }
 
@@ -682,7 +655,7 @@ func PostCreateInputToModelM(
 	m graphql_models.PostCreateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "content":
 			modelM[models.PostColumns.Content] = m.Content
@@ -693,7 +666,7 @@ func PostCreateInputToModelM(
 
 func PostCreateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "content":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.PostColumns.Content)
@@ -720,8 +693,7 @@ func PostUpdateInputToBoiler(
 		return nil
 	}
 	r := &models.Post{
-		Content: boilergql.PointerStringToString(m.Content),
-	}
+		Content: boilergql.PointerStringToString(m.Content)}
 	return r
 }
 
@@ -730,7 +702,7 @@ func PostUpdateInputToModelM(
 	m graphql_models.PostUpdateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "content":
 			modelM[models.PostColumns.Content] = boilergql.PointerStringToString(m.Content)
@@ -741,7 +713,7 @@ func PostUpdateInputToModelM(
 
 func PostUpdateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "content":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.PostColumns.Content)
@@ -768,10 +740,7 @@ func UserCreateInputToBoiler(
 		return nil
 	}
 	r := &models.User{
-		FirstName: m.FirstName,
-		LastName:  m.LastName,
-		Email:     m.Email,
-	}
+		FirstName: m.FirstName, LastName: m.LastName, Email: m.Email}
 	return r
 }
 
@@ -780,7 +749,7 @@ func UserCreateInputToModelM(
 	m graphql_models.UserCreateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "firstName":
 			modelM[models.UserColumns.FirstName] = m.FirstName
@@ -795,7 +764,7 @@ func UserCreateInputToModelM(
 
 func UserCreateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "firstName":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.UserColumns.FirstName)
@@ -826,10 +795,7 @@ func UserUpdateInputToBoiler(
 		return nil
 	}
 	r := &models.User{
-		FirstName: boilergql.PointerStringToString(m.FirstName),
-		LastName:  boilergql.PointerStringToString(m.LastName),
-		Email:     boilergql.PointerStringToString(m.Email),
-	}
+		FirstName: boilergql.PointerStringToString(m.FirstName), LastName: boilergql.PointerStringToString(m.LastName), Email: boilergql.PointerStringToString(m.Email)}
 	return r
 }
 
@@ -838,7 +804,7 @@ func UserUpdateInputToModelM(
 	m graphql_models.UserUpdateInput,
 ) models.M {
 	modelM := models.M{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "firstName":
 			modelM[models.UserColumns.FirstName] = boilergql.PointerStringToString(m.FirstName)
@@ -853,7 +819,7 @@ func UserUpdateInputToModelM(
 
 func UserUpdateInputToBoilerWhitelist(input map[string]interface{}, extraColumns ...string) boil.Columns {
 	columnsWhichAreSet := []string{}
-	for key, _ := range input {
+	for key := range input {
 		switch key {
 		case "firstName":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.UserColumns.FirstName)

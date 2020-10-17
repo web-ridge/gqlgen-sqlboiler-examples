@@ -26,6 +26,8 @@ const in = " IN ?"
 const notIn = " NOT IN ?"
 
 func appendSubQuery(queryMods []qm.QueryMod, q *queries.Query) []qm.QueryMod {
+	// TODO: integrate with subquery in sqlboiler if it will be released in the future
+
 	qs, args := queries.BuildQuery(q)
 	qsClean := strings.TrimSuffix(qs, ";")
 	return append(queryMods, qm.Where(fmt.Sprintf("EXISTS(%v)", qsClean), args...))
@@ -180,7 +182,7 @@ func CommentFilterToMods(m *graphql_models.CommentFilter) []qm.QueryMod {
 	if m.Search != nil || m.Where != nil {
 		var queryMods []qm.QueryMod
 		queryMods = append(queryMods, CommentSearchToMods(m.Search)...)
-		queryMods = append(queryMods, CommentWhereToMods(m.Where, true)...)
+		queryMods = append(queryMods, CommentWhereToMods(m.Where, true, "")...)
 		if len(queryMods) > 0 {
 			return []qm.QueryMod{
 				qm.Expr(queryMods...),
@@ -201,7 +203,7 @@ func CommentLikeFilterToMods(m *graphql_models.CommentLikeFilter) []qm.QueryMod 
 	if m.Search != nil || m.Where != nil {
 		var queryMods []qm.QueryMod
 		queryMods = append(queryMods, CommentLikeSearchToMods(m.Search)...)
-		queryMods = append(queryMods, CommentLikeWhereToMods(m.Where, true)...)
+		queryMods = append(queryMods, CommentLikeWhereToMods(m.Where, true, "")...)
 		if len(queryMods) > 0 {
 			return []qm.QueryMod{
 				qm.Expr(queryMods...),
@@ -215,7 +217,7 @@ func CommentLikeSearchToMods(search *string) []qm.QueryMod {
 	return nil
 }
 
-func CommentLikeWhereSubqueryToMods(m *graphql_models.CommentLikeWhere, foreignColumn string) []qm.QueryMod {
+func CommentLikeWhereSubqueryToMods(m *graphql_models.CommentLikeWhere, foreignColumn string, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -227,7 +229,7 @@ func CommentLikeWhereSubqueryToMods(m *graphql_models.CommentLikeWhere, foreignC
 		queryMods = append(queryMods, IDFilterToMods(m.ID, foreignColumn)...)
 	}
 
-	subQueryMods := CommentLikeWhereToMods(m, !hasForeignKeyInRoot)
+	subQueryMods := CommentLikeWhereToMods(m, !hasForeignKeyInRoot, parentTable)
 	if len(subQueryMods) > 0 {
 		subQuery := models.CommentLikes(append(subQueryMods, qm.Select("1"))...)
 		queryMods = appendSubQuery(queryMods, subQuery.Query)
@@ -235,7 +237,7 @@ func CommentLikeWhereSubqueryToMods(m *graphql_models.CommentLikeWhere, foreignC
 	return queryMods
 }
 
-func CommentLikeWhereToMods(m *graphql_models.CommentLikeWhere, withPrimaryID bool) []qm.QueryMod {
+func CommentLikeWhereToMods(m *graphql_models.CommentLikeWhere, withPrimaryID bool, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -244,20 +246,31 @@ func CommentLikeWhereToMods(m *graphql_models.CommentLikeWhere, withPrimaryID bo
 	if withPrimaryID {
 		queryMods = append(queryMods, IDFilterToMods(m.ID, models.CommentLikeColumns.ID)...)
 	}
-	queryMods = append(queryMods, CommentWhereSubqueryToMods(m.Comment, models.CommentLikeColumns.CommentID)...)
-	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.CommentLikeColumns.UserID)...)
+	queryMods = append(queryMods, CommentWhereSubqueryToMods(m.Comment, models.CommentLikeColumns.CommentID, models.TableNames.CommentLike)...)
+	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.CommentLikeColumns.UserID, models.TableNames.CommentLike)...)
 	queryMods = append(queryMods, StringFilterToMods(m.LikeType, models.CommentLikeColumns.LikeType)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.CommentLikeColumns.CreatedAt)...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(CommentLikeWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(CommentLikeWhereToMods(m.Or, true, "")...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(CommentLikeWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(CommentLikeWhereToMods(m.And, true, "")...))
 	}
+
+	if len(queryMods) > 0 && parentTable != "" {
+
+		if parentTable == models.TableNames.Comment {
+			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.CommentLike, models.CommentLikeColumns.CommentID, parentTable)))
+		}
+		if parentTable == models.TableNames.User {
+			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.CommentLike, models.CommentLikeColumns.UserID, parentTable)))
+		}
+	}
+
 	return queryMods
 }
 
-func CommentWhereSubqueryToMods(m *graphql_models.CommentWhere, foreignColumn string) []qm.QueryMod {
+func CommentWhereSubqueryToMods(m *graphql_models.CommentWhere, foreignColumn string, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -269,7 +282,7 @@ func CommentWhereSubqueryToMods(m *graphql_models.CommentWhere, foreignColumn st
 		queryMods = append(queryMods, IDFilterToMods(m.ID, foreignColumn)...)
 	}
 
-	subQueryMods := CommentWhereToMods(m, !hasForeignKeyInRoot)
+	subQueryMods := CommentWhereToMods(m, !hasForeignKeyInRoot, parentTable)
 	if len(subQueryMods) > 0 {
 		subQuery := models.Comments(append(subQueryMods, qm.Select("1"))...)
 		queryMods = appendSubQuery(queryMods, subQuery.Query)
@@ -277,7 +290,7 @@ func CommentWhereSubqueryToMods(m *graphql_models.CommentWhere, foreignColumn st
 	return queryMods
 }
 
-func CommentWhereToMods(m *graphql_models.CommentWhere, withPrimaryID bool) []qm.QueryMod {
+func CommentWhereToMods(m *graphql_models.CommentWhere, withPrimaryID bool, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -287,15 +300,26 @@ func CommentWhereToMods(m *graphql_models.CommentWhere, withPrimaryID bool) []qm
 		queryMods = append(queryMods, IDFilterToMods(m.ID, models.CommentColumns.ID)...)
 	}
 	queryMods = append(queryMods, StringFilterToMods(m.Content, models.CommentColumns.Content)...)
-	queryMods = append(queryMods, PostWhereSubqueryToMods(m.Post, models.CommentColumns.PostID)...)
-	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.CommentColumns.UserID)...)
-	queryMods = append(queryMods, CommentLikeWhereSubqueryToMods(m.CommentLikes, "")...)
+	queryMods = append(queryMods, PostWhereSubqueryToMods(m.Post, models.CommentColumns.PostID, models.TableNames.Comment)...)
+	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.CommentColumns.UserID, models.TableNames.Comment)...)
+	queryMods = append(queryMods, CommentLikeWhereSubqueryToMods(m.CommentLikes, "", models.TableNames.Comment)...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(CommentWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(CommentWhereToMods(m.Or, true, "")...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(CommentWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(CommentWhereToMods(m.And, true, "")...))
 	}
+
+	if len(queryMods) > 0 && parentTable != "" {
+
+		if parentTable == models.TableNames.Post {
+			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Comment, models.CommentColumns.PostID, parentTable)))
+		}
+		if parentTable == models.TableNames.User {
+			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Comment, models.CommentColumns.UserID, parentTable)))
+		}
+	}
+
 	return queryMods
 }
 
@@ -306,7 +330,7 @@ func FriendshipFilterToMods(m *graphql_models.FriendshipFilter) []qm.QueryMod {
 	if m.Search != nil || m.Where != nil {
 		var queryMods []qm.QueryMod
 		queryMods = append(queryMods, FriendshipSearchToMods(m.Search)...)
-		queryMods = append(queryMods, FriendshipWhereToMods(m.Where, true)...)
+		queryMods = append(queryMods, FriendshipWhereToMods(m.Where, true, "")...)
 		if len(queryMods) > 0 {
 			return []qm.QueryMod{
 				qm.Expr(queryMods...),
@@ -320,7 +344,7 @@ func FriendshipSearchToMods(search *string) []qm.QueryMod {
 	return nil
 }
 
-func FriendshipWhereSubqueryToMods(m *graphql_models.FriendshipWhere, foreignColumn string) []qm.QueryMod {
+func FriendshipWhereSubqueryToMods(m *graphql_models.FriendshipWhere, foreignColumn string, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -332,7 +356,7 @@ func FriendshipWhereSubqueryToMods(m *graphql_models.FriendshipWhere, foreignCol
 		queryMods = append(queryMods, IDFilterToMods(m.ID, foreignColumn)...)
 	}
 
-	subQueryMods := FriendshipWhereToMods(m, !hasForeignKeyInRoot)
+	subQueryMods := FriendshipWhereToMods(m, !hasForeignKeyInRoot, parentTable)
 	if len(subQueryMods) > 0 {
 		subQuery := models.Friendships(append(subQueryMods, qm.Select("1"))...)
 		queryMods = appendSubQuery(queryMods, subQuery.Query)
@@ -340,7 +364,7 @@ func FriendshipWhereSubqueryToMods(m *graphql_models.FriendshipWhere, foreignCol
 	return queryMods
 }
 
-func FriendshipWhereToMods(m *graphql_models.FriendshipWhere, withPrimaryID bool) []qm.QueryMod {
+func FriendshipWhereToMods(m *graphql_models.FriendshipWhere, withPrimaryID bool, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -350,13 +374,18 @@ func FriendshipWhereToMods(m *graphql_models.FriendshipWhere, withPrimaryID bool
 		queryMods = append(queryMods, IDFilterToMods(m.ID, models.FriendshipColumns.ID)...)
 	}
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.FriendshipColumns.CreatedAt)...)
-	queryMods = append(queryMods, UserWhereSubqueryToMods(m.Users, "")...)
+	queryMods = append(queryMods, UserWhereSubqueryToMods(m.Users, "", models.TableNames.Friendship)...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(FriendshipWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(FriendshipWhereToMods(m.Or, true, "")...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(FriendshipWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(FriendshipWhereToMods(m.And, true, "")...))
 	}
+
+	if len(queryMods) > 0 && parentTable != "" {
+
+	}
+
 	return queryMods
 }
 
@@ -367,7 +396,7 @@ func ImageFilterToMods(m *graphql_models.ImageFilter) []qm.QueryMod {
 	if m.Search != nil || m.Where != nil {
 		var queryMods []qm.QueryMod
 		queryMods = append(queryMods, ImageSearchToMods(m.Search)...)
-		queryMods = append(queryMods, ImageWhereToMods(m.Where, true)...)
+		queryMods = append(queryMods, ImageWhereToMods(m.Where, true, "")...)
 		if len(queryMods) > 0 {
 			return []qm.QueryMod{
 				qm.Expr(queryMods...),
@@ -388,7 +417,7 @@ func ImageVariationFilterToMods(m *graphql_models.ImageVariationFilter) []qm.Que
 	if m.Search != nil || m.Where != nil {
 		var queryMods []qm.QueryMod
 		queryMods = append(queryMods, ImageVariationSearchToMods(m.Search)...)
-		queryMods = append(queryMods, ImageVariationWhereToMods(m.Where, true)...)
+		queryMods = append(queryMods, ImageVariationWhereToMods(m.Where, true, "")...)
 		if len(queryMods) > 0 {
 			return []qm.QueryMod{
 				qm.Expr(queryMods...),
@@ -402,7 +431,7 @@ func ImageVariationSearchToMods(search *string) []qm.QueryMod {
 	return nil
 }
 
-func ImageVariationWhereSubqueryToMods(m *graphql_models.ImageVariationWhere, foreignColumn string) []qm.QueryMod {
+func ImageVariationWhereSubqueryToMods(m *graphql_models.ImageVariationWhere, foreignColumn string, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -414,7 +443,7 @@ func ImageVariationWhereSubqueryToMods(m *graphql_models.ImageVariationWhere, fo
 		queryMods = append(queryMods, IDFilterToMods(m.ID, foreignColumn)...)
 	}
 
-	subQueryMods := ImageVariationWhereToMods(m, !hasForeignKeyInRoot)
+	subQueryMods := ImageVariationWhereToMods(m, !hasForeignKeyInRoot, parentTable)
 	if len(subQueryMods) > 0 {
 		subQuery := models.ImageVariations(append(subQueryMods, qm.Select("1"))...)
 		queryMods = appendSubQuery(queryMods, subQuery.Query)
@@ -422,7 +451,7 @@ func ImageVariationWhereSubqueryToMods(m *graphql_models.ImageVariationWhere, fo
 	return queryMods
 }
 
-func ImageVariationWhereToMods(m *graphql_models.ImageVariationWhere, withPrimaryID bool) []qm.QueryMod {
+func ImageVariationWhereToMods(m *graphql_models.ImageVariationWhere, withPrimaryID bool, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -431,17 +460,25 @@ func ImageVariationWhereToMods(m *graphql_models.ImageVariationWhere, withPrimar
 	if withPrimaryID {
 		queryMods = append(queryMods, IDFilterToMods(m.ID, models.ImageVariationColumns.ID)...)
 	}
-	queryMods = append(queryMods, ImageWhereSubqueryToMods(m.Image, models.ImageVariationColumns.ImageID)...)
+	queryMods = append(queryMods, ImageWhereSubqueryToMods(m.Image, models.ImageVariationColumns.ImageID, models.TableNames.ImageVariation)...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(ImageVariationWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(ImageVariationWhereToMods(m.Or, true, "")...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(ImageVariationWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(ImageVariationWhereToMods(m.And, true, "")...))
 	}
+
+	if len(queryMods) > 0 && parentTable != "" {
+
+		if parentTable == models.TableNames.Image {
+			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.ImageVariation, models.ImageVariationColumns.ImageID, parentTable)))
+		}
+	}
+
 	return queryMods
 }
 
-func ImageWhereSubqueryToMods(m *graphql_models.ImageWhere, foreignColumn string) []qm.QueryMod {
+func ImageWhereSubqueryToMods(m *graphql_models.ImageWhere, foreignColumn string, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -453,7 +490,7 @@ func ImageWhereSubqueryToMods(m *graphql_models.ImageWhere, foreignColumn string
 		queryMods = append(queryMods, IDFilterToMods(m.ID, foreignColumn)...)
 	}
 
-	subQueryMods := ImageWhereToMods(m, !hasForeignKeyInRoot)
+	subQueryMods := ImageWhereToMods(m, !hasForeignKeyInRoot, parentTable)
 	if len(subQueryMods) > 0 {
 		subQuery := models.Images(append(subQueryMods, qm.Select("1"))...)
 		queryMods = appendSubQuery(queryMods, subQuery.Query)
@@ -461,7 +498,7 @@ func ImageWhereSubqueryToMods(m *graphql_models.ImageWhere, foreignColumn string
 	return queryMods
 }
 
-func ImageWhereToMods(m *graphql_models.ImageWhere, withPrimaryID bool) []qm.QueryMod {
+func ImageWhereToMods(m *graphql_models.ImageWhere, withPrimaryID bool, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -470,16 +507,24 @@ func ImageWhereToMods(m *graphql_models.ImageWhere, withPrimaryID bool) []qm.Que
 	if withPrimaryID {
 		queryMods = append(queryMods, IDFilterToMods(m.ID, models.ImageColumns.ID)...)
 	}
-	queryMods = append(queryMods, PostWhereSubqueryToMods(m.Post, models.ImageColumns.PostID)...)
+	queryMods = append(queryMods, PostWhereSubqueryToMods(m.Post, models.ImageColumns.PostID, models.TableNames.Image)...)
 	queryMods = append(queryMods, IntFilterToMods(m.Views, models.ImageColumns.Views)...)
 	queryMods = append(queryMods, StringFilterToMods(m.OriginalURL, models.ImageColumns.OriginalURL)...)
-	queryMods = append(queryMods, ImageVariationWhereSubqueryToMods(m.ImageVariations, "")...)
+	queryMods = append(queryMods, ImageVariationWhereSubqueryToMods(m.ImageVariations, "", models.TableNames.Image)...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(ImageWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(ImageWhereToMods(m.Or, true, "")...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(ImageWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(ImageWhereToMods(m.And, true, "")...))
 	}
+
+	if len(queryMods) > 0 && parentTable != "" {
+
+		if parentTable == models.TableNames.Post {
+			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Image, models.ImageColumns.PostID, parentTable)))
+		}
+	}
+
 	return queryMods
 }
 
@@ -490,7 +535,7 @@ func LikeFilterToMods(m *graphql_models.LikeFilter) []qm.QueryMod {
 	if m.Search != nil || m.Where != nil {
 		var queryMods []qm.QueryMod
 		queryMods = append(queryMods, LikeSearchToMods(m.Search)...)
-		queryMods = append(queryMods, LikeWhereToMods(m.Where, true)...)
+		queryMods = append(queryMods, LikeWhereToMods(m.Where, true, "")...)
 		if len(queryMods) > 0 {
 			return []qm.QueryMod{
 				qm.Expr(queryMods...),
@@ -504,7 +549,7 @@ func LikeSearchToMods(search *string) []qm.QueryMod {
 	return nil
 }
 
-func LikeWhereSubqueryToMods(m *graphql_models.LikeWhere, foreignColumn string) []qm.QueryMod {
+func LikeWhereSubqueryToMods(m *graphql_models.LikeWhere, foreignColumn string, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -516,7 +561,7 @@ func LikeWhereSubqueryToMods(m *graphql_models.LikeWhere, foreignColumn string) 
 		queryMods = append(queryMods, IDFilterToMods(m.ID, foreignColumn)...)
 	}
 
-	subQueryMods := LikeWhereToMods(m, !hasForeignKeyInRoot)
+	subQueryMods := LikeWhereToMods(m, !hasForeignKeyInRoot, parentTable)
 	if len(subQueryMods) > 0 {
 		subQuery := models.Likes(append(subQueryMods, qm.Select("1"))...)
 		queryMods = appendSubQuery(queryMods, subQuery.Query)
@@ -524,7 +569,7 @@ func LikeWhereSubqueryToMods(m *graphql_models.LikeWhere, foreignColumn string) 
 	return queryMods
 }
 
-func LikeWhereToMods(m *graphql_models.LikeWhere, withPrimaryID bool) []qm.QueryMod {
+func LikeWhereToMods(m *graphql_models.LikeWhere, withPrimaryID bool, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -533,16 +578,27 @@ func LikeWhereToMods(m *graphql_models.LikeWhere, withPrimaryID bool) []qm.Query
 	if withPrimaryID {
 		queryMods = append(queryMods, IDFilterToMods(m.ID, models.LikeColumns.ID)...)
 	}
-	queryMods = append(queryMods, PostWhereSubqueryToMods(m.Post, models.LikeColumns.PostID)...)
-	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.LikeColumns.UserID)...)
+	queryMods = append(queryMods, PostWhereSubqueryToMods(m.Post, models.LikeColumns.PostID, models.TableNames.Like)...)
+	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.LikeColumns.UserID, models.TableNames.Like)...)
 	queryMods = append(queryMods, StringFilterToMods(m.LikeType, models.LikeColumns.LikeType)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.LikeColumns.CreatedAt)...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(LikeWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(LikeWhereToMods(m.Or, true, "")...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(LikeWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(LikeWhereToMods(m.And, true, "")...))
 	}
+
+	if len(queryMods) > 0 && parentTable != "" {
+
+		if parentTable == models.TableNames.Post {
+			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Like, models.LikeColumns.PostID, parentTable)))
+		}
+		if parentTable == models.TableNames.User {
+			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Like, models.LikeColumns.UserID, parentTable)))
+		}
+	}
+
 	return queryMods
 }
 
@@ -553,7 +609,7 @@ func PostFilterToMods(m *graphql_models.PostFilter) []qm.QueryMod {
 	if m.Search != nil || m.Where != nil {
 		var queryMods []qm.QueryMod
 		queryMods = append(queryMods, PostSearchToMods(m.Search)...)
-		queryMods = append(queryMods, PostWhereToMods(m.Where, true)...)
+		queryMods = append(queryMods, PostWhereToMods(m.Where, true, "")...)
 		if len(queryMods) > 0 {
 			return []qm.QueryMod{
 				qm.Expr(queryMods...),
@@ -567,7 +623,7 @@ func PostSearchToMods(search *string) []qm.QueryMod {
 	return nil
 }
 
-func PostWhereSubqueryToMods(m *graphql_models.PostWhere, foreignColumn string) []qm.QueryMod {
+func PostWhereSubqueryToMods(m *graphql_models.PostWhere, foreignColumn string, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -579,7 +635,7 @@ func PostWhereSubqueryToMods(m *graphql_models.PostWhere, foreignColumn string) 
 		queryMods = append(queryMods, IDFilterToMods(m.ID, foreignColumn)...)
 	}
 
-	subQueryMods := PostWhereToMods(m, !hasForeignKeyInRoot)
+	subQueryMods := PostWhereToMods(m, !hasForeignKeyInRoot, parentTable)
 	if len(subQueryMods) > 0 {
 		subQuery := models.Posts(append(subQueryMods, qm.Select("1"))...)
 		queryMods = appendSubQuery(queryMods, subQuery.Query)
@@ -587,7 +643,7 @@ func PostWhereSubqueryToMods(m *graphql_models.PostWhere, foreignColumn string) 
 	return queryMods
 }
 
-func PostWhereToMods(m *graphql_models.PostWhere, withPrimaryID bool) []qm.QueryMod {
+func PostWhereToMods(m *graphql_models.PostWhere, withPrimaryID bool, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -597,16 +653,24 @@ func PostWhereToMods(m *graphql_models.PostWhere, withPrimaryID bool) []qm.Query
 		queryMods = append(queryMods, IDFilterToMods(m.ID, models.PostColumns.ID)...)
 	}
 	queryMods = append(queryMods, StringFilterToMods(m.Content, models.PostColumns.Content)...)
-	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.PostColumns.UserID)...)
-	queryMods = append(queryMods, CommentWhereSubqueryToMods(m.Comments, "")...)
-	queryMods = append(queryMods, ImageWhereSubqueryToMods(m.Images, "")...)
-	queryMods = append(queryMods, LikeWhereSubqueryToMods(m.Likes, "")...)
+	queryMods = append(queryMods, UserWhereSubqueryToMods(m.User, models.PostColumns.UserID, models.TableNames.Post)...)
+	queryMods = append(queryMods, CommentWhereSubqueryToMods(m.Comments, "", models.TableNames.Post)...)
+	queryMods = append(queryMods, ImageWhereSubqueryToMods(m.Images, "", models.TableNames.Post)...)
+	queryMods = append(queryMods, LikeWhereSubqueryToMods(m.Likes, "", models.TableNames.Post)...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(PostWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(PostWhereToMods(m.Or, true, "")...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(PostWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(PostWhereToMods(m.And, true, "")...))
 	}
+
+	if len(queryMods) > 0 && parentTable != "" {
+
+		if parentTable == models.TableNames.User {
+			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Post, models.PostColumns.UserID, parentTable)))
+		}
+	}
+
 	return queryMods
 }
 
@@ -617,7 +681,7 @@ func UserFilterToMods(m *graphql_models.UserFilter) []qm.QueryMod {
 	if m.Search != nil || m.Where != nil {
 		var queryMods []qm.QueryMod
 		queryMods = append(queryMods, UserSearchToMods(m.Search)...)
-		queryMods = append(queryMods, UserWhereToMods(m.Where, true)...)
+		queryMods = append(queryMods, UserWhereToMods(m.Where, true, "")...)
 		if len(queryMods) > 0 {
 			return []qm.QueryMod{
 				qm.Expr(queryMods...),
@@ -631,7 +695,7 @@ func UserSearchToMods(search *string) []qm.QueryMod {
 	return nil
 }
 
-func UserWhereSubqueryToMods(m *graphql_models.UserWhere, foreignColumn string) []qm.QueryMod {
+func UserWhereSubqueryToMods(m *graphql_models.UserWhere, foreignColumn string, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -643,7 +707,7 @@ func UserWhereSubqueryToMods(m *graphql_models.UserWhere, foreignColumn string) 
 		queryMods = append(queryMods, IDFilterToMods(m.ID, foreignColumn)...)
 	}
 
-	subQueryMods := UserWhereToMods(m, !hasForeignKeyInRoot)
+	subQueryMods := UserWhereToMods(m, !hasForeignKeyInRoot, parentTable)
 	if len(subQueryMods) > 0 {
 		subQuery := models.Users(append(subQueryMods, qm.Select("1"))...)
 		queryMods = appendSubQuery(queryMods, subQuery.Query)
@@ -651,7 +715,7 @@ func UserWhereSubqueryToMods(m *graphql_models.UserWhere, foreignColumn string) 
 	return queryMods
 }
 
-func UserWhereToMods(m *graphql_models.UserWhere, withPrimaryID bool) []qm.QueryMod {
+func UserWhereToMods(m *graphql_models.UserWhere, withPrimaryID bool, parentTable string) []qm.QueryMod {
 	if m == nil {
 		return nil
 	}
@@ -663,16 +727,21 @@ func UserWhereToMods(m *graphql_models.UserWhere, withPrimaryID bool) []qm.Query
 	queryMods = append(queryMods, StringFilterToMods(m.FirstName, models.UserColumns.FirstName)...)
 	queryMods = append(queryMods, StringFilterToMods(m.LastName, models.UserColumns.LastName)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Email, models.UserColumns.Email)...)
-	queryMods = append(queryMods, CommentWhereSubqueryToMods(m.Comments, "")...)
-	queryMods = append(queryMods, CommentLikeWhereSubqueryToMods(m.CommentLikes, "")...)
-	queryMods = append(queryMods, LikeWhereSubqueryToMods(m.Likes, "")...)
-	queryMods = append(queryMods, PostWhereSubqueryToMods(m.Posts, "")...)
-	queryMods = append(queryMods, FriendshipWhereSubqueryToMods(m.Friendships, "")...)
+	queryMods = append(queryMods, CommentWhereSubqueryToMods(m.Comments, "", models.TableNames.User)...)
+	queryMods = append(queryMods, CommentLikeWhereSubqueryToMods(m.CommentLikes, "", models.TableNames.User)...)
+	queryMods = append(queryMods, LikeWhereSubqueryToMods(m.Likes, "", models.TableNames.User)...)
+	queryMods = append(queryMods, PostWhereSubqueryToMods(m.Posts, "", models.TableNames.User)...)
+	queryMods = append(queryMods, FriendshipWhereSubqueryToMods(m.Friendships, "", models.TableNames.User)...)
 	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(UserWhereToMods(m.Or, true)...)))
+		queryMods = append(queryMods, qm.Or2(qm.Expr(UserWhereToMods(m.Or, true, "")...)))
 	}
 	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(UserWhereToMods(m.And, true)...))
+		queryMods = append(queryMods, qm.Expr(UserWhereToMods(m.And, true, "")...))
 	}
+
+	if len(queryMods) > 0 && parentTable != "" {
+
+	}
+
 	return queryMods
 }

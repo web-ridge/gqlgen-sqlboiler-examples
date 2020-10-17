@@ -45,7 +45,6 @@ func CommentToGraphQL(m *models.Comment) *graphql_models.Comment {
 			r.Post = PostWithNullDotStringID(m.PostID)
 		}
 	}
-
 	if boilergql.StringIsFilled(m.UserID) {
 		if m.R != nil && m.R.User != nil {
 			r.User = UserToGraphQL(m.R.User)
@@ -97,7 +96,6 @@ func CommentLikeToGraphQL(m *models.CommentLike) *graphql_models.CommentLike {
 			r.Comment = CommentWithStringID(m.CommentID)
 		}
 	}
-
 	if boilergql.StringIsFilled(m.UserID) {
 		if m.R != nil && m.R.User != nil {
 			r.User = UserToGraphQL(m.R.User)
@@ -265,7 +263,6 @@ func LikeToGraphQL(m *models.Like) *graphql_models.Like {
 			r.Post = PostWithStringID(m.PostID)
 		}
 	}
-
 	if boilergql.StringIsFilled(m.UserID) {
 		if m.R != nil && m.R.User != nil {
 			r.User = UserToGraphQL(m.R.User)

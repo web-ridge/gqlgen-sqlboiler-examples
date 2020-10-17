@@ -21,7 +21,7 @@ type Resolver struct {
 
 const inputKey = "input"
 
-const publicCommentCreateError = "Could not create comment"
+const publicOneCommentCreateError = "could not create comment"
 
 func (r *mutationResolver) CreateComment(ctx context.Context, input fm.CommentCreateInput) (*fm.CommentPayload, error) {
 
@@ -31,37 +31,39 @@ func (r *mutationResolver) CreateComment(ctx context.Context, input fm.CommentCr
 
 	whiteList := CommentCreateInputToBoilerWhitelist(
 		boilergql.GetInputFromContext(ctx, inputKey),
+
 		dm.CommentColumns.UserID,
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicCommentCreateError)
-		return nil, errors.New(publicCommentCreateError)
+		log.Error().Err(err).Msg(publicOneCommentCreateError)
+		return nil, errors.New(publicOneCommentCreateError)
 	}
 
 	// resolve requested fields after creating
 	mods := GetCommentPreloadModsWithLevel(ctx, CommentPayloadPreloadLevels.Comment)
 	mods = append(mods, dm.CommentWhere.ID.EQ(m.ID))
+
 	mods = append(mods, dm.CommentWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
 	pM, err := dm.Comments(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicCommentCreateError)
-		return nil, errors.New(publicCommentCreateError)
+		log.Error().Err(err).Msg(publicOneCommentCreateError)
+		return nil, errors.New(publicOneCommentCreateError)
 	}
 	return &fm.CommentPayload{
 		Comment: CommentToGraphQL(pM),
 	}, nil
 }
 
-const publicCommentBatchCreateError = "Could not create comments"
+//const publicCommentBatchCreateError = "could not create comments"
 
 func (r *mutationResolver) CreateComments(ctx context.Context, input fm.CommentsCreateInput) (*fm.CommentsPayload, error) {
 	// TODO: Implement batch create
 	return nil, nil
 }
 
-const publicCommentUpdateError = "Could not update comment"
+const publicOneCommentUpdateError = "could not update comment"
 
 func (r *mutationResolver) UpdateComment(ctx context.Context, id string, input fm.CommentUpdateInput) (*fm.CommentPayload, error) {
 	m := CommentUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -70,31 +72,33 @@ func (r *mutationResolver) UpdateComment(ctx context.Context, id string, input f
 
 	if _, err := dm.Comments(
 		dm.CommentWhere.ID.EQ(dbID),
+
 		dm.CommentWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicCommentUpdateError)
-		return nil, errors.New(publicCommentUpdateError)
+		log.Error().Err(err).Msg(publicOneCommentUpdateError)
+		return nil, errors.New(publicOneCommentUpdateError)
 	}
 
 	// resolve requested fields after updating
 	mods := GetCommentPreloadModsWithLevel(ctx, CommentPayloadPreloadLevels.Comment)
 	mods = append(mods, dm.CommentWhere.ID.EQ(dbID))
-	mods = append(mods, dm.CommentWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
+	mods = append(mods, dm.CommentWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	pM, err := dm.Comments(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicCommentUpdateError)
-		return nil, errors.New(publicCommentUpdateError)
+		log.Error().Err(err).Msg(publicOneCommentUpdateError)
+		return nil, errors.New(publicOneCommentUpdateError)
 	}
 	return &fm.CommentPayload{
 		Comment: CommentToGraphQL(pM),
 	}, nil
 }
 
-const publicCommentBatchUpdateError = "Could not update comments"
+const publicCommentBatchUpdateError = "could not update comments"
 
 func (r *mutationResolver) UpdateComments(ctx context.Context, filter *fm.CommentFilter, input fm.CommentUpdateInput) (*fm.CommentsUpdatePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, dm.CommentWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
@@ -111,18 +115,19 @@ func (r *mutationResolver) UpdateComments(ctx context.Context, filter *fm.Commen
 	}, nil
 }
 
-const publicCommentDeleteError = "Could not delete comment"
+const publicOneCommentDeleteError = "could not delete comment"
 
 func (r *mutationResolver) DeleteComment(ctx context.Context, id string) (*fm.CommentDeletePayload, error) {
 	dbID := id
 
 	mods := []qm.QueryMod{
 		dm.CommentWhere.ID.EQ(dbID),
+
 		dm.CommentWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	}
 	if _, err := dm.Comments(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicCommentDeleteError)
-		return nil, errors.New(publicCommentDeleteError)
+		log.Error().Err(err).Msg(publicOneCommentDeleteError)
+		return nil, errors.New(publicOneCommentDeleteError)
 	}
 
 	return &fm.CommentDeletePayload{
@@ -130,10 +135,11 @@ func (r *mutationResolver) DeleteComment(ctx context.Context, id string) (*fm.Co
 	}, nil
 }
 
-const publicCommentBatchDeleteError = "Could not delete comments"
+const publicCommentBatchDeleteError = "could not delete comments"
 
 func (r *mutationResolver) DeleteComments(ctx context.Context, filter *fm.CommentFilter) (*fm.CommentsDeletePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, dm.CommentWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
@@ -156,7 +162,7 @@ func (r *mutationResolver) DeleteComments(ctx context.Context, filter *fm.Commen
 	}, nil
 }
 
-const publicCommentLikeCreateError = "Could not create commentLike"
+const publicOneCommentLikeCreateError = "could not create commentLike"
 
 func (r *mutationResolver) CreateCommentLike(ctx context.Context, input fm.CommentLikeCreateInput) (*fm.CommentLikePayload, error) {
 
@@ -166,37 +172,39 @@ func (r *mutationResolver) CreateCommentLike(ctx context.Context, input fm.Comme
 
 	whiteList := CommentLikeCreateInputToBoilerWhitelist(
 		boilergql.GetInputFromContext(ctx, inputKey),
+
 		dm.CommentLikeColumns.UserID,
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicCommentLikeCreateError)
-		return nil, errors.New(publicCommentLikeCreateError)
+		log.Error().Err(err).Msg(publicOneCommentLikeCreateError)
+		return nil, errors.New(publicOneCommentLikeCreateError)
 	}
 
 	// resolve requested fields after creating
 	mods := GetCommentLikePreloadModsWithLevel(ctx, CommentLikePayloadPreloadLevels.CommentLike)
 	mods = append(mods, dm.CommentLikeWhere.ID.EQ(m.ID))
+
 	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
 	pM, err := dm.CommentLikes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicCommentLikeCreateError)
-		return nil, errors.New(publicCommentLikeCreateError)
+		log.Error().Err(err).Msg(publicOneCommentLikeCreateError)
+		return nil, errors.New(publicOneCommentLikeCreateError)
 	}
 	return &fm.CommentLikePayload{
 		CommentLike: CommentLikeToGraphQL(pM),
 	}, nil
 }
 
-const publicCommentLikeBatchCreateError = "Could not create commentLikes"
+//const publicCommentLikeBatchCreateError = "could not create commentLikes"
 
 func (r *mutationResolver) CreateCommentLikes(ctx context.Context, input fm.CommentLikesCreateInput) (*fm.CommentLikesPayload, error) {
 	// TODO: Implement batch create
 	return nil, nil
 }
 
-const publicCommentLikeUpdateError = "Could not update commentLike"
+const publicOneCommentLikeUpdateError = "could not update commentLike"
 
 func (r *mutationResolver) UpdateCommentLike(ctx context.Context, id string, input fm.CommentLikeUpdateInput) (*fm.CommentLikePayload, error) {
 	m := CommentLikeUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -205,31 +213,33 @@ func (r *mutationResolver) UpdateCommentLike(ctx context.Context, id string, inp
 
 	if _, err := dm.CommentLikes(
 		dm.CommentLikeWhere.ID.EQ(dbID),
+
 		dm.CommentLikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicCommentLikeUpdateError)
-		return nil, errors.New(publicCommentLikeUpdateError)
+		log.Error().Err(err).Msg(publicOneCommentLikeUpdateError)
+		return nil, errors.New(publicOneCommentLikeUpdateError)
 	}
 
 	// resolve requested fields after updating
 	mods := GetCommentLikePreloadModsWithLevel(ctx, CommentLikePayloadPreloadLevels.CommentLike)
 	mods = append(mods, dm.CommentLikeWhere.ID.EQ(dbID))
-	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
+	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	pM, err := dm.CommentLikes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicCommentLikeUpdateError)
-		return nil, errors.New(publicCommentLikeUpdateError)
+		log.Error().Err(err).Msg(publicOneCommentLikeUpdateError)
+		return nil, errors.New(publicOneCommentLikeUpdateError)
 	}
 	return &fm.CommentLikePayload{
 		CommentLike: CommentLikeToGraphQL(pM),
 	}, nil
 }
 
-const publicCommentLikeBatchUpdateError = "Could not update commentLikes"
+const publicCommentLikeBatchUpdateError = "could not update commentLikes"
 
 func (r *mutationResolver) UpdateCommentLikes(ctx context.Context, filter *fm.CommentLikeFilter, input fm.CommentLikeUpdateInput) (*fm.CommentLikesUpdatePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
@@ -246,18 +256,19 @@ func (r *mutationResolver) UpdateCommentLikes(ctx context.Context, filter *fm.Co
 	}, nil
 }
 
-const publicCommentLikeDeleteError = "Could not delete commentLike"
+const publicOneCommentLikeDeleteError = "could not delete commentLike"
 
 func (r *mutationResolver) DeleteCommentLike(ctx context.Context, id string) (*fm.CommentLikeDeletePayload, error) {
 	dbID := id
 
 	mods := []qm.QueryMod{
 		dm.CommentLikeWhere.ID.EQ(dbID),
+
 		dm.CommentLikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	}
 	if _, err := dm.CommentLikes(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicCommentLikeDeleteError)
-		return nil, errors.New(publicCommentLikeDeleteError)
+		log.Error().Err(err).Msg(publicOneCommentLikeDeleteError)
+		return nil, errors.New(publicOneCommentLikeDeleteError)
 	}
 
 	return &fm.CommentLikeDeletePayload{
@@ -265,10 +276,11 @@ func (r *mutationResolver) DeleteCommentLike(ctx context.Context, id string) (*f
 	}, nil
 }
 
-const publicCommentLikeBatchDeleteError = "Could not delete commentLikes"
+const publicCommentLikeBatchDeleteError = "could not delete commentLikes"
 
 func (r *mutationResolver) DeleteCommentLikes(ctx context.Context, filter *fm.CommentLikeFilter) (*fm.CommentLikesDeletePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
@@ -291,7 +303,7 @@ func (r *mutationResolver) DeleteCommentLikes(ctx context.Context, filter *fm.Co
 	}, nil
 }
 
-const publicFriendshipCreateError = "Could not create friendship"
+const publicOneFriendshipCreateError = "could not create friendship"
 
 func (r *mutationResolver) CreateFriendship(ctx context.Context, input fm.FriendshipCreateInput) (*fm.FriendshipPayload, error) {
 
@@ -301,31 +313,32 @@ func (r *mutationResolver) CreateFriendship(ctx context.Context, input fm.Friend
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicFriendshipCreateError)
-		return nil, errors.New(publicFriendshipCreateError)
+		log.Error().Err(err).Msg(publicOneFriendshipCreateError)
+		return nil, errors.New(publicOneFriendshipCreateError)
 	}
 
 	// resolve requested fields after creating
 	mods := GetFriendshipPreloadModsWithLevel(ctx, FriendshipPayloadPreloadLevels.Friendship)
 	mods = append(mods, dm.FriendshipWhere.ID.EQ(m.ID))
+
 	pM, err := dm.Friendships(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicFriendshipCreateError)
-		return nil, errors.New(publicFriendshipCreateError)
+		log.Error().Err(err).Msg(publicOneFriendshipCreateError)
+		return nil, errors.New(publicOneFriendshipCreateError)
 	}
 	return &fm.FriendshipPayload{
 		Friendship: FriendshipToGraphQL(pM),
 	}, nil
 }
 
-const publicFriendshipBatchCreateError = "Could not create friendships"
+//const publicFriendshipBatchCreateError = "could not create friendships"
 
 func (r *mutationResolver) CreateFriendships(ctx context.Context, input fm.FriendshipsCreateInput) (*fm.FriendshipsPayload, error) {
 	// TODO: Implement batch create
 	return nil, nil
 }
 
-const publicFriendshipUpdateError = "Could not update friendship"
+const publicOneFriendshipUpdateError = "could not update friendship"
 
 func (r *mutationResolver) UpdateFriendship(ctx context.Context, id string, input fm.FriendshipUpdateInput) (*fm.FriendshipPayload, error) {
 	m := FriendshipUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -335,8 +348,8 @@ func (r *mutationResolver) UpdateFriendship(ctx context.Context, id string, inpu
 	if _, err := dm.Friendships(
 		dm.FriendshipWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicFriendshipUpdateError)
-		return nil, errors.New(publicFriendshipUpdateError)
+		log.Error().Err(err).Msg(publicOneFriendshipUpdateError)
+		return nil, errors.New(publicOneFriendshipUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -345,18 +358,19 @@ func (r *mutationResolver) UpdateFriendship(ctx context.Context, id string, inpu
 
 	pM, err := dm.Friendships(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicFriendshipUpdateError)
-		return nil, errors.New(publicFriendshipUpdateError)
+		log.Error().Err(err).Msg(publicOneFriendshipUpdateError)
+		return nil, errors.New(publicOneFriendshipUpdateError)
 	}
 	return &fm.FriendshipPayload{
 		Friendship: FriendshipToGraphQL(pM),
 	}, nil
 }
 
-const publicFriendshipBatchUpdateError = "Could not update friendships"
+const publicFriendshipBatchUpdateError = "could not update friendships"
 
 func (r *mutationResolver) UpdateFriendships(ctx context.Context, filter *fm.FriendshipFilter, input fm.FriendshipUpdateInput) (*fm.FriendshipsUpdatePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, FriendshipFilterToMods(filter)...)
 
 	m := FriendshipUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -370,7 +384,7 @@ func (r *mutationResolver) UpdateFriendships(ctx context.Context, filter *fm.Fri
 	}, nil
 }
 
-const publicFriendshipDeleteError = "Could not delete friendship"
+const publicOneFriendshipDeleteError = "could not delete friendship"
 
 func (r *mutationResolver) DeleteFriendship(ctx context.Context, id string) (*fm.FriendshipDeletePayload, error) {
 	dbID := id
@@ -379,8 +393,8 @@ func (r *mutationResolver) DeleteFriendship(ctx context.Context, id string) (*fm
 		dm.FriendshipWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.Friendships(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicFriendshipDeleteError)
-		return nil, errors.New(publicFriendshipDeleteError)
+		log.Error().Err(err).Msg(publicOneFriendshipDeleteError)
+		return nil, errors.New(publicOneFriendshipDeleteError)
 	}
 
 	return &fm.FriendshipDeletePayload{
@@ -388,10 +402,11 @@ func (r *mutationResolver) DeleteFriendship(ctx context.Context, id string) (*fm
 	}, nil
 }
 
-const publicFriendshipBatchDeleteError = "Could not delete friendships"
+const publicFriendshipBatchDeleteError = "could not delete friendships"
 
 func (r *mutationResolver) DeleteFriendships(ctx context.Context, filter *fm.FriendshipFilter) (*fm.FriendshipsDeletePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, FriendshipFilterToMods(filter)...)
 	mods = append(mods, qm.Select(dm.FriendshipColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.Friendship))
@@ -411,7 +426,7 @@ func (r *mutationResolver) DeleteFriendships(ctx context.Context, filter *fm.Fri
 	}, nil
 }
 
-const publicImageCreateError = "Could not create image"
+const publicOneImageCreateError = "could not create image"
 
 func (r *mutationResolver) CreateImage(ctx context.Context, input fm.ImageCreateInput) (*fm.ImagePayload, error) {
 
@@ -421,31 +436,32 @@ func (r *mutationResolver) CreateImage(ctx context.Context, input fm.ImageCreate
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicImageCreateError)
-		return nil, errors.New(publicImageCreateError)
+		log.Error().Err(err).Msg(publicOneImageCreateError)
+		return nil, errors.New(publicOneImageCreateError)
 	}
 
 	// resolve requested fields after creating
 	mods := GetImagePreloadModsWithLevel(ctx, ImagePayloadPreloadLevels.Image)
 	mods = append(mods, dm.ImageWhere.ID.EQ(m.ID))
+
 	pM, err := dm.Images(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicImageCreateError)
-		return nil, errors.New(publicImageCreateError)
+		log.Error().Err(err).Msg(publicOneImageCreateError)
+		return nil, errors.New(publicOneImageCreateError)
 	}
 	return &fm.ImagePayload{
 		Image: ImageToGraphQL(pM),
 	}, nil
 }
 
-const publicImageBatchCreateError = "Could not create images"
+//const publicImageBatchCreateError = "could not create images"
 
 func (r *mutationResolver) CreateImages(ctx context.Context, input fm.ImagesCreateInput) (*fm.ImagesPayload, error) {
 	// TODO: Implement batch create
 	return nil, nil
 }
 
-const publicImageUpdateError = "Could not update image"
+const publicOneImageUpdateError = "could not update image"
 
 func (r *mutationResolver) UpdateImage(ctx context.Context, id string, input fm.ImageUpdateInput) (*fm.ImagePayload, error) {
 	m := ImageUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -455,8 +471,8 @@ func (r *mutationResolver) UpdateImage(ctx context.Context, id string, input fm.
 	if _, err := dm.Images(
 		dm.ImageWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicImageUpdateError)
-		return nil, errors.New(publicImageUpdateError)
+		log.Error().Err(err).Msg(publicOneImageUpdateError)
+		return nil, errors.New(publicOneImageUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -465,18 +481,19 @@ func (r *mutationResolver) UpdateImage(ctx context.Context, id string, input fm.
 
 	pM, err := dm.Images(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicImageUpdateError)
-		return nil, errors.New(publicImageUpdateError)
+		log.Error().Err(err).Msg(publicOneImageUpdateError)
+		return nil, errors.New(publicOneImageUpdateError)
 	}
 	return &fm.ImagePayload{
 		Image: ImageToGraphQL(pM),
 	}, nil
 }
 
-const publicImageBatchUpdateError = "Could not update images"
+const publicImageBatchUpdateError = "could not update images"
 
 func (r *mutationResolver) UpdateImages(ctx context.Context, filter *fm.ImageFilter, input fm.ImageUpdateInput) (*fm.ImagesUpdatePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, ImageFilterToMods(filter)...)
 
 	m := ImageUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -490,7 +507,7 @@ func (r *mutationResolver) UpdateImages(ctx context.Context, filter *fm.ImageFil
 	}, nil
 }
 
-const publicImageDeleteError = "Could not delete image"
+const publicOneImageDeleteError = "could not delete image"
 
 func (r *mutationResolver) DeleteImage(ctx context.Context, id string) (*fm.ImageDeletePayload, error) {
 	dbID := id
@@ -499,8 +516,8 @@ func (r *mutationResolver) DeleteImage(ctx context.Context, id string) (*fm.Imag
 		dm.ImageWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.Images(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicImageDeleteError)
-		return nil, errors.New(publicImageDeleteError)
+		log.Error().Err(err).Msg(publicOneImageDeleteError)
+		return nil, errors.New(publicOneImageDeleteError)
 	}
 
 	return &fm.ImageDeletePayload{
@@ -508,10 +525,11 @@ func (r *mutationResolver) DeleteImage(ctx context.Context, id string) (*fm.Imag
 	}, nil
 }
 
-const publicImageBatchDeleteError = "Could not delete images"
+const publicImageBatchDeleteError = "could not delete images"
 
 func (r *mutationResolver) DeleteImages(ctx context.Context, filter *fm.ImageFilter) (*fm.ImagesDeletePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, ImageFilterToMods(filter)...)
 	mods = append(mods, qm.Select(dm.ImageColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.Image))
@@ -531,7 +549,7 @@ func (r *mutationResolver) DeleteImages(ctx context.Context, filter *fm.ImageFil
 	}, nil
 }
 
-const publicImageVariationCreateError = "Could not create imageVariation"
+const publicOneImageVariationCreateError = "could not create imageVariation"
 
 func (r *mutationResolver) CreateImageVariation(ctx context.Context, input fm.ImageVariationCreateInput) (*fm.ImageVariationPayload, error) {
 
@@ -541,31 +559,32 @@ func (r *mutationResolver) CreateImageVariation(ctx context.Context, input fm.Im
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicImageVariationCreateError)
-		return nil, errors.New(publicImageVariationCreateError)
+		log.Error().Err(err).Msg(publicOneImageVariationCreateError)
+		return nil, errors.New(publicOneImageVariationCreateError)
 	}
 
 	// resolve requested fields after creating
 	mods := GetImageVariationPreloadModsWithLevel(ctx, ImageVariationPayloadPreloadLevels.ImageVariation)
 	mods = append(mods, dm.ImageVariationWhere.ID.EQ(m.ID))
+
 	pM, err := dm.ImageVariations(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicImageVariationCreateError)
-		return nil, errors.New(publicImageVariationCreateError)
+		log.Error().Err(err).Msg(publicOneImageVariationCreateError)
+		return nil, errors.New(publicOneImageVariationCreateError)
 	}
 	return &fm.ImageVariationPayload{
 		ImageVariation: ImageVariationToGraphQL(pM),
 	}, nil
 }
 
-const publicImageVariationBatchCreateError = "Could not create imageVariations"
+//const publicImageVariationBatchCreateError = "could not create imageVariations"
 
 func (r *mutationResolver) CreateImageVariations(ctx context.Context, input fm.ImageVariationsCreateInput) (*fm.ImageVariationsPayload, error) {
 	// TODO: Implement batch create
 	return nil, nil
 }
 
-const publicImageVariationUpdateError = "Could not update imageVariation"
+const publicOneImageVariationUpdateError = "could not update imageVariation"
 
 func (r *mutationResolver) UpdateImageVariation(ctx context.Context, id string, input fm.ImageVariationUpdateInput) (*fm.ImageVariationPayload, error) {
 	m := ImageVariationUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -575,8 +594,8 @@ func (r *mutationResolver) UpdateImageVariation(ctx context.Context, id string, 
 	if _, err := dm.ImageVariations(
 		dm.ImageVariationWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicImageVariationUpdateError)
-		return nil, errors.New(publicImageVariationUpdateError)
+		log.Error().Err(err).Msg(publicOneImageVariationUpdateError)
+		return nil, errors.New(publicOneImageVariationUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -585,18 +604,19 @@ func (r *mutationResolver) UpdateImageVariation(ctx context.Context, id string, 
 
 	pM, err := dm.ImageVariations(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicImageVariationUpdateError)
-		return nil, errors.New(publicImageVariationUpdateError)
+		log.Error().Err(err).Msg(publicOneImageVariationUpdateError)
+		return nil, errors.New(publicOneImageVariationUpdateError)
 	}
 	return &fm.ImageVariationPayload{
 		ImageVariation: ImageVariationToGraphQL(pM),
 	}, nil
 }
 
-const publicImageVariationBatchUpdateError = "Could not update imageVariations"
+const publicImageVariationBatchUpdateError = "could not update imageVariations"
 
 func (r *mutationResolver) UpdateImageVariations(ctx context.Context, filter *fm.ImageVariationFilter, input fm.ImageVariationUpdateInput) (*fm.ImageVariationsUpdatePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, ImageVariationFilterToMods(filter)...)
 
 	m := ImageVariationUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -610,7 +630,7 @@ func (r *mutationResolver) UpdateImageVariations(ctx context.Context, filter *fm
 	}, nil
 }
 
-const publicImageVariationDeleteError = "Could not delete imageVariation"
+const publicOneImageVariationDeleteError = "could not delete imageVariation"
 
 func (r *mutationResolver) DeleteImageVariation(ctx context.Context, id string) (*fm.ImageVariationDeletePayload, error) {
 	dbID := id
@@ -619,8 +639,8 @@ func (r *mutationResolver) DeleteImageVariation(ctx context.Context, id string) 
 		dm.ImageVariationWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.ImageVariations(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicImageVariationDeleteError)
-		return nil, errors.New(publicImageVariationDeleteError)
+		log.Error().Err(err).Msg(publicOneImageVariationDeleteError)
+		return nil, errors.New(publicOneImageVariationDeleteError)
 	}
 
 	return &fm.ImageVariationDeletePayload{
@@ -628,10 +648,11 @@ func (r *mutationResolver) DeleteImageVariation(ctx context.Context, id string) 
 	}, nil
 }
 
-const publicImageVariationBatchDeleteError = "Could not delete imageVariations"
+const publicImageVariationBatchDeleteError = "could not delete imageVariations"
 
 func (r *mutationResolver) DeleteImageVariations(ctx context.Context, filter *fm.ImageVariationFilter) (*fm.ImageVariationsDeletePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, ImageVariationFilterToMods(filter)...)
 	mods = append(mods, qm.Select(dm.ImageVariationColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.ImageVariation))
@@ -651,7 +672,7 @@ func (r *mutationResolver) DeleteImageVariations(ctx context.Context, filter *fm
 	}, nil
 }
 
-const publicLikeCreateError = "Could not create like"
+const publicOneLikeCreateError = "could not create like"
 
 func (r *mutationResolver) CreateLike(ctx context.Context, input fm.LikeCreateInput) (*fm.LikePayload, error) {
 
@@ -661,37 +682,39 @@ func (r *mutationResolver) CreateLike(ctx context.Context, input fm.LikeCreateIn
 
 	whiteList := LikeCreateInputToBoilerWhitelist(
 		boilergql.GetInputFromContext(ctx, inputKey),
+
 		dm.LikeColumns.UserID,
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicLikeCreateError)
-		return nil, errors.New(publicLikeCreateError)
+		log.Error().Err(err).Msg(publicOneLikeCreateError)
+		return nil, errors.New(publicOneLikeCreateError)
 	}
 
 	// resolve requested fields after creating
 	mods := GetLikePreloadModsWithLevel(ctx, LikePayloadPreloadLevels.Like)
 	mods = append(mods, dm.LikeWhere.ID.EQ(m.ID))
+
 	mods = append(mods, dm.LikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
 	pM, err := dm.Likes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicLikeCreateError)
-		return nil, errors.New(publicLikeCreateError)
+		log.Error().Err(err).Msg(publicOneLikeCreateError)
+		return nil, errors.New(publicOneLikeCreateError)
 	}
 	return &fm.LikePayload{
 		Like: LikeToGraphQL(pM),
 	}, nil
 }
 
-const publicLikeBatchCreateError = "Could not create likes"
+//const publicLikeBatchCreateError = "could not create likes"
 
 func (r *mutationResolver) CreateLikes(ctx context.Context, input fm.LikesCreateInput) (*fm.LikesPayload, error) {
 	// TODO: Implement batch create
 	return nil, nil
 }
 
-const publicLikeUpdateError = "Could not update like"
+const publicOneLikeUpdateError = "could not update like"
 
 func (r *mutationResolver) UpdateLike(ctx context.Context, id string, input fm.LikeUpdateInput) (*fm.LikePayload, error) {
 	m := LikeUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -700,31 +723,33 @@ func (r *mutationResolver) UpdateLike(ctx context.Context, id string, input fm.L
 
 	if _, err := dm.Likes(
 		dm.LikeWhere.ID.EQ(dbID),
+
 		dm.LikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicLikeUpdateError)
-		return nil, errors.New(publicLikeUpdateError)
+		log.Error().Err(err).Msg(publicOneLikeUpdateError)
+		return nil, errors.New(publicOneLikeUpdateError)
 	}
 
 	// resolve requested fields after updating
 	mods := GetLikePreloadModsWithLevel(ctx, LikePayloadPreloadLevels.Like)
 	mods = append(mods, dm.LikeWhere.ID.EQ(dbID))
-	mods = append(mods, dm.LikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
+	mods = append(mods, dm.LikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	pM, err := dm.Likes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicLikeUpdateError)
-		return nil, errors.New(publicLikeUpdateError)
+		log.Error().Err(err).Msg(publicOneLikeUpdateError)
+		return nil, errors.New(publicOneLikeUpdateError)
 	}
 	return &fm.LikePayload{
 		Like: LikeToGraphQL(pM),
 	}, nil
 }
 
-const publicLikeBatchUpdateError = "Could not update likes"
+const publicLikeBatchUpdateError = "could not update likes"
 
 func (r *mutationResolver) UpdateLikes(ctx context.Context, filter *fm.LikeFilter, input fm.LikeUpdateInput) (*fm.LikesUpdatePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, dm.LikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
@@ -741,18 +766,19 @@ func (r *mutationResolver) UpdateLikes(ctx context.Context, filter *fm.LikeFilte
 	}, nil
 }
 
-const publicLikeDeleteError = "Could not delete like"
+const publicOneLikeDeleteError = "could not delete like"
 
 func (r *mutationResolver) DeleteLike(ctx context.Context, id string) (*fm.LikeDeletePayload, error) {
 	dbID := id
 
 	mods := []qm.QueryMod{
 		dm.LikeWhere.ID.EQ(dbID),
+
 		dm.LikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	}
 	if _, err := dm.Likes(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicLikeDeleteError)
-		return nil, errors.New(publicLikeDeleteError)
+		log.Error().Err(err).Msg(publicOneLikeDeleteError)
+		return nil, errors.New(publicOneLikeDeleteError)
 	}
 
 	return &fm.LikeDeletePayload{
@@ -760,10 +786,11 @@ func (r *mutationResolver) DeleteLike(ctx context.Context, id string) (*fm.LikeD
 	}, nil
 }
 
-const publicLikeBatchDeleteError = "Could not delete likes"
+const publicLikeBatchDeleteError = "could not delete likes"
 
 func (r *mutationResolver) DeleteLikes(ctx context.Context, filter *fm.LikeFilter) (*fm.LikesDeletePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, dm.LikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
@@ -786,7 +813,7 @@ func (r *mutationResolver) DeleteLikes(ctx context.Context, filter *fm.LikeFilte
 	}, nil
 }
 
-const publicPostCreateError = "Could not create post"
+const publicOnePostCreateError = "could not create post"
 
 func (r *mutationResolver) CreatePost(ctx context.Context, input fm.PostCreateInput) (*fm.PostPayload, error) {
 
@@ -796,37 +823,39 @@ func (r *mutationResolver) CreatePost(ctx context.Context, input fm.PostCreateIn
 
 	whiteList := PostCreateInputToBoilerWhitelist(
 		boilergql.GetInputFromContext(ctx, inputKey),
+
 		dm.PostColumns.UserID,
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicPostCreateError)
-		return nil, errors.New(publicPostCreateError)
+		log.Error().Err(err).Msg(publicOnePostCreateError)
+		return nil, errors.New(publicOnePostCreateError)
 	}
 
 	// resolve requested fields after creating
 	mods := GetPostPreloadModsWithLevel(ctx, PostPayloadPreloadLevels.Post)
 	mods = append(mods, dm.PostWhere.ID.EQ(m.ID))
+
 	mods = append(mods, dm.PostWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
 	pM, err := dm.Posts(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicPostCreateError)
-		return nil, errors.New(publicPostCreateError)
+		log.Error().Err(err).Msg(publicOnePostCreateError)
+		return nil, errors.New(publicOnePostCreateError)
 	}
 	return &fm.PostPayload{
 		Post: PostToGraphQL(pM),
 	}, nil
 }
 
-const publicPostBatchCreateError = "Could not create posts"
+//const publicPostBatchCreateError = "could not create posts"
 
 func (r *mutationResolver) CreatePosts(ctx context.Context, input fm.PostsCreateInput) (*fm.PostsPayload, error) {
 	// TODO: Implement batch create
 	return nil, nil
 }
 
-const publicPostUpdateError = "Could not update post"
+const publicOnePostUpdateError = "could not update post"
 
 func (r *mutationResolver) UpdatePost(ctx context.Context, id string, input fm.PostUpdateInput) (*fm.PostPayload, error) {
 	m := PostUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -835,31 +864,33 @@ func (r *mutationResolver) UpdatePost(ctx context.Context, id string, input fm.P
 
 	if _, err := dm.Posts(
 		dm.PostWhere.ID.EQ(dbID),
+
 		dm.PostWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicPostUpdateError)
-		return nil, errors.New(publicPostUpdateError)
+		log.Error().Err(err).Msg(publicOnePostUpdateError)
+		return nil, errors.New(publicOnePostUpdateError)
 	}
 
 	// resolve requested fields after updating
 	mods := GetPostPreloadModsWithLevel(ctx, PostPayloadPreloadLevels.Post)
 	mods = append(mods, dm.PostWhere.ID.EQ(dbID))
-	mods = append(mods, dm.PostWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
+	mods = append(mods, dm.PostWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	pM, err := dm.Posts(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicPostUpdateError)
-		return nil, errors.New(publicPostUpdateError)
+		log.Error().Err(err).Msg(publicOnePostUpdateError)
+		return nil, errors.New(publicOnePostUpdateError)
 	}
 	return &fm.PostPayload{
 		Post: PostToGraphQL(pM),
 	}, nil
 }
 
-const publicPostBatchUpdateError = "Could not update posts"
+const publicPostBatchUpdateError = "could not update posts"
 
 func (r *mutationResolver) UpdatePosts(ctx context.Context, filter *fm.PostFilter, input fm.PostUpdateInput) (*fm.PostsUpdatePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, dm.PostWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
@@ -876,18 +907,19 @@ func (r *mutationResolver) UpdatePosts(ctx context.Context, filter *fm.PostFilte
 	}, nil
 }
 
-const publicPostDeleteError = "Could not delete post"
+const publicOnePostDeleteError = "could not delete post"
 
 func (r *mutationResolver) DeletePost(ctx context.Context, id string) (*fm.PostDeletePayload, error) {
 	dbID := id
 
 	mods := []qm.QueryMod{
 		dm.PostWhere.ID.EQ(dbID),
+
 		dm.PostWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	}
 	if _, err := dm.Posts(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicPostDeleteError)
-		return nil, errors.New(publicPostDeleteError)
+		log.Error().Err(err).Msg(publicOnePostDeleteError)
+		return nil, errors.New(publicOnePostDeleteError)
 	}
 
 	return &fm.PostDeletePayload{
@@ -895,10 +927,11 @@ func (r *mutationResolver) DeletePost(ctx context.Context, id string) (*fm.PostD
 	}, nil
 }
 
-const publicPostBatchDeleteError = "Could not delete posts"
+const publicPostBatchDeleteError = "could not delete posts"
 
 func (r *mutationResolver) DeletePosts(ctx context.Context, filter *fm.PostFilter) (*fm.PostsDeletePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, dm.PostWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
@@ -921,7 +954,7 @@ func (r *mutationResolver) DeletePosts(ctx context.Context, filter *fm.PostFilte
 	}, nil
 }
 
-const publicUserCreateError = "Could not create user"
+const publicOneUserCreateError = "could not create user"
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input fm.UserCreateInput) (*fm.UserPayload, error) {
 
@@ -931,31 +964,32 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input fm.UserCreateIn
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicUserCreateError)
-		return nil, errors.New(publicUserCreateError)
+		log.Error().Err(err).Msg(publicOneUserCreateError)
+		return nil, errors.New(publicOneUserCreateError)
 	}
 
 	// resolve requested fields after creating
 	mods := GetUserPreloadModsWithLevel(ctx, UserPayloadPreloadLevels.User)
 	mods = append(mods, dm.UserWhere.ID.EQ(m.ID))
+
 	pM, err := dm.Users(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicUserCreateError)
-		return nil, errors.New(publicUserCreateError)
+		log.Error().Err(err).Msg(publicOneUserCreateError)
+		return nil, errors.New(publicOneUserCreateError)
 	}
 	return &fm.UserPayload{
 		User: UserToGraphQL(pM),
 	}, nil
 }
 
-const publicUserBatchCreateError = "Could not create users"
+//const publicUserBatchCreateError = "could not create users"
 
 func (r *mutationResolver) CreateUsers(ctx context.Context, input fm.UsersCreateInput) (*fm.UsersPayload, error) {
 	// TODO: Implement batch create
 	return nil, nil
 }
 
-const publicUserUpdateError = "Could not update user"
+const publicOneUserUpdateError = "could not update user"
 
 func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input fm.UserUpdateInput) (*fm.UserPayload, error) {
 	m := UserUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -965,8 +999,8 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input fm.U
 	if _, err := dm.Users(
 		dm.UserWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicUserUpdateError)
-		return nil, errors.New(publicUserUpdateError)
+		log.Error().Err(err).Msg(publicOneUserUpdateError)
+		return nil, errors.New(publicOneUserUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -975,18 +1009,19 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input fm.U
 
 	pM, err := dm.Users(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicUserUpdateError)
-		return nil, errors.New(publicUserUpdateError)
+		log.Error().Err(err).Msg(publicOneUserUpdateError)
+		return nil, errors.New(publicOneUserUpdateError)
 	}
 	return &fm.UserPayload{
 		User: UserToGraphQL(pM),
 	}, nil
 }
 
-const publicUserBatchUpdateError = "Could not update users"
+const publicUserBatchUpdateError = "could not update users"
 
 func (r *mutationResolver) UpdateUsers(ctx context.Context, filter *fm.UserFilter, input fm.UserUpdateInput) (*fm.UsersUpdatePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, UserFilterToMods(filter)...)
 
 	m := UserUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -1000,7 +1035,7 @@ func (r *mutationResolver) UpdateUsers(ctx context.Context, filter *fm.UserFilte
 	}, nil
 }
 
-const publicUserDeleteError = "Could not delete user"
+const publicOneUserDeleteError = "could not delete user"
 
 func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*fm.UserDeletePayload, error) {
 	dbID := id
@@ -1009,8 +1044,8 @@ func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*fm.UserD
 		dm.UserWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.Users(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicUserDeleteError)
-		return nil, errors.New(publicUserDeleteError)
+		log.Error().Err(err).Msg(publicOneUserDeleteError)
+		return nil, errors.New(publicOneUserDeleteError)
 	}
 
 	return &fm.UserDeletePayload{
@@ -1018,10 +1053,11 @@ func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*fm.UserD
 	}, nil
 }
 
-const publicUserBatchDeleteError = "Could not delete users"
+const publicUserBatchDeleteError = "could not delete users"
 
 func (r *mutationResolver) DeleteUsers(ctx context.Context, filter *fm.UserFilter) (*fm.UsersDeletePayload, error) {
 	var mods []qm.QueryMod
+
 	mods = append(mods, UserFilterToMods(filter)...)
 	mods = append(mods, qm.Select(dm.UserColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.User))
@@ -1041,16 +1077,18 @@ func (r *mutationResolver) DeleteUsers(ctx context.Context, filter *fm.UserFilte
 	}, nil
 }
 
-const publicCommentSingleError = "Could not get comment"
+const publicCommentSingleError = "could not get comment"
 
 func (r *queryResolver) Comment(ctx context.Context, id string) (*fm.Comment, error) {
 	dbID := id
 
 	mods := GetCommentPreloadMods(ctx)
 	mods = append(mods, dm.CommentWhere.ID.EQ(dbID))
+
 	mods = append(mods, dm.CommentWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
+
 	m, err := dm.Comments(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicCommentSingleError)
@@ -1059,13 +1097,15 @@ func (r *queryResolver) Comment(ctx context.Context, id string) (*fm.Comment, er
 	return CommentToGraphQL(m), nil
 }
 
-const publicCommentListError = "Could not list comments"
+const publicCommentListError = "could not list comments"
 
 func (r *queryResolver) Comments(ctx context.Context, filter *fm.CommentFilter) ([]*fm.Comment, error) {
 	mods := GetCommentPreloadMods(ctx)
+
 	mods = append(mods, dm.CommentWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
+
 	mods = append(mods, CommentFilterToMods(filter)...)
 	a, err := dm.Comments(mods...).All(ctx, r.db)
 	if err != nil {
@@ -1075,16 +1115,18 @@ func (r *queryResolver) Comments(ctx context.Context, filter *fm.CommentFilter) 
 	return CommentsToGraphQL(a), nil
 }
 
-const publicCommentLikeSingleError = "Could not get commentLike"
+const publicCommentLikeSingleError = "could not get commentLike"
 
 func (r *queryResolver) CommentLike(ctx context.Context, id string) (*fm.CommentLike, error) {
 	dbID := id
 
 	mods := GetCommentLikePreloadMods(ctx)
 	mods = append(mods, dm.CommentLikeWhere.ID.EQ(dbID))
+
 	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
+
 	m, err := dm.CommentLikes(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicCommentLikeSingleError)
@@ -1093,13 +1135,15 @@ func (r *queryResolver) CommentLike(ctx context.Context, id string) (*fm.Comment
 	return CommentLikeToGraphQL(m), nil
 }
 
-const publicCommentLikeListError = "Could not list commentLikes"
+const publicCommentLikeListError = "could not list commentLikes"
 
 func (r *queryResolver) CommentLikes(ctx context.Context, filter *fm.CommentLikeFilter) ([]*fm.CommentLike, error) {
 	mods := GetCommentLikePreloadMods(ctx)
+
 	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
+
 	mods = append(mods, CommentLikeFilterToMods(filter)...)
 	a, err := dm.CommentLikes(mods...).All(ctx, r.db)
 	if err != nil {
@@ -1109,13 +1153,14 @@ func (r *queryResolver) CommentLikes(ctx context.Context, filter *fm.CommentLike
 	return CommentLikesToGraphQL(a), nil
 }
 
-const publicFriendshipSingleError = "Could not get friendship"
+const publicFriendshipSingleError = "could not get friendship"
 
 func (r *queryResolver) Friendship(ctx context.Context, id string) (*fm.Friendship, error) {
 	dbID := id
 
 	mods := GetFriendshipPreloadMods(ctx)
 	mods = append(mods, dm.FriendshipWhere.ID.EQ(dbID))
+
 	m, err := dm.Friendships(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicFriendshipSingleError)
@@ -1124,10 +1169,11 @@ func (r *queryResolver) Friendship(ctx context.Context, id string) (*fm.Friendsh
 	return FriendshipToGraphQL(m), nil
 }
 
-const publicFriendshipListError = "Could not list friendships"
+const publicFriendshipListError = "could not list friendships"
 
 func (r *queryResolver) Friendships(ctx context.Context, filter *fm.FriendshipFilter) ([]*fm.Friendship, error) {
 	mods := GetFriendshipPreloadMods(ctx)
+
 	mods = append(mods, FriendshipFilterToMods(filter)...)
 	a, err := dm.Friendships(mods...).All(ctx, r.db)
 	if err != nil {
@@ -1137,13 +1183,14 @@ func (r *queryResolver) Friendships(ctx context.Context, filter *fm.FriendshipFi
 	return FriendshipsToGraphQL(a), nil
 }
 
-const publicImageSingleError = "Could not get image"
+const publicImageSingleError = "could not get image"
 
 func (r *queryResolver) Image(ctx context.Context, id string) (*fm.Image, error) {
 	dbID := id
 
 	mods := GetImagePreloadMods(ctx)
 	mods = append(mods, dm.ImageWhere.ID.EQ(dbID))
+
 	m, err := dm.Images(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicImageSingleError)
@@ -1152,10 +1199,11 @@ func (r *queryResolver) Image(ctx context.Context, id string) (*fm.Image, error)
 	return ImageToGraphQL(m), nil
 }
 
-const publicImageListError = "Could not list images"
+const publicImageListError = "could not list images"
 
 func (r *queryResolver) Images(ctx context.Context, filter *fm.ImageFilter) ([]*fm.Image, error) {
 	mods := GetImagePreloadMods(ctx)
+
 	mods = append(mods, ImageFilterToMods(filter)...)
 	a, err := dm.Images(mods...).All(ctx, r.db)
 	if err != nil {
@@ -1165,13 +1213,14 @@ func (r *queryResolver) Images(ctx context.Context, filter *fm.ImageFilter) ([]*
 	return ImagesToGraphQL(a), nil
 }
 
-const publicImageVariationSingleError = "Could not get imageVariation"
+const publicImageVariationSingleError = "could not get imageVariation"
 
 func (r *queryResolver) ImageVariation(ctx context.Context, id string) (*fm.ImageVariation, error) {
 	dbID := id
 
 	mods := GetImageVariationPreloadMods(ctx)
 	mods = append(mods, dm.ImageVariationWhere.ID.EQ(dbID))
+
 	m, err := dm.ImageVariations(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicImageVariationSingleError)
@@ -1180,10 +1229,11 @@ func (r *queryResolver) ImageVariation(ctx context.Context, id string) (*fm.Imag
 	return ImageVariationToGraphQL(m), nil
 }
 
-const publicImageVariationListError = "Could not list imageVariations"
+const publicImageVariationListError = "could not list imageVariations"
 
 func (r *queryResolver) ImageVariations(ctx context.Context, filter *fm.ImageVariationFilter) ([]*fm.ImageVariation, error) {
 	mods := GetImageVariationPreloadMods(ctx)
+
 	mods = append(mods, ImageVariationFilterToMods(filter)...)
 	a, err := dm.ImageVariations(mods...).All(ctx, r.db)
 	if err != nil {
@@ -1193,16 +1243,18 @@ func (r *queryResolver) ImageVariations(ctx context.Context, filter *fm.ImageVar
 	return ImageVariationsToGraphQL(a), nil
 }
 
-const publicLikeSingleError = "Could not get like"
+const publicLikeSingleError = "could not get like"
 
 func (r *queryResolver) Like(ctx context.Context, id string) (*fm.Like, error) {
 	dbID := id
 
 	mods := GetLikePreloadMods(ctx)
 	mods = append(mods, dm.LikeWhere.ID.EQ(dbID))
+
 	mods = append(mods, dm.LikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
+
 	m, err := dm.Likes(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicLikeSingleError)
@@ -1211,13 +1263,15 @@ func (r *queryResolver) Like(ctx context.Context, id string) (*fm.Like, error) {
 	return LikeToGraphQL(m), nil
 }
 
-const publicLikeListError = "Could not list likes"
+const publicLikeListError = "could not list likes"
 
 func (r *queryResolver) Likes(ctx context.Context, filter *fm.LikeFilter) ([]*fm.Like, error) {
 	mods := GetLikePreloadMods(ctx)
+
 	mods = append(mods, dm.LikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
+
 	mods = append(mods, LikeFilterToMods(filter)...)
 	a, err := dm.Likes(mods...).All(ctx, r.db)
 	if err != nil {
@@ -1227,16 +1281,18 @@ func (r *queryResolver) Likes(ctx context.Context, filter *fm.LikeFilter) ([]*fm
 	return LikesToGraphQL(a), nil
 }
 
-const publicPostSingleError = "Could not get post"
+const publicPostSingleError = "could not get post"
 
 func (r *queryResolver) Post(ctx context.Context, id string) (*fm.Post, error) {
 	dbID := id
 
 	mods := GetPostPreloadMods(ctx)
 	mods = append(mods, dm.PostWhere.ID.EQ(dbID))
+
 	mods = append(mods, dm.PostWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
+
 	m, err := dm.Posts(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicPostSingleError)
@@ -1245,13 +1301,15 @@ func (r *queryResolver) Post(ctx context.Context, id string) (*fm.Post, error) {
 	return PostToGraphQL(m), nil
 }
 
-const publicPostListError = "Could not list posts"
+const publicPostListError = "could not list posts"
 
 func (r *queryResolver) Posts(ctx context.Context, filter *fm.PostFilter) ([]*fm.Post, error) {
 	mods := GetPostPreloadMods(ctx)
+
 	mods = append(mods, dm.PostWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
+
 	mods = append(mods, PostFilterToMods(filter)...)
 	a, err := dm.Posts(mods...).All(ctx, r.db)
 	if err != nil {
@@ -1261,13 +1319,14 @@ func (r *queryResolver) Posts(ctx context.Context, filter *fm.PostFilter) ([]*fm
 	return PostsToGraphQL(a), nil
 }
 
-const publicUserSingleError = "Could not get user"
+const publicUserSingleError = "could not get user"
 
 func (r *queryResolver) User(ctx context.Context, id string) (*fm.User, error) {
 	dbID := id
 
 	mods := GetUserPreloadMods(ctx)
 	mods = append(mods, dm.UserWhere.ID.EQ(dbID))
+
 	m, err := dm.Users(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicUserSingleError)
@@ -1276,10 +1335,11 @@ func (r *queryResolver) User(ctx context.Context, id string) (*fm.User, error) {
 	return UserToGraphQL(m), nil
 }
 
-const publicUserListError = "Could not list users"
+const publicUserListError = "could not list users"
 
 func (r *queryResolver) Users(ctx context.Context, filter *fm.UserFilter) ([]*fm.User, error) {
 	mods := GetUserPreloadMods(ctx)
+
 	mods = append(mods, UserFilterToMods(filter)...)
 	a, err := dm.Users(mods...).All(ctx, r.db)
 	if err != nil {
