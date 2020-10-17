@@ -33,7 +33,6 @@ func CommentToGraphQL(m *models.Comment) *graphql_models.Comment {
 	}
 
 	r := &graphql_models.Comment{
-
 		ID:      m.ID,
 		Content: m.Content,
 	}
@@ -83,8 +82,8 @@ func CommentLikeToGraphQL(m *models.CommentLike) *graphql_models.CommentLike {
 	}
 
 	r := &graphql_models.CommentLike{
+		ID: m.ID,
 
-		ID:        m.ID,
 		LikeType:  m.LikeType,
 		CreatedAt: boilergql.NullDotTimeToPointerInt(m.CreatedAt),
 	}
@@ -131,7 +130,6 @@ func FriendshipToGraphQL(m *models.Friendship) *graphql_models.Friendship {
 	}
 
 	r := &graphql_models.Friendship{
-
 		ID:        m.ID,
 		CreatedAt: boilergql.NullDotTimeToPointerInt(m.CreatedAt),
 	}
@@ -167,8 +165,8 @@ func ImageToGraphQL(m *models.Image) *graphql_models.Image {
 	}
 
 	r := &graphql_models.Image{
+		ID: m.ID,
 
-		ID:          m.ID,
 		Views:       boilergql.NullDotIntToPointerInt(m.Views),
 		OriginalURL: boilergql.NullDotStringToPointerString(m.OriginalURL),
 	}
@@ -211,7 +209,6 @@ func ImageVariationToGraphQL(m *models.ImageVariation) *graphql_models.ImageVari
 	}
 
 	r := &graphql_models.ImageVariation{
-
 		ID: m.ID,
 	}
 
@@ -250,8 +247,8 @@ func LikeToGraphQL(m *models.Like) *graphql_models.Like {
 	}
 
 	r := &graphql_models.Like{
+		ID: m.ID,
 
-		ID:        m.ID,
 		LikeType:  m.LikeType,
 		CreatedAt: boilergql.NullDotTimeToPointerInt(m.CreatedAt),
 	}
@@ -298,7 +295,6 @@ func PostToGraphQL(m *models.Post) *graphql_models.Post {
 	}
 
 	r := &graphql_models.Post{
-
 		ID:      m.ID,
 		Content: m.Content,
 	}
@@ -347,7 +343,6 @@ func UserToGraphQL(m *models.User) *graphql_models.User {
 	}
 
 	r := &graphql_models.User{
-
 		ID:        m.ID,
 		FirstName: m.FirstName,
 		LastName:  m.LastName,

@@ -21,7 +21,7 @@ type Resolver struct {
 
 const inputKey = "input"
 
-const publicOneCommentCreateError = "could not create comment"
+const publicCommentCreateError = "could not create comment"
 
 func (r *mutationResolver) CreateComment(ctx context.Context, input fm.CommentCreateInput) (*fm.CommentPayload, error) {
 
@@ -35,8 +35,8 @@ func (r *mutationResolver) CreateComment(ctx context.Context, input fm.CommentCr
 		dm.CommentColumns.UserID,
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneCommentCreateError)
-		return nil, errors.New(publicOneCommentCreateError)
+		log.Error().Err(err).Msg(publicCommentCreateError)
+		return nil, errors.New(publicCommentCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -48,8 +48,8 @@ func (r *mutationResolver) CreateComment(ctx context.Context, input fm.CommentCr
 	))
 	pM, err := dm.Comments(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneCommentCreateError)
-		return nil, errors.New(publicOneCommentCreateError)
+		log.Error().Err(err).Msg(publicCommentCreateError)
+		return nil, errors.New(publicCommentCreateError)
 	}
 	return &fm.CommentPayload{
 		Comment: CommentToGraphQL(pM),
@@ -63,7 +63,7 @@ func (r *mutationResolver) CreateComments(ctx context.Context, input fm.Comments
 	return nil, nil
 }
 
-const publicOneCommentUpdateError = "could not update comment"
+const publicCommentUpdateError = "could not update comment"
 
 func (r *mutationResolver) UpdateComment(ctx context.Context, id string, input fm.CommentUpdateInput) (*fm.CommentPayload, error) {
 	m := CommentUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -75,8 +75,8 @@ func (r *mutationResolver) UpdateComment(ctx context.Context, id string, input f
 
 		dm.CommentWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneCommentUpdateError)
-		return nil, errors.New(publicOneCommentUpdateError)
+		log.Error().Err(err).Msg(publicCommentUpdateError)
+		return nil, errors.New(publicCommentUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -86,8 +86,8 @@ func (r *mutationResolver) UpdateComment(ctx context.Context, id string, input f
 	mods = append(mods, dm.CommentWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	pM, err := dm.Comments(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneCommentUpdateError)
-		return nil, errors.New(publicOneCommentUpdateError)
+		log.Error().Err(err).Msg(publicCommentUpdateError)
+		return nil, errors.New(publicCommentUpdateError)
 	}
 	return &fm.CommentPayload{
 		Comment: CommentToGraphQL(pM),
@@ -115,7 +115,7 @@ func (r *mutationResolver) UpdateComments(ctx context.Context, filter *fm.Commen
 	}, nil
 }
 
-const publicOneCommentDeleteError = "could not delete comment"
+const publicCommentDeleteError = "could not delete comment"
 
 func (r *mutationResolver) DeleteComment(ctx context.Context, id string) (*fm.CommentDeletePayload, error) {
 	dbID := id
@@ -126,8 +126,8 @@ func (r *mutationResolver) DeleteComment(ctx context.Context, id string) (*fm.Co
 		dm.CommentWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	}
 	if _, err := dm.Comments(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneCommentDeleteError)
-		return nil, errors.New(publicOneCommentDeleteError)
+		log.Error().Err(err).Msg(publicCommentDeleteError)
+		return nil, errors.New(publicCommentDeleteError)
 	}
 
 	return &fm.CommentDeletePayload{
@@ -162,7 +162,7 @@ func (r *mutationResolver) DeleteComments(ctx context.Context, filter *fm.Commen
 	}, nil
 }
 
-const publicOneCommentLikeCreateError = "could not create commentLike"
+const publicCommentLikeCreateError = "could not create commentLike"
 
 func (r *mutationResolver) CreateCommentLike(ctx context.Context, input fm.CommentLikeCreateInput) (*fm.CommentLikePayload, error) {
 
@@ -176,8 +176,8 @@ func (r *mutationResolver) CreateCommentLike(ctx context.Context, input fm.Comme
 		dm.CommentLikeColumns.UserID,
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneCommentLikeCreateError)
-		return nil, errors.New(publicOneCommentLikeCreateError)
+		log.Error().Err(err).Msg(publicCommentLikeCreateError)
+		return nil, errors.New(publicCommentLikeCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -189,8 +189,8 @@ func (r *mutationResolver) CreateCommentLike(ctx context.Context, input fm.Comme
 	))
 	pM, err := dm.CommentLikes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneCommentLikeCreateError)
-		return nil, errors.New(publicOneCommentLikeCreateError)
+		log.Error().Err(err).Msg(publicCommentLikeCreateError)
+		return nil, errors.New(publicCommentLikeCreateError)
 	}
 	return &fm.CommentLikePayload{
 		CommentLike: CommentLikeToGraphQL(pM),
@@ -204,7 +204,7 @@ func (r *mutationResolver) CreateCommentLikes(ctx context.Context, input fm.Comm
 	return nil, nil
 }
 
-const publicOneCommentLikeUpdateError = "could not update commentLike"
+const publicCommentLikeUpdateError = "could not update commentLike"
 
 func (r *mutationResolver) UpdateCommentLike(ctx context.Context, id string, input fm.CommentLikeUpdateInput) (*fm.CommentLikePayload, error) {
 	m := CommentLikeUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -216,8 +216,8 @@ func (r *mutationResolver) UpdateCommentLike(ctx context.Context, id string, inp
 
 		dm.CommentLikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneCommentLikeUpdateError)
-		return nil, errors.New(publicOneCommentLikeUpdateError)
+		log.Error().Err(err).Msg(publicCommentLikeUpdateError)
+		return nil, errors.New(publicCommentLikeUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -227,8 +227,8 @@ func (r *mutationResolver) UpdateCommentLike(ctx context.Context, id string, inp
 	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	pM, err := dm.CommentLikes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneCommentLikeUpdateError)
-		return nil, errors.New(publicOneCommentLikeUpdateError)
+		log.Error().Err(err).Msg(publicCommentLikeUpdateError)
+		return nil, errors.New(publicCommentLikeUpdateError)
 	}
 	return &fm.CommentLikePayload{
 		CommentLike: CommentLikeToGraphQL(pM),
@@ -256,7 +256,7 @@ func (r *mutationResolver) UpdateCommentLikes(ctx context.Context, filter *fm.Co
 	}, nil
 }
 
-const publicOneCommentLikeDeleteError = "could not delete commentLike"
+const publicCommentLikeDeleteError = "could not delete commentLike"
 
 func (r *mutationResolver) DeleteCommentLike(ctx context.Context, id string) (*fm.CommentLikeDeletePayload, error) {
 	dbID := id
@@ -267,8 +267,8 @@ func (r *mutationResolver) DeleteCommentLike(ctx context.Context, id string) (*f
 		dm.CommentLikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	}
 	if _, err := dm.CommentLikes(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneCommentLikeDeleteError)
-		return nil, errors.New(publicOneCommentLikeDeleteError)
+		log.Error().Err(err).Msg(publicCommentLikeDeleteError)
+		return nil, errors.New(publicCommentLikeDeleteError)
 	}
 
 	return &fm.CommentLikeDeletePayload{
@@ -303,7 +303,7 @@ func (r *mutationResolver) DeleteCommentLikes(ctx context.Context, filter *fm.Co
 	}, nil
 }
 
-const publicOneFriendshipCreateError = "could not create friendship"
+const publicFriendshipCreateError = "could not create friendship"
 
 func (r *mutationResolver) CreateFriendship(ctx context.Context, input fm.FriendshipCreateInput) (*fm.FriendshipPayload, error) {
 
@@ -313,8 +313,8 @@ func (r *mutationResolver) CreateFriendship(ctx context.Context, input fm.Friend
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneFriendshipCreateError)
-		return nil, errors.New(publicOneFriendshipCreateError)
+		log.Error().Err(err).Msg(publicFriendshipCreateError)
+		return nil, errors.New(publicFriendshipCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -323,8 +323,8 @@ func (r *mutationResolver) CreateFriendship(ctx context.Context, input fm.Friend
 
 	pM, err := dm.Friendships(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneFriendshipCreateError)
-		return nil, errors.New(publicOneFriendshipCreateError)
+		log.Error().Err(err).Msg(publicFriendshipCreateError)
+		return nil, errors.New(publicFriendshipCreateError)
 	}
 	return &fm.FriendshipPayload{
 		Friendship: FriendshipToGraphQL(pM),
@@ -338,7 +338,7 @@ func (r *mutationResolver) CreateFriendships(ctx context.Context, input fm.Frien
 	return nil, nil
 }
 
-const publicOneFriendshipUpdateError = "could not update friendship"
+const publicFriendshipUpdateError = "could not update friendship"
 
 func (r *mutationResolver) UpdateFriendship(ctx context.Context, id string, input fm.FriendshipUpdateInput) (*fm.FriendshipPayload, error) {
 	m := FriendshipUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -348,8 +348,8 @@ func (r *mutationResolver) UpdateFriendship(ctx context.Context, id string, inpu
 	if _, err := dm.Friendships(
 		dm.FriendshipWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneFriendshipUpdateError)
-		return nil, errors.New(publicOneFriendshipUpdateError)
+		log.Error().Err(err).Msg(publicFriendshipUpdateError)
+		return nil, errors.New(publicFriendshipUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -358,8 +358,8 @@ func (r *mutationResolver) UpdateFriendship(ctx context.Context, id string, inpu
 
 	pM, err := dm.Friendships(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneFriendshipUpdateError)
-		return nil, errors.New(publicOneFriendshipUpdateError)
+		log.Error().Err(err).Msg(publicFriendshipUpdateError)
+		return nil, errors.New(publicFriendshipUpdateError)
 	}
 	return &fm.FriendshipPayload{
 		Friendship: FriendshipToGraphQL(pM),
@@ -384,7 +384,7 @@ func (r *mutationResolver) UpdateFriendships(ctx context.Context, filter *fm.Fri
 	}, nil
 }
 
-const publicOneFriendshipDeleteError = "could not delete friendship"
+const publicFriendshipDeleteError = "could not delete friendship"
 
 func (r *mutationResolver) DeleteFriendship(ctx context.Context, id string) (*fm.FriendshipDeletePayload, error) {
 	dbID := id
@@ -393,8 +393,8 @@ func (r *mutationResolver) DeleteFriendship(ctx context.Context, id string) (*fm
 		dm.FriendshipWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.Friendships(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneFriendshipDeleteError)
-		return nil, errors.New(publicOneFriendshipDeleteError)
+		log.Error().Err(err).Msg(publicFriendshipDeleteError)
+		return nil, errors.New(publicFriendshipDeleteError)
 	}
 
 	return &fm.FriendshipDeletePayload{
@@ -426,7 +426,7 @@ func (r *mutationResolver) DeleteFriendships(ctx context.Context, filter *fm.Fri
 	}, nil
 }
 
-const publicOneImageCreateError = "could not create image"
+const publicImageCreateError = "could not create image"
 
 func (r *mutationResolver) CreateImage(ctx context.Context, input fm.ImageCreateInput) (*fm.ImagePayload, error) {
 
@@ -436,8 +436,8 @@ func (r *mutationResolver) CreateImage(ctx context.Context, input fm.ImageCreate
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneImageCreateError)
-		return nil, errors.New(publicOneImageCreateError)
+		log.Error().Err(err).Msg(publicImageCreateError)
+		return nil, errors.New(publicImageCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -446,8 +446,8 @@ func (r *mutationResolver) CreateImage(ctx context.Context, input fm.ImageCreate
 
 	pM, err := dm.Images(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneImageCreateError)
-		return nil, errors.New(publicOneImageCreateError)
+		log.Error().Err(err).Msg(publicImageCreateError)
+		return nil, errors.New(publicImageCreateError)
 	}
 	return &fm.ImagePayload{
 		Image: ImageToGraphQL(pM),
@@ -461,7 +461,7 @@ func (r *mutationResolver) CreateImages(ctx context.Context, input fm.ImagesCrea
 	return nil, nil
 }
 
-const publicOneImageUpdateError = "could not update image"
+const publicImageUpdateError = "could not update image"
 
 func (r *mutationResolver) UpdateImage(ctx context.Context, id string, input fm.ImageUpdateInput) (*fm.ImagePayload, error) {
 	m := ImageUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -471,8 +471,8 @@ func (r *mutationResolver) UpdateImage(ctx context.Context, id string, input fm.
 	if _, err := dm.Images(
 		dm.ImageWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneImageUpdateError)
-		return nil, errors.New(publicOneImageUpdateError)
+		log.Error().Err(err).Msg(publicImageUpdateError)
+		return nil, errors.New(publicImageUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -481,8 +481,8 @@ func (r *mutationResolver) UpdateImage(ctx context.Context, id string, input fm.
 
 	pM, err := dm.Images(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneImageUpdateError)
-		return nil, errors.New(publicOneImageUpdateError)
+		log.Error().Err(err).Msg(publicImageUpdateError)
+		return nil, errors.New(publicImageUpdateError)
 	}
 	return &fm.ImagePayload{
 		Image: ImageToGraphQL(pM),
@@ -507,7 +507,7 @@ func (r *mutationResolver) UpdateImages(ctx context.Context, filter *fm.ImageFil
 	}, nil
 }
 
-const publicOneImageDeleteError = "could not delete image"
+const publicImageDeleteError = "could not delete image"
 
 func (r *mutationResolver) DeleteImage(ctx context.Context, id string) (*fm.ImageDeletePayload, error) {
 	dbID := id
@@ -516,8 +516,8 @@ func (r *mutationResolver) DeleteImage(ctx context.Context, id string) (*fm.Imag
 		dm.ImageWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.Images(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneImageDeleteError)
-		return nil, errors.New(publicOneImageDeleteError)
+		log.Error().Err(err).Msg(publicImageDeleteError)
+		return nil, errors.New(publicImageDeleteError)
 	}
 
 	return &fm.ImageDeletePayload{
@@ -549,7 +549,7 @@ func (r *mutationResolver) DeleteImages(ctx context.Context, filter *fm.ImageFil
 	}, nil
 }
 
-const publicOneImageVariationCreateError = "could not create imageVariation"
+const publicImageVariationCreateError = "could not create imageVariation"
 
 func (r *mutationResolver) CreateImageVariation(ctx context.Context, input fm.ImageVariationCreateInput) (*fm.ImageVariationPayload, error) {
 
@@ -559,8 +559,8 @@ func (r *mutationResolver) CreateImageVariation(ctx context.Context, input fm.Im
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneImageVariationCreateError)
-		return nil, errors.New(publicOneImageVariationCreateError)
+		log.Error().Err(err).Msg(publicImageVariationCreateError)
+		return nil, errors.New(publicImageVariationCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -569,8 +569,8 @@ func (r *mutationResolver) CreateImageVariation(ctx context.Context, input fm.Im
 
 	pM, err := dm.ImageVariations(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneImageVariationCreateError)
-		return nil, errors.New(publicOneImageVariationCreateError)
+		log.Error().Err(err).Msg(publicImageVariationCreateError)
+		return nil, errors.New(publicImageVariationCreateError)
 	}
 	return &fm.ImageVariationPayload{
 		ImageVariation: ImageVariationToGraphQL(pM),
@@ -584,7 +584,7 @@ func (r *mutationResolver) CreateImageVariations(ctx context.Context, input fm.I
 	return nil, nil
 }
 
-const publicOneImageVariationUpdateError = "could not update imageVariation"
+const publicImageVariationUpdateError = "could not update imageVariation"
 
 func (r *mutationResolver) UpdateImageVariation(ctx context.Context, id string, input fm.ImageVariationUpdateInput) (*fm.ImageVariationPayload, error) {
 	m := ImageVariationUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -594,8 +594,8 @@ func (r *mutationResolver) UpdateImageVariation(ctx context.Context, id string, 
 	if _, err := dm.ImageVariations(
 		dm.ImageVariationWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneImageVariationUpdateError)
-		return nil, errors.New(publicOneImageVariationUpdateError)
+		log.Error().Err(err).Msg(publicImageVariationUpdateError)
+		return nil, errors.New(publicImageVariationUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -604,8 +604,8 @@ func (r *mutationResolver) UpdateImageVariation(ctx context.Context, id string, 
 
 	pM, err := dm.ImageVariations(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneImageVariationUpdateError)
-		return nil, errors.New(publicOneImageVariationUpdateError)
+		log.Error().Err(err).Msg(publicImageVariationUpdateError)
+		return nil, errors.New(publicImageVariationUpdateError)
 	}
 	return &fm.ImageVariationPayload{
 		ImageVariation: ImageVariationToGraphQL(pM),
@@ -630,7 +630,7 @@ func (r *mutationResolver) UpdateImageVariations(ctx context.Context, filter *fm
 	}, nil
 }
 
-const publicOneImageVariationDeleteError = "could not delete imageVariation"
+const publicImageVariationDeleteError = "could not delete imageVariation"
 
 func (r *mutationResolver) DeleteImageVariation(ctx context.Context, id string) (*fm.ImageVariationDeletePayload, error) {
 	dbID := id
@@ -639,8 +639,8 @@ func (r *mutationResolver) DeleteImageVariation(ctx context.Context, id string) 
 		dm.ImageVariationWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.ImageVariations(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneImageVariationDeleteError)
-		return nil, errors.New(publicOneImageVariationDeleteError)
+		log.Error().Err(err).Msg(publicImageVariationDeleteError)
+		return nil, errors.New(publicImageVariationDeleteError)
 	}
 
 	return &fm.ImageVariationDeletePayload{
@@ -672,7 +672,7 @@ func (r *mutationResolver) DeleteImageVariations(ctx context.Context, filter *fm
 	}, nil
 }
 
-const publicOneLikeCreateError = "could not create like"
+const publicLikeCreateError = "could not create like"
 
 func (r *mutationResolver) CreateLike(ctx context.Context, input fm.LikeCreateInput) (*fm.LikePayload, error) {
 
@@ -686,8 +686,8 @@ func (r *mutationResolver) CreateLike(ctx context.Context, input fm.LikeCreateIn
 		dm.LikeColumns.UserID,
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneLikeCreateError)
-		return nil, errors.New(publicOneLikeCreateError)
+		log.Error().Err(err).Msg(publicLikeCreateError)
+		return nil, errors.New(publicLikeCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -699,8 +699,8 @@ func (r *mutationResolver) CreateLike(ctx context.Context, input fm.LikeCreateIn
 	))
 	pM, err := dm.Likes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneLikeCreateError)
-		return nil, errors.New(publicOneLikeCreateError)
+		log.Error().Err(err).Msg(publicLikeCreateError)
+		return nil, errors.New(publicLikeCreateError)
 	}
 	return &fm.LikePayload{
 		Like: LikeToGraphQL(pM),
@@ -714,7 +714,7 @@ func (r *mutationResolver) CreateLikes(ctx context.Context, input fm.LikesCreate
 	return nil, nil
 }
 
-const publicOneLikeUpdateError = "could not update like"
+const publicLikeUpdateError = "could not update like"
 
 func (r *mutationResolver) UpdateLike(ctx context.Context, id string, input fm.LikeUpdateInput) (*fm.LikePayload, error) {
 	m := LikeUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -726,8 +726,8 @@ func (r *mutationResolver) UpdateLike(ctx context.Context, id string, input fm.L
 
 		dm.LikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneLikeUpdateError)
-		return nil, errors.New(publicOneLikeUpdateError)
+		log.Error().Err(err).Msg(publicLikeUpdateError)
+		return nil, errors.New(publicLikeUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -737,8 +737,8 @@ func (r *mutationResolver) UpdateLike(ctx context.Context, id string, input fm.L
 	mods = append(mods, dm.LikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	pM, err := dm.Likes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneLikeUpdateError)
-		return nil, errors.New(publicOneLikeUpdateError)
+		log.Error().Err(err).Msg(publicLikeUpdateError)
+		return nil, errors.New(publicLikeUpdateError)
 	}
 	return &fm.LikePayload{
 		Like: LikeToGraphQL(pM),
@@ -766,7 +766,7 @@ func (r *mutationResolver) UpdateLikes(ctx context.Context, filter *fm.LikeFilte
 	}, nil
 }
 
-const publicOneLikeDeleteError = "could not delete like"
+const publicLikeDeleteError = "could not delete like"
 
 func (r *mutationResolver) DeleteLike(ctx context.Context, id string) (*fm.LikeDeletePayload, error) {
 	dbID := id
@@ -777,8 +777,8 @@ func (r *mutationResolver) DeleteLike(ctx context.Context, id string) (*fm.LikeD
 		dm.LikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	}
 	if _, err := dm.Likes(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneLikeDeleteError)
-		return nil, errors.New(publicOneLikeDeleteError)
+		log.Error().Err(err).Msg(publicLikeDeleteError)
+		return nil, errors.New(publicLikeDeleteError)
 	}
 
 	return &fm.LikeDeletePayload{
@@ -813,7 +813,7 @@ func (r *mutationResolver) DeleteLikes(ctx context.Context, filter *fm.LikeFilte
 	}, nil
 }
 
-const publicOnePostCreateError = "could not create post"
+const publicPostCreateError = "could not create post"
 
 func (r *mutationResolver) CreatePost(ctx context.Context, input fm.PostCreateInput) (*fm.PostPayload, error) {
 
@@ -827,8 +827,8 @@ func (r *mutationResolver) CreatePost(ctx context.Context, input fm.PostCreateIn
 		dm.PostColumns.UserID,
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOnePostCreateError)
-		return nil, errors.New(publicOnePostCreateError)
+		log.Error().Err(err).Msg(publicPostCreateError)
+		return nil, errors.New(publicPostCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -840,8 +840,8 @@ func (r *mutationResolver) CreatePost(ctx context.Context, input fm.PostCreateIn
 	))
 	pM, err := dm.Posts(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOnePostCreateError)
-		return nil, errors.New(publicOnePostCreateError)
+		log.Error().Err(err).Msg(publicPostCreateError)
+		return nil, errors.New(publicPostCreateError)
 	}
 	return &fm.PostPayload{
 		Post: PostToGraphQL(pM),
@@ -855,7 +855,7 @@ func (r *mutationResolver) CreatePosts(ctx context.Context, input fm.PostsCreate
 	return nil, nil
 }
 
-const publicOnePostUpdateError = "could not update post"
+const publicPostUpdateError = "could not update post"
 
 func (r *mutationResolver) UpdatePost(ctx context.Context, id string, input fm.PostUpdateInput) (*fm.PostPayload, error) {
 	m := PostUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -867,8 +867,8 @@ func (r *mutationResolver) UpdatePost(ctx context.Context, id string, input fm.P
 
 		dm.PostWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOnePostUpdateError)
-		return nil, errors.New(publicOnePostUpdateError)
+		log.Error().Err(err).Msg(publicPostUpdateError)
+		return nil, errors.New(publicPostUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -878,8 +878,8 @@ func (r *mutationResolver) UpdatePost(ctx context.Context, id string, input fm.P
 	mods = append(mods, dm.PostWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	pM, err := dm.Posts(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOnePostUpdateError)
-		return nil, errors.New(publicOnePostUpdateError)
+		log.Error().Err(err).Msg(publicPostUpdateError)
+		return nil, errors.New(publicPostUpdateError)
 	}
 	return &fm.PostPayload{
 		Post: PostToGraphQL(pM),
@@ -907,7 +907,7 @@ func (r *mutationResolver) UpdatePosts(ctx context.Context, filter *fm.PostFilte
 	}, nil
 }
 
-const publicOnePostDeleteError = "could not delete post"
+const publicPostDeleteError = "could not delete post"
 
 func (r *mutationResolver) DeletePost(ctx context.Context, id string) (*fm.PostDeletePayload, error) {
 	dbID := id
@@ -918,8 +918,8 @@ func (r *mutationResolver) DeletePost(ctx context.Context, id string) (*fm.PostD
 		dm.PostWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
 	}
 	if _, err := dm.Posts(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOnePostDeleteError)
-		return nil, errors.New(publicOnePostDeleteError)
+		log.Error().Err(err).Msg(publicPostDeleteError)
+		return nil, errors.New(publicPostDeleteError)
 	}
 
 	return &fm.PostDeletePayload{
@@ -954,7 +954,7 @@ func (r *mutationResolver) DeletePosts(ctx context.Context, filter *fm.PostFilte
 	}, nil
 }
 
-const publicOneUserCreateError = "could not create user"
+const publicUserCreateError = "could not create user"
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input fm.UserCreateInput) (*fm.UserPayload, error) {
 
@@ -964,8 +964,8 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input fm.UserCreateIn
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneUserCreateError)
-		return nil, errors.New(publicOneUserCreateError)
+		log.Error().Err(err).Msg(publicUserCreateError)
+		return nil, errors.New(publicUserCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -974,8 +974,8 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input fm.UserCreateIn
 
 	pM, err := dm.Users(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneUserCreateError)
-		return nil, errors.New(publicOneUserCreateError)
+		log.Error().Err(err).Msg(publicUserCreateError)
+		return nil, errors.New(publicUserCreateError)
 	}
 	return &fm.UserPayload{
 		User: UserToGraphQL(pM),
@@ -989,7 +989,7 @@ func (r *mutationResolver) CreateUsers(ctx context.Context, input fm.UsersCreate
 	return nil, nil
 }
 
-const publicOneUserUpdateError = "could not update user"
+const publicUserUpdateError = "could not update user"
 
 func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input fm.UserUpdateInput) (*fm.UserPayload, error) {
 	m := UserUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -999,8 +999,8 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input fm.U
 	if _, err := dm.Users(
 		dm.UserWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneUserUpdateError)
-		return nil, errors.New(publicOneUserUpdateError)
+		log.Error().Err(err).Msg(publicUserUpdateError)
+		return nil, errors.New(publicUserUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -1009,8 +1009,8 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input fm.U
 
 	pM, err := dm.Users(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneUserUpdateError)
-		return nil, errors.New(publicOneUserUpdateError)
+		log.Error().Err(err).Msg(publicUserUpdateError)
+		return nil, errors.New(publicUserUpdateError)
 	}
 	return &fm.UserPayload{
 		User: UserToGraphQL(pM),
@@ -1035,7 +1035,7 @@ func (r *mutationResolver) UpdateUsers(ctx context.Context, filter *fm.UserFilte
 	}, nil
 }
 
-const publicOneUserDeleteError = "could not delete user"
+const publicUserDeleteError = "could not delete user"
 
 func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*fm.UserDeletePayload, error) {
 	dbID := id
@@ -1044,8 +1044,8 @@ func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*fm.UserD
 		dm.UserWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.Users(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneUserDeleteError)
-		return nil, errors.New(publicOneUserDeleteError)
+		log.Error().Err(err).Msg(publicUserDeleteError)
+		return nil, errors.New(publicUserDeleteError)
 	}
 
 	return &fm.UserDeletePayload{

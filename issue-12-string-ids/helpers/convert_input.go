@@ -25,8 +25,11 @@ func CommentCreateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.Comment{
-		Content: m.Content, PostID: boilergql.PointerStringToNullDotString(m.PostID)}
+		Content: m.Content,
+		PostID:  boilergql.PointerStringToNullDotString(m.PostID),
+	}
 	return r
 }
 
@@ -76,8 +79,12 @@ func CommentLikeCreateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.CommentLike{
-		CommentID: m.CommentID, LikeType: m.LikeType, CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt)}
+		CommentID: m.CommentID,
+		LikeType:  m.LikeType,
+		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
+	}
 	return r
 }
 
@@ -131,8 +138,12 @@ func CommentLikeUpdateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.CommentLike{
-		CommentID: boilergql.PointerStringToString(m.CommentID), LikeType: boilergql.PointerStringToString(m.LikeType), CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt)}
+		CommentID: boilergql.PointerStringToString(m.CommentID),
+		LikeType:  boilergql.PointerStringToString(m.LikeType),
+		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
+	}
 	return r
 }
 
@@ -186,8 +197,11 @@ func CommentUpdateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.Comment{
-		Content: boilergql.PointerStringToString(m.Content), PostID: boilergql.PointerStringToNullDotString(m.PostID)}
+		Content: boilergql.PointerStringToString(m.Content),
+		PostID:  boilergql.PointerStringToNullDotString(m.PostID),
+	}
 	return r
 }
 
@@ -237,8 +251,10 @@ func FriendshipCreateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.Friendship{
-		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt)}
+		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
+	}
 	return r
 }
 
@@ -284,8 +300,10 @@ func FriendshipUpdateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.Friendship{
-		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt)}
+		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
+	}
 	return r
 }
 
@@ -331,8 +349,12 @@ func ImageCreateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.Image{
-		PostID: m.PostID, Views: boilergql.PointerIntToNullDotInt(m.Views), OriginalURL: boilergql.PointerStringToNullDotString(m.OriginalURL)}
+		PostID:      m.PostID,
+		Views:       boilergql.PointerIntToNullDotInt(m.Views),
+		OriginalURL: boilergql.PointerStringToNullDotString(m.OriginalURL),
+	}
 	return r
 }
 
@@ -386,8 +408,12 @@ func ImageUpdateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.Image{
-		PostID: boilergql.PointerStringToString(m.PostID), Views: boilergql.PointerIntToNullDotInt(m.Views), OriginalURL: boilergql.PointerStringToNullDotString(m.OriginalURL)}
+		PostID:      boilergql.PointerStringToString(m.PostID),
+		Views:       boilergql.PointerIntToNullDotInt(m.Views),
+		OriginalURL: boilergql.PointerStringToNullDotString(m.OriginalURL),
+	}
 	return r
 }
 
@@ -441,8 +467,10 @@ func ImageVariationCreateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.ImageVariation{
-		ImageID: m.ImageID}
+		ImageID: m.ImageID,
+	}
 	return r
 }
 
@@ -488,8 +516,10 @@ func ImageVariationUpdateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.ImageVariation{
-		ImageID: boilergql.PointerStringToString(m.ImageID)}
+		ImageID: boilergql.PointerStringToString(m.ImageID),
+	}
 	return r
 }
 
@@ -535,8 +565,12 @@ func LikeCreateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.Like{
-		PostID: m.PostID, LikeType: m.LikeType, CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt)}
+		PostID:    m.PostID,
+		LikeType:  m.LikeType,
+		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
+	}
 	return r
 }
 
@@ -590,8 +624,12 @@ func LikeUpdateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.Like{
-		PostID: boilergql.PointerStringToString(m.PostID), LikeType: boilergql.PointerStringToString(m.LikeType), CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt)}
+		PostID:    boilergql.PointerStringToString(m.PostID),
+		LikeType:  boilergql.PointerStringToString(m.LikeType),
+		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
+	}
 	return r
 }
 
@@ -645,8 +683,10 @@ func PostCreateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.Post{
-		Content: m.Content}
+		Content: m.Content,
+	}
 	return r
 }
 
@@ -692,8 +732,10 @@ func PostUpdateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.Post{
-		Content: boilergql.PointerStringToString(m.Content)}
+		Content: boilergql.PointerStringToString(m.Content),
+	}
 	return r
 }
 
@@ -739,8 +781,12 @@ func UserCreateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.User{
-		FirstName: m.FirstName, LastName: m.LastName, Email: m.Email}
+		FirstName: m.FirstName,
+		LastName:  m.LastName,
+		Email:     m.Email,
+	}
 	return r
 }
 
@@ -794,8 +840,12 @@ func UserUpdateInputToBoiler(
 	if m == nil {
 		return nil
 	}
+
 	r := &models.User{
-		FirstName: boilergql.PointerStringToString(m.FirstName), LastName: boilergql.PointerStringToString(m.LastName), Email: boilergql.PointerStringToString(m.Email)}
+		FirstName: boilergql.PointerStringToString(m.FirstName),
+		LastName:  boilergql.PointerStringToString(m.LastName),
+		Email:     boilergql.PointerStringToString(m.Email),
+	}
 	return r
 }
 
