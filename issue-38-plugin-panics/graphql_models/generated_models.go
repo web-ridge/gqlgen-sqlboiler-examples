@@ -6,9 +6,9 @@ type Additive struct {
 	ID                  string               `json:"id"`
 	Name                string               `json:"name"`
 	Note                string               `json:"note"`
+	UpdatedAt           int                  `json:"updatedAt"`
 	CreatedAt           int                  `json:"createdAt"`
 	DeletedAt           *int                 `json:"deletedAt"`
-	UpdatedAt           int                  `json:"updatedAt"`
 	RecipeAdditive      *RecipeAdditive      `json:"recipeAdditive"`
 	RecipeBatchAdditive *RecipeBatchAdditive `json:"recipeBatchAdditive"`
 	AdditiveInventories []*AdditiveInventory `json:"additiveInventories"`
@@ -17,9 +17,9 @@ type Additive struct {
 type AdditiveCreateInput struct {
 	Name      string `json:"name"`
 	Note      string `json:"note"`
+	UpdatedAt int    `json:"updatedAt"`
 	CreatedAt int    `json:"createdAt"`
 	DeletedAt *int   `json:"deletedAt"`
-	UpdatedAt int    `json:"updatedAt"`
 }
 
 type AdditiveDeletePayload struct {
@@ -119,18 +119,18 @@ type AdditivePayload struct {
 type AdditiveUpdateInput struct {
 	Name      *string `json:"name"`
 	Note      *string `json:"note"`
+	UpdatedAt *int    `json:"updatedAt"`
 	CreatedAt *int    `json:"createdAt"`
 	DeletedAt *int    `json:"deletedAt"`
-	UpdatedAt *int    `json:"updatedAt"`
 }
 
 type AdditiveWhere struct {
 	ID                  *IDFilter                 `json:"id"`
 	Name                *StringFilter             `json:"name"`
 	Note                *StringFilter             `json:"note"`
+	UpdatedAt           *IntFilter                `json:"updatedAt"`
 	CreatedAt           *IntFilter                `json:"createdAt"`
 	DeletedAt           *IntFilter                `json:"deletedAt"`
-	UpdatedAt           *IntFilter                `json:"updatedAt"`
 	RecipeAdditive      *RecipeAdditiveWhere      `json:"recipeAdditive"`
 	RecipeBatchAdditive *RecipeBatchAdditiveWhere `json:"recipeBatchAdditive"`
 	AdditiveInventories *AdditiveInventoryWhere   `json:"additiveInventories"`
@@ -263,7 +263,7 @@ type AuthGroupsUpdatePayload struct {
 type AuthPermission struct {
 	ID                                string                    `json:"id"`
 	Name                              string                    `json:"name"`
-	ContentType                       *DjangoContentType        `json:"contentType"`
+	ContentTypeID                     string                    `json:"contentTypeId"`
 	Codename                          string                    `json:"codename"`
 	PermissionAuthGroupPermissions    []*AuthGroupPermission    `json:"permissionAuthGroupPermissions"`
 	PermissionAuthUserUserPermissions []*AuthUserUserPermission `json:"permissionAuthUserUserPermissions"`
@@ -297,7 +297,7 @@ type AuthPermissionUpdateInput struct {
 type AuthPermissionWhere struct {
 	ID                                *IDFilter                    `json:"id"`
 	Name                              *StringFilter                `json:"name"`
-	ContentType                       *DjangoContentTypeWhere      `json:"contentType"`
+	ContentTypeID                     *IDFilter                    `json:"contentTypeId"`
 	Codename                          *StringFilter                `json:"codename"`
 	PermissionAuthGroupPermissions    *AuthGroupPermissionWhere    `json:"permissionAuthGroupPermissions"`
 	PermissionAuthUserUserPermissions *AuthUserUserPermissionWhere `json:"permissionAuthUserUserPermissions"`
@@ -335,7 +335,6 @@ type AuthUser struct {
 	DateJoined                  int                       `json:"dateJoined"`
 	UserAuthUserGroups          []*AuthUserGroup          `json:"userAuthUserGroups"`
 	UserAuthUserUserPermissions []*AuthUserUserPermission `json:"userAuthUserUserPermissions"`
-	UserDjangoAdminLogs         []*DjangoAdminLog         `json:"userDjangoAdminLogs"`
 }
 
 type AuthUserCreateInput struct {
@@ -497,7 +496,6 @@ type AuthUserWhere struct {
 	DateJoined                  *IntFilter                   `json:"dateJoined"`
 	UserAuthUserGroups          *AuthUserGroupWhere          `json:"userAuthUserGroups"`
 	UserAuthUserUserPermissions *AuthUserUserPermissionWhere `json:"userAuthUserUserPermissions"`
-	UserDjangoAdminLogs         *DjangoAdminLogWhere         `json:"userDjangoAdminLogs"`
 	Or                          *AuthUserWhere               `json:"or"`
 	And                         *AuthUserWhere               `json:"and"`
 }
@@ -523,248 +521,6 @@ type BooleanFilter struct {
 	NotEqualTo *bool `json:"notEqualTo"`
 }
 
-type DjangoAdminLog struct {
-	ID            string             `json:"id"`
-	ActionTime    int                `json:"actionTime"`
-	ObjectID      *string            `json:"objectId"`
-	ObjectRepr    string             `json:"objectRepr"`
-	ActionFlag    int                `json:"actionFlag"`
-	ChangeMessage string             `json:"changeMessage"`
-	ContentType   *DjangoContentType `json:"contentType"`
-	User          *AuthUser          `json:"user"`
-}
-
-type DjangoAdminLogCreateInput struct {
-	ActionTime    int     `json:"actionTime"`
-	ObjectID      *string `json:"objectId"`
-	ObjectRepr    string  `json:"objectRepr"`
-	ActionFlag    int     `json:"actionFlag"`
-	ChangeMessage string  `json:"changeMessage"`
-	ContentTypeID *string `json:"contentTypeId"`
-	UserID        string  `json:"userId"`
-}
-
-type DjangoAdminLogDeletePayload struct {
-	ID string `json:"id"`
-}
-
-type DjangoAdminLogFilter struct {
-	Search *string              `json:"search"`
-	Where  *DjangoAdminLogWhere `json:"where"`
-}
-
-type DjangoAdminLogPayload struct {
-	DjangoAdminLog *DjangoAdminLog `json:"djangoAdminLog"`
-}
-
-type DjangoAdminLogUpdateInput struct {
-	ActionTime    *int    `json:"actionTime"`
-	ObjectID      *string `json:"objectId"`
-	ObjectRepr    *string `json:"objectRepr"`
-	ActionFlag    *int    `json:"actionFlag"`
-	ChangeMessage *string `json:"changeMessage"`
-	ContentTypeID *string `json:"contentTypeId"`
-	UserID        *string `json:"userId"`
-}
-
-type DjangoAdminLogWhere struct {
-	ID            *IDFilter               `json:"id"`
-	ActionTime    *IntFilter              `json:"actionTime"`
-	ObjectID      *IDFilter               `json:"objectId"`
-	ObjectRepr    *StringFilter           `json:"objectRepr"`
-	ActionFlag    *IntFilter              `json:"actionFlag"`
-	ChangeMessage *StringFilter           `json:"changeMessage"`
-	ContentType   *DjangoContentTypeWhere `json:"contentType"`
-	User          *AuthUserWhere          `json:"user"`
-	Or            *DjangoAdminLogWhere    `json:"or"`
-	And           *DjangoAdminLogWhere    `json:"and"`
-}
-
-type DjangoAdminLogsCreateInput struct {
-	DjangoAdminLogs []*DjangoAdminLogCreateInput `json:"djangoAdminLogs"`
-}
-
-type DjangoAdminLogsDeletePayload struct {
-	Ids []string `json:"ids"`
-}
-
-type DjangoAdminLogsPayload struct {
-	DjangoAdminLogs []*DjangoAdminLog `json:"djangoAdminLogs"`
-}
-
-type DjangoAdminLogsUpdatePayload struct {
-	Ok bool `json:"ok"`
-}
-
-type DjangoContentType struct {
-	ID                         string            `json:"id"`
-	AppLabel                   string            `json:"appLabel"`
-	Model                      string            `json:"model"`
-	ContentTypeAuthPermissions []*AuthPermission `json:"contentTypeAuthPermissions"`
-	ContentTypeDjangoAdminLogs []*DjangoAdminLog `json:"contentTypeDjangoAdminLogs"`
-}
-
-type DjangoContentTypeCreateInput struct {
-	AppLabel string `json:"appLabel"`
-	Model    string `json:"model"`
-}
-
-type DjangoContentTypeDeletePayload struct {
-	ID string `json:"id"`
-}
-
-type DjangoContentTypeFilter struct {
-	Search *string                 `json:"search"`
-	Where  *DjangoContentTypeWhere `json:"where"`
-}
-
-type DjangoContentTypePayload struct {
-	DjangoContentType *DjangoContentType `json:"djangoContentType"`
-}
-
-type DjangoContentTypeUpdateInput struct {
-	AppLabel *string `json:"appLabel"`
-	Model    *string `json:"model"`
-}
-
-type DjangoContentTypeWhere struct {
-	ID                         *IDFilter               `json:"id"`
-	AppLabel                   *StringFilter           `json:"appLabel"`
-	Model                      *StringFilter           `json:"model"`
-	ContentTypeAuthPermissions *AuthPermissionWhere    `json:"contentTypeAuthPermissions"`
-	ContentTypeDjangoAdminLogs *DjangoAdminLogWhere    `json:"contentTypeDjangoAdminLogs"`
-	Or                         *DjangoContentTypeWhere `json:"or"`
-	And                        *DjangoContentTypeWhere `json:"and"`
-}
-
-type DjangoContentTypesCreateInput struct {
-	DjangoContentTypes []*DjangoContentTypeCreateInput `json:"djangoContentTypes"`
-}
-
-type DjangoContentTypesDeletePayload struct {
-	Ids []string `json:"ids"`
-}
-
-type DjangoContentTypesPayload struct {
-	DjangoContentTypes []*DjangoContentType `json:"djangoContentTypes"`
-}
-
-type DjangoContentTypesUpdatePayload struct {
-	Ok bool `json:"ok"`
-}
-
-type DjangoMigration struct {
-	ID      string `json:"id"`
-	App     string `json:"app"`
-	Name    string `json:"name"`
-	Applied int    `json:"applied"`
-}
-
-type DjangoMigrationCreateInput struct {
-	App     string `json:"app"`
-	Name    string `json:"name"`
-	Applied int    `json:"applied"`
-}
-
-type DjangoMigrationDeletePayload struct {
-	ID string `json:"id"`
-}
-
-type DjangoMigrationFilter struct {
-	Search *string               `json:"search"`
-	Where  *DjangoMigrationWhere `json:"where"`
-}
-
-type DjangoMigrationPayload struct {
-	DjangoMigration *DjangoMigration `json:"djangoMigration"`
-}
-
-type DjangoMigrationUpdateInput struct {
-	App     *string `json:"app"`
-	Name    *string `json:"name"`
-	Applied *int    `json:"applied"`
-}
-
-type DjangoMigrationWhere struct {
-	ID      *IDFilter             `json:"id"`
-	App     *StringFilter         `json:"app"`
-	Name    *StringFilter         `json:"name"`
-	Applied *IntFilter            `json:"applied"`
-	Or      *DjangoMigrationWhere `json:"or"`
-	And     *DjangoMigrationWhere `json:"and"`
-}
-
-type DjangoMigrationsCreateInput struct {
-	DjangoMigrations []*DjangoMigrationCreateInput `json:"djangoMigrations"`
-}
-
-type DjangoMigrationsDeletePayload struct {
-	Ids []string `json:"ids"`
-}
-
-type DjangoMigrationsPayload struct {
-	DjangoMigrations []*DjangoMigration `json:"djangoMigrations"`
-}
-
-type DjangoMigrationsUpdatePayload struct {
-	Ok bool `json:"ok"`
-}
-
-type DjangoSession struct {
-	SessionKey  string `json:"sessionKey"`
-	SessionData string `json:"sessionData"`
-	ExpireDate  int    `json:"expireDate"`
-}
-
-type DjangoSessionCreateInput struct {
-	SessionKey  string `json:"sessionKey"`
-	SessionData string `json:"sessionData"`
-	ExpireDate  int    `json:"expireDate"`
-}
-
-type DjangoSessionDeletePayload struct {
-	ID string `json:"id"`
-}
-
-type DjangoSessionFilter struct {
-	Search *string             `json:"search"`
-	Where  *DjangoSessionWhere `json:"where"`
-}
-
-type DjangoSessionPayload struct {
-	DjangoSession *DjangoSession `json:"djangoSession"`
-}
-
-type DjangoSessionUpdateInput struct {
-	SessionKey  *string `json:"sessionKey"`
-	SessionData *string `json:"sessionData"`
-	ExpireDate  *int    `json:"expireDate"`
-}
-
-type DjangoSessionWhere struct {
-	SessionKey  *StringFilter       `json:"sessionKey"`
-	SessionData *StringFilter       `json:"sessionData"`
-	ExpireDate  *IntFilter          `json:"expireDate"`
-	Or          *DjangoSessionWhere `json:"or"`
-	And         *DjangoSessionWhere `json:"and"`
-}
-
-type DjangoSessionsCreateInput struct {
-	DjangoSessions []*DjangoSessionCreateInput `json:"djangoSessions"`
-}
-
-type DjangoSessionsDeletePayload struct {
-	Ids []string `json:"ids"`
-}
-
-type DjangoSessionsPayload struct {
-	DjangoSessions []*DjangoSession `json:"djangoSessions"`
-}
-
-type DjangoSessionsUpdatePayload struct {
-	Ok bool `json:"ok"`
-}
-
 type FloatFilter struct {
 	EqualTo           *float64  `json:"equalTo"`
 	NotEqualTo        *float64  `json:"notEqualTo"`
@@ -781,8 +537,8 @@ type Fragrance struct {
 	Name                 string                `json:"name"`
 	Note                 string                `json:"note"`
 	DeletedAt            *int                  `json:"deletedAt"`
-	UpdatedAt            int                   `json:"updatedAt"`
 	CreatedAt            int                   `json:"createdAt"`
+	UpdatedAt            int                   `json:"updatedAt"`
 	RecipeBatchFragrance *RecipeBatchFragrance `json:"recipeBatchFragrance"`
 	RecipeFragrance      *RecipeFragrance      `json:"recipeFragrance"`
 	FragranceInventories []*FragranceInventory `json:"fragranceInventories"`
@@ -792,8 +548,8 @@ type FragranceCreateInput struct {
 	Name      string `json:"name"`
 	Note      string `json:"note"`
 	DeletedAt *int   `json:"deletedAt"`
-	UpdatedAt int    `json:"updatedAt"`
 	CreatedAt int    `json:"createdAt"`
+	UpdatedAt int    `json:"updatedAt"`
 }
 
 type FragranceDeletePayload struct {
@@ -829,9 +585,9 @@ type FragranceInventory struct {
 	Weight       float64    `json:"weight"`
 	Fragrance    *Fragrance `json:"fragrance"`
 	Supplier     *Supplier  `json:"supplier"`
-	UpdatedAt    int        `json:"updatedAt"`
 	CreatedAt    int        `json:"createdAt"`
 	DeletedAt    *int       `json:"deletedAt"`
+	UpdatedAt    int        `json:"updatedAt"`
 }
 
 type FragranceInventoryCreateInput struct {
@@ -841,9 +597,9 @@ type FragranceInventoryCreateInput struct {
 	Weight       float64 `json:"weight"`
 	FragranceID  string  `json:"fragranceId"`
 	SupplierID   string  `json:"supplierId"`
-	UpdatedAt    int     `json:"updatedAt"`
 	CreatedAt    int     `json:"createdAt"`
 	DeletedAt    *int    `json:"deletedAt"`
+	UpdatedAt    int     `json:"updatedAt"`
 }
 
 type FragranceInventoryDeletePayload struct {
@@ -866,9 +622,9 @@ type FragranceInventoryUpdateInput struct {
 	Weight       *float64 `json:"weight"`
 	FragranceID  *string  `json:"fragranceId"`
 	SupplierID   *string  `json:"supplierId"`
-	UpdatedAt    *int     `json:"updatedAt"`
 	CreatedAt    *int     `json:"createdAt"`
 	DeletedAt    *int     `json:"deletedAt"`
+	UpdatedAt    *int     `json:"updatedAt"`
 }
 
 type FragranceInventoryWhere struct {
@@ -879,9 +635,9 @@ type FragranceInventoryWhere struct {
 	Weight       *FloatFilter             `json:"weight"`
 	Fragrance    *FragranceWhere          `json:"fragrance"`
 	Supplier     *SupplierWhere           `json:"supplier"`
-	UpdatedAt    *IntFilter               `json:"updatedAt"`
 	CreatedAt    *IntFilter               `json:"createdAt"`
 	DeletedAt    *IntFilter               `json:"deletedAt"`
+	UpdatedAt    *IntFilter               `json:"updatedAt"`
 	Or           *FragranceInventoryWhere `json:"or"`
 	And          *FragranceInventoryWhere `json:"and"`
 }
@@ -894,8 +650,8 @@ type FragranceUpdateInput struct {
 	Name      *string `json:"name"`
 	Note      *string `json:"note"`
 	DeletedAt *int    `json:"deletedAt"`
-	UpdatedAt *int    `json:"updatedAt"`
 	CreatedAt *int    `json:"createdAt"`
+	UpdatedAt *int    `json:"updatedAt"`
 }
 
 type FragranceWhere struct {
@@ -903,8 +659,8 @@ type FragranceWhere struct {
 	Name                 *StringFilter              `json:"name"`
 	Note                 *StringFilter              `json:"note"`
 	DeletedAt            *IntFilter                 `json:"deletedAt"`
-	UpdatedAt            *IntFilter                 `json:"updatedAt"`
 	CreatedAt            *IntFilter                 `json:"createdAt"`
+	UpdatedAt            *IntFilter                 `json:"updatedAt"`
 	RecipeBatchFragrance *RecipeBatchFragranceWhere `json:"recipeBatchFragrance"`
 	RecipeFragrance      *RecipeFragranceWhere      `json:"recipeFragrance"`
 	FragranceInventories *FragranceInventoryWhere   `json:"fragranceInventories"`
@@ -967,8 +723,8 @@ type Lipid struct {
 	InciName         string            `json:"inciName"`
 	Family           string            `json:"family"`
 	Naoh             float64           `json:"naoh"`
-	CreatedAt        int               `json:"createdAt"`
 	DeletedAt        *int              `json:"deletedAt"`
+	CreatedAt        int               `json:"createdAt"`
 	UpdatedAt        int               `json:"updatedAt"`
 	RecipeBatchLipid *RecipeBatchLipid `json:"recipeBatchLipid"`
 	RecipeLipid      *RecipeLipid      `json:"recipeLipid"`
@@ -995,8 +751,8 @@ type LipidCreateInput struct {
 	InciName     string  `json:"inciName"`
 	Family       string  `json:"family"`
 	Naoh         float64 `json:"naoh"`
-	CreatedAt    int     `json:"createdAt"`
 	DeletedAt    *int    `json:"deletedAt"`
+	CreatedAt    int     `json:"createdAt"`
 	UpdatedAt    int     `json:"updatedAt"`
 }
 
@@ -1130,8 +886,8 @@ type LipidUpdateInput struct {
 	InciName     *string  `json:"inciName"`
 	Family       *string  `json:"family"`
 	Naoh         *float64 `json:"naoh"`
-	CreatedAt    *int     `json:"createdAt"`
 	DeletedAt    *int     `json:"deletedAt"`
+	CreatedAt    *int     `json:"createdAt"`
 	UpdatedAt    *int     `json:"updatedAt"`
 }
 
@@ -1156,8 +912,8 @@ type LipidWhere struct {
 	InciName         *StringFilter          `json:"inciName"`
 	Family           *StringFilter          `json:"family"`
 	Naoh             *FloatFilter           `json:"naoh"`
-	CreatedAt        *IntFilter             `json:"createdAt"`
 	DeletedAt        *IntFilter             `json:"deletedAt"`
+	CreatedAt        *IntFilter             `json:"createdAt"`
 	UpdatedAt        *IntFilter             `json:"updatedAt"`
 	RecipeBatchLipid *RecipeBatchLipidWhere `json:"recipeBatchLipid"`
 	RecipeLipid      *RecipeLipidWhere      `json:"recipeLipid"`
@@ -1187,9 +943,9 @@ type Lye struct {
 	Kind           string          `json:"kind"`
 	Name           string          `json:"name"`
 	Note           string          `json:"note"`
-	CreatedAt      int             `json:"createdAt"`
-	UpdatedAt      int             `json:"updatedAt"`
 	DeletedAt      *int            `json:"deletedAt"`
+	UpdatedAt      int             `json:"updatedAt"`
+	CreatedAt      int             `json:"createdAt"`
 	RecipeBatchLye *RecipeBatchLye `json:"recipeBatchLye"`
 	LyeInventories []*LyeInventory `json:"lyeInventories"`
 }
@@ -1198,9 +954,9 @@ type LyeCreateInput struct {
 	Kind      string `json:"kind"`
 	Name      string `json:"name"`
 	Note      string `json:"note"`
-	CreatedAt int    `json:"createdAt"`
-	UpdatedAt int    `json:"updatedAt"`
 	DeletedAt *int   `json:"deletedAt"`
+	UpdatedAt int    `json:"updatedAt"`
+	CreatedAt int    `json:"createdAt"`
 }
 
 type LyeDeletePayload struct {
@@ -1238,8 +994,8 @@ type LyeInventory struct {
 	Lye           *Lye      `json:"lye"`
 	Supplier      *Supplier `json:"supplier"`
 	DeletedAt     *int      `json:"deletedAt"`
-	CreatedAt     int       `json:"createdAt"`
 	UpdatedAt     int       `json:"updatedAt"`
+	CreatedAt     int       `json:"createdAt"`
 }
 
 type LyeInventoryCreateInput struct {
@@ -1251,8 +1007,8 @@ type LyeInventoryCreateInput struct {
 	LyeID         string  `json:"lyeId"`
 	SupplierID    string  `json:"supplierId"`
 	DeletedAt     *int    `json:"deletedAt"`
-	CreatedAt     int     `json:"createdAt"`
 	UpdatedAt     int     `json:"updatedAt"`
+	CreatedAt     int     `json:"createdAt"`
 }
 
 type LyeInventoryDeletePayload struct {
@@ -1277,8 +1033,8 @@ type LyeInventoryUpdateInput struct {
 	LyeID         *string  `json:"lyeId"`
 	SupplierID    *string  `json:"supplierId"`
 	DeletedAt     *int     `json:"deletedAt"`
-	CreatedAt     *int     `json:"createdAt"`
 	UpdatedAt     *int     `json:"updatedAt"`
+	CreatedAt     *int     `json:"createdAt"`
 }
 
 type LyeInventoryWhere struct {
@@ -1291,8 +1047,8 @@ type LyeInventoryWhere struct {
 	Lye           *LyeWhere          `json:"lye"`
 	Supplier      *SupplierWhere     `json:"supplier"`
 	DeletedAt     *IntFilter         `json:"deletedAt"`
-	CreatedAt     *IntFilter         `json:"createdAt"`
 	UpdatedAt     *IntFilter         `json:"updatedAt"`
+	CreatedAt     *IntFilter         `json:"createdAt"`
 	Or            *LyeInventoryWhere `json:"or"`
 	And           *LyeInventoryWhere `json:"and"`
 }
@@ -1305,9 +1061,9 @@ type LyeUpdateInput struct {
 	Kind      *string `json:"kind"`
 	Name      *string `json:"name"`
 	Note      *string `json:"note"`
-	CreatedAt *int    `json:"createdAt"`
-	UpdatedAt *int    `json:"updatedAt"`
 	DeletedAt *int    `json:"deletedAt"`
+	UpdatedAt *int    `json:"updatedAt"`
+	CreatedAt *int    `json:"createdAt"`
 }
 
 type LyeWhere struct {
@@ -1315,9 +1071,9 @@ type LyeWhere struct {
 	Kind           *StringFilter        `json:"kind"`
 	Name           *StringFilter        `json:"name"`
 	Note           *StringFilter        `json:"note"`
-	CreatedAt      *IntFilter           `json:"createdAt"`
-	UpdatedAt      *IntFilter           `json:"updatedAt"`
 	DeletedAt      *IntFilter           `json:"deletedAt"`
+	UpdatedAt      *IntFilter           `json:"updatedAt"`
+	CreatedAt      *IntFilter           `json:"createdAt"`
 	RecipeBatchLye *RecipeBatchLyeWhere `json:"recipeBatchLye"`
 	LyeInventories *LyeInventoryWhere   `json:"lyeInventories"`
 	Or             *LyeWhere            `json:"or"`
@@ -1344,9 +1100,9 @@ type Recipe struct {
 	ID               string             `json:"id"`
 	Name             string             `json:"name"`
 	Note             string             `json:"note"`
+	UpdatedAt        int                `json:"updatedAt"`
 	DeletedAt        *int               `json:"deletedAt"`
 	CreatedAt        int                `json:"createdAt"`
-	UpdatedAt        int                `json:"updatedAt"`
 	RecipeAdditives  []*RecipeAdditive  `json:"recipeAdditives"`
 	RecipeBatches    []*RecipeBatch     `json:"recipeBatches"`
 	RecipeFragrances []*RecipeFragrance `json:"recipeFragrances"`
@@ -1359,8 +1115,8 @@ type RecipeAdditive struct {
 	Percentage float64   `json:"percentage"`
 	Additive   *Additive `json:"additive"`
 	Recipe     *Recipe   `json:"recipe"`
-	UpdatedAt  int       `json:"updatedAt"`
 	CreatedAt  int       `json:"createdAt"`
+	UpdatedAt  int       `json:"updatedAt"`
 	DeletedAt  *int      `json:"deletedAt"`
 }
 
@@ -1368,8 +1124,8 @@ type RecipeAdditiveCreateInput struct {
 	Percentage float64 `json:"percentage"`
 	AdditiveID string  `json:"additiveId"`
 	RecipeID   string  `json:"recipeId"`
-	UpdatedAt  int     `json:"updatedAt"`
 	CreatedAt  int     `json:"createdAt"`
+	UpdatedAt  int     `json:"updatedAt"`
 	DeletedAt  *int    `json:"deletedAt"`
 }
 
@@ -1390,8 +1146,8 @@ type RecipeAdditiveUpdateInput struct {
 	Percentage *float64 `json:"percentage"`
 	AdditiveID *string  `json:"additiveId"`
 	RecipeID   *string  `json:"recipeId"`
-	UpdatedAt  *int     `json:"updatedAt"`
 	CreatedAt  *int     `json:"createdAt"`
+	UpdatedAt  *int     `json:"updatedAt"`
 	DeletedAt  *int     `json:"deletedAt"`
 }
 
@@ -1400,8 +1156,8 @@ type RecipeAdditiveWhere struct {
 	Percentage *FloatFilter         `json:"percentage"`
 	Additive   *AdditiveWhere       `json:"additive"`
 	Recipe     *RecipeWhere         `json:"recipe"`
-	UpdatedAt  *IntFilter           `json:"updatedAt"`
 	CreatedAt  *IntFilter           `json:"createdAt"`
+	UpdatedAt  *IntFilter           `json:"updatedAt"`
 	DeletedAt  *IntFilter           `json:"deletedAt"`
 	Or         *RecipeAdditiveWhere `json:"or"`
 	And        *RecipeAdditiveWhere `json:"and"`
@@ -1449,8 +1205,8 @@ type RecipeBatchAdditive struct {
 	Cost      float64      `json:"cost"`
 	Additive  *Additive    `json:"additive"`
 	Batch     *RecipeBatch `json:"batch"`
-	DeletedAt *int         `json:"deletedAt"`
 	CreatedAt int          `json:"createdAt"`
+	DeletedAt *int         `json:"deletedAt"`
 	UpdatedAt int          `json:"updatedAt"`
 }
 
@@ -1459,8 +1215,8 @@ type RecipeBatchAdditiveCreateInput struct {
 	Cost       float64 `json:"cost"`
 	AdditiveID string  `json:"additiveId"`
 	BatchID    string  `json:"batchId"`
-	DeletedAt  *int    `json:"deletedAt"`
 	CreatedAt  int     `json:"createdAt"`
+	DeletedAt  *int    `json:"deletedAt"`
 	UpdatedAt  int     `json:"updatedAt"`
 }
 
@@ -1482,8 +1238,8 @@ type RecipeBatchAdditiveUpdateInput struct {
 	Cost       *float64 `json:"cost"`
 	AdditiveID *string  `json:"additiveId"`
 	BatchID    *string  `json:"batchId"`
-	DeletedAt  *int     `json:"deletedAt"`
 	CreatedAt  *int     `json:"createdAt"`
+	DeletedAt  *int     `json:"deletedAt"`
 	UpdatedAt  *int     `json:"updatedAt"`
 }
 
@@ -1493,8 +1249,8 @@ type RecipeBatchAdditiveWhere struct {
 	Cost      *FloatFilter              `json:"cost"`
 	Additive  *AdditiveWhere            `json:"additive"`
 	Batch     *RecipeBatchWhere         `json:"batch"`
-	DeletedAt *IntFilter                `json:"deletedAt"`
 	CreatedAt *IntFilter                `json:"createdAt"`
+	DeletedAt *IntFilter                `json:"deletedAt"`
 	UpdatedAt *IntFilter                `json:"updatedAt"`
 	Or        *RecipeBatchAdditiveWhere `json:"or"`
 	And       *RecipeBatchAdditiveWhere `json:"and"`
@@ -1545,9 +1301,9 @@ type RecipeBatchFragrance struct {
 	Cost      float64      `json:"cost"`
 	Fragrance *Fragrance   `json:"fragrance"`
 	Batch     *RecipeBatch `json:"batch"`
-	UpdatedAt int          `json:"updatedAt"`
-	DeletedAt *int         `json:"deletedAt"`
 	CreatedAt int          `json:"createdAt"`
+	DeletedAt *int         `json:"deletedAt"`
+	UpdatedAt int          `json:"updatedAt"`
 }
 
 type RecipeBatchFragranceCreateInput struct {
@@ -1555,9 +1311,9 @@ type RecipeBatchFragranceCreateInput struct {
 	Cost        float64 `json:"cost"`
 	FragranceID string  `json:"fragranceId"`
 	BatchID     string  `json:"batchId"`
-	UpdatedAt   int     `json:"updatedAt"`
-	DeletedAt   *int    `json:"deletedAt"`
 	CreatedAt   int     `json:"createdAt"`
+	DeletedAt   *int    `json:"deletedAt"`
+	UpdatedAt   int     `json:"updatedAt"`
 }
 
 type RecipeBatchFragranceDeletePayload struct {
@@ -1578,9 +1334,9 @@ type RecipeBatchFragranceUpdateInput struct {
 	Cost        *float64 `json:"cost"`
 	FragranceID *string  `json:"fragranceId"`
 	BatchID     *string  `json:"batchId"`
-	UpdatedAt   *int     `json:"updatedAt"`
-	DeletedAt   *int     `json:"deletedAt"`
 	CreatedAt   *int     `json:"createdAt"`
+	DeletedAt   *int     `json:"deletedAt"`
+	UpdatedAt   *int     `json:"updatedAt"`
 }
 
 type RecipeBatchFragranceWhere struct {
@@ -1589,9 +1345,9 @@ type RecipeBatchFragranceWhere struct {
 	Cost      *FloatFilter               `json:"cost"`
 	Fragrance *FragranceWhere            `json:"fragrance"`
 	Batch     *RecipeBatchWhere          `json:"batch"`
-	UpdatedAt *IntFilter                 `json:"updatedAt"`
-	DeletedAt *IntFilter                 `json:"deletedAt"`
 	CreatedAt *IntFilter                 `json:"createdAt"`
+	DeletedAt *IntFilter                 `json:"deletedAt"`
+	UpdatedAt *IntFilter                 `json:"updatedAt"`
 	Or        *RecipeBatchFragranceWhere `json:"or"`
 	And       *RecipeBatchFragranceWhere `json:"and"`
 }
@@ -1619,8 +1375,8 @@ type RecipeBatchLipid struct {
 	Lipid     *Lipid       `json:"lipid"`
 	Batch     *RecipeBatch `json:"batch"`
 	CreatedAt int          `json:"createdAt"`
-	DeletedAt *int         `json:"deletedAt"`
 	UpdatedAt int          `json:"updatedAt"`
+	DeletedAt *int         `json:"deletedAt"`
 }
 
 type RecipeBatchLipidCreateInput struct {
@@ -1629,8 +1385,8 @@ type RecipeBatchLipidCreateInput struct {
 	LipidID   string  `json:"lipidId"`
 	BatchID   string  `json:"batchId"`
 	CreatedAt int     `json:"createdAt"`
-	DeletedAt *int    `json:"deletedAt"`
 	UpdatedAt int     `json:"updatedAt"`
+	DeletedAt *int    `json:"deletedAt"`
 }
 
 type RecipeBatchLipidDeletePayload struct {
@@ -1652,8 +1408,8 @@ type RecipeBatchLipidUpdateInput struct {
 	LipidID   *string  `json:"lipidId"`
 	BatchID   *string  `json:"batchId"`
 	CreatedAt *int     `json:"createdAt"`
-	DeletedAt *int     `json:"deletedAt"`
 	UpdatedAt *int     `json:"updatedAt"`
+	DeletedAt *int     `json:"deletedAt"`
 }
 
 type RecipeBatchLipidWhere struct {
@@ -1663,8 +1419,8 @@ type RecipeBatchLipidWhere struct {
 	Lipid     *LipidWhere            `json:"lipid"`
 	Batch     *RecipeBatchWhere      `json:"batch"`
 	CreatedAt *IntFilter             `json:"createdAt"`
-	DeletedAt *IntFilter             `json:"deletedAt"`
 	UpdatedAt *IntFilter             `json:"updatedAt"`
+	DeletedAt *IntFilter             `json:"deletedAt"`
 	Or        *RecipeBatchLipidWhere `json:"or"`
 	And       *RecipeBatchLipidWhere `json:"and"`
 }
@@ -1693,8 +1449,8 @@ type RecipeBatchLye struct {
 	Lye       *Lye         `json:"lye"`
 	Batch     *RecipeBatch `json:"batch"`
 	CreatedAt int          `json:"createdAt"`
-	UpdatedAt int          `json:"updatedAt"`
 	DeletedAt *int         `json:"deletedAt"`
+	UpdatedAt int          `json:"updatedAt"`
 }
 
 type RecipeBatchLyeCreateInput struct {
@@ -1704,8 +1460,8 @@ type RecipeBatchLyeCreateInput struct {
 	LyeID     string  `json:"lyeId"`
 	BatchID   string  `json:"batchId"`
 	CreatedAt int     `json:"createdAt"`
-	UpdatedAt int     `json:"updatedAt"`
 	DeletedAt *int    `json:"deletedAt"`
+	UpdatedAt int     `json:"updatedAt"`
 }
 
 type RecipeBatchLyeDeletePayload struct {
@@ -1728,8 +1484,8 @@ type RecipeBatchLyeUpdateInput struct {
 	LyeID     *string  `json:"lyeId"`
 	BatchID   *string  `json:"batchId"`
 	CreatedAt *int     `json:"createdAt"`
-	UpdatedAt *int     `json:"updatedAt"`
 	DeletedAt *int     `json:"deletedAt"`
+	UpdatedAt *int     `json:"updatedAt"`
 }
 
 type RecipeBatchLyeWhere struct {
@@ -1740,8 +1496,8 @@ type RecipeBatchLyeWhere struct {
 	Lye       *LyeWhere            `json:"lye"`
 	Batch     *RecipeBatchWhere    `json:"batch"`
 	CreatedAt *IntFilter           `json:"createdAt"`
-	UpdatedAt *IntFilter           `json:"updatedAt"`
 	DeletedAt *IntFilter           `json:"deletedAt"`
+	UpdatedAt *IntFilter           `json:"updatedAt"`
 	Or        *RecipeBatchLyeWhere `json:"or"`
 	And       *RecipeBatchLyeWhere `json:"and"`
 }
@@ -1767,18 +1523,18 @@ type RecipeBatchNote struct {
 	Note      string       `json:"note"`
 	Link      string       `json:"link"`
 	Batch     *RecipeBatch `json:"batch"`
-	UpdatedAt int          `json:"updatedAt"`
 	DeletedAt *int         `json:"deletedAt"`
 	CreatedAt int          `json:"createdAt"`
+	UpdatedAt int          `json:"updatedAt"`
 }
 
 type RecipeBatchNoteCreateInput struct {
 	Note      string `json:"note"`
 	Link      string `json:"link"`
 	BatchID   string `json:"batchId"`
-	UpdatedAt int    `json:"updatedAt"`
 	DeletedAt *int   `json:"deletedAt"`
 	CreatedAt int    `json:"createdAt"`
+	UpdatedAt int    `json:"updatedAt"`
 }
 
 type RecipeBatchNoteDeletePayload struct {
@@ -1798,9 +1554,9 @@ type RecipeBatchNoteUpdateInput struct {
 	Note      *string `json:"note"`
 	Link      *string `json:"link"`
 	BatchID   *string `json:"batchId"`
-	UpdatedAt *int    `json:"updatedAt"`
 	DeletedAt *int    `json:"deletedAt"`
 	CreatedAt *int    `json:"createdAt"`
+	UpdatedAt *int    `json:"updatedAt"`
 }
 
 type RecipeBatchNoteWhere struct {
@@ -1808,9 +1564,9 @@ type RecipeBatchNoteWhere struct {
 	Note      *StringFilter         `json:"note"`
 	Link      *StringFilter         `json:"link"`
 	Batch     *RecipeBatchWhere     `json:"batch"`
-	UpdatedAt *IntFilter            `json:"updatedAt"`
 	DeletedAt *IntFilter            `json:"deletedAt"`
 	CreatedAt *IntFilter            `json:"createdAt"`
+	UpdatedAt *IntFilter            `json:"updatedAt"`
 	Or        *RecipeBatchNoteWhere `json:"or"`
 	And       *RecipeBatchNoteWhere `json:"and"`
 }
@@ -1890,9 +1646,9 @@ type RecipeBatchesUpdatePayload struct {
 type RecipeCreateInput struct {
 	Name      string `json:"name"`
 	Note      string `json:"note"`
+	UpdatedAt int    `json:"updatedAt"`
 	DeletedAt *int   `json:"deletedAt"`
 	CreatedAt int    `json:"createdAt"`
-	UpdatedAt int    `json:"updatedAt"`
 }
 
 type RecipeDeletePayload struct {
@@ -1910,8 +1666,8 @@ type RecipeFragrance struct {
 	Fragrance  *Fragrance `json:"fragrance"`
 	Recipe     *Recipe    `json:"recipe"`
 	DeletedAt  *int       `json:"deletedAt"`
-	CreatedAt  int        `json:"createdAt"`
 	UpdatedAt  int        `json:"updatedAt"`
+	CreatedAt  int        `json:"createdAt"`
 }
 
 type RecipeFragranceCreateInput struct {
@@ -1919,8 +1675,8 @@ type RecipeFragranceCreateInput struct {
 	FragranceID string  `json:"fragranceId"`
 	RecipeID    string  `json:"recipeId"`
 	DeletedAt   *int    `json:"deletedAt"`
-	CreatedAt   int     `json:"createdAt"`
 	UpdatedAt   int     `json:"updatedAt"`
+	CreatedAt   int     `json:"createdAt"`
 }
 
 type RecipeFragranceDeletePayload struct {
@@ -1941,8 +1697,8 @@ type RecipeFragranceUpdateInput struct {
 	FragranceID *string  `json:"fragranceId"`
 	RecipeID    *string  `json:"recipeId"`
 	DeletedAt   *int     `json:"deletedAt"`
-	CreatedAt   *int     `json:"createdAt"`
 	UpdatedAt   *int     `json:"updatedAt"`
+	CreatedAt   *int     `json:"createdAt"`
 }
 
 type RecipeFragranceWhere struct {
@@ -1951,8 +1707,8 @@ type RecipeFragranceWhere struct {
 	Fragrance  *FragranceWhere       `json:"fragrance"`
 	Recipe     *RecipeWhere          `json:"recipe"`
 	DeletedAt  *IntFilter            `json:"deletedAt"`
-	CreatedAt  *IntFilter            `json:"createdAt"`
 	UpdatedAt  *IntFilter            `json:"updatedAt"`
+	CreatedAt  *IntFilter            `json:"createdAt"`
 	Or         *RecipeFragranceWhere `json:"or"`
 	And        *RecipeFragranceWhere `json:"and"`
 }
@@ -1979,8 +1735,8 @@ type RecipeLipid struct {
 	Lipid      *Lipid  `json:"lipid"`
 	Recipe     *Recipe `json:"recipe"`
 	UpdatedAt  int     `json:"updatedAt"`
-	CreatedAt  int     `json:"createdAt"`
 	DeletedAt  *int    `json:"deletedAt"`
+	CreatedAt  int     `json:"createdAt"`
 }
 
 type RecipeLipidCreateInput struct {
@@ -1988,8 +1744,8 @@ type RecipeLipidCreateInput struct {
 	LipidID    string  `json:"lipidId"`
 	RecipeID   string  `json:"recipeId"`
 	UpdatedAt  int     `json:"updatedAt"`
-	CreatedAt  int     `json:"createdAt"`
 	DeletedAt  *int    `json:"deletedAt"`
+	CreatedAt  int     `json:"createdAt"`
 }
 
 type RecipeLipidDeletePayload struct {
@@ -2010,8 +1766,8 @@ type RecipeLipidUpdateInput struct {
 	LipidID    *string  `json:"lipidId"`
 	RecipeID   *string  `json:"recipeId"`
 	UpdatedAt  *int     `json:"updatedAt"`
-	CreatedAt  *int     `json:"createdAt"`
 	DeletedAt  *int     `json:"deletedAt"`
+	CreatedAt  *int     `json:"createdAt"`
 }
 
 type RecipeLipidWhere struct {
@@ -2020,8 +1776,8 @@ type RecipeLipidWhere struct {
 	Lipid      *LipidWhere       `json:"lipid"`
 	Recipe     *RecipeWhere      `json:"recipe"`
 	UpdatedAt  *IntFilter        `json:"updatedAt"`
-	CreatedAt  *IntFilter        `json:"createdAt"`
 	DeletedAt  *IntFilter        `json:"deletedAt"`
+	CreatedAt  *IntFilter        `json:"createdAt"`
 	Or         *RecipeLipidWhere `json:"or"`
 	And        *RecipeLipidWhere `json:"and"`
 }
@@ -2051,18 +1807,18 @@ type RecipeStep struct {
 	Num       int     `json:"num"`
 	Note      string  `json:"note"`
 	Recipe    *Recipe `json:"recipe"`
+	UpdatedAt int     `json:"updatedAt"`
 	DeletedAt *int    `json:"deletedAt"`
 	CreatedAt int     `json:"createdAt"`
-	UpdatedAt int     `json:"updatedAt"`
 }
 
 type RecipeStepCreateInput struct {
 	Num       int    `json:"num"`
 	Note      string `json:"note"`
 	RecipeID  string `json:"recipeId"`
+	UpdatedAt int    `json:"updatedAt"`
 	DeletedAt *int   `json:"deletedAt"`
 	CreatedAt int    `json:"createdAt"`
-	UpdatedAt int    `json:"updatedAt"`
 }
 
 type RecipeStepDeletePayload struct {
@@ -2082,9 +1838,9 @@ type RecipeStepUpdateInput struct {
 	Num       *int    `json:"num"`
 	Note      *string `json:"note"`
 	RecipeID  *string `json:"recipeId"`
+	UpdatedAt *int    `json:"updatedAt"`
 	DeletedAt *int    `json:"deletedAt"`
 	CreatedAt *int    `json:"createdAt"`
-	UpdatedAt *int    `json:"updatedAt"`
 }
 
 type RecipeStepWhere struct {
@@ -2092,9 +1848,9 @@ type RecipeStepWhere struct {
 	Num       *IntFilter       `json:"num"`
 	Note      *StringFilter    `json:"note"`
 	Recipe    *RecipeWhere     `json:"recipe"`
+	UpdatedAt *IntFilter       `json:"updatedAt"`
 	DeletedAt *IntFilter       `json:"deletedAt"`
 	CreatedAt *IntFilter       `json:"createdAt"`
-	UpdatedAt *IntFilter       `json:"updatedAt"`
 	Or        *RecipeStepWhere `json:"or"`
 	And       *RecipeStepWhere `json:"and"`
 }
@@ -2118,18 +1874,18 @@ type RecipeStepsUpdatePayload struct {
 type RecipeUpdateInput struct {
 	Name      *string `json:"name"`
 	Note      *string `json:"note"`
+	UpdatedAt *int    `json:"updatedAt"`
 	DeletedAt *int    `json:"deletedAt"`
 	CreatedAt *int    `json:"createdAt"`
-	UpdatedAt *int    `json:"updatedAt"`
 }
 
 type RecipeWhere struct {
 	ID               *IDFilter             `json:"id"`
 	Name             *StringFilter         `json:"name"`
 	Note             *StringFilter         `json:"note"`
+	UpdatedAt        *IntFilter            `json:"updatedAt"`
 	DeletedAt        *IntFilter            `json:"deletedAt"`
 	CreatedAt        *IntFilter            `json:"createdAt"`
-	UpdatedAt        *IntFilter            `json:"updatedAt"`
 	RecipeAdditives  *RecipeAdditiveWhere  `json:"recipeAdditives"`
 	RecipeBatches    *RecipeBatchWhere     `json:"recipeBatches"`
 	RecipeFragrances *RecipeFragranceWhere `json:"recipeFragrances"`
@@ -2179,9 +1935,9 @@ type Supplier struct {
 	Name                 string                `json:"name"`
 	Website              string                `json:"website"`
 	Note                 string                `json:"note"`
-	UpdatedAt            int                   `json:"updatedAt"`
-	DeletedAt            *int                  `json:"deletedAt"`
 	CreatedAt            int                   `json:"createdAt"`
+	DeletedAt            *int                  `json:"deletedAt"`
+	UpdatedAt            int                   `json:"updatedAt"`
 	AdditiveInventories  []*AdditiveInventory  `json:"additiveInventories"`
 	FragranceInventories []*FragranceInventory `json:"fragranceInventories"`
 	LipidInventories     []*LipidInventory     `json:"lipidInventories"`
@@ -2192,9 +1948,9 @@ type SupplierCreateInput struct {
 	Name      string `json:"name"`
 	Website   string `json:"website"`
 	Note      string `json:"note"`
-	UpdatedAt int    `json:"updatedAt"`
-	DeletedAt *int   `json:"deletedAt"`
 	CreatedAt int    `json:"createdAt"`
+	DeletedAt *int   `json:"deletedAt"`
+	UpdatedAt int    `json:"updatedAt"`
 }
 
 type SupplierDeletePayload struct {
@@ -2214,9 +1970,9 @@ type SupplierUpdateInput struct {
 	Name      *string `json:"name"`
 	Website   *string `json:"website"`
 	Note      *string `json:"note"`
-	UpdatedAt *int    `json:"updatedAt"`
-	DeletedAt *int    `json:"deletedAt"`
 	CreatedAt *int    `json:"createdAt"`
+	DeletedAt *int    `json:"deletedAt"`
+	UpdatedAt *int    `json:"updatedAt"`
 }
 
 type SupplierWhere struct {
@@ -2224,9 +1980,9 @@ type SupplierWhere struct {
 	Name                 *StringFilter            `json:"name"`
 	Website              *StringFilter            `json:"website"`
 	Note                 *StringFilter            `json:"note"`
-	UpdatedAt            *IntFilter               `json:"updatedAt"`
-	DeletedAt            *IntFilter               `json:"deletedAt"`
 	CreatedAt            *IntFilter               `json:"createdAt"`
+	DeletedAt            *IntFilter               `json:"deletedAt"`
+	UpdatedAt            *IntFilter               `json:"updatedAt"`
 	AdditiveInventories  *AdditiveInventoryWhere  `json:"additiveInventories"`
 	FragranceInventories *FragranceInventoryWhere `json:"fragranceInventories"`
 	LipidInventories     *LipidInventoryWhere     `json:"lipidInventories"`

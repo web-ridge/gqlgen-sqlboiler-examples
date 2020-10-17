@@ -2,9 +2,9 @@ type Additive {
   id: ID!
   name: String!
   note: String!
+  updatedAt: Int!
   createdAt: Int!
   deletedAt: Int
-  updatedAt: Int!
   recipeAdditive: RecipeAdditive
   recipeBatchAdditive: RecipeBatchAdditive
   additiveInventories: [AdditiveInventory]
@@ -39,7 +39,7 @@ type AuthGroupPermission {
 type AuthPermission {
   id: ID!
   name: String!
-  contentType: DjangoContentType!
+  contentTypeId: ID!
   codename: String!
   permissionAuthGroupPermissions: [AuthGroupPermission]
   permissionAuthUserUserPermissions: [AuthUserUserPermission]
@@ -59,7 +59,6 @@ type AuthUser {
   dateJoined: Int!
   userAuthUserGroups: [AuthUserGroup]
   userAuthUserUserPermissions: [AuthUserUserPermission]
-  userDjangoAdminLogs: [DjangoAdminLog]
 }
 
 type AuthUserGroup {
@@ -74,45 +73,13 @@ type AuthUserUserPermission {
   permission: AuthPermission!
 }
 
-type DjangoAdminLog {
-  id: ID!
-  actionTime: Int!
-  objectId: ID
-  objectRepr: String!
-  actionFlag: Int!
-  changeMessage: String!
-  contentType: DjangoContentType
-  user: AuthUser!
-}
-
-type DjangoContentType {
-  id: ID!
-  appLabel: String!
-  model: String!
-  contentTypeAuthPermissions: [AuthPermission]
-  contentTypeDjangoAdminLogs: [DjangoAdminLog]
-}
-
-type DjangoMigration {
-  id: ID!
-  app: String!
-  name: String!
-  applied: Int!
-}
-
-type DjangoSession {
-  sessionKey: String!
-  sessionData: String!
-  expireDate: Int!
-}
-
 type Fragrance {
   id: ID!
   name: String!
   note: String!
   deletedAt: Int
-  updatedAt: Int!
   createdAt: Int!
+  updatedAt: Int!
   recipeBatchFragrance: RecipeBatchFragrance
   recipeFragrance: RecipeFragrance
   fragranceInventories: [FragranceInventory]
@@ -126,9 +93,9 @@ type FragranceInventory {
   weight: Float!
   fragrance: Fragrance!
   supplier: Supplier!
-  updatedAt: Int!
   createdAt: Int!
   deletedAt: Int
+  updatedAt: Int!
 }
 
 type Lipid {
@@ -152,8 +119,8 @@ type Lipid {
   inciName: String!
   family: String!
   naoh: Float!
-  createdAt: Int!
   deletedAt: Int
+  createdAt: Int!
   updatedAt: Int!
   recipeBatchLipid: RecipeBatchLipid
   recipeLipid: RecipeLipid
@@ -182,9 +149,9 @@ type Lye {
   kind: String!
   name: String!
   note: String!
-  createdAt: Int!
-  updatedAt: Int!
   deletedAt: Int
+  updatedAt: Int!
+  createdAt: Int!
   recipeBatchLye: RecipeBatchLye
   lyeInventories: [LyeInventory]
 }
@@ -199,17 +166,17 @@ type LyeInventory {
   lye: Lye!
   supplier: Supplier!
   deletedAt: Int
-  createdAt: Int!
   updatedAt: Int!
+  createdAt: Int!
 }
 
 type Recipe {
   id: ID!
   name: String!
   note: String!
+  updatedAt: Int!
   deletedAt: Int
   createdAt: Int!
-  updatedAt: Int!
   recipeAdditives: [RecipeAdditive]
   recipeBatches: [RecipeBatch]
   recipeFragrances: [RecipeFragrance]
@@ -222,8 +189,8 @@ type RecipeAdditive {
   percentage: Float!
   additive: Additive!
   recipe: Recipe!
-  updatedAt: Int!
   createdAt: Int!
+  updatedAt: Int!
   deletedAt: Int
 }
 
@@ -253,8 +220,8 @@ type RecipeBatchAdditive {
   cost: Float!
   additive: Additive!
   batch: RecipeBatch!
-  deletedAt: Int
   createdAt: Int!
+  deletedAt: Int
   updatedAt: Int!
 }
 
@@ -264,9 +231,9 @@ type RecipeBatchFragrance {
   cost: Float!
   fragrance: Fragrance!
   batch: RecipeBatch!
-  updatedAt: Int!
-  deletedAt: Int
   createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
 }
 
 type RecipeBatchLipid {
@@ -276,8 +243,8 @@ type RecipeBatchLipid {
   lipid: Lipid!
   batch: RecipeBatch!
   createdAt: Int!
-  deletedAt: Int
   updatedAt: Int!
+  deletedAt: Int
 }
 
 type RecipeBatchLye {
@@ -288,8 +255,8 @@ type RecipeBatchLye {
   lye: Lye!
   batch: RecipeBatch!
   createdAt: Int!
-  updatedAt: Int!
   deletedAt: Int
+  updatedAt: Int!
 }
 
 type RecipeBatchNote {
@@ -297,9 +264,9 @@ type RecipeBatchNote {
   note: String!
   link: String!
   batch: RecipeBatch!
-  updatedAt: Int!
   deletedAt: Int
   createdAt: Int!
+  updatedAt: Int!
 }
 
 type RecipeFragrance {
@@ -308,8 +275,8 @@ type RecipeFragrance {
   fragrance: Fragrance!
   recipe: Recipe!
   deletedAt: Int
-  createdAt: Int!
   updatedAt: Int!
+  createdAt: Int!
 }
 
 type RecipeLipid {
@@ -318,8 +285,8 @@ type RecipeLipid {
   lipid: Lipid!
   recipe: Recipe!
   updatedAt: Int!
-  createdAt: Int!
   deletedAt: Int
+  createdAt: Int!
 }
 
 type RecipeStep {
@@ -327,9 +294,9 @@ type RecipeStep {
   num: Int!
   note: String!
   recipe: Recipe!
+  updatedAt: Int!
   deletedAt: Int
   createdAt: Int!
-  updatedAt: Int!
 }
 
 type Supplier {
@@ -337,9 +304,9 @@ type Supplier {
   name: String!
   website: String!
   note: String!
-  updatedAt: Int!
-  deletedAt: Int
   createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
   additiveInventories: [AdditiveInventory]
   fragranceInventories: [FragranceInventory]
   lipidInventories: [LipidInventory]
@@ -413,9 +380,9 @@ input AdditiveWhere {
   id: IDFilter
   name: StringFilter
   note: StringFilter
+  updatedAt: IntFilter
   createdAt: IntFilter
   deletedAt: IntFilter
-  updatedAt: IntFilter
   recipeAdditive: RecipeAdditiveWhere
   recipeBatchAdditive: RecipeBatchAdditiveWhere
   additiveInventories: AdditiveInventoryWhere
@@ -478,7 +445,7 @@ input AuthPermissionFilter {
 input AuthPermissionWhere {
   id: IDFilter
   name: StringFilter
-  contentType: DjangoContentTypeWhere
+  contentTypeId: IDFilter
   codename: StringFilter
   permissionAuthGroupPermissions: AuthGroupPermissionWhere
   permissionAuthUserUserPermissions: AuthUserUserPermissionWhere
@@ -505,7 +472,6 @@ input AuthUserWhere {
   dateJoined: IntFilter
   userAuthUserGroups: AuthUserGroupWhere
   userAuthUserUserPermissions: AuthUserUserPermissionWhere
-  userDjangoAdminLogs: DjangoAdminLogWhere
   or: AuthUserWhere
   and: AuthUserWhere
 }
@@ -536,66 +502,6 @@ input AuthUserUserPermissionWhere {
   and: AuthUserUserPermissionWhere
 }
 
-input DjangoAdminLogFilter {
-  search: String
-  where: DjangoAdminLogWhere
-}
-
-input DjangoAdminLogWhere {
-  id: IDFilter
-  actionTime: IntFilter
-  objectId: IDFilter
-  objectRepr: StringFilter
-  actionFlag: IntFilter
-  changeMessage: StringFilter
-  contentType: DjangoContentTypeWhere
-  user: AuthUserWhere
-  or: DjangoAdminLogWhere
-  and: DjangoAdminLogWhere
-}
-
-input DjangoContentTypeFilter {
-  search: String
-  where: DjangoContentTypeWhere
-}
-
-input DjangoContentTypeWhere {
-  id: IDFilter
-  appLabel: StringFilter
-  model: StringFilter
-  contentTypeAuthPermissions: AuthPermissionWhere
-  contentTypeDjangoAdminLogs: DjangoAdminLogWhere
-  or: DjangoContentTypeWhere
-  and: DjangoContentTypeWhere
-}
-
-input DjangoMigrationFilter {
-  search: String
-  where: DjangoMigrationWhere
-}
-
-input DjangoMigrationWhere {
-  id: IDFilter
-  app: StringFilter
-  name: StringFilter
-  applied: IntFilter
-  or: DjangoMigrationWhere
-  and: DjangoMigrationWhere
-}
-
-input DjangoSessionFilter {
-  search: String
-  where: DjangoSessionWhere
-}
-
-input DjangoSessionWhere {
-  sessionKey: StringFilter
-  sessionData: StringFilter
-  expireDate: IntFilter
-  or: DjangoSessionWhere
-  and: DjangoSessionWhere
-}
-
 input FragranceFilter {
   search: String
   where: FragranceWhere
@@ -606,8 +512,8 @@ input FragranceWhere {
   name: StringFilter
   note: StringFilter
   deletedAt: IntFilter
-  updatedAt: IntFilter
   createdAt: IntFilter
+  updatedAt: IntFilter
   recipeBatchFragrance: RecipeBatchFragranceWhere
   recipeFragrance: RecipeFragranceWhere
   fragranceInventories: FragranceInventoryWhere
@@ -628,9 +534,9 @@ input FragranceInventoryWhere {
   weight: FloatFilter
   fragrance: FragranceWhere
   supplier: SupplierWhere
-  updatedAt: IntFilter
   createdAt: IntFilter
   deletedAt: IntFilter
+  updatedAt: IntFilter
   or: FragranceInventoryWhere
   and: FragranceInventoryWhere
 }
@@ -661,8 +567,8 @@ input LipidWhere {
   inciName: StringFilter
   family: StringFilter
   naoh: FloatFilter
-  createdAt: IntFilter
   deletedAt: IntFilter
+  createdAt: IntFilter
   updatedAt: IntFilter
   recipeBatchLipid: RecipeBatchLipidWhere
   recipeLipid: RecipeLipidWhere
@@ -705,9 +611,9 @@ input LyeWhere {
   kind: StringFilter
   name: StringFilter
   note: StringFilter
-  createdAt: IntFilter
-  updatedAt: IntFilter
   deletedAt: IntFilter
+  updatedAt: IntFilter
+  createdAt: IntFilter
   recipeBatchLye: RecipeBatchLyeWhere
   lyeInventories: LyeInventoryWhere
   or: LyeWhere
@@ -729,8 +635,8 @@ input LyeInventoryWhere {
   lye: LyeWhere
   supplier: SupplierWhere
   deletedAt: IntFilter
-  createdAt: IntFilter
   updatedAt: IntFilter
+  createdAt: IntFilter
   or: LyeInventoryWhere
   and: LyeInventoryWhere
 }
@@ -744,9 +650,9 @@ input RecipeWhere {
   id: IDFilter
   name: StringFilter
   note: StringFilter
+  updatedAt: IntFilter
   deletedAt: IntFilter
   createdAt: IntFilter
-  updatedAt: IntFilter
   recipeAdditives: RecipeAdditiveWhere
   recipeBatches: RecipeBatchWhere
   recipeFragrances: RecipeFragranceWhere
@@ -766,8 +672,8 @@ input RecipeAdditiveWhere {
   percentage: FloatFilter
   additive: AdditiveWhere
   recipe: RecipeWhere
-  updatedAt: IntFilter
   createdAt: IntFilter
+  updatedAt: IntFilter
   deletedAt: IntFilter
   or: RecipeAdditiveWhere
   and: RecipeAdditiveWhere
@@ -811,8 +717,8 @@ input RecipeBatchAdditiveWhere {
   cost: FloatFilter
   additive: AdditiveWhere
   batch: RecipeBatchWhere
-  deletedAt: IntFilter
   createdAt: IntFilter
+  deletedAt: IntFilter
   updatedAt: IntFilter
   or: RecipeBatchAdditiveWhere
   and: RecipeBatchAdditiveWhere
@@ -829,9 +735,9 @@ input RecipeBatchFragranceWhere {
   cost: FloatFilter
   fragrance: FragranceWhere
   batch: RecipeBatchWhere
-  updatedAt: IntFilter
-  deletedAt: IntFilter
   createdAt: IntFilter
+  deletedAt: IntFilter
+  updatedAt: IntFilter
   or: RecipeBatchFragranceWhere
   and: RecipeBatchFragranceWhere
 }
@@ -848,8 +754,8 @@ input RecipeBatchLipidWhere {
   lipid: LipidWhere
   batch: RecipeBatchWhere
   createdAt: IntFilter
-  deletedAt: IntFilter
   updatedAt: IntFilter
+  deletedAt: IntFilter
   or: RecipeBatchLipidWhere
   and: RecipeBatchLipidWhere
 }
@@ -867,8 +773,8 @@ input RecipeBatchLyeWhere {
   lye: LyeWhere
   batch: RecipeBatchWhere
   createdAt: IntFilter
-  updatedAt: IntFilter
   deletedAt: IntFilter
+  updatedAt: IntFilter
   or: RecipeBatchLyeWhere
   and: RecipeBatchLyeWhere
 }
@@ -883,9 +789,9 @@ input RecipeBatchNoteWhere {
   note: StringFilter
   link: StringFilter
   batch: RecipeBatchWhere
-  updatedAt: IntFilter
   deletedAt: IntFilter
   createdAt: IntFilter
+  updatedAt: IntFilter
   or: RecipeBatchNoteWhere
   and: RecipeBatchNoteWhere
 }
@@ -901,8 +807,8 @@ input RecipeFragranceWhere {
   fragrance: FragranceWhere
   recipe: RecipeWhere
   deletedAt: IntFilter
-  createdAt: IntFilter
   updatedAt: IntFilter
+  createdAt: IntFilter
   or: RecipeFragranceWhere
   and: RecipeFragranceWhere
 }
@@ -918,8 +824,8 @@ input RecipeLipidWhere {
   lipid: LipidWhere
   recipe: RecipeWhere
   updatedAt: IntFilter
-  createdAt: IntFilter
   deletedAt: IntFilter
+  createdAt: IntFilter
   or: RecipeLipidWhere
   and: RecipeLipidWhere
 }
@@ -934,9 +840,9 @@ input RecipeStepWhere {
   num: IntFilter
   note: StringFilter
   recipe: RecipeWhere
+  updatedAt: IntFilter
   deletedAt: IntFilter
   createdAt: IntFilter
-  updatedAt: IntFilter
   or: RecipeStepWhere
   and: RecipeStepWhere
 }
@@ -951,9 +857,9 @@ input SupplierWhere {
   name: StringFilter
   website: StringFilter
   note: StringFilter
-  updatedAt: IntFilter
-  deletedAt: IntFilter
   createdAt: IntFilter
+  deletedAt: IntFilter
+  updatedAt: IntFilter
   additiveInventories: AdditiveInventoryWhere
   fragranceInventories: FragranceInventoryWhere
   lipidInventories: LipidInventoryWhere
@@ -983,14 +889,6 @@ type Query {
   authUserUserPermissions(
     filter: AuthUserUserPermissionFilter
   ): [AuthUserUserPermission!]!
-  djangoAdminLog(id: ID!): DjangoAdminLog!
-  djangoAdminLogs(filter: DjangoAdminLogFilter): [DjangoAdminLog!]!
-  djangoContentType(id: ID!): DjangoContentType!
-  djangoContentTypes(filter: DjangoContentTypeFilter): [DjangoContentType!]!
-  djangoMigration(id: ID!): DjangoMigration!
-  djangoMigrations(filter: DjangoMigrationFilter): [DjangoMigration!]!
-  djangoSession(id: ID!): DjangoSession!
-  djangoSessions(filter: DjangoSessionFilter): [DjangoSession!]!
   fragrance(id: ID!): Fragrance!
   fragrances(filter: FragranceFilter): [Fragrance!]!
   fragranceInventory(id: ID!): FragranceInventory!
@@ -1036,17 +934,17 @@ type Query {
 input AdditiveCreateInput {
   name: String!
   note: String!
+  updatedAt: Int!
   createdAt: Int!
   deletedAt: Int
-  updatedAt: Int!
 }
 
 input AdditiveUpdateInput {
   name: String
   note: String
+  updatedAt: Int
   createdAt: Int
   deletedAt: Int
-  updatedAt: Int
 }
 
 input AdditivesCreateInput {
@@ -1341,170 +1239,20 @@ type AuthUserUserPermissionsUpdatePayload {
   ok: Boolean!
 }
 
-input DjangoAdminLogCreateInput {
-  actionTime: Int!
-  objectId: ID
-  objectRepr: String!
-  actionFlag: Int!
-  changeMessage: String!
-  contentTypeId: ID
-  userId: ID!
-}
-
-input DjangoAdminLogUpdateInput {
-  actionTime: Int
-  objectId: ID
-  objectRepr: String
-  actionFlag: Int
-  changeMessage: String
-  contentTypeId: ID
-  userId: ID
-}
-
-input DjangoAdminLogsCreateInput {
-  djangoAdminLogs: [DjangoAdminLogCreateInput!]!
-}
-
-type DjangoAdminLogPayload {
-  djangoAdminLog: DjangoAdminLog!
-}
-
-type DjangoAdminLogDeletePayload {
-  id: ID!
-}
-
-type DjangoAdminLogsPayload {
-  djangoAdminLogs: [DjangoAdminLog!]!
-}
-
-type DjangoAdminLogsDeletePayload {
-  ids: [ID!]!
-}
-
-type DjangoAdminLogsUpdatePayload {
-  ok: Boolean!
-}
-
-input DjangoContentTypeCreateInput {
-  appLabel: String!
-  model: String!
-}
-
-input DjangoContentTypeUpdateInput {
-  appLabel: String
-  model: String
-}
-
-input DjangoContentTypesCreateInput {
-  djangoContentTypes: [DjangoContentTypeCreateInput!]!
-}
-
-type DjangoContentTypePayload {
-  djangoContentType: DjangoContentType!
-}
-
-type DjangoContentTypeDeletePayload {
-  id: ID!
-}
-
-type DjangoContentTypesPayload {
-  djangoContentTypes: [DjangoContentType!]!
-}
-
-type DjangoContentTypesDeletePayload {
-  ids: [ID!]!
-}
-
-type DjangoContentTypesUpdatePayload {
-  ok: Boolean!
-}
-
-input DjangoMigrationCreateInput {
-  app: String!
-  name: String!
-  applied: Int!
-}
-
-input DjangoMigrationUpdateInput {
-  app: String
-  name: String
-  applied: Int
-}
-
-input DjangoMigrationsCreateInput {
-  djangoMigrations: [DjangoMigrationCreateInput!]!
-}
-
-type DjangoMigrationPayload {
-  djangoMigration: DjangoMigration!
-}
-
-type DjangoMigrationDeletePayload {
-  id: ID!
-}
-
-type DjangoMigrationsPayload {
-  djangoMigrations: [DjangoMigration!]!
-}
-
-type DjangoMigrationsDeletePayload {
-  ids: [ID!]!
-}
-
-type DjangoMigrationsUpdatePayload {
-  ok: Boolean!
-}
-
-input DjangoSessionCreateInput {
-  sessionKey: String!
-  sessionData: String!
-  expireDate: Int!
-}
-
-input DjangoSessionUpdateInput {
-  sessionKey: String
-  sessionData: String
-  expireDate: Int
-}
-
-input DjangoSessionsCreateInput {
-  djangoSessions: [DjangoSessionCreateInput!]!
-}
-
-type DjangoSessionPayload {
-  djangoSession: DjangoSession!
-}
-
-type DjangoSessionDeletePayload {
-  id: ID!
-}
-
-type DjangoSessionsPayload {
-  djangoSessions: [DjangoSession!]!
-}
-
-type DjangoSessionsDeletePayload {
-  ids: [ID!]!
-}
-
-type DjangoSessionsUpdatePayload {
-  ok: Boolean!
-}
-
 input FragranceCreateInput {
   name: String!
   note: String!
   deletedAt: Int
-  updatedAt: Int!
   createdAt: Int!
+  updatedAt: Int!
 }
 
 input FragranceUpdateInput {
   name: String
   note: String
   deletedAt: Int
-  updatedAt: Int
   createdAt: Int
+  updatedAt: Int
 }
 
 input FragrancesCreateInput {
@@ -1538,9 +1286,9 @@ input FragranceInventoryCreateInput {
   weight: Float!
   fragranceId: ID!
   supplierId: ID!
-  updatedAt: Int!
   createdAt: Int!
   deletedAt: Int
+  updatedAt: Int!
 }
 
 input FragranceInventoryUpdateInput {
@@ -1550,9 +1298,9 @@ input FragranceInventoryUpdateInput {
   weight: Float
   fragranceId: ID
   supplierId: ID
-  updatedAt: Int
   createdAt: Int
   deletedAt: Int
+  updatedAt: Int
 }
 
 input FragranceInventoriesCreateInput {
@@ -1599,8 +1347,8 @@ input LipidCreateInput {
   inciName: String!
   family: String!
   naoh: Float!
-  createdAt: Int!
   deletedAt: Int
+  createdAt: Int!
   updatedAt: Int!
 }
 
@@ -1624,8 +1372,8 @@ input LipidUpdateInput {
   inciName: String
   family: String
   naoh: Float
-  createdAt: Int
   deletedAt: Int
+  createdAt: Int
   updatedAt: Int
 }
 
@@ -1713,18 +1461,18 @@ input LyeCreateInput {
   kind: String!
   name: String!
   note: String!
-  createdAt: Int!
-  updatedAt: Int!
   deletedAt: Int
+  updatedAt: Int!
+  createdAt: Int!
 }
 
 input LyeUpdateInput {
   kind: String
   name: String
   note: String
-  createdAt: Int
-  updatedAt: Int
   deletedAt: Int
+  updatedAt: Int
+  createdAt: Int
 }
 
 input LyesCreateInput {
@@ -1760,8 +1508,8 @@ input LyeInventoryCreateInput {
   lyeId: ID!
   supplierId: ID!
   deletedAt: Int
-  createdAt: Int!
   updatedAt: Int!
+  createdAt: Int!
 }
 
 input LyeInventoryUpdateInput {
@@ -1773,8 +1521,8 @@ input LyeInventoryUpdateInput {
   lyeId: ID
   supplierId: ID
   deletedAt: Int
-  createdAt: Int
   updatedAt: Int
+  createdAt: Int
 }
 
 input LyeInventoriesCreateInput {
@@ -1804,17 +1552,17 @@ type LyeInventoriesUpdatePayload {
 input RecipeCreateInput {
   name: String!
   note: String!
+  updatedAt: Int!
   deletedAt: Int
   createdAt: Int!
-  updatedAt: Int!
 }
 
 input RecipeUpdateInput {
   name: String
   note: String
+  updatedAt: Int
   deletedAt: Int
   createdAt: Int
-  updatedAt: Int
 }
 
 input RecipesCreateInput {
@@ -1845,8 +1593,8 @@ input RecipeAdditiveCreateInput {
   percentage: Float!
   additiveId: ID!
   recipeId: ID!
-  updatedAt: Int!
   createdAt: Int!
+  updatedAt: Int!
   deletedAt: Int
 }
 
@@ -1854,8 +1602,8 @@ input RecipeAdditiveUpdateInput {
   percentage: Float
   additiveId: ID
   recipeId: ID
-  updatedAt: Int
   createdAt: Int
+  updatedAt: Int
   deletedAt: Int
 }
 
@@ -1940,8 +1688,8 @@ input RecipeBatchAdditiveCreateInput {
   cost: Float!
   additiveId: ID!
   batchId: ID!
-  deletedAt: Int
   createdAt: Int!
+  deletedAt: Int
   updatedAt: Int!
 }
 
@@ -1950,8 +1698,8 @@ input RecipeBatchAdditiveUpdateInput {
   cost: Float
   additiveId: ID
   batchId: ID
-  deletedAt: Int
   createdAt: Int
+  deletedAt: Int
   updatedAt: Int
 }
 
@@ -1984,9 +1732,9 @@ input RecipeBatchFragranceCreateInput {
   cost: Float!
   fragranceId: ID!
   batchId: ID!
-  updatedAt: Int!
-  deletedAt: Int
   createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
 }
 
 input RecipeBatchFragranceUpdateInput {
@@ -1994,9 +1742,9 @@ input RecipeBatchFragranceUpdateInput {
   cost: Float
   fragranceId: ID
   batchId: ID
-  updatedAt: Int
-  deletedAt: Int
   createdAt: Int
+  deletedAt: Int
+  updatedAt: Int
 }
 
 input RecipeBatchFragrancesCreateInput {
@@ -2029,8 +1777,8 @@ input RecipeBatchLipidCreateInput {
   lipidId: ID!
   batchId: ID!
   createdAt: Int!
-  deletedAt: Int
   updatedAt: Int!
+  deletedAt: Int
 }
 
 input RecipeBatchLipidUpdateInput {
@@ -2039,8 +1787,8 @@ input RecipeBatchLipidUpdateInput {
   lipidId: ID
   batchId: ID
   createdAt: Int
-  deletedAt: Int
   updatedAt: Int
+  deletedAt: Int
 }
 
 input RecipeBatchLipidsCreateInput {
@@ -2074,8 +1822,8 @@ input RecipeBatchLyeCreateInput {
   lyeId: ID!
   batchId: ID!
   createdAt: Int!
-  updatedAt: Int!
   deletedAt: Int
+  updatedAt: Int!
 }
 
 input RecipeBatchLyeUpdateInput {
@@ -2085,8 +1833,8 @@ input RecipeBatchLyeUpdateInput {
   lyeId: ID
   batchId: ID
   createdAt: Int
-  updatedAt: Int
   deletedAt: Int
+  updatedAt: Int
 }
 
 input RecipeBatchLyesCreateInput {
@@ -2117,18 +1865,18 @@ input RecipeBatchNoteCreateInput {
   note: String!
   link: String!
   batchId: ID!
-  updatedAt: Int!
   deletedAt: Int
   createdAt: Int!
+  updatedAt: Int!
 }
 
 input RecipeBatchNoteUpdateInput {
   note: String
   link: String
   batchId: ID
-  updatedAt: Int
   deletedAt: Int
   createdAt: Int
+  updatedAt: Int
 }
 
 input RecipeBatchNotesCreateInput {
@@ -2160,8 +1908,8 @@ input RecipeFragranceCreateInput {
   fragranceId: ID!
   recipeId: ID!
   deletedAt: Int
-  createdAt: Int!
   updatedAt: Int!
+  createdAt: Int!
 }
 
 input RecipeFragranceUpdateInput {
@@ -2169,8 +1917,8 @@ input RecipeFragranceUpdateInput {
   fragranceId: ID
   recipeId: ID
   deletedAt: Int
-  createdAt: Int
   updatedAt: Int
+  createdAt: Int
 }
 
 input RecipeFragrancesCreateInput {
@@ -2202,8 +1950,8 @@ input RecipeLipidCreateInput {
   lipidId: ID!
   recipeId: ID!
   updatedAt: Int!
-  createdAt: Int!
   deletedAt: Int
+  createdAt: Int!
 }
 
 input RecipeLipidUpdateInput {
@@ -2211,8 +1959,8 @@ input RecipeLipidUpdateInput {
   lipidId: ID
   recipeId: ID
   updatedAt: Int
-  createdAt: Int
   deletedAt: Int
+  createdAt: Int
 }
 
 input RecipeLipidsCreateInput {
@@ -2243,18 +1991,18 @@ input RecipeStepCreateInput {
   num: Int!
   note: String!
   recipeId: ID!
+  updatedAt: Int!
   deletedAt: Int
   createdAt: Int!
-  updatedAt: Int!
 }
 
 input RecipeStepUpdateInput {
   num: Int
   note: String
   recipeId: ID
+  updatedAt: Int
   deletedAt: Int
   createdAt: Int
-  updatedAt: Int
 }
 
 input RecipeStepsCreateInput {
@@ -2285,18 +2033,18 @@ input SupplierCreateInput {
   name: String!
   website: String!
   note: String!
-  updatedAt: Int!
-  deletedAt: Int
   createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
 }
 
 input SupplierUpdateInput {
   name: String
   website: String
   note: String
-  updatedAt: Int
-  deletedAt: Int
   createdAt: Int
+  deletedAt: Int
+  updatedAt: Int
 }
 
 input SuppliersCreateInput {
@@ -2439,76 +2187,6 @@ type Mutation {
   deleteAuthUserUserPermissions(
     filter: AuthUserUserPermissionFilter
   ): AuthUserUserPermissionsDeletePayload!
-  createDjangoAdminLog(
-    input: DjangoAdminLogCreateInput!
-  ): DjangoAdminLogPayload!
-  createDjangoAdminLogs(
-    input: DjangoAdminLogsCreateInput!
-  ): DjangoAdminLogsPayload!
-  updateDjangoAdminLog(
-    id: ID!
-    input: DjangoAdminLogUpdateInput!
-  ): DjangoAdminLogPayload!
-  updateDjangoAdminLogs(
-    filter: DjangoAdminLogFilter
-    input: DjangoAdminLogUpdateInput!
-  ): DjangoAdminLogsUpdatePayload!
-  deleteDjangoAdminLog(id: ID!): DjangoAdminLogDeletePayload!
-  deleteDjangoAdminLogs(
-    filter: DjangoAdminLogFilter
-  ): DjangoAdminLogsDeletePayload!
-  createDjangoContentType(
-    input: DjangoContentTypeCreateInput!
-  ): DjangoContentTypePayload!
-  createDjangoContentTypes(
-    input: DjangoContentTypesCreateInput!
-  ): DjangoContentTypesPayload!
-  updateDjangoContentType(
-    id: ID!
-    input: DjangoContentTypeUpdateInput!
-  ): DjangoContentTypePayload!
-  updateDjangoContentTypes(
-    filter: DjangoContentTypeFilter
-    input: DjangoContentTypeUpdateInput!
-  ): DjangoContentTypesUpdatePayload!
-  deleteDjangoContentType(id: ID!): DjangoContentTypeDeletePayload!
-  deleteDjangoContentTypes(
-    filter: DjangoContentTypeFilter
-  ): DjangoContentTypesDeletePayload!
-  createDjangoMigration(
-    input: DjangoMigrationCreateInput!
-  ): DjangoMigrationPayload!
-  createDjangoMigrations(
-    input: DjangoMigrationsCreateInput!
-  ): DjangoMigrationsPayload!
-  updateDjangoMigration(
-    id: ID!
-    input: DjangoMigrationUpdateInput!
-  ): DjangoMigrationPayload!
-  updateDjangoMigrations(
-    filter: DjangoMigrationFilter
-    input: DjangoMigrationUpdateInput!
-  ): DjangoMigrationsUpdatePayload!
-  deleteDjangoMigration(id: ID!): DjangoMigrationDeletePayload!
-  deleteDjangoMigrations(
-    filter: DjangoMigrationFilter
-  ): DjangoMigrationsDeletePayload!
-  createDjangoSession(input: DjangoSessionCreateInput!): DjangoSessionPayload!
-  createDjangoSessions(
-    input: DjangoSessionsCreateInput!
-  ): DjangoSessionsPayload!
-  updateDjangoSession(
-    id: ID!
-    input: DjangoSessionUpdateInput!
-  ): DjangoSessionPayload!
-  updateDjangoSessions(
-    filter: DjangoSessionFilter
-    input: DjangoSessionUpdateInput!
-  ): DjangoSessionsUpdatePayload!
-  deleteDjangoSession(id: ID!): DjangoSessionDeletePayload!
-  deleteDjangoSessions(
-    filter: DjangoSessionFilter
-  ): DjangoSessionsDeletePayload!
   createFragrance(input: FragranceCreateInput!): FragrancePayload!
   createFragrances(input: FragrancesCreateInput!): FragrancesPayload!
   updateFragrance(id: ID!, input: FragranceUpdateInput!): FragrancePayload!

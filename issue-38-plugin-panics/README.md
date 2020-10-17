@@ -24,4 +24,4 @@ Not a real example!
    `go run convert_plugin.go`
 
 5. ...Let's go!  
-   `go run server.go resolver.go database.go`
+   `go run server.go resolver.go`

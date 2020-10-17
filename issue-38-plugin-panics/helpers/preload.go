@@ -43,16 +43,16 @@ var TablePreloadMap = map[string]map[string]boilergql.ColumnSetting{
 	models.TableNames.AuthGroup: {
 		"groupAuthGroupPermissions": {
 			Name:                  models.AuthGroupRels.GroupAuthGroupPermissions,
-			RelationshipModelName: models.TableNames.AuthGroupPermission,
+			RelationshipModelName: models.TableNames.AuthGroupPermissions,
 			IDAvailable:           false,
 		},
 		"groupAuthUserGroups": {
 			Name:                  models.AuthGroupRels.GroupAuthUserGroups,
-			RelationshipModelName: models.TableNames.AuthUserGroup,
+			RelationshipModelName: models.TableNames.AuthUserGroups,
 			IDAvailable:           false,
 		},
 	},
-	models.TableNames.AuthGroupPermission: {
+	models.TableNames.AuthGroupPermissions: {
 		"group": {
 			Name:                  models.AuthGroupPermissionRels.Group,
 			RelationshipModelName: models.TableNames.AuthGroup,
@@ -65,40 +65,30 @@ var TablePreloadMap = map[string]map[string]boilergql.ColumnSetting{
 		},
 	},
 	models.TableNames.AuthPermission: {
-		"contentType": {
-			Name:                  models.AuthPermissionRels.ContentType,
-			RelationshipModelName: models.TableNames.DjangoContentType,
-			IDAvailable:           true,
-		},
 		"permissionAuthGroupPermissions": {
 			Name:                  models.AuthPermissionRels.PermissionAuthGroupPermissions,
-			RelationshipModelName: models.TableNames.AuthGroupPermission,
+			RelationshipModelName: models.TableNames.AuthGroupPermissions,
 			IDAvailable:           false,
 		},
 		"permissionAuthUserUserPermissions": {
 			Name:                  models.AuthPermissionRels.PermissionAuthUserUserPermissions,
-			RelationshipModelName: models.TableNames.AuthUserUserPermission,
+			RelationshipModelName: models.TableNames.AuthUserUserPermissions,
 			IDAvailable:           false,
 		},
 	},
 	models.TableNames.AuthUser: {
 		"userAuthUserGroups": {
 			Name:                  models.AuthUserRels.UserAuthUserGroups,
-			RelationshipModelName: models.TableNames.AuthUserGroup,
+			RelationshipModelName: models.TableNames.AuthUserGroups,
 			IDAvailable:           false,
 		},
 		"userAuthUserUserPermissions": {
 			Name:                  models.AuthUserRels.UserAuthUserUserPermissions,
-			RelationshipModelName: models.TableNames.AuthUserUserPermission,
-			IDAvailable:           false,
-		},
-		"userDjangoAdminLogs": {
-			Name:                  models.AuthUserRels.UserDjangoAdminLogs,
-			RelationshipModelName: models.TableNames.DjangoAdminLog,
+			RelationshipModelName: models.TableNames.AuthUserUserPermissions,
 			IDAvailable:           false,
 		},
 	},
-	models.TableNames.AuthUserGroup: {
+	models.TableNames.AuthUserGroups: {
 		"group": {
 			Name:                  models.AuthUserGroupRels.Group,
 			RelationshipModelName: models.TableNames.AuthGroup,
@@ -110,7 +100,7 @@ var TablePreloadMap = map[string]map[string]boilergql.ColumnSetting{
 			IDAvailable:           true,
 		},
 	},
-	models.TableNames.AuthUserUserPermission: {
+	models.TableNames.AuthUserUserPermissions: {
 		"permission": {
 			Name:                  models.AuthUserUserPermissionRels.Permission,
 			RelationshipModelName: models.TableNames.AuthPermission,
@@ -122,32 +112,6 @@ var TablePreloadMap = map[string]map[string]boilergql.ColumnSetting{
 			IDAvailable:           true,
 		},
 	},
-	models.TableNames.DjangoAdminLog: {
-		"contentType": {
-			Name:                  models.DjangoAdminLogRels.ContentType,
-			RelationshipModelName: models.TableNames.DjangoContentType,
-			IDAvailable:           true,
-		},
-		"user": {
-			Name:                  models.DjangoAdminLogRels.User,
-			RelationshipModelName: models.TableNames.AuthUser,
-			IDAvailable:           true,
-		},
-	},
-	models.TableNames.DjangoContentType: {
-		"contentTypeAuthPermissions": {
-			Name:                  models.DjangoContentTypeRels.ContentTypeAuthPermissions,
-			RelationshipModelName: models.TableNames.AuthPermission,
-			IDAvailable:           false,
-		},
-		"contentTypeDjangoAdminLogs": {
-			Name:                  models.DjangoContentTypeRels.ContentTypeDjangoAdminLogs,
-			RelationshipModelName: models.TableNames.DjangoAdminLog,
-			IDAvailable:           false,
-		},
-	},
-	models.TableNames.DjangoMigration: {},
-	models.TableNames.DjangoSession:   {},
 	models.TableNames.Fragrance: {
 		"fragranceInventories": {
 			Name:                  models.FragranceRels.FragranceInventories,
@@ -436,11 +400,11 @@ func GetAuthGroupPreloadModsWithLevel(ctx context.Context, level string) (queryM
 }
 
 func GetAuthGroupPermissionPreloadMods(ctx context.Context) (queryMods []qm.QueryMod) {
-	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.AuthGroupPermission, "")
+	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.AuthGroupPermissions, "")
 }
 
 func GetAuthGroupPermissionPreloadModsWithLevel(ctx context.Context, level string) (queryMods []qm.QueryMod) {
-	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.AuthGroupPermission, level)
+	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.AuthGroupPermissions, level)
 }
 
 func GetAuthPermissionPreloadMods(ctx context.Context) (queryMods []qm.QueryMod) {
@@ -460,51 +424,19 @@ func GetAuthUserPreloadModsWithLevel(ctx context.Context, level string) (queryMo
 }
 
 func GetAuthUserGroupPreloadMods(ctx context.Context) (queryMods []qm.QueryMod) {
-	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.AuthUserGroup, "")
+	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.AuthUserGroups, "")
 }
 
 func GetAuthUserGroupPreloadModsWithLevel(ctx context.Context, level string) (queryMods []qm.QueryMod) {
-	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.AuthUserGroup, level)
+	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.AuthUserGroups, level)
 }
 
 func GetAuthUserUserPermissionPreloadMods(ctx context.Context) (queryMods []qm.QueryMod) {
-	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.AuthUserUserPermission, "")
+	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.AuthUserUserPermissions, "")
 }
 
 func GetAuthUserUserPermissionPreloadModsWithLevel(ctx context.Context, level string) (queryMods []qm.QueryMod) {
-	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.AuthUserUserPermission, level)
-}
-
-func GetDjangoAdminLogPreloadMods(ctx context.Context) (queryMods []qm.QueryMod) {
-	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.DjangoAdminLog, "")
-}
-
-func GetDjangoAdminLogPreloadModsWithLevel(ctx context.Context, level string) (queryMods []qm.QueryMod) {
-	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.DjangoAdminLog, level)
-}
-
-func GetDjangoContentTypePreloadMods(ctx context.Context) (queryMods []qm.QueryMod) {
-	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.DjangoContentType, "")
-}
-
-func GetDjangoContentTypePreloadModsWithLevel(ctx context.Context, level string) (queryMods []qm.QueryMod) {
-	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.DjangoContentType, level)
-}
-
-func GetDjangoMigrationPreloadMods(ctx context.Context) (queryMods []qm.QueryMod) {
-	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.DjangoMigration, "")
-}
-
-func GetDjangoMigrationPreloadModsWithLevel(ctx context.Context, level string) (queryMods []qm.QueryMod) {
-	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.DjangoMigration, level)
-}
-
-func GetDjangoSessionPreloadMods(ctx context.Context) (queryMods []qm.QueryMod) {
-	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.DjangoSession, "")
-}
-
-func GetDjangoSessionPreloadModsWithLevel(ctx context.Context, level string) (queryMods []qm.QueryMod) {
-	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.DjangoSession, level)
+	return boilergql.GetPreloadModsWithLevel(ctx, TablePreloadMap, models.TableNames.AuthUserUserPermissions, level)
 }
 
 func GetFragrancePreloadMods(ctx context.Context) (queryMods []qm.QueryMod) {
@@ -697,30 +629,6 @@ var AuthUserUserPermissionPayloadPreloadLevels = struct {
 	AuthUserUserPermission string
 }{
 	AuthUserUserPermission: "authUserUserPermission",
-}
-
-var DjangoAdminLogPayloadPreloadLevels = struct {
-	DjangoAdminLog string
-}{
-	DjangoAdminLog: "djangoAdminLog",
-}
-
-var DjangoContentTypePayloadPreloadLevels = struct {
-	DjangoContentType string
-}{
-	DjangoContentType: "djangoContentType",
-}
-
-var DjangoMigrationPayloadPreloadLevels = struct {
-	DjangoMigration string
-}{
-	DjangoMigration: "djangoMigration",
-}
-
-var DjangoSessionPayloadPreloadLevels = struct {
-	DjangoSession string
-}{
-	DjangoSession: "djangoSession",
 }
 
 var FragranceInventoryPayloadPreloadLevels = struct {

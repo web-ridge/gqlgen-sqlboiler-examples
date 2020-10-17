@@ -4,7 +4,11 @@ package helpers
 
 import (
 	"fmt"
+	"reflect"
 	"strings"
+	"unsafe"
+
+	"github.com/volatiletech/sqlboiler/v4/drivers"
 
 	"github.com/volatiletech/sqlboiler/v4/queries"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
@@ -21,11 +25,21 @@ func startsWithValue(v string) string { return v + percentSign }
 func endsWithValue(v string) string   { return percentSign + v }
 func containsValue(v string) string   { return percentSign + v + percentSign }
 
-const isLike = " LIKE ?"
-const in = " IN ?"
-const notIn = " NOT IN ?"
+const (
+	isLike = " LIKE ?"
+	in     = " IN ?"
+	notIn  = " NOT IN ?"
+)
 
 func appendSubQuery(queryMods []qm.QueryMod, q *queries.Query) []qm.QueryMod {
+	// TODO: integrate with subquery in sqlboiler if it will be released in the future
+	// https://github.com/web-ridge/gqlgen-sqlboiler/issues/25 we need this for postgres
+	member := reflect.ValueOf(q).Elem().FieldByName("dialect")
+	dialectPtr := (**drivers.Dialect)(unsafe.Pointer(member.UnsafeAddr()))
+	dialect := **dialectPtr
+	dialect.UseIndexPlaceholders = false
+	*dialectPtr = &dialect
+
 	qs, args := queries.BuildQuery(q)
 	qsClean := strings.TrimSuffix(qs, ";")
 	return append(queryMods, qm.Where(fmt.Sprintf("EXISTS(%v)", qsClean), args...))
@@ -189,6 +203,7 @@ func AdditiveFilterToMods(m *graphql_models.AdditiveFilter) []qm.QueryMod {
 	}
 	return nil
 }
+
 func AdditiveSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -210,6 +225,7 @@ func AdditiveInventoryFilterToMods(m *graphql_models.AdditiveInventoryFilter) []
 	}
 	return nil
 }
+
 func AdditiveInventorySearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -268,7 +284,6 @@ func AdditiveInventoryWhereToMods(m *graphql_models.AdditiveInventoryWhere, with
 		if parentTable == models.TableNames.Supplier {
 			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.AdditiveInventory, models.AdditiveInventoryColumns.SupplierID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -305,11 +320,11 @@ func AdditiveWhereToMods(m *graphql_models.AdditiveWhere, withPrimaryID bool, pa
 	}
 	queryMods = append(queryMods, StringFilterToMods(m.Name, models.AdditiveColumns.Name)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Note, models.AdditiveColumns.Note)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.AdditiveColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.AdditiveColumns.CreatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.AdditiveColumns.DeletedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.AdditiveColumns.UpdatedAt)...)
-	queryMods = append(queryMods, RecipeAdditiveWhereSubqueryToMods(m.RecipeAdditive, models.AdditiveColumns.RecipeAdditive, models.TableNames.Additive)...)
-	queryMods = append(queryMods, RecipeBatchAdditiveWhereSubqueryToMods(m.RecipeBatchAdditive, models.AdditiveColumns.RecipeBatchAdditive, models.TableNames.Additive)...)
+	queryMods = append(queryMods, RecipeAdditiveWhereSubqueryToMods(m.RecipeAdditive, "", models.TableNames.Additive)...)
+	queryMods = append(queryMods, RecipeBatchAdditiveWhereSubqueryToMods(m.RecipeBatchAdditive, "", models.TableNames.Additive)...)
 	queryMods = append(queryMods, AdditiveInventoryWhereSubqueryToMods(m.AdditiveInventories, "", models.TableNames.Additive)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(AdditiveWhereToMods(m.Or, true, "")...)))
@@ -319,16 +334,14 @@ func AdditiveWhereToMods(m *graphql_models.AdditiveWhere, withPrimaryID bool, pa
 	}
 
 	if len(queryMods) > 0 && parentTable != "" {
-
-		if parentTable == models.TableNames.RecipeAdditive {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Additive, models.AdditiveColumns.RecipeAdditive, parentTable)))
-		}
-		if parentTable == models.TableNames.RecipeBatchAdditive {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Additive, models.AdditiveColumns.RecipeBatchAdditive, parentTable)))
-		}
-		if parentTable == models.TableNames.AdditiveInventory {
-		}
-
+		// TODO: if the relations filtering does not work, please make an issue
+		// if parentTable == models.TableNames.RecipeAdditive {
+		// queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Additive, models.AdditiveColumns.RecipeAdditive, parentTable)))
+		// }
+		// TODO: if the relations filtering does not work, please make an issue
+		// if parentTable == models.TableNames.RecipeBatchAdditive {
+		// queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Additive, models.AdditiveColumns.RecipeBatchAdditive, parentTable)))
+		// }
 	}
 
 	return queryMods
@@ -350,6 +363,7 @@ func AuthGroupFilterToMods(m *graphql_models.AuthGroupFilter) []qm.QueryMod {
 	}
 	return nil
 }
+
 func AuthGroupSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -371,6 +385,7 @@ func AuthGroupPermissionFilterToMods(m *graphql_models.AuthGroupPermissionFilter
 	}
 	return nil
 }
+
 func AuthGroupPermissionSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -405,8 +420,8 @@ func AuthGroupPermissionWhereToMods(m *graphql_models.AuthGroupPermissionWhere, 
 	if withPrimaryID {
 		queryMods = append(queryMods, IDFilterToMods(m.ID, models.AuthGroupPermissionColumns.ID)...)
 	}
-	queryMods = append(queryMods, AuthGroupWhereSubqueryToMods(m.Group, models.AuthGroupPermissionColumns.GroupID, models.TableNames.AuthGroupPermission)...)
-	queryMods = append(queryMods, AuthPermissionWhereSubqueryToMods(m.Permission, models.AuthGroupPermissionColumns.PermissionID, models.TableNames.AuthGroupPermission)...)
+	queryMods = append(queryMods, AuthGroupWhereSubqueryToMods(m.Group, models.AuthGroupPermissionColumns.GroupID, models.TableNames.AuthGroupPermissions)...)
+	queryMods = append(queryMods, AuthPermissionWhereSubqueryToMods(m.Permission, models.AuthGroupPermissionColumns.PermissionID, models.TableNames.AuthGroupPermissions)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(AuthGroupPermissionWhereToMods(m.Or, true, "")...)))
 	}
@@ -417,12 +432,11 @@ func AuthGroupPermissionWhereToMods(m *graphql_models.AuthGroupPermissionWhere, 
 	if len(queryMods) > 0 && parentTable != "" {
 
 		if parentTable == models.TableNames.AuthGroup {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.AuthGroupPermission, models.AuthGroupPermissionColumns.GroupID, parentTable)))
+			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.AuthGroupPermissions, models.AuthGroupPermissionColumns.GroupID, parentTable)))
 		}
 		if parentTable == models.TableNames.AuthPermission {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.AuthGroupPermission, models.AuthGroupPermissionColumns.PermissionID, parentTable)))
+			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.AuthGroupPermissions, models.AuthGroupPermissionColumns.PermissionID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -468,12 +482,6 @@ func AuthGroupWhereToMods(m *graphql_models.AuthGroupWhere, withPrimaryID bool, 
 	}
 
 	if len(queryMods) > 0 && parentTable != "" {
-
-		if parentTable == models.TableNames.AuthGroupPermission {
-		}
-		if parentTable == models.TableNames.AuthUserGroup {
-		}
-
 	}
 
 	return queryMods
@@ -495,6 +503,7 @@ func AuthPermissionFilterToMods(m *graphql_models.AuthPermissionFilter) []qm.Que
 	}
 	return nil
 }
+
 func AuthPermissionSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -530,7 +539,7 @@ func AuthPermissionWhereToMods(m *graphql_models.AuthPermissionWhere, withPrimar
 		queryMods = append(queryMods, IDFilterToMods(m.ID, models.AuthPermissionColumns.ID)...)
 	}
 	queryMods = append(queryMods, StringFilterToMods(m.Name, models.AuthPermissionColumns.Name)...)
-	queryMods = append(queryMods, DjangoContentTypeWhereSubqueryToMods(m.ContentType, models.AuthPermissionColumns.ContentTypeID, models.TableNames.AuthPermission)...)
+	queryMods = append(queryMods, IDFilterToMods(m.ContentTypeID, models.AuthPermissionColumns.ContentTypeID)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Codename, models.AuthPermissionColumns.Codename)...)
 	queryMods = append(queryMods, AuthGroupPermissionWhereSubqueryToMods(m.PermissionAuthGroupPermissions, "", models.TableNames.AuthPermission)...)
 	queryMods = append(queryMods, AuthUserUserPermissionWhereSubqueryToMods(m.PermissionAuthUserUserPermissions, "", models.TableNames.AuthPermission)...)
@@ -542,15 +551,6 @@ func AuthPermissionWhereToMods(m *graphql_models.AuthPermissionWhere, withPrimar
 	}
 
 	if len(queryMods) > 0 && parentTable != "" {
-
-		if parentTable == models.TableNames.DjangoContentType {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.AuthPermission, models.AuthPermissionColumns.ContentTypeID, parentTable)))
-		}
-		if parentTable == models.TableNames.AuthGroupPermission {
-		}
-		if parentTable == models.TableNames.AuthUserUserPermission {
-		}
-
 	}
 
 	return queryMods
@@ -572,6 +572,7 @@ func AuthUserFilterToMods(m *graphql_models.AuthUserFilter) []qm.QueryMod {
 	}
 	return nil
 }
+
 func AuthUserSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -593,6 +594,7 @@ func AuthUserGroupFilterToMods(m *graphql_models.AuthUserGroupFilter) []qm.Query
 	}
 	return nil
 }
+
 func AuthUserGroupSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -627,8 +629,8 @@ func AuthUserGroupWhereToMods(m *graphql_models.AuthUserGroupWhere, withPrimaryI
 	if withPrimaryID {
 		queryMods = append(queryMods, IDFilterToMods(m.ID, models.AuthUserGroupColumns.ID)...)
 	}
-	queryMods = append(queryMods, AuthUserWhereSubqueryToMods(m.User, models.AuthUserGroupColumns.UserID, models.TableNames.AuthUserGroup)...)
-	queryMods = append(queryMods, AuthGroupWhereSubqueryToMods(m.Group, models.AuthUserGroupColumns.GroupID, models.TableNames.AuthUserGroup)...)
+	queryMods = append(queryMods, AuthUserWhereSubqueryToMods(m.User, models.AuthUserGroupColumns.UserID, models.TableNames.AuthUserGroups)...)
+	queryMods = append(queryMods, AuthGroupWhereSubqueryToMods(m.Group, models.AuthUserGroupColumns.GroupID, models.TableNames.AuthUserGroups)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(AuthUserGroupWhereToMods(m.Or, true, "")...)))
 	}
@@ -639,12 +641,11 @@ func AuthUserGroupWhereToMods(m *graphql_models.AuthUserGroupWhere, withPrimaryI
 	if len(queryMods) > 0 && parentTable != "" {
 
 		if parentTable == models.TableNames.AuthUser {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.AuthUserGroup, models.AuthUserGroupColumns.UserID, parentTable)))
+			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.AuthUserGroups, models.AuthUserGroupColumns.UserID, parentTable)))
 		}
 		if parentTable == models.TableNames.AuthGroup {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.AuthUserGroup, models.AuthUserGroupColumns.GroupID, parentTable)))
+			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.AuthUserGroups, models.AuthUserGroupColumns.GroupID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -666,6 +667,7 @@ func AuthUserUserPermissionFilterToMods(m *graphql_models.AuthUserUserPermission
 	}
 	return nil
 }
+
 func AuthUserUserPermissionSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -700,8 +702,8 @@ func AuthUserUserPermissionWhereToMods(m *graphql_models.AuthUserUserPermissionW
 	if withPrimaryID {
 		queryMods = append(queryMods, IDFilterToMods(m.ID, models.AuthUserUserPermissionColumns.ID)...)
 	}
-	queryMods = append(queryMods, AuthUserWhereSubqueryToMods(m.User, models.AuthUserUserPermissionColumns.UserID, models.TableNames.AuthUserUserPermission)...)
-	queryMods = append(queryMods, AuthPermissionWhereSubqueryToMods(m.Permission, models.AuthUserUserPermissionColumns.PermissionID, models.TableNames.AuthUserUserPermission)...)
+	queryMods = append(queryMods, AuthUserWhereSubqueryToMods(m.User, models.AuthUserUserPermissionColumns.UserID, models.TableNames.AuthUserUserPermissions)...)
+	queryMods = append(queryMods, AuthPermissionWhereSubqueryToMods(m.Permission, models.AuthUserUserPermissionColumns.PermissionID, models.TableNames.AuthUserUserPermissions)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(AuthUserUserPermissionWhereToMods(m.Or, true, "")...)))
 	}
@@ -712,12 +714,11 @@ func AuthUserUserPermissionWhereToMods(m *graphql_models.AuthUserUserPermissionW
 	if len(queryMods) > 0 && parentTable != "" {
 
 		if parentTable == models.TableNames.AuthUser {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.AuthUserUserPermission, models.AuthUserUserPermissionColumns.UserID, parentTable)))
+			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.AuthUserUserPermissions, models.AuthUserUserPermissionColumns.UserID, parentTable)))
 		}
 		if parentTable == models.TableNames.AuthPermission {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.AuthUserUserPermission, models.AuthUserUserPermissionColumns.PermissionID, parentTable)))
+			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.AuthUserUserPermissions, models.AuthUserUserPermissionColumns.PermissionID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -764,7 +765,6 @@ func AuthUserWhereToMods(m *graphql_models.AuthUserWhere, withPrimaryID bool, pa
 	queryMods = append(queryMods, IntFilterToMods(m.DateJoined, models.AuthUserColumns.DateJoined)...)
 	queryMods = append(queryMods, AuthUserGroupWhereSubqueryToMods(m.UserAuthUserGroups, "", models.TableNames.AuthUser)...)
 	queryMods = append(queryMods, AuthUserUserPermissionWhereSubqueryToMods(m.UserAuthUserUserPermissions, "", models.TableNames.AuthUser)...)
-	queryMods = append(queryMods, DjangoAdminLogWhereSubqueryToMods(m.UserDjangoAdminLogs, "", models.TableNames.AuthUser)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(AuthUserWhereToMods(m.Or, true, "")...)))
 	}
@@ -773,296 +773,6 @@ func AuthUserWhereToMods(m *graphql_models.AuthUserWhere, withPrimaryID bool, pa
 	}
 
 	if len(queryMods) > 0 && parentTable != "" {
-
-		if parentTable == models.TableNames.AuthUserGroup {
-		}
-		if parentTable == models.TableNames.AuthUserUserPermission {
-		}
-		if parentTable == models.TableNames.DjangoAdminLog {
-		}
-
-	}
-
-	return queryMods
-}
-
-func DjangoAdminLogFilterToMods(m *graphql_models.DjangoAdminLogFilter) []qm.QueryMod {
-	if m == nil {
-		return nil
-	}
-	if m.Search != nil || m.Where != nil {
-		var queryMods []qm.QueryMod
-		queryMods = append(queryMods, DjangoAdminLogSearchToMods(m.Search)...)
-		queryMods = append(queryMods, DjangoAdminLogWhereToMods(m.Where, true, "")...)
-		if len(queryMods) > 0 {
-			return []qm.QueryMod{
-				qm.Expr(queryMods...),
-			}
-		}
-	}
-	return nil
-}
-func DjangoAdminLogSearchToMods(search *string) []qm.QueryMod {
-	// TODO: implement your own custom search here
-	return nil
-}
-
-func DjangoAdminLogWhereSubqueryToMods(m *graphql_models.DjangoAdminLogWhere, foreignColumn string, parentTable string) []qm.QueryMod {
-	if m == nil {
-		return nil
-	}
-	var queryMods []qm.QueryMod
-
-	// if foreign key exist so we can filter on ID in the root table instead of subquery
-	hasForeignKeyInRoot := foreignColumn != ""
-	if hasForeignKeyInRoot {
-		queryMods = append(queryMods, IDFilterToMods(m.ID, foreignColumn)...)
-	}
-
-	subQueryMods := DjangoAdminLogWhereToMods(m, !hasForeignKeyInRoot, parentTable)
-	if len(subQueryMods) > 0 {
-		subQuery := models.DjangoAdminLogs(append(subQueryMods, qm.Select("1"))...)
-		queryMods = appendSubQuery(queryMods, subQuery.Query)
-	}
-	return queryMods
-}
-
-func DjangoAdminLogWhereToMods(m *graphql_models.DjangoAdminLogWhere, withPrimaryID bool, parentTable string) []qm.QueryMod {
-	if m == nil {
-		return nil
-	}
-	var queryMods []qm.QueryMod
-
-	if withPrimaryID {
-		queryMods = append(queryMods, IDFilterToMods(m.ID, models.DjangoAdminLogColumns.ID)...)
-	}
-	queryMods = append(queryMods, IntFilterToMods(m.ActionTime, models.DjangoAdminLogColumns.ActionTime)...)
-	queryMods = append(queryMods, IDFilterToMods(m.ObjectID, models.DjangoAdminLogColumns.ObjectID)...)
-	queryMods = append(queryMods, StringFilterToMods(m.ObjectRepr, models.DjangoAdminLogColumns.ObjectRepr)...)
-	queryMods = append(queryMods, IntFilterToMods(m.ActionFlag, models.DjangoAdminLogColumns.ActionFlag)...)
-	queryMods = append(queryMods, StringFilterToMods(m.ChangeMessage, models.DjangoAdminLogColumns.ChangeMessage)...)
-	queryMods = append(queryMods, DjangoContentTypeWhereSubqueryToMods(m.ContentType, models.DjangoAdminLogColumns.ContentTypeID, models.TableNames.DjangoAdminLog)...)
-	queryMods = append(queryMods, AuthUserWhereSubqueryToMods(m.User, models.DjangoAdminLogColumns.UserID, models.TableNames.DjangoAdminLog)...)
-	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(DjangoAdminLogWhereToMods(m.Or, true, "")...)))
-	}
-	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(DjangoAdminLogWhereToMods(m.And, true, "")...))
-	}
-
-	if len(queryMods) > 0 && parentTable != "" {
-
-		if parentTable == models.TableNames.DjangoContentType {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.DjangoAdminLog, models.DjangoAdminLogColumns.ContentTypeID, parentTable)))
-		}
-		if parentTable == models.TableNames.AuthUser {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.DjangoAdminLog, models.DjangoAdminLogColumns.UserID, parentTable)))
-		}
-
-	}
-
-	return queryMods
-}
-
-func DjangoContentTypeFilterToMods(m *graphql_models.DjangoContentTypeFilter) []qm.QueryMod {
-	if m == nil {
-		return nil
-	}
-	if m.Search != nil || m.Where != nil {
-		var queryMods []qm.QueryMod
-		queryMods = append(queryMods, DjangoContentTypeSearchToMods(m.Search)...)
-		queryMods = append(queryMods, DjangoContentTypeWhereToMods(m.Where, true, "")...)
-		if len(queryMods) > 0 {
-			return []qm.QueryMod{
-				qm.Expr(queryMods...),
-			}
-		}
-	}
-	return nil
-}
-func DjangoContentTypeSearchToMods(search *string) []qm.QueryMod {
-	// TODO: implement your own custom search here
-	return nil
-}
-
-func DjangoContentTypeWhereSubqueryToMods(m *graphql_models.DjangoContentTypeWhere, foreignColumn string, parentTable string) []qm.QueryMod {
-	if m == nil {
-		return nil
-	}
-	var queryMods []qm.QueryMod
-
-	// if foreign key exist so we can filter on ID in the root table instead of subquery
-	hasForeignKeyInRoot := foreignColumn != ""
-	if hasForeignKeyInRoot {
-		queryMods = append(queryMods, IDFilterToMods(m.ID, foreignColumn)...)
-	}
-
-	subQueryMods := DjangoContentTypeWhereToMods(m, !hasForeignKeyInRoot, parentTable)
-	if len(subQueryMods) > 0 {
-		subQuery := models.DjangoContentTypes(append(subQueryMods, qm.Select("1"))...)
-		queryMods = appendSubQuery(queryMods, subQuery.Query)
-	}
-	return queryMods
-}
-
-func DjangoContentTypeWhereToMods(m *graphql_models.DjangoContentTypeWhere, withPrimaryID bool, parentTable string) []qm.QueryMod {
-	if m == nil {
-		return nil
-	}
-	var queryMods []qm.QueryMod
-
-	if withPrimaryID {
-		queryMods = append(queryMods, IDFilterToMods(m.ID, models.DjangoContentTypeColumns.ID)...)
-	}
-	queryMods = append(queryMods, StringFilterToMods(m.AppLabel, models.DjangoContentTypeColumns.AppLabel)...)
-	queryMods = append(queryMods, StringFilterToMods(m.Model, models.DjangoContentTypeColumns.Model)...)
-	queryMods = append(queryMods, AuthPermissionWhereSubqueryToMods(m.ContentTypeAuthPermissions, "", models.TableNames.DjangoContentType)...)
-	queryMods = append(queryMods, DjangoAdminLogWhereSubqueryToMods(m.ContentTypeDjangoAdminLogs, "", models.TableNames.DjangoContentType)...)
-	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(DjangoContentTypeWhereToMods(m.Or, true, "")...)))
-	}
-	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(DjangoContentTypeWhereToMods(m.And, true, "")...))
-	}
-
-	if len(queryMods) > 0 && parentTable != "" {
-
-		if parentTable == models.TableNames.AuthPermission {
-		}
-		if parentTable == models.TableNames.DjangoAdminLog {
-		}
-
-	}
-
-	return queryMods
-}
-
-func DjangoMigrationFilterToMods(m *graphql_models.DjangoMigrationFilter) []qm.QueryMod {
-	if m == nil {
-		return nil
-	}
-	if m.Search != nil || m.Where != nil {
-		var queryMods []qm.QueryMod
-		queryMods = append(queryMods, DjangoMigrationSearchToMods(m.Search)...)
-		queryMods = append(queryMods, DjangoMigrationWhereToMods(m.Where, true, "")...)
-		if len(queryMods) > 0 {
-			return []qm.QueryMod{
-				qm.Expr(queryMods...),
-			}
-		}
-	}
-	return nil
-}
-func DjangoMigrationSearchToMods(search *string) []qm.QueryMod {
-	// TODO: implement your own custom search here
-	return nil
-}
-
-func DjangoMigrationWhereSubqueryToMods(m *graphql_models.DjangoMigrationWhere, foreignColumn string, parentTable string) []qm.QueryMod {
-	if m == nil {
-		return nil
-	}
-	var queryMods []qm.QueryMod
-
-	// if foreign key exist so we can filter on ID in the root table instead of subquery
-	hasForeignKeyInRoot := foreignColumn != ""
-	if hasForeignKeyInRoot {
-		queryMods = append(queryMods, IDFilterToMods(m.ID, foreignColumn)...)
-	}
-
-	subQueryMods := DjangoMigrationWhereToMods(m, !hasForeignKeyInRoot, parentTable)
-	if len(subQueryMods) > 0 {
-		subQuery := models.DjangoMigrations(append(subQueryMods, qm.Select("1"))...)
-		queryMods = appendSubQuery(queryMods, subQuery.Query)
-	}
-	return queryMods
-}
-
-func DjangoMigrationWhereToMods(m *graphql_models.DjangoMigrationWhere, withPrimaryID bool, parentTable string) []qm.QueryMod {
-	if m == nil {
-		return nil
-	}
-	var queryMods []qm.QueryMod
-
-	if withPrimaryID {
-		queryMods = append(queryMods, IDFilterToMods(m.ID, models.DjangoMigrationColumns.ID)...)
-	}
-	queryMods = append(queryMods, StringFilterToMods(m.App, models.DjangoMigrationColumns.App)...)
-	queryMods = append(queryMods, StringFilterToMods(m.Name, models.DjangoMigrationColumns.Name)...)
-	queryMods = append(queryMods, IntFilterToMods(m.Applied, models.DjangoMigrationColumns.Applied)...)
-	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(DjangoMigrationWhereToMods(m.Or, true, "")...)))
-	}
-	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(DjangoMigrationWhereToMods(m.And, true, "")...))
-	}
-
-	if len(queryMods) > 0 && parentTable != "" {
-
-	}
-
-	return queryMods
-}
-
-func DjangoSessionFilterToMods(m *graphql_models.DjangoSessionFilter) []qm.QueryMod {
-	if m == nil {
-		return nil
-	}
-	if m.Search != nil || m.Where != nil {
-		var queryMods []qm.QueryMod
-		queryMods = append(queryMods, DjangoSessionSearchToMods(m.Search)...)
-		queryMods = append(queryMods, DjangoSessionWhereToMods(m.Where, true, "")...)
-		if len(queryMods) > 0 {
-			return []qm.QueryMod{
-				qm.Expr(queryMods...),
-			}
-		}
-	}
-	return nil
-}
-func DjangoSessionSearchToMods(search *string) []qm.QueryMod {
-	// TODO: implement your own custom search here
-	return nil
-}
-
-func DjangoSessionWhereSubqueryToMods(m *graphql_models.DjangoSessionWhere, foreignColumn string, parentTable string) []qm.QueryMod {
-	if m == nil {
-		return nil
-	}
-	var queryMods []qm.QueryMod
-
-	// if foreign key exist so we can filter on ID in the root table instead of subquery
-	hasForeignKeyInRoot := foreignColumn != ""
-	if hasForeignKeyInRoot {
-		queryMods = append(queryMods, IDFilterToMods(m.ID, foreignColumn)...)
-	}
-
-	subQueryMods := DjangoSessionWhereToMods(m, !hasForeignKeyInRoot, parentTable)
-	if len(subQueryMods) > 0 {
-		subQuery := models.DjangoSessions(append(subQueryMods, qm.Select("1"))...)
-		queryMods = appendSubQuery(queryMods, subQuery.Query)
-	}
-	return queryMods
-}
-
-func DjangoSessionWhereToMods(m *graphql_models.DjangoSessionWhere, withPrimaryID bool, parentTable string) []qm.QueryMod {
-	if m == nil {
-		return nil
-	}
-	var queryMods []qm.QueryMod
-
-	queryMods = append(queryMods, StringFilterToMods(m.SessionKey, models.DjangoSessionColumns.SessionKey)...)
-	queryMods = append(queryMods, StringFilterToMods(m.SessionData, models.DjangoSessionColumns.SessionData)...)
-	queryMods = append(queryMods, IntFilterToMods(m.ExpireDate, models.DjangoSessionColumns.ExpireDate)...)
-	if m.Or != nil {
-		queryMods = append(queryMods, qm.Or2(qm.Expr(DjangoSessionWhereToMods(m.Or, true, "")...)))
-	}
-	if m.And != nil {
-		queryMods = append(queryMods, qm.Expr(DjangoSessionWhereToMods(m.And, true, "")...))
-	}
-
-	if len(queryMods) > 0 && parentTable != "" {
-
 	}
 
 	return queryMods
@@ -1084,6 +794,7 @@ func FragranceFilterToMods(m *graphql_models.FragranceFilter) []qm.QueryMod {
 	}
 	return nil
 }
+
 func FragranceSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -1105,6 +816,7 @@ func FragranceInventoryFilterToMods(m *graphql_models.FragranceInventoryFilter) 
 	}
 	return nil
 }
+
 func FragranceInventorySearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -1145,9 +857,9 @@ func FragranceInventoryWhereToMods(m *graphql_models.FragranceInventoryWhere, wi
 	queryMods = append(queryMods, FloatFilterToMods(m.Weight, models.FragranceInventoryColumns.Weight)...)
 	queryMods = append(queryMods, FragranceWhereSubqueryToMods(m.Fragrance, models.FragranceInventoryColumns.FragranceID, models.TableNames.FragranceInventory)...)
 	queryMods = append(queryMods, SupplierWhereSubqueryToMods(m.Supplier, models.FragranceInventoryColumns.SupplierID, models.TableNames.FragranceInventory)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.FragranceInventoryColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.FragranceInventoryColumns.CreatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.FragranceInventoryColumns.DeletedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.FragranceInventoryColumns.UpdatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(FragranceInventoryWhereToMods(m.Or, true, "")...)))
 	}
@@ -1163,7 +875,6 @@ func FragranceInventoryWhereToMods(m *graphql_models.FragranceInventoryWhere, wi
 		if parentTable == models.TableNames.Supplier {
 			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.FragranceInventory, models.FragranceInventoryColumns.SupplierID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -1201,10 +912,10 @@ func FragranceWhereToMods(m *graphql_models.FragranceWhere, withPrimaryID bool, 
 	queryMods = append(queryMods, StringFilterToMods(m.Name, models.FragranceColumns.Name)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Note, models.FragranceColumns.Note)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.FragranceColumns.DeletedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.FragranceColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.FragranceColumns.CreatedAt)...)
-	queryMods = append(queryMods, RecipeBatchFragranceWhereSubqueryToMods(m.RecipeBatchFragrance, models.FragranceColumns.RecipeBatchFragrance, models.TableNames.Fragrance)...)
-	queryMods = append(queryMods, RecipeFragranceWhereSubqueryToMods(m.RecipeFragrance, models.FragranceColumns.RecipeFragrance, models.TableNames.Fragrance)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.FragranceColumns.UpdatedAt)...)
+	queryMods = append(queryMods, RecipeBatchFragranceWhereSubqueryToMods(m.RecipeBatchFragrance, "", models.TableNames.Fragrance)...)
+	queryMods = append(queryMods, RecipeFragranceWhereSubqueryToMods(m.RecipeFragrance, "", models.TableNames.Fragrance)...)
 	queryMods = append(queryMods, FragranceInventoryWhereSubqueryToMods(m.FragranceInventories, "", models.TableNames.Fragrance)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(FragranceWhereToMods(m.Or, true, "")...)))
@@ -1214,16 +925,14 @@ func FragranceWhereToMods(m *graphql_models.FragranceWhere, withPrimaryID bool, 
 	}
 
 	if len(queryMods) > 0 && parentTable != "" {
-
-		if parentTable == models.TableNames.RecipeBatchFragrance {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Fragrance, models.FragranceColumns.RecipeBatchFragrance, parentTable)))
-		}
-		if parentTable == models.TableNames.RecipeFragrance {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Fragrance, models.FragranceColumns.RecipeFragrance, parentTable)))
-		}
-		if parentTable == models.TableNames.FragranceInventory {
-		}
-
+		// TODO: if the relations filtering does not work, please make an issue
+		// if parentTable == models.TableNames.RecipeBatchFragrance {
+		// queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Fragrance, models.FragranceColumns.RecipeBatchFragrance, parentTable)))
+		// }
+		// TODO: if the relations filtering does not work, please make an issue
+		// if parentTable == models.TableNames.RecipeFragrance {
+		// queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Fragrance, models.FragranceColumns.RecipeFragrance, parentTable)))
+		// }
 	}
 
 	return queryMods
@@ -1245,6 +954,7 @@ func LipidFilterToMods(m *graphql_models.LipidFilter) []qm.QueryMod {
 	}
 	return nil
 }
+
 func LipidSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -1266,6 +976,7 @@ func LipidInventoryFilterToMods(m *graphql_models.LipidInventoryFilter) []qm.Que
 	}
 	return nil
 }
+
 func LipidInventorySearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -1328,7 +1039,6 @@ func LipidInventoryWhereToMods(m *graphql_models.LipidInventoryWhere, withPrimar
 		if parentTable == models.TableNames.Supplier {
 			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.LipidInventory, models.LipidInventoryColumns.SupplierID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -1382,11 +1092,11 @@ func LipidWhereToMods(m *graphql_models.LipidWhere, withPrimaryID bool, parentTa
 	queryMods = append(queryMods, StringFilterToMods(m.InciName, models.LipidColumns.InciName)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Family, models.LipidColumns.Family)...)
 	queryMods = append(queryMods, FloatFilterToMods(m.Naoh, models.LipidColumns.Naoh)...)
-	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.LipidColumns.CreatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.LipidColumns.DeletedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.LipidColumns.CreatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.LipidColumns.UpdatedAt)...)
-	queryMods = append(queryMods, RecipeBatchLipidWhereSubqueryToMods(m.RecipeBatchLipid, models.LipidColumns.RecipeBatchLipid, models.TableNames.Lipid)...)
-	queryMods = append(queryMods, RecipeLipidWhereSubqueryToMods(m.RecipeLipid, models.LipidColumns.RecipeLipid, models.TableNames.Lipid)...)
+	queryMods = append(queryMods, RecipeBatchLipidWhereSubqueryToMods(m.RecipeBatchLipid, "", models.TableNames.Lipid)...)
+	queryMods = append(queryMods, RecipeLipidWhereSubqueryToMods(m.RecipeLipid, "", models.TableNames.Lipid)...)
 	queryMods = append(queryMods, LipidInventoryWhereSubqueryToMods(m.LipidInventories, "", models.TableNames.Lipid)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(LipidWhereToMods(m.Or, true, "")...)))
@@ -1396,16 +1106,14 @@ func LipidWhereToMods(m *graphql_models.LipidWhere, withPrimaryID bool, parentTa
 	}
 
 	if len(queryMods) > 0 && parentTable != "" {
-
-		if parentTable == models.TableNames.RecipeBatchLipid {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Lipid, models.LipidColumns.RecipeBatchLipid, parentTable)))
-		}
-		if parentTable == models.TableNames.RecipeLipid {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Lipid, models.LipidColumns.RecipeLipid, parentTable)))
-		}
-		if parentTable == models.TableNames.LipidInventory {
-		}
-
+		// TODO: if the relations filtering does not work, please make an issue
+		// if parentTable == models.TableNames.RecipeBatchLipid {
+		// queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Lipid, models.LipidColumns.RecipeBatchLipid, parentTable)))
+		// }
+		// TODO: if the relations filtering does not work, please make an issue
+		// if parentTable == models.TableNames.RecipeLipid {
+		// queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Lipid, models.LipidColumns.RecipeLipid, parentTable)))
+		// }
 	}
 
 	return queryMods
@@ -1427,6 +1135,7 @@ func LyeFilterToMods(m *graphql_models.LyeFilter) []qm.QueryMod {
 	}
 	return nil
 }
+
 func LyeSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -1448,6 +1157,7 @@ func LyeInventoryFilterToMods(m *graphql_models.LyeInventoryFilter) []qm.QueryMo
 	}
 	return nil
 }
+
 func LyeInventorySearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -1490,8 +1200,8 @@ func LyeInventoryWhereToMods(m *graphql_models.LyeInventoryWhere, withPrimaryID 
 	queryMods = append(queryMods, LyeWhereSubqueryToMods(m.Lye, models.LyeInventoryColumns.LyeID, models.TableNames.LyeInventory)...)
 	queryMods = append(queryMods, SupplierWhereSubqueryToMods(m.Supplier, models.LyeInventoryColumns.SupplierID, models.TableNames.LyeInventory)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.LyeInventoryColumns.DeletedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.LyeInventoryColumns.CreatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.LyeInventoryColumns.UpdatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.LyeInventoryColumns.CreatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(LyeInventoryWhereToMods(m.Or, true, "")...)))
 	}
@@ -1507,7 +1217,6 @@ func LyeInventoryWhereToMods(m *graphql_models.LyeInventoryWhere, withPrimaryID 
 		if parentTable == models.TableNames.Supplier {
 			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.LyeInventory, models.LyeInventoryColumns.SupplierID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -1545,10 +1254,10 @@ func LyeWhereToMods(m *graphql_models.LyeWhere, withPrimaryID bool, parentTable 
 	queryMods = append(queryMods, StringFilterToMods(m.Kind, models.LyeColumns.Kind)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Name, models.LyeColumns.Name)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Note, models.LyeColumns.Note)...)
-	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.LyeColumns.CreatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.LyeColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.LyeColumns.DeletedAt)...)
-	queryMods = append(queryMods, RecipeBatchLyeWhereSubqueryToMods(m.RecipeBatchLye, models.LyeColumns.RecipeBatchLye, models.TableNames.Lye)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.LyeColumns.UpdatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.LyeColumns.CreatedAt)...)
+	queryMods = append(queryMods, RecipeBatchLyeWhereSubqueryToMods(m.RecipeBatchLye, "", models.TableNames.Lye)...)
 	queryMods = append(queryMods, LyeInventoryWhereSubqueryToMods(m.LyeInventories, "", models.TableNames.Lye)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(LyeWhereToMods(m.Or, true, "")...)))
@@ -1558,13 +1267,10 @@ func LyeWhereToMods(m *graphql_models.LyeWhere, withPrimaryID bool, parentTable 
 	}
 
 	if len(queryMods) > 0 && parentTable != "" {
-
-		if parentTable == models.TableNames.RecipeBatchLye {
-			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Lye, models.LyeColumns.RecipeBatchLye, parentTable)))
-		}
-		if parentTable == models.TableNames.LyeInventory {
-		}
-
+		// TODO: if the relations filtering does not work, please make an issue
+		// if parentTable == models.TableNames.RecipeBatchLye {
+		// queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.Lye, models.LyeColumns.RecipeBatchLye, parentTable)))
+		// }
 	}
 
 	return queryMods
@@ -1586,6 +1292,7 @@ func RecipeAdditiveFilterToMods(m *graphql_models.RecipeAdditiveFilter) []qm.Que
 	}
 	return nil
 }
+
 func RecipeAdditiveSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -1623,8 +1330,8 @@ func RecipeAdditiveWhereToMods(m *graphql_models.RecipeAdditiveWhere, withPrimar
 	queryMods = append(queryMods, FloatFilterToMods(m.Percentage, models.RecipeAdditiveColumns.Percentage)...)
 	queryMods = append(queryMods, AdditiveWhereSubqueryToMods(m.Additive, models.RecipeAdditiveColumns.AdditiveID, models.TableNames.RecipeAdditive)...)
 	queryMods = append(queryMods, RecipeWhereSubqueryToMods(m.Recipe, models.RecipeAdditiveColumns.RecipeID, models.TableNames.RecipeAdditive)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeAdditiveColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeAdditiveColumns.CreatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeAdditiveColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeAdditiveColumns.DeletedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeAdditiveWhereToMods(m.Or, true, "")...)))
@@ -1641,7 +1348,6 @@ func RecipeAdditiveWhereToMods(m *graphql_models.RecipeAdditiveWhere, withPrimar
 		if parentTable == models.TableNames.Recipe {
 			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.RecipeAdditive, models.RecipeAdditiveColumns.RecipeID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -1663,6 +1369,7 @@ func RecipeBatchAdditiveFilterToMods(m *graphql_models.RecipeBatchAdditiveFilter
 	}
 	return nil
 }
+
 func RecipeBatchAdditiveSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -1701,8 +1408,8 @@ func RecipeBatchAdditiveWhereToMods(m *graphql_models.RecipeBatchAdditiveWhere, 
 	queryMods = append(queryMods, FloatFilterToMods(m.Cost, models.RecipeBatchAdditiveColumns.Cost)...)
 	queryMods = append(queryMods, AdditiveWhereSubqueryToMods(m.Additive, models.RecipeBatchAdditiveColumns.AdditiveID, models.TableNames.RecipeBatchAdditive)...)
 	queryMods = append(queryMods, RecipeBatchWhereSubqueryToMods(m.Batch, models.RecipeBatchAdditiveColumns.BatchID, models.TableNames.RecipeBatchAdditive)...)
-	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeBatchAdditiveColumns.DeletedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeBatchAdditiveColumns.CreatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeBatchAdditiveColumns.DeletedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeBatchAdditiveColumns.UpdatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeBatchAdditiveWhereToMods(m.Or, true, "")...)))
@@ -1719,7 +1426,6 @@ func RecipeBatchAdditiveWhereToMods(m *graphql_models.RecipeBatchAdditiveWhere, 
 		if parentTable == models.TableNames.RecipeBatch {
 			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.RecipeBatchAdditive, models.RecipeBatchAdditiveColumns.BatchID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -1741,6 +1447,7 @@ func RecipeBatchFilterToMods(m *graphql_models.RecipeBatchFilter) []qm.QueryMod 
 	}
 	return nil
 }
+
 func RecipeBatchSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -1762,6 +1469,7 @@ func RecipeBatchFragranceFilterToMods(m *graphql_models.RecipeBatchFragranceFilt
 	}
 	return nil
 }
+
 func RecipeBatchFragranceSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -1800,9 +1508,9 @@ func RecipeBatchFragranceWhereToMods(m *graphql_models.RecipeBatchFragranceWhere
 	queryMods = append(queryMods, FloatFilterToMods(m.Cost, models.RecipeBatchFragranceColumns.Cost)...)
 	queryMods = append(queryMods, FragranceWhereSubqueryToMods(m.Fragrance, models.RecipeBatchFragranceColumns.FragranceID, models.TableNames.RecipeBatchFragrance)...)
 	queryMods = append(queryMods, RecipeBatchWhereSubqueryToMods(m.Batch, models.RecipeBatchFragranceColumns.BatchID, models.TableNames.RecipeBatchFragrance)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeBatchFragranceColumns.UpdatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeBatchFragranceColumns.DeletedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeBatchFragranceColumns.CreatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeBatchFragranceColumns.DeletedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeBatchFragranceColumns.UpdatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeBatchFragranceWhereToMods(m.Or, true, "")...)))
 	}
@@ -1818,7 +1526,6 @@ func RecipeBatchFragranceWhereToMods(m *graphql_models.RecipeBatchFragranceWhere
 		if parentTable == models.TableNames.RecipeBatch {
 			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.RecipeBatchFragrance, models.RecipeBatchFragranceColumns.BatchID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -1840,6 +1547,7 @@ func RecipeBatchLipidFilterToMods(m *graphql_models.RecipeBatchLipidFilter) []qm
 	}
 	return nil
 }
+
 func RecipeBatchLipidSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -1879,8 +1587,8 @@ func RecipeBatchLipidWhereToMods(m *graphql_models.RecipeBatchLipidWhere, withPr
 	queryMods = append(queryMods, LipidWhereSubqueryToMods(m.Lipid, models.RecipeBatchLipidColumns.LipidID, models.TableNames.RecipeBatchLipid)...)
 	queryMods = append(queryMods, RecipeBatchWhereSubqueryToMods(m.Batch, models.RecipeBatchLipidColumns.BatchID, models.TableNames.RecipeBatchLipid)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeBatchLipidColumns.CreatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeBatchLipidColumns.DeletedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeBatchLipidColumns.UpdatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeBatchLipidColumns.DeletedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeBatchLipidWhereToMods(m.Or, true, "")...)))
 	}
@@ -1896,7 +1604,6 @@ func RecipeBatchLipidWhereToMods(m *graphql_models.RecipeBatchLipidWhere, withPr
 		if parentTable == models.TableNames.RecipeBatch {
 			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.RecipeBatchLipid, models.RecipeBatchLipidColumns.BatchID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -1918,6 +1625,7 @@ func RecipeBatchLyeFilterToMods(m *graphql_models.RecipeBatchLyeFilter) []qm.Que
 	}
 	return nil
 }
+
 func RecipeBatchLyeSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -1958,8 +1666,8 @@ func RecipeBatchLyeWhereToMods(m *graphql_models.RecipeBatchLyeWhere, withPrimar
 	queryMods = append(queryMods, LyeWhereSubqueryToMods(m.Lye, models.RecipeBatchLyeColumns.LyeID, models.TableNames.RecipeBatchLye)...)
 	queryMods = append(queryMods, RecipeBatchWhereSubqueryToMods(m.Batch, models.RecipeBatchLyeColumns.BatchID, models.TableNames.RecipeBatchLye)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeBatchLyeColumns.CreatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeBatchLyeColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeBatchLyeColumns.DeletedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeBatchLyeColumns.UpdatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeBatchLyeWhereToMods(m.Or, true, "")...)))
 	}
@@ -1975,7 +1683,6 @@ func RecipeBatchLyeWhereToMods(m *graphql_models.RecipeBatchLyeWhere, withPrimar
 		if parentTable == models.TableNames.RecipeBatch {
 			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.RecipeBatchLye, models.RecipeBatchLyeColumns.BatchID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -1997,6 +1704,7 @@ func RecipeBatchNoteFilterToMods(m *graphql_models.RecipeBatchNoteFilter) []qm.Q
 	}
 	return nil
 }
+
 func RecipeBatchNoteSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -2034,9 +1742,9 @@ func RecipeBatchNoteWhereToMods(m *graphql_models.RecipeBatchNoteWhere, withPrim
 	queryMods = append(queryMods, StringFilterToMods(m.Note, models.RecipeBatchNoteColumns.Note)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Link, models.RecipeBatchNoteColumns.Link)...)
 	queryMods = append(queryMods, RecipeBatchWhereSubqueryToMods(m.Batch, models.RecipeBatchNoteColumns.BatchID, models.TableNames.RecipeBatchNote)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeBatchNoteColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeBatchNoteColumns.DeletedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeBatchNoteColumns.CreatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeBatchNoteColumns.UpdatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeBatchNoteWhereToMods(m.Or, true, "")...)))
 	}
@@ -2045,11 +1753,9 @@ func RecipeBatchNoteWhereToMods(m *graphql_models.RecipeBatchNoteWhere, withPrim
 	}
 
 	if len(queryMods) > 0 && parentTable != "" {
-
 		if parentTable == models.TableNames.RecipeBatch {
 			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.RecipeBatchNote, models.RecipeBatchNoteColumns.BatchID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -2108,21 +1814,9 @@ func RecipeBatchWhereToMods(m *graphql_models.RecipeBatchWhere, withPrimaryID bo
 	}
 
 	if len(queryMods) > 0 && parentTable != "" {
-
 		if parentTable == models.TableNames.Recipe {
 			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.RecipeBatch, models.RecipeBatchColumns.RecipeID, parentTable)))
 		}
-		if parentTable == models.TableNames.RecipeBatchAdditive {
-		}
-		if parentTable == models.TableNames.RecipeBatchFragrance {
-		}
-		if parentTable == models.TableNames.RecipeBatchLipid {
-		}
-		if parentTable == models.TableNames.RecipeBatchLye {
-		}
-		if parentTable == models.TableNames.RecipeBatchNote {
-		}
-
 	}
 
 	return queryMods
@@ -2144,6 +1838,7 @@ func RecipeFilterToMods(m *graphql_models.RecipeFilter) []qm.QueryMod {
 	}
 	return nil
 }
+
 func RecipeSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -2165,6 +1860,7 @@ func RecipeFragranceFilterToMods(m *graphql_models.RecipeFragranceFilter) []qm.Q
 	}
 	return nil
 }
+
 func RecipeFragranceSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -2203,8 +1899,8 @@ func RecipeFragranceWhereToMods(m *graphql_models.RecipeFragranceWhere, withPrim
 	queryMods = append(queryMods, FragranceWhereSubqueryToMods(m.Fragrance, models.RecipeFragranceColumns.FragranceID, models.TableNames.RecipeFragrance)...)
 	queryMods = append(queryMods, RecipeWhereSubqueryToMods(m.Recipe, models.RecipeFragranceColumns.RecipeID, models.TableNames.RecipeFragrance)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeFragranceColumns.DeletedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeFragranceColumns.CreatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeFragranceColumns.UpdatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeFragranceColumns.CreatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeFragranceWhereToMods(m.Or, true, "")...)))
 	}
@@ -2220,7 +1916,6 @@ func RecipeFragranceWhereToMods(m *graphql_models.RecipeFragranceWhere, withPrim
 		if parentTable == models.TableNames.Recipe {
 			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.RecipeFragrance, models.RecipeFragranceColumns.RecipeID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -2242,6 +1937,7 @@ func RecipeLipidFilterToMods(m *graphql_models.RecipeLipidFilter) []qm.QueryMod 
 	}
 	return nil
 }
+
 func RecipeLipidSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -2280,8 +1976,8 @@ func RecipeLipidWhereToMods(m *graphql_models.RecipeLipidWhere, withPrimaryID bo
 	queryMods = append(queryMods, LipidWhereSubqueryToMods(m.Lipid, models.RecipeLipidColumns.LipidID, models.TableNames.RecipeLipid)...)
 	queryMods = append(queryMods, RecipeWhereSubqueryToMods(m.Recipe, models.RecipeLipidColumns.RecipeID, models.TableNames.RecipeLipid)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeLipidColumns.UpdatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeLipidColumns.CreatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeLipidColumns.DeletedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeLipidColumns.CreatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeLipidWhereToMods(m.Or, true, "")...)))
 	}
@@ -2297,7 +1993,6 @@ func RecipeLipidWhereToMods(m *graphql_models.RecipeLipidWhere, withPrimaryID bo
 		if parentTable == models.TableNames.Recipe {
 			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.RecipeLipid, models.RecipeLipidColumns.RecipeID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -2319,6 +2014,7 @@ func RecipeStepFilterToMods(m *graphql_models.RecipeStepFilter) []qm.QueryMod {
 	}
 	return nil
 }
+
 func RecipeStepSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -2356,9 +2052,9 @@ func RecipeStepWhereToMods(m *graphql_models.RecipeStepWhere, withPrimaryID bool
 	queryMods = append(queryMods, IntFilterToMods(m.Num, models.RecipeStepColumns.Num)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Note, models.RecipeStepColumns.Note)...)
 	queryMods = append(queryMods, RecipeWhereSubqueryToMods(m.Recipe, models.RecipeStepColumns.RecipeID, models.TableNames.RecipeStep)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeStepColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeStepColumns.DeletedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeStepColumns.CreatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeStepColumns.UpdatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeStepWhereToMods(m.Or, true, "")...)))
 	}
@@ -2367,11 +2063,9 @@ func RecipeStepWhereToMods(m *graphql_models.RecipeStepWhere, withPrimaryID bool
 	}
 
 	if len(queryMods) > 0 && parentTable != "" {
-
 		if parentTable == models.TableNames.Recipe {
 			queryMods = append(queryMods, qm.Where(fmt.Sprintf("%v.%v = %v.id", models.TableNames.RecipeStep, models.RecipeStepColumns.RecipeID, parentTable)))
 		}
-
 	}
 
 	return queryMods
@@ -2408,9 +2102,9 @@ func RecipeWhereToMods(m *graphql_models.RecipeWhere, withPrimaryID bool, parent
 	}
 	queryMods = append(queryMods, StringFilterToMods(m.Name, models.RecipeColumns.Name)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Note, models.RecipeColumns.Note)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeColumns.DeletedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeColumns.CreatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeColumns.UpdatedAt)...)
 	queryMods = append(queryMods, RecipeAdditiveWhereSubqueryToMods(m.RecipeAdditives, "", models.TableNames.Recipe)...)
 	queryMods = append(queryMods, RecipeBatchWhereSubqueryToMods(m.RecipeBatches, "", models.TableNames.Recipe)...)
 	queryMods = append(queryMods, RecipeFragranceWhereSubqueryToMods(m.RecipeFragrances, "", models.TableNames.Recipe)...)
@@ -2424,18 +2118,6 @@ func RecipeWhereToMods(m *graphql_models.RecipeWhere, withPrimaryID bool, parent
 	}
 
 	if len(queryMods) > 0 && parentTable != "" {
-
-		if parentTable == models.TableNames.RecipeAdditive {
-		}
-		if parentTable == models.TableNames.RecipeBatch {
-		}
-		if parentTable == models.TableNames.RecipeFragrance {
-		}
-		if parentTable == models.TableNames.RecipeLipid {
-		}
-		if parentTable == models.TableNames.RecipeStep {
-		}
-
 	}
 
 	return queryMods
@@ -2457,6 +2139,7 @@ func SupplierFilterToMods(m *graphql_models.SupplierFilter) []qm.QueryMod {
 	}
 	return nil
 }
+
 func SupplierSearchToMods(search *string) []qm.QueryMod {
 	// TODO: implement your own custom search here
 	return nil
@@ -2494,9 +2177,9 @@ func SupplierWhereToMods(m *graphql_models.SupplierWhere, withPrimaryID bool, pa
 	queryMods = append(queryMods, StringFilterToMods(m.Name, models.SupplierColumns.Name)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Website, models.SupplierColumns.Website)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Note, models.SupplierColumns.Note)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.SupplierColumns.UpdatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.SupplierColumns.DeletedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.SupplierColumns.CreatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.SupplierColumns.DeletedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.SupplierColumns.UpdatedAt)...)
 	queryMods = append(queryMods, AdditiveInventoryWhereSubqueryToMods(m.AdditiveInventories, "", models.TableNames.Supplier)...)
 	queryMods = append(queryMods, FragranceInventoryWhereSubqueryToMods(m.FragranceInventories, "", models.TableNames.Supplier)...)
 	queryMods = append(queryMods, LipidInventoryWhereSubqueryToMods(m.LipidInventories, "", models.TableNames.Supplier)...)
@@ -2509,16 +2192,6 @@ func SupplierWhereToMods(m *graphql_models.SupplierWhere, withPrimaryID bool, pa
 	}
 
 	if len(queryMods) > 0 && parentTable != "" {
-
-		if parentTable == models.TableNames.AdditiveInventory {
-		}
-		if parentTable == models.TableNames.FragranceInventory {
-		}
-		if parentTable == models.TableNames.LipidInventory {
-		}
-		if parentTable == models.TableNames.LyeInventory {
-		}
-
 	}
 
 	return queryMods

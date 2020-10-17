@@ -107,18 +107,15 @@ var AuthUserWhere = struct {
 var AuthUserRels = struct {
 	UserAuthUserGroups          string
 	UserAuthUserUserPermissions string
-	UserDjangoAdminLogs         string
 }{
 	UserAuthUserGroups:          "UserAuthUserGroups",
 	UserAuthUserUserPermissions: "UserAuthUserUserPermissions",
-	UserDjangoAdminLogs:         "UserDjangoAdminLogs",
 }
 
 // authUserR is where relationships are stored.
 type authUserR struct {
 	UserAuthUserGroups          AuthUserGroupSlice          `boil:"UserAuthUserGroups" json:"UserAuthUserGroups" toml:"UserAuthUserGroups" yaml:"UserAuthUserGroups"`
 	UserAuthUserUserPermissions AuthUserUserPermissionSlice `boil:"UserAuthUserUserPermissions" json:"UserAuthUserUserPermissions" toml:"UserAuthUserUserPermissions" yaml:"UserAuthUserUserPermissions"`
-	UserDjangoAdminLogs         DjangoAdminLogSlice         `boil:"UserDjangoAdminLogs" json:"UserDjangoAdminLogs" toml:"UserDjangoAdminLogs" yaml:"UserDjangoAdminLogs"`
 }
 
 // NewStruct creates a new relationship struct
@@ -453,27 +450,6 @@ func (o *AuthUser) UserAuthUserUserPermissions(mods ...qm.QueryMod) authUserUser
 	return query
 }
 
-// UserDjangoAdminLogs retrieves all the django_admin_log's DjangoAdminLogs with an executor via user_id column.
-func (o *AuthUser) UserDjangoAdminLogs(mods ...qm.QueryMod) djangoAdminLogQuery {
-	var queryMods []qm.QueryMod
-	if len(mods) != 0 {
-		queryMods = append(queryMods, mods...)
-	}
-
-	queryMods = append(queryMods,
-		qm.Where("\"django_admin_log\".\"user_id\"=?", o.ID),
-	)
-
-	query := DjangoAdminLogs(queryMods...)
-	queries.SetFrom(query.Query, "\"django_admin_log\"")
-
-	if len(queries.GetSelect(query.Query)) == 0 {
-		queries.SetSelect(query.Query, []string{"\"django_admin_log\".*"})
-	}
-
-	return query
-}
-
 // LoadUserAuthUserGroups allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for a 1-M or N-M relationship.
 func (authUserL) LoadUserAuthUserGroups(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAuthUser interface{}, mods queries.Applicator) error {
@@ -650,94 +626,6 @@ func (authUserL) LoadUserAuthUserUserPermissions(ctx context.Context, e boil.Con
 	return nil
 }
 
-// LoadUserDjangoAdminLogs allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (authUserL) LoadUserDjangoAdminLogs(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAuthUser interface{}, mods queries.Applicator) error {
-	var slice []*AuthUser
-	var object *AuthUser
-
-	if singular {
-		object = maybeAuthUser.(*AuthUser)
-	} else {
-		slice = *maybeAuthUser.(*[]*AuthUser)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &authUserR{}
-		}
-		args = append(args, object.ID)
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &authUserR{}
-			}
-
-			for _, a := range args {
-				if a == obj.ID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.ID)
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(
-		qm.From(`django_admin_log`),
-		qm.WhereIn(`django_admin_log.user_id in ?`, args...),
-	)
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.QueryContext(ctx, e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load django_admin_log")
-	}
-
-	var resultSlice []*DjangoAdminLog
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice django_admin_log")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results in eager load on django_admin_log")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for django_admin_log")
-	}
-
-	if len(djangoAdminLogAfterSelectHooks) != 0 {
-		for _, obj := range resultSlice {
-			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
-				return err
-			}
-		}
-	}
-	if singular {
-		object.R.UserDjangoAdminLogs = resultSlice
-		return nil
-	}
-
-	for _, foreign := range resultSlice {
-		for _, local := range slice {
-			if local.ID == foreign.UserID {
-				local.R.UserDjangoAdminLogs = append(local.R.UserDjangoAdminLogs, foreign)
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
 // AddUserAuthUserGroups adds the given related objects to the existing relationships
 // of the auth_user, optionally inserting them as new records.
 // Appends related to o.R.UserAuthUserGroups.
@@ -835,59 +723,6 @@ func (o *AuthUser) AddUserAuthUserUserPermissions(ctx context.Context, exec boil
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &authUserUserPermissionR{
-				User: o,
-			}
-		} else {
-			rel.R.User = o
-		}
-	}
-	return nil
-}
-
-// AddUserDjangoAdminLogs adds the given related objects to the existing relationships
-// of the auth_user, optionally inserting them as new records.
-// Appends related to o.R.UserDjangoAdminLogs.
-// Sets related.R.User appropriately.
-func (o *AuthUser) AddUserDjangoAdminLogs(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*DjangoAdminLog) error {
-	var err error
-	for _, rel := range related {
-		if insert {
-			rel.UserID = o.ID
-			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
-				return errors.Wrap(err, "failed to insert into foreign table")
-			}
-		} else {
-			updateQuery := fmt.Sprintf(
-				"UPDATE \"django_admin_log\" SET %s WHERE %s",
-				strmangle.SetParamNames("\"", "\"", 1, []string{"user_id"}),
-				strmangle.WhereClause("\"", "\"", 2, djangoAdminLogPrimaryKeyColumns),
-			)
-			values := []interface{}{o.ID, rel.ID}
-
-			if boil.IsDebug(ctx) {
-				writer := boil.DebugWriterFrom(ctx)
-				fmt.Fprintln(writer, updateQuery)
-				fmt.Fprintln(writer, values)
-			}
-			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
-				return errors.Wrap(err, "failed to update foreign table")
-			}
-
-			rel.UserID = o.ID
-		}
-	}
-
-	if o.R == nil {
-		o.R = &authUserR{
-			UserDjangoAdminLogs: related,
-		}
-	} else {
-		o.R.UserDjangoAdminLogs = append(o.R.UserDjangoAdminLogs, related...)
-	}
-
-	for _, rel := range related {
-		if rel.R == nil {
-			rel.R = &djangoAdminLogR{
 				User: o,
 			}
 		} else {

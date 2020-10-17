@@ -60,18 +60,15 @@ var AuthPermissionWhere = struct {
 
 // AuthPermissionRels is where relationship names are stored.
 var AuthPermissionRels = struct {
-	ContentType                       string
 	PermissionAuthGroupPermissions    string
 	PermissionAuthUserUserPermissions string
 }{
-	ContentType:                       "ContentType",
 	PermissionAuthGroupPermissions:    "PermissionAuthGroupPermissions",
 	PermissionAuthUserUserPermissions: "PermissionAuthUserUserPermissions",
 }
 
 // authPermissionR is where relationships are stored.
 type authPermissionR struct {
-	ContentType                       *DjangoContentType          `boil:"ContentType" json:"ContentType" toml:"ContentType" yaml:"ContentType"`
 	PermissionAuthGroupPermissions    AuthGroupPermissionSlice    `boil:"PermissionAuthGroupPermissions" json:"PermissionAuthGroupPermissions" toml:"PermissionAuthGroupPermissions" yaml:"PermissionAuthGroupPermissions"`
 	PermissionAuthUserUserPermissions AuthUserUserPermissionSlice `boil:"PermissionAuthUserUserPermissions" json:"PermissionAuthUserUserPermissions" toml:"PermissionAuthUserUserPermissions" yaml:"PermissionAuthUserUserPermissions"`
 }
@@ -366,20 +363,6 @@ func (q authPermissionQuery) Exists(ctx context.Context, exec boil.ContextExecut
 	return count > 0, nil
 }
 
-// ContentType pointed to by the foreign key.
-func (o *AuthPermission) ContentType(mods ...qm.QueryMod) djangoContentTypeQuery {
-	queryMods := []qm.QueryMod{
-		qm.Where("\"id\" = ?", o.ContentTypeID),
-	}
-
-	queryMods = append(queryMods, mods...)
-
-	query := DjangoContentTypes(queryMods...)
-	queries.SetFrom(query.Query, "\"django_content_type\"")
-
-	return query
-}
-
 // PermissionAuthGroupPermissions retrieves all the auth_group_permission's AuthGroupPermissions with an executor via permission_id column.
 func (o *AuthPermission) PermissionAuthGroupPermissions(mods ...qm.QueryMod) authGroupPermissionQuery {
 	var queryMods []qm.QueryMod
@@ -420,102 +403,6 @@ func (o *AuthPermission) PermissionAuthUserUserPermissions(mods ...qm.QueryMod) 
 	}
 
 	return query
-}
-
-// LoadContentType allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for an N-1 relationship.
-func (authPermissionL) LoadContentType(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAuthPermission interface{}, mods queries.Applicator) error {
-	var slice []*AuthPermission
-	var object *AuthPermission
-
-	if singular {
-		object = maybeAuthPermission.(*AuthPermission)
-	} else {
-		slice = *maybeAuthPermission.(*[]*AuthPermission)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &authPermissionR{}
-		}
-		args = append(args, object.ContentTypeID)
-
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &authPermissionR{}
-			}
-
-			for _, a := range args {
-				if a == obj.ContentTypeID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.ContentTypeID)
-
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(
-		qm.From(`django_content_type`),
-		qm.WhereIn(`django_content_type.id in ?`, args...),
-	)
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.QueryContext(ctx, e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load DjangoContentType")
-	}
-
-	var resultSlice []*DjangoContentType
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice DjangoContentType")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for django_content_type")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for django_content_type")
-	}
-
-	if len(authPermissionAfterSelectHooks) != 0 {
-		for _, obj := range resultSlice {
-			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
-				return err
-			}
-		}
-	}
-
-	if len(resultSlice) == 0 {
-		return nil
-	}
-
-	if singular {
-		foreign := resultSlice[0]
-		object.R.ContentType = foreign
-		return nil
-	}
-
-	for _, local := range slice {
-		for _, foreign := range resultSlice {
-			if local.ContentTypeID == foreign.ID {
-				local.R.ContentType = foreign
-				break
-			}
-		}
-	}
-
-	return nil
 }
 
 // LoadPermissionAuthGroupPermissions allows an eager lookup of values, cached into the
@@ -689,53 +576,6 @@ func (authPermissionL) LoadPermissionAuthUserUserPermissions(ctx context.Context
 				break
 			}
 		}
-	}
-
-	return nil
-}
-
-// SetContentType of the authPermission to the related item.
-// Sets o.R.ContentType to related.
-// Adds o to related.R.ContentTypeAuthPermissions.
-func (o *AuthPermission) SetContentType(ctx context.Context, exec boil.ContextExecutor, insert bool, related *DjangoContentType) error {
-	var err error
-	if insert {
-		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
-			return errors.Wrap(err, "failed to insert into foreign table")
-		}
-	}
-
-	updateQuery := fmt.Sprintf(
-		"UPDATE \"auth_permission\" SET %s WHERE %s",
-		strmangle.SetParamNames("\"", "\"", 1, []string{"content_type_id"}),
-		strmangle.WhereClause("\"", "\"", 2, authPermissionPrimaryKeyColumns),
-	)
-	values := []interface{}{related.ID, o.ID}
-
-	if boil.IsDebug(ctx) {
-		writer := boil.DebugWriterFrom(ctx)
-		fmt.Fprintln(writer, updateQuery)
-		fmt.Fprintln(writer, values)
-	}
-	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	o.ContentTypeID = related.ID
-	if o.R == nil {
-		o.R = &authPermissionR{
-			ContentType: related,
-		}
-	} else {
-		o.R.ContentType = related
-	}
-
-	if related.R == nil {
-		related.R = &djangoContentTypeR{
-			ContentTypeAuthPermissions: AuthPermissionSlice{o},
-		}
-	} else {
-		related.R.ContentTypeAuthPermissions = append(related.R.ContentTypeAuthPermissions, o)
 	}
 
 	return nil

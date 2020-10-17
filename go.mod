@@ -3,13 +3,12 @@ module github.com/web-ridge/gqlgen-sqlboiler-examples
 go 1.14
 
 replace github.com/web-ridge/gqlgen-sqlboiler/v2 => ../gqlgen-sqlboiler
+
 replace github.com/web-ridge/sqlboiler-graphql-schema => ../sqlboiler-graphql-schema
 
 require (
 	github.com/99designs/gqlgen v0.11.3
 	github.com/didip/tollbooth v4.0.2+incompatible
-	github.com/didip/tollbooth/v5 v5.1.1 // indirect
-	github.com/didip/tollbooth_chi v0.0.0-20200510145045-5073e9f5f2ab // indirect
 	github.com/friendsofgo/errors v0.9.2
 	github.com/go-chi/chi v4.1.1+incompatible
 	github.com/go-sql-driver/mysql v1.5.0
@@ -22,11 +21,11 @@ require (
 	github.com/vektah/gqlparser/v2 v2.0.1
 	github.com/volatiletech/null/v8 v8.1.0
 	github.com/volatiletech/randomize v0.0.1
-	github.com/volatiletech/sqlboiler/v4 v4.1.1
+	github.com/volatiletech/sqlboiler/v4 v4.2.0
 	github.com/volatiletech/strmangle v0.0.1
-	github.com/web-ridge/gqlgen-sqlboiler/v2 v2.1.2 // indirect
-	github.com/web-ridge/sqlboiler-graphql-schema v1.0.4 // indirect
-	github.com/web-ridge/utils-go/api v0.0.0-20200511140642-2da08b5af607
-	github.com/web-ridge/utils-go/boilergql v0.0.0-20200511175320-3ebf0e1563d4
+	github.com/web-ridge/gqlgen-sqlboiler/v2 v2.0.0-00010101000000-000000000000 // indirect
+	github.com/web-ridge/utils-go/api v0.0.0-20201017151809-22aa4aa28bbb
+	github.com/web-ridge/utils-go/boilergql v0.0.0-20201017192349-9efd036e9e61
 	golang.org/x/crypto v0.0.0-20200510223506-06a226fb4e37
+	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543 // indirect
 )

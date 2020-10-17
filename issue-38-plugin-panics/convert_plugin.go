@@ -38,6 +38,9 @@ func main() {
 			output,   // directory where convert.go, convert_input.go and preload.go should live
 			backend,  // directory where sqlboiler files are put
 			frontend, // directory where gqlgen models live
+			gbgen.ConvertPluginConfig{
+				UseReflectWorkaroundForSubModelFilteringInPostgresIssue25: true,
+			},
 		)),
 		api.AddPlugin(gbgen.NewResolverPlugin(
 			output,

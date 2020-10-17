@@ -309,121 +309,20 @@ CREATE SEQUENCE public.auth_user_user_permissions_id_seq
 ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_user_user_permissions.id;
 
 
---
--- Name: django_admin_log; Type: TABLE; Schema: public; Owner: soap
---
-
-CREATE TABLE public.django_admin_log (
-    id integer NOT NULL,
-    action_time timestamp with time zone NOT NULL,
-    object_id text,
-    object_repr character varying(200) NOT NULL,
-    action_flag smallint NOT NULL,
-    change_message text NOT NULL,
-    content_type_id integer,
-    user_id integer NOT NULL,
-    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
-);
 
 
 
---
--- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
---
-
-CREATE SEQUENCE public.django_admin_log_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
 
 
 
---
--- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
---
-
-ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
-
-
---
--- Name: django_content_type; Type: TABLE; Schema: public; Owner: soap
---
-
-CREATE TABLE public.django_content_type (
-    id integer NOT NULL,
-    app_label character varying(100) NOT NULL,
-    model character varying(100) NOT NULL
-);
 
 
 
---
--- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
---
-
-CREATE SEQUENCE public.django_content_type_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
 
 
 
---
--- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
---
-
-ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
 
 
---
--- Name: django_migrations; Type: TABLE; Schema: public; Owner: soap
---
-
-CREATE TABLE public.django_migrations (
-    id integer NOT NULL,
-    app character varying(255) NOT NULL,
-    name character varying(255) NOT NULL,
-    applied timestamp with time zone NOT NULL
-);
-
-
-
---
--- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: soap
---
-
-CREATE SEQUENCE public.django_migrations_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
---
--- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: soap
---
-
-ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
-
-
---
--- Name: django_session; Type: TABLE; Schema: public; Owner: soap
---
-
-CREATE TABLE public.django_session (
-    session_key character varying(40) NOT NULL,
-    session_data text NOT NULL,
-    expire_date timestamp with time zone NOT NULL
-);
 
 
 
@@ -1210,27 +1109,6 @@ ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT n
 
 
 --
--- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: soap
---
-
-ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
-
-
---
--- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: soap
---
-
-ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
-
-
---
--- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: soap
---
-
-ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
-
-
---
 -- Name: fragrance id; Type: DEFAULT; Schema: public; Owner: soap
 --
 
@@ -1466,46 +1344,6 @@ ALTER TABLE ONLY public.auth_user_user_permissions
 
 ALTER TABLE ONLY public.auth_user
     ADD CONSTRAINT auth_user_username_key UNIQUE (username);
-
-
---
--- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: soap
---
-
-ALTER TABLE ONLY public.django_admin_log
-    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
-
-
---
--- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: soap
---
-
-ALTER TABLE ONLY public.django_content_type
-    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
-
-
---
--- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: soap
---
-
-ALTER TABLE ONLY public.django_content_type
-    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
-
-
---
--- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: soap
---
-
-ALTER TABLE ONLY public.django_migrations
-    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
-
-
---
--- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: soap
---
-
-ALTER TABLE ONLY public.django_session
-    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
 
 
 --
@@ -1785,33 +1623,6 @@ CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_use
 CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
 
 
---
--- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: soap
---
-
-CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
-
-
---
--- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: soap
---
-
-CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
-
-
---
--- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: soap
---
-
-CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
-
-
---
--- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: soap
---
-
-CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
-
 
 --
 -- Name: fragrance_inventory_fragrance_id_9f202030; Type: INDEX; Schema: public; Owner: soap
@@ -1957,12 +1768,6 @@ ALTER TABLE ONLY public.auth_group_permissions
     ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
 
 
---
--- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: soap
---
-
-ALTER TABLE ONLY public.auth_permission
-    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -1996,21 +1801,6 @@ ALTER TABLE ONLY public.auth_user_user_permissions
 ALTER TABLE ONLY public.auth_user_user_permissions
     ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
 
-
---
--- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: soap
---
-
-ALTER TABLE ONLY public.django_admin_log
-    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: soap
---
-
-ALTER TABLE ONLY public.django_admin_log
-    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --

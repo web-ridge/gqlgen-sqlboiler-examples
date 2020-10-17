@@ -22,14 +22,6 @@ func TestUpsert(t *testing.T) {
 
 	t.Run("AuthUserUserPermissions", testAuthUserUserPermissionsUpsert)
 
-	t.Run("DjangoAdminLogs", testDjangoAdminLogsUpsert)
-
-	t.Run("DjangoContentTypes", testDjangoContentTypesUpsert)
-
-	t.Run("DjangoMigrations", testDjangoMigrationsUpsert)
-
-	t.Run("DjangoSessions", testDjangoSessionsUpsert)
-
 	t.Run("Fragrances", testFragrancesUpsert)
 
 	t.Run("FragranceInventories", testFragranceInventoriesUpsert)

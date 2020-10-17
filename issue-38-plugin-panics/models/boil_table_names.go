@@ -12,10 +12,6 @@ var TableNames = struct {
 	AuthUser                string
 	AuthUserGroups          string
 	AuthUserUserPermissions string
-	DjangoAdminLog          string
-	DjangoContentType       string
-	DjangoMigrations        string
-	DjangoSession           string
 	Fragrance               string
 	FragranceInventory      string
 	Lipid                   string
@@ -43,10 +39,6 @@ var TableNames = struct {
 	AuthUser:                "auth_user",
 	AuthUserGroups:          "auth_user_groups",
 	AuthUserUserPermissions: "auth_user_user_permissions",
-	DjangoAdminLog:          "django_admin_log",
-	DjangoContentType:       "django_content_type",
-	DjangoMigrations:        "django_migrations",
-	DjangoSession:           "django_session",
 	Fragrance:               "fragrance",
 	FragranceInventory:      "fragrance_inventory",
 	Lipid:                   "lipid",

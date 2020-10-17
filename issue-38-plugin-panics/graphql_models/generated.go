@@ -162,7 +162,7 @@ type ComplexityRoot struct {
 
 	AuthPermission struct {
 		Codename                          func(childComplexity int) int
-		ContentType                       func(childComplexity int) int
+		ContentTypeID                     func(childComplexity int) int
 		ID                                func(childComplexity int) int
 		Name                              func(childComplexity int) int
 		PermissionAuthGroupPermissions    func(childComplexity int) int
@@ -202,7 +202,6 @@ type ComplexityRoot struct {
 		Password                    func(childComplexity int) int
 		UserAuthUserGroups          func(childComplexity int) int
 		UserAuthUserUserPermissions func(childComplexity int) int
-		UserDjangoAdminLogs         func(childComplexity int) int
 		Username                    func(childComplexity int) int
 	}
 
@@ -275,118 +274,6 @@ type ComplexityRoot struct {
 	}
 
 	AuthUsersUpdatePayload struct {
-		Ok func(childComplexity int) int
-	}
-
-	DjangoAdminLog struct {
-		ActionFlag    func(childComplexity int) int
-		ActionTime    func(childComplexity int) int
-		ChangeMessage func(childComplexity int) int
-		ContentType   func(childComplexity int) int
-		ID            func(childComplexity int) int
-		ObjectID      func(childComplexity int) int
-		ObjectRepr    func(childComplexity int) int
-		User          func(childComplexity int) int
-	}
-
-	DjangoAdminLogDeletePayload struct {
-		ID func(childComplexity int) int
-	}
-
-	DjangoAdminLogPayload struct {
-		DjangoAdminLog func(childComplexity int) int
-	}
-
-	DjangoAdminLogsDeletePayload struct {
-		Ids func(childComplexity int) int
-	}
-
-	DjangoAdminLogsPayload struct {
-		DjangoAdminLogs func(childComplexity int) int
-	}
-
-	DjangoAdminLogsUpdatePayload struct {
-		Ok func(childComplexity int) int
-	}
-
-	DjangoContentType struct {
-		AppLabel                   func(childComplexity int) int
-		ContentTypeAuthPermissions func(childComplexity int) int
-		ContentTypeDjangoAdminLogs func(childComplexity int) int
-		ID                         func(childComplexity int) int
-		Model                      func(childComplexity int) int
-	}
-
-	DjangoContentTypeDeletePayload struct {
-		ID func(childComplexity int) int
-	}
-
-	DjangoContentTypePayload struct {
-		DjangoContentType func(childComplexity int) int
-	}
-
-	DjangoContentTypesDeletePayload struct {
-		Ids func(childComplexity int) int
-	}
-
-	DjangoContentTypesPayload struct {
-		DjangoContentTypes func(childComplexity int) int
-	}
-
-	DjangoContentTypesUpdatePayload struct {
-		Ok func(childComplexity int) int
-	}
-
-	DjangoMigration struct {
-		App     func(childComplexity int) int
-		Applied func(childComplexity int) int
-		ID      func(childComplexity int) int
-		Name    func(childComplexity int) int
-	}
-
-	DjangoMigrationDeletePayload struct {
-		ID func(childComplexity int) int
-	}
-
-	DjangoMigrationPayload struct {
-		DjangoMigration func(childComplexity int) int
-	}
-
-	DjangoMigrationsDeletePayload struct {
-		Ids func(childComplexity int) int
-	}
-
-	DjangoMigrationsPayload struct {
-		DjangoMigrations func(childComplexity int) int
-	}
-
-	DjangoMigrationsUpdatePayload struct {
-		Ok func(childComplexity int) int
-	}
-
-	DjangoSession struct {
-		ExpireDate  func(childComplexity int) int
-		SessionData func(childComplexity int) int
-		SessionKey  func(childComplexity int) int
-	}
-
-	DjangoSessionDeletePayload struct {
-		ID func(childComplexity int) int
-	}
-
-	DjangoSessionPayload struct {
-		DjangoSession func(childComplexity int) int
-	}
-
-	DjangoSessionsDeletePayload struct {
-		Ids func(childComplexity int) int
-	}
-
-	DjangoSessionsPayload struct {
-		DjangoSessions func(childComplexity int) int
-	}
-
-	DjangoSessionsUpdatePayload struct {
 		Ok func(childComplexity int) int
 	}
 
@@ -624,14 +511,6 @@ type ComplexityRoot struct {
 		CreateAuthUserUserPermission  func(childComplexity int, input AuthUserUserPermissionCreateInput) int
 		CreateAuthUserUserPermissions func(childComplexity int, input AuthUserUserPermissionsCreateInput) int
 		CreateAuthUsers               func(childComplexity int, input AuthUsersCreateInput) int
-		CreateDjangoAdminLog          func(childComplexity int, input DjangoAdminLogCreateInput) int
-		CreateDjangoAdminLogs         func(childComplexity int, input DjangoAdminLogsCreateInput) int
-		CreateDjangoContentType       func(childComplexity int, input DjangoContentTypeCreateInput) int
-		CreateDjangoContentTypes      func(childComplexity int, input DjangoContentTypesCreateInput) int
-		CreateDjangoMigration         func(childComplexity int, input DjangoMigrationCreateInput) int
-		CreateDjangoMigrations        func(childComplexity int, input DjangoMigrationsCreateInput) int
-		CreateDjangoSession           func(childComplexity int, input DjangoSessionCreateInput) int
-		CreateDjangoSessions          func(childComplexity int, input DjangoSessionsCreateInput) int
 		CreateFragrance               func(childComplexity int, input FragranceCreateInput) int
 		CreateFragranceInventories    func(childComplexity int, input FragranceInventoriesCreateInput) int
 		CreateFragranceInventory      func(childComplexity int, input FragranceInventoryCreateInput) int
@@ -684,14 +563,6 @@ type ComplexityRoot struct {
 		DeleteAuthUserUserPermission  func(childComplexity int, id string) int
 		DeleteAuthUserUserPermissions func(childComplexity int, filter *AuthUserUserPermissionFilter) int
 		DeleteAuthUsers               func(childComplexity int, filter *AuthUserFilter) int
-		DeleteDjangoAdminLog          func(childComplexity int, id string) int
-		DeleteDjangoAdminLogs         func(childComplexity int, filter *DjangoAdminLogFilter) int
-		DeleteDjangoContentType       func(childComplexity int, id string) int
-		DeleteDjangoContentTypes      func(childComplexity int, filter *DjangoContentTypeFilter) int
-		DeleteDjangoMigration         func(childComplexity int, id string) int
-		DeleteDjangoMigrations        func(childComplexity int, filter *DjangoMigrationFilter) int
-		DeleteDjangoSession           func(childComplexity int, id string) int
-		DeleteDjangoSessions          func(childComplexity int, filter *DjangoSessionFilter) int
 		DeleteFragrance               func(childComplexity int, id string) int
 		DeleteFragranceInventories    func(childComplexity int, filter *FragranceInventoryFilter) int
 		DeleteFragranceInventory      func(childComplexity int, id string) int
@@ -744,14 +615,6 @@ type ComplexityRoot struct {
 		UpdateAuthUserUserPermission  func(childComplexity int, id string, input AuthUserUserPermissionUpdateInput) int
 		UpdateAuthUserUserPermissions func(childComplexity int, filter *AuthUserUserPermissionFilter, input AuthUserUserPermissionUpdateInput) int
 		UpdateAuthUsers               func(childComplexity int, filter *AuthUserFilter, input AuthUserUpdateInput) int
-		UpdateDjangoAdminLog          func(childComplexity int, id string, input DjangoAdminLogUpdateInput) int
-		UpdateDjangoAdminLogs         func(childComplexity int, filter *DjangoAdminLogFilter, input DjangoAdminLogUpdateInput) int
-		UpdateDjangoContentType       func(childComplexity int, id string, input DjangoContentTypeUpdateInput) int
-		UpdateDjangoContentTypes      func(childComplexity int, filter *DjangoContentTypeFilter, input DjangoContentTypeUpdateInput) int
-		UpdateDjangoMigration         func(childComplexity int, id string, input DjangoMigrationUpdateInput) int
-		UpdateDjangoMigrations        func(childComplexity int, filter *DjangoMigrationFilter, input DjangoMigrationUpdateInput) int
-		UpdateDjangoSession           func(childComplexity int, id string, input DjangoSessionUpdateInput) int
-		UpdateDjangoSessions          func(childComplexity int, filter *DjangoSessionFilter, input DjangoSessionUpdateInput) int
 		UpdateFragrance               func(childComplexity int, id string, input FragranceUpdateInput) int
 		UpdateFragranceInventories    func(childComplexity int, filter *FragranceInventoryFilter, input FragranceInventoryUpdateInput) int
 		UpdateFragranceInventory      func(childComplexity int, id string, input FragranceInventoryUpdateInput) int
@@ -807,14 +670,6 @@ type ComplexityRoot struct {
 		AuthUserUserPermission  func(childComplexity int, id string) int
 		AuthUserUserPermissions func(childComplexity int, filter *AuthUserUserPermissionFilter) int
 		AuthUsers               func(childComplexity int, filter *AuthUserFilter) int
-		DjangoAdminLog          func(childComplexity int, id string) int
-		DjangoAdminLogs         func(childComplexity int, filter *DjangoAdminLogFilter) int
-		DjangoContentType       func(childComplexity int, id string) int
-		DjangoContentTypes      func(childComplexity int, filter *DjangoContentTypeFilter) int
-		DjangoMigration         func(childComplexity int, id string) int
-		DjangoMigrations        func(childComplexity int, filter *DjangoMigrationFilter) int
-		DjangoSession           func(childComplexity int, id string) int
-		DjangoSessions          func(childComplexity int, filter *DjangoSessionFilter) int
 		Fragrance               func(childComplexity int, id string) int
 		FragranceInventories    func(childComplexity int, filter *FragranceInventoryFilter) int
 		FragranceInventory      func(childComplexity int, id string) int
@@ -1286,30 +1141,6 @@ type MutationResolver interface {
 	UpdateAuthUserUserPermissions(ctx context.Context, filter *AuthUserUserPermissionFilter, input AuthUserUserPermissionUpdateInput) (*AuthUserUserPermissionsUpdatePayload, error)
 	DeleteAuthUserUserPermission(ctx context.Context, id string) (*AuthUserUserPermissionDeletePayload, error)
 	DeleteAuthUserUserPermissions(ctx context.Context, filter *AuthUserUserPermissionFilter) (*AuthUserUserPermissionsDeletePayload, error)
-	CreateDjangoAdminLog(ctx context.Context, input DjangoAdminLogCreateInput) (*DjangoAdminLogPayload, error)
-	CreateDjangoAdminLogs(ctx context.Context, input DjangoAdminLogsCreateInput) (*DjangoAdminLogsPayload, error)
-	UpdateDjangoAdminLog(ctx context.Context, id string, input DjangoAdminLogUpdateInput) (*DjangoAdminLogPayload, error)
-	UpdateDjangoAdminLogs(ctx context.Context, filter *DjangoAdminLogFilter, input DjangoAdminLogUpdateInput) (*DjangoAdminLogsUpdatePayload, error)
-	DeleteDjangoAdminLog(ctx context.Context, id string) (*DjangoAdminLogDeletePayload, error)
-	DeleteDjangoAdminLogs(ctx context.Context, filter *DjangoAdminLogFilter) (*DjangoAdminLogsDeletePayload, error)
-	CreateDjangoContentType(ctx context.Context, input DjangoContentTypeCreateInput) (*DjangoContentTypePayload, error)
-	CreateDjangoContentTypes(ctx context.Context, input DjangoContentTypesCreateInput) (*DjangoContentTypesPayload, error)
-	UpdateDjangoContentType(ctx context.Context, id string, input DjangoContentTypeUpdateInput) (*DjangoContentTypePayload, error)
-	UpdateDjangoContentTypes(ctx context.Context, filter *DjangoContentTypeFilter, input DjangoContentTypeUpdateInput) (*DjangoContentTypesUpdatePayload, error)
-	DeleteDjangoContentType(ctx context.Context, id string) (*DjangoContentTypeDeletePayload, error)
-	DeleteDjangoContentTypes(ctx context.Context, filter *DjangoContentTypeFilter) (*DjangoContentTypesDeletePayload, error)
-	CreateDjangoMigration(ctx context.Context, input DjangoMigrationCreateInput) (*DjangoMigrationPayload, error)
-	CreateDjangoMigrations(ctx context.Context, input DjangoMigrationsCreateInput) (*DjangoMigrationsPayload, error)
-	UpdateDjangoMigration(ctx context.Context, id string, input DjangoMigrationUpdateInput) (*DjangoMigrationPayload, error)
-	UpdateDjangoMigrations(ctx context.Context, filter *DjangoMigrationFilter, input DjangoMigrationUpdateInput) (*DjangoMigrationsUpdatePayload, error)
-	DeleteDjangoMigration(ctx context.Context, id string) (*DjangoMigrationDeletePayload, error)
-	DeleteDjangoMigrations(ctx context.Context, filter *DjangoMigrationFilter) (*DjangoMigrationsDeletePayload, error)
-	CreateDjangoSession(ctx context.Context, input DjangoSessionCreateInput) (*DjangoSessionPayload, error)
-	CreateDjangoSessions(ctx context.Context, input DjangoSessionsCreateInput) (*DjangoSessionsPayload, error)
-	UpdateDjangoSession(ctx context.Context, id string, input DjangoSessionUpdateInput) (*DjangoSessionPayload, error)
-	UpdateDjangoSessions(ctx context.Context, filter *DjangoSessionFilter, input DjangoSessionUpdateInput) (*DjangoSessionsUpdatePayload, error)
-	DeleteDjangoSession(ctx context.Context, id string) (*DjangoSessionDeletePayload, error)
-	DeleteDjangoSessions(ctx context.Context, filter *DjangoSessionFilter) (*DjangoSessionsDeletePayload, error)
 	CreateFragrance(ctx context.Context, input FragranceCreateInput) (*FragrancePayload, error)
 	CreateFragrances(ctx context.Context, input FragrancesCreateInput) (*FragrancesPayload, error)
 	UpdateFragrance(ctx context.Context, id string, input FragranceUpdateInput) (*FragrancePayload, error)
@@ -1436,14 +1267,6 @@ type QueryResolver interface {
 	AuthUserGroups(ctx context.Context, filter *AuthUserGroupFilter) ([]*AuthUserGroup, error)
 	AuthUserUserPermission(ctx context.Context, id string) (*AuthUserUserPermission, error)
 	AuthUserUserPermissions(ctx context.Context, filter *AuthUserUserPermissionFilter) ([]*AuthUserUserPermission, error)
-	DjangoAdminLog(ctx context.Context, id string) (*DjangoAdminLog, error)
-	DjangoAdminLogs(ctx context.Context, filter *DjangoAdminLogFilter) ([]*DjangoAdminLog, error)
-	DjangoContentType(ctx context.Context, id string) (*DjangoContentType, error)
-	DjangoContentTypes(ctx context.Context, filter *DjangoContentTypeFilter) ([]*DjangoContentType, error)
-	DjangoMigration(ctx context.Context, id string) (*DjangoMigration, error)
-	DjangoMigrations(ctx context.Context, filter *DjangoMigrationFilter) ([]*DjangoMigration, error)
-	DjangoSession(ctx context.Context, id string) (*DjangoSession, error)
-	DjangoSessions(ctx context.Context, filter *DjangoSessionFilter) ([]*DjangoSession, error)
 	Fragrance(ctx context.Context, id string) (*Fragrance, error)
 	Fragrances(ctx context.Context, filter *FragranceFilter) ([]*Fragrance, error)
 	FragranceInventory(ctx context.Context, id string) (*FragranceInventory, error)
@@ -1826,12 +1649,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.AuthPermission.Codename(childComplexity), true
 
-	case "AuthPermission.contentType":
-		if e.complexity.AuthPermission.ContentType == nil {
+	case "AuthPermission.contentTypeId":
+		if e.complexity.AuthPermission.ContentTypeID == nil {
 			break
 		}
 
-		return e.complexity.AuthPermission.ContentType(childComplexity), true
+		return e.complexity.AuthPermission.ContentTypeID(childComplexity), true
 
 	case "AuthPermission.id":
 		if e.complexity.AuthPermission.ID == nil {
@@ -1979,13 +1802,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.AuthUser.UserAuthUserUserPermissions(childComplexity), true
-
-	case "AuthUser.userDjangoAdminLogs":
-		if e.complexity.AuthUser.UserDjangoAdminLogs == nil {
-			break
-		}
-
-		return e.complexity.AuthUser.UserDjangoAdminLogs(childComplexity), true
 
 	case "AuthUser.username":
 		if e.complexity.AuthUser.Username == nil {
@@ -2140,286 +1956,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.AuthUsersUpdatePayload.Ok(childComplexity), true
-
-	case "DjangoAdminLog.actionFlag":
-		if e.complexity.DjangoAdminLog.ActionFlag == nil {
-			break
-		}
-
-		return e.complexity.DjangoAdminLog.ActionFlag(childComplexity), true
-
-	case "DjangoAdminLog.actionTime":
-		if e.complexity.DjangoAdminLog.ActionTime == nil {
-			break
-		}
-
-		return e.complexity.DjangoAdminLog.ActionTime(childComplexity), true
-
-	case "DjangoAdminLog.changeMessage":
-		if e.complexity.DjangoAdminLog.ChangeMessage == nil {
-			break
-		}
-
-		return e.complexity.DjangoAdminLog.ChangeMessage(childComplexity), true
-
-	case "DjangoAdminLog.contentType":
-		if e.complexity.DjangoAdminLog.ContentType == nil {
-			break
-		}
-
-		return e.complexity.DjangoAdminLog.ContentType(childComplexity), true
-
-	case "DjangoAdminLog.id":
-		if e.complexity.DjangoAdminLog.ID == nil {
-			break
-		}
-
-		return e.complexity.DjangoAdminLog.ID(childComplexity), true
-
-	case "DjangoAdminLog.objectId":
-		if e.complexity.DjangoAdminLog.ObjectID == nil {
-			break
-		}
-
-		return e.complexity.DjangoAdminLog.ObjectID(childComplexity), true
-
-	case "DjangoAdminLog.objectRepr":
-		if e.complexity.DjangoAdminLog.ObjectRepr == nil {
-			break
-		}
-
-		return e.complexity.DjangoAdminLog.ObjectRepr(childComplexity), true
-
-	case "DjangoAdminLog.user":
-		if e.complexity.DjangoAdminLog.User == nil {
-			break
-		}
-
-		return e.complexity.DjangoAdminLog.User(childComplexity), true
-
-	case "DjangoAdminLogDeletePayload.id":
-		if e.complexity.DjangoAdminLogDeletePayload.ID == nil {
-			break
-		}
-
-		return e.complexity.DjangoAdminLogDeletePayload.ID(childComplexity), true
-
-	case "DjangoAdminLogPayload.djangoAdminLog":
-		if e.complexity.DjangoAdminLogPayload.DjangoAdminLog == nil {
-			break
-		}
-
-		return e.complexity.DjangoAdminLogPayload.DjangoAdminLog(childComplexity), true
-
-	case "DjangoAdminLogsDeletePayload.ids":
-		if e.complexity.DjangoAdminLogsDeletePayload.Ids == nil {
-			break
-		}
-
-		return e.complexity.DjangoAdminLogsDeletePayload.Ids(childComplexity), true
-
-	case "DjangoAdminLogsPayload.djangoAdminLogs":
-		if e.complexity.DjangoAdminLogsPayload.DjangoAdminLogs == nil {
-			break
-		}
-
-		return e.complexity.DjangoAdminLogsPayload.DjangoAdminLogs(childComplexity), true
-
-	case "DjangoAdminLogsUpdatePayload.ok":
-		if e.complexity.DjangoAdminLogsUpdatePayload.Ok == nil {
-			break
-		}
-
-		return e.complexity.DjangoAdminLogsUpdatePayload.Ok(childComplexity), true
-
-	case "DjangoContentType.appLabel":
-		if e.complexity.DjangoContentType.AppLabel == nil {
-			break
-		}
-
-		return e.complexity.DjangoContentType.AppLabel(childComplexity), true
-
-	case "DjangoContentType.contentTypeAuthPermissions":
-		if e.complexity.DjangoContentType.ContentTypeAuthPermissions == nil {
-			break
-		}
-
-		return e.complexity.DjangoContentType.ContentTypeAuthPermissions(childComplexity), true
-
-	case "DjangoContentType.contentTypeDjangoAdminLogs":
-		if e.complexity.DjangoContentType.ContentTypeDjangoAdminLogs == nil {
-			break
-		}
-
-		return e.complexity.DjangoContentType.ContentTypeDjangoAdminLogs(childComplexity), true
-
-	case "DjangoContentType.id":
-		if e.complexity.DjangoContentType.ID == nil {
-			break
-		}
-
-		return e.complexity.DjangoContentType.ID(childComplexity), true
-
-	case "DjangoContentType.model":
-		if e.complexity.DjangoContentType.Model == nil {
-			break
-		}
-
-		return e.complexity.DjangoContentType.Model(childComplexity), true
-
-	case "DjangoContentTypeDeletePayload.id":
-		if e.complexity.DjangoContentTypeDeletePayload.ID == nil {
-			break
-		}
-
-		return e.complexity.DjangoContentTypeDeletePayload.ID(childComplexity), true
-
-	case "DjangoContentTypePayload.djangoContentType":
-		if e.complexity.DjangoContentTypePayload.DjangoContentType == nil {
-			break
-		}
-
-		return e.complexity.DjangoContentTypePayload.DjangoContentType(childComplexity), true
-
-	case "DjangoContentTypesDeletePayload.ids":
-		if e.complexity.DjangoContentTypesDeletePayload.Ids == nil {
-			break
-		}
-
-		return e.complexity.DjangoContentTypesDeletePayload.Ids(childComplexity), true
-
-	case "DjangoContentTypesPayload.djangoContentTypes":
-		if e.complexity.DjangoContentTypesPayload.DjangoContentTypes == nil {
-			break
-		}
-
-		return e.complexity.DjangoContentTypesPayload.DjangoContentTypes(childComplexity), true
-
-	case "DjangoContentTypesUpdatePayload.ok":
-		if e.complexity.DjangoContentTypesUpdatePayload.Ok == nil {
-			break
-		}
-
-		return e.complexity.DjangoContentTypesUpdatePayload.Ok(childComplexity), true
-
-	case "DjangoMigration.app":
-		if e.complexity.DjangoMigration.App == nil {
-			break
-		}
-
-		return e.complexity.DjangoMigration.App(childComplexity), true
-
-	case "DjangoMigration.applied":
-		if e.complexity.DjangoMigration.Applied == nil {
-			break
-		}
-
-		return e.complexity.DjangoMigration.Applied(childComplexity), true
-
-	case "DjangoMigration.id":
-		if e.complexity.DjangoMigration.ID == nil {
-			break
-		}
-
-		return e.complexity.DjangoMigration.ID(childComplexity), true
-
-	case "DjangoMigration.name":
-		if e.complexity.DjangoMigration.Name == nil {
-			break
-		}
-
-		return e.complexity.DjangoMigration.Name(childComplexity), true
-
-	case "DjangoMigrationDeletePayload.id":
-		if e.complexity.DjangoMigrationDeletePayload.ID == nil {
-			break
-		}
-
-		return e.complexity.DjangoMigrationDeletePayload.ID(childComplexity), true
-
-	case "DjangoMigrationPayload.djangoMigration":
-		if e.complexity.DjangoMigrationPayload.DjangoMigration == nil {
-			break
-		}
-
-		return e.complexity.DjangoMigrationPayload.DjangoMigration(childComplexity), true
-
-	case "DjangoMigrationsDeletePayload.ids":
-		if e.complexity.DjangoMigrationsDeletePayload.Ids == nil {
-			break
-		}
-
-		return e.complexity.DjangoMigrationsDeletePayload.Ids(childComplexity), true
-
-	case "DjangoMigrationsPayload.djangoMigrations":
-		if e.complexity.DjangoMigrationsPayload.DjangoMigrations == nil {
-			break
-		}
-
-		return e.complexity.DjangoMigrationsPayload.DjangoMigrations(childComplexity), true
-
-	case "DjangoMigrationsUpdatePayload.ok":
-		if e.complexity.DjangoMigrationsUpdatePayload.Ok == nil {
-			break
-		}
-
-		return e.complexity.DjangoMigrationsUpdatePayload.Ok(childComplexity), true
-
-	case "DjangoSession.expireDate":
-		if e.complexity.DjangoSession.ExpireDate == nil {
-			break
-		}
-
-		return e.complexity.DjangoSession.ExpireDate(childComplexity), true
-
-	case "DjangoSession.sessionData":
-		if e.complexity.DjangoSession.SessionData == nil {
-			break
-		}
-
-		return e.complexity.DjangoSession.SessionData(childComplexity), true
-
-	case "DjangoSession.sessionKey":
-		if e.complexity.DjangoSession.SessionKey == nil {
-			break
-		}
-
-		return e.complexity.DjangoSession.SessionKey(childComplexity), true
-
-	case "DjangoSessionDeletePayload.id":
-		if e.complexity.DjangoSessionDeletePayload.ID == nil {
-			break
-		}
-
-		return e.complexity.DjangoSessionDeletePayload.ID(childComplexity), true
-
-	case "DjangoSessionPayload.djangoSession":
-		if e.complexity.DjangoSessionPayload.DjangoSession == nil {
-			break
-		}
-
-		return e.complexity.DjangoSessionPayload.DjangoSession(childComplexity), true
-
-	case "DjangoSessionsDeletePayload.ids":
-		if e.complexity.DjangoSessionsDeletePayload.Ids == nil {
-			break
-		}
-
-		return e.complexity.DjangoSessionsDeletePayload.Ids(childComplexity), true
-
-	case "DjangoSessionsPayload.djangoSessions":
-		if e.complexity.DjangoSessionsPayload.DjangoSessions == nil {
-			break
-		}
-
-		return e.complexity.DjangoSessionsPayload.DjangoSessions(childComplexity), true
-
-	case "DjangoSessionsUpdatePayload.ok":
-		if e.complexity.DjangoSessionsUpdatePayload.Ok == nil {
-			break
-		}
-
-		return e.complexity.DjangoSessionsUpdatePayload.Ok(childComplexity), true
 
 	case "Fragrance.createdAt":
 		if e.complexity.Fragrance.CreatedAt == nil {
@@ -3376,102 +2912,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateAuthUsers(childComplexity, args["input"].(AuthUsersCreateInput)), true
 
-	case "Mutation.createDjangoAdminLog":
-		if e.complexity.Mutation.CreateDjangoAdminLog == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createDjangoAdminLog_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateDjangoAdminLog(childComplexity, args["input"].(DjangoAdminLogCreateInput)), true
-
-	case "Mutation.createDjangoAdminLogs":
-		if e.complexity.Mutation.CreateDjangoAdminLogs == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createDjangoAdminLogs_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateDjangoAdminLogs(childComplexity, args["input"].(DjangoAdminLogsCreateInput)), true
-
-	case "Mutation.createDjangoContentType":
-		if e.complexity.Mutation.CreateDjangoContentType == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createDjangoContentType_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateDjangoContentType(childComplexity, args["input"].(DjangoContentTypeCreateInput)), true
-
-	case "Mutation.createDjangoContentTypes":
-		if e.complexity.Mutation.CreateDjangoContentTypes == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createDjangoContentTypes_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateDjangoContentTypes(childComplexity, args["input"].(DjangoContentTypesCreateInput)), true
-
-	case "Mutation.createDjangoMigration":
-		if e.complexity.Mutation.CreateDjangoMigration == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createDjangoMigration_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateDjangoMigration(childComplexity, args["input"].(DjangoMigrationCreateInput)), true
-
-	case "Mutation.createDjangoMigrations":
-		if e.complexity.Mutation.CreateDjangoMigrations == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createDjangoMigrations_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateDjangoMigrations(childComplexity, args["input"].(DjangoMigrationsCreateInput)), true
-
-	case "Mutation.createDjangoSession":
-		if e.complexity.Mutation.CreateDjangoSession == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createDjangoSession_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateDjangoSession(childComplexity, args["input"].(DjangoSessionCreateInput)), true
-
-	case "Mutation.createDjangoSessions":
-		if e.complexity.Mutation.CreateDjangoSessions == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createDjangoSessions_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateDjangoSessions(childComplexity, args["input"].(DjangoSessionsCreateInput)), true
-
 	case "Mutation.createFragrance":
 		if e.complexity.Mutation.CreateFragrance == nil {
 			break
@@ -4095,102 +3535,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.DeleteAuthUsers(childComplexity, args["filter"].(*AuthUserFilter)), true
-
-	case "Mutation.deleteDjangoAdminLog":
-		if e.complexity.Mutation.DeleteDjangoAdminLog == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_deleteDjangoAdminLog_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.DeleteDjangoAdminLog(childComplexity, args["id"].(string)), true
-
-	case "Mutation.deleteDjangoAdminLogs":
-		if e.complexity.Mutation.DeleteDjangoAdminLogs == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_deleteDjangoAdminLogs_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.DeleteDjangoAdminLogs(childComplexity, args["filter"].(*DjangoAdminLogFilter)), true
-
-	case "Mutation.deleteDjangoContentType":
-		if e.complexity.Mutation.DeleteDjangoContentType == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_deleteDjangoContentType_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.DeleteDjangoContentType(childComplexity, args["id"].(string)), true
-
-	case "Mutation.deleteDjangoContentTypes":
-		if e.complexity.Mutation.DeleteDjangoContentTypes == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_deleteDjangoContentTypes_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.DeleteDjangoContentTypes(childComplexity, args["filter"].(*DjangoContentTypeFilter)), true
-
-	case "Mutation.deleteDjangoMigration":
-		if e.complexity.Mutation.DeleteDjangoMigration == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_deleteDjangoMigration_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.DeleteDjangoMigration(childComplexity, args["id"].(string)), true
-
-	case "Mutation.deleteDjangoMigrations":
-		if e.complexity.Mutation.DeleteDjangoMigrations == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_deleteDjangoMigrations_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.DeleteDjangoMigrations(childComplexity, args["filter"].(*DjangoMigrationFilter)), true
-
-	case "Mutation.deleteDjangoSession":
-		if e.complexity.Mutation.DeleteDjangoSession == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_deleteDjangoSession_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.DeleteDjangoSession(childComplexity, args["id"].(string)), true
-
-	case "Mutation.deleteDjangoSessions":
-		if e.complexity.Mutation.DeleteDjangoSessions == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_deleteDjangoSessions_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.DeleteDjangoSessions(childComplexity, args["filter"].(*DjangoSessionFilter)), true
 
 	case "Mutation.deleteFragrance":
 		if e.complexity.Mutation.DeleteFragrance == nil {
@@ -4816,102 +4160,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateAuthUsers(childComplexity, args["filter"].(*AuthUserFilter), args["input"].(AuthUserUpdateInput)), true
 
-	case "Mutation.updateDjangoAdminLog":
-		if e.complexity.Mutation.UpdateDjangoAdminLog == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_updateDjangoAdminLog_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.UpdateDjangoAdminLog(childComplexity, args["id"].(string), args["input"].(DjangoAdminLogUpdateInput)), true
-
-	case "Mutation.updateDjangoAdminLogs":
-		if e.complexity.Mutation.UpdateDjangoAdminLogs == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_updateDjangoAdminLogs_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.UpdateDjangoAdminLogs(childComplexity, args["filter"].(*DjangoAdminLogFilter), args["input"].(DjangoAdminLogUpdateInput)), true
-
-	case "Mutation.updateDjangoContentType":
-		if e.complexity.Mutation.UpdateDjangoContentType == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_updateDjangoContentType_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.UpdateDjangoContentType(childComplexity, args["id"].(string), args["input"].(DjangoContentTypeUpdateInput)), true
-
-	case "Mutation.updateDjangoContentTypes":
-		if e.complexity.Mutation.UpdateDjangoContentTypes == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_updateDjangoContentTypes_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.UpdateDjangoContentTypes(childComplexity, args["filter"].(*DjangoContentTypeFilter), args["input"].(DjangoContentTypeUpdateInput)), true
-
-	case "Mutation.updateDjangoMigration":
-		if e.complexity.Mutation.UpdateDjangoMigration == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_updateDjangoMigration_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.UpdateDjangoMigration(childComplexity, args["id"].(string), args["input"].(DjangoMigrationUpdateInput)), true
-
-	case "Mutation.updateDjangoMigrations":
-		if e.complexity.Mutation.UpdateDjangoMigrations == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_updateDjangoMigrations_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.UpdateDjangoMigrations(childComplexity, args["filter"].(*DjangoMigrationFilter), args["input"].(DjangoMigrationUpdateInput)), true
-
-	case "Mutation.updateDjangoSession":
-		if e.complexity.Mutation.UpdateDjangoSession == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_updateDjangoSession_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.UpdateDjangoSession(childComplexity, args["id"].(string), args["input"].(DjangoSessionUpdateInput)), true
-
-	case "Mutation.updateDjangoSessions":
-		if e.complexity.Mutation.UpdateDjangoSessions == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_updateDjangoSessions_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.UpdateDjangoSessions(childComplexity, args["filter"].(*DjangoSessionFilter), args["input"].(DjangoSessionUpdateInput)), true
-
 	case "Mutation.updateFragrance":
 		if e.complexity.Mutation.UpdateFragrance == nil {
 			break
@@ -5535,102 +4783,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.AuthUsers(childComplexity, args["filter"].(*AuthUserFilter)), true
-
-	case "Query.djangoAdminLog":
-		if e.complexity.Query.DjangoAdminLog == nil {
-			break
-		}
-
-		args, err := ec.field_Query_djangoAdminLog_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Query.DjangoAdminLog(childComplexity, args["id"].(string)), true
-
-	case "Query.djangoAdminLogs":
-		if e.complexity.Query.DjangoAdminLogs == nil {
-			break
-		}
-
-		args, err := ec.field_Query_djangoAdminLogs_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Query.DjangoAdminLogs(childComplexity, args["filter"].(*DjangoAdminLogFilter)), true
-
-	case "Query.djangoContentType":
-		if e.complexity.Query.DjangoContentType == nil {
-			break
-		}
-
-		args, err := ec.field_Query_djangoContentType_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Query.DjangoContentType(childComplexity, args["id"].(string)), true
-
-	case "Query.djangoContentTypes":
-		if e.complexity.Query.DjangoContentTypes == nil {
-			break
-		}
-
-		args, err := ec.field_Query_djangoContentTypes_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Query.DjangoContentTypes(childComplexity, args["filter"].(*DjangoContentTypeFilter)), true
-
-	case "Query.djangoMigration":
-		if e.complexity.Query.DjangoMigration == nil {
-			break
-		}
-
-		args, err := ec.field_Query_djangoMigration_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Query.DjangoMigration(childComplexity, args["id"].(string)), true
-
-	case "Query.djangoMigrations":
-		if e.complexity.Query.DjangoMigrations == nil {
-			break
-		}
-
-		args, err := ec.field_Query_djangoMigrations_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Query.DjangoMigrations(childComplexity, args["filter"].(*DjangoMigrationFilter)), true
-
-	case "Query.djangoSession":
-		if e.complexity.Query.DjangoSession == nil {
-			break
-		}
-
-		args, err := ec.field_Query_djangoSession_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Query.DjangoSession(childComplexity, args["id"].(string)), true
-
-	case "Query.djangoSessions":
-		if e.complexity.Query.DjangoSessions == nil {
-			break
-		}
-
-		args, err := ec.field_Query_djangoSessions_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Query.DjangoSessions(childComplexity, args["filter"].(*DjangoSessionFilter)), true
 
 	case "Query.fragrance":
 		if e.complexity.Query.Fragrance == nil {
@@ -7301,9 +6453,9 @@ var sources = []*ast.Source{
   id: ID!
   name: String!
   note: String!
+  updatedAt: Int!
   createdAt: Int!
   deletedAt: Int
-  updatedAt: Int!
   recipeAdditive: RecipeAdditive
   recipeBatchAdditive: RecipeBatchAdditive
   additiveInventories: [AdditiveInventory]
@@ -7338,7 +6490,7 @@ type AuthGroupPermission {
 type AuthPermission {
   id: ID!
   name: String!
-  contentType: DjangoContentType!
+  contentTypeId: ID!
   codename: String!
   permissionAuthGroupPermissions: [AuthGroupPermission]
   permissionAuthUserUserPermissions: [AuthUserUserPermission]
@@ -7358,7 +6510,6 @@ type AuthUser {
   dateJoined: Int!
   userAuthUserGroups: [AuthUserGroup]
   userAuthUserUserPermissions: [AuthUserUserPermission]
-  userDjangoAdminLogs: [DjangoAdminLog]
 }
 
 type AuthUserGroup {
@@ -7373,45 +6524,13 @@ type AuthUserUserPermission {
   permission: AuthPermission!
 }
 
-type DjangoAdminLog {
-  id: ID!
-  actionTime: Int!
-  objectId: ID
-  objectRepr: String!
-  actionFlag: Int!
-  changeMessage: String!
-  contentType: DjangoContentType
-  user: AuthUser!
-}
-
-type DjangoContentType {
-  id: ID!
-  appLabel: String!
-  model: String!
-  contentTypeAuthPermissions: [AuthPermission]
-  contentTypeDjangoAdminLogs: [DjangoAdminLog]
-}
-
-type DjangoMigration {
-  id: ID!
-  app: String!
-  name: String!
-  applied: Int!
-}
-
-type DjangoSession {
-  sessionKey: String!
-  sessionData: String!
-  expireDate: Int!
-}
-
 type Fragrance {
   id: ID!
   name: String!
   note: String!
   deletedAt: Int
-  updatedAt: Int!
   createdAt: Int!
+  updatedAt: Int!
   recipeBatchFragrance: RecipeBatchFragrance
   recipeFragrance: RecipeFragrance
   fragranceInventories: [FragranceInventory]
@@ -7425,9 +6544,9 @@ type FragranceInventory {
   weight: Float!
   fragrance: Fragrance!
   supplier: Supplier!
-  updatedAt: Int!
   createdAt: Int!
   deletedAt: Int
+  updatedAt: Int!
 }
 
 type Lipid {
@@ -7451,8 +6570,8 @@ type Lipid {
   inciName: String!
   family: String!
   naoh: Float!
-  createdAt: Int!
   deletedAt: Int
+  createdAt: Int!
   updatedAt: Int!
   recipeBatchLipid: RecipeBatchLipid
   recipeLipid: RecipeLipid
@@ -7481,9 +6600,9 @@ type Lye {
   kind: String!
   name: String!
   note: String!
-  createdAt: Int!
-  updatedAt: Int!
   deletedAt: Int
+  updatedAt: Int!
+  createdAt: Int!
   recipeBatchLye: RecipeBatchLye
   lyeInventories: [LyeInventory]
 }
@@ -7498,17 +6617,17 @@ type LyeInventory {
   lye: Lye!
   supplier: Supplier!
   deletedAt: Int
-  createdAt: Int!
   updatedAt: Int!
+  createdAt: Int!
 }
 
 type Recipe {
   id: ID!
   name: String!
   note: String!
+  updatedAt: Int!
   deletedAt: Int
   createdAt: Int!
-  updatedAt: Int!
   recipeAdditives: [RecipeAdditive]
   recipeBatches: [RecipeBatch]
   recipeFragrances: [RecipeFragrance]
@@ -7521,8 +6640,8 @@ type RecipeAdditive {
   percentage: Float!
   additive: Additive!
   recipe: Recipe!
-  updatedAt: Int!
   createdAt: Int!
+  updatedAt: Int!
   deletedAt: Int
 }
 
@@ -7552,8 +6671,8 @@ type RecipeBatchAdditive {
   cost: Float!
   additive: Additive!
   batch: RecipeBatch!
-  deletedAt: Int
   createdAt: Int!
+  deletedAt: Int
   updatedAt: Int!
 }
 
@@ -7563,9 +6682,9 @@ type RecipeBatchFragrance {
   cost: Float!
   fragrance: Fragrance!
   batch: RecipeBatch!
-  updatedAt: Int!
-  deletedAt: Int
   createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
 }
 
 type RecipeBatchLipid {
@@ -7575,8 +6694,8 @@ type RecipeBatchLipid {
   lipid: Lipid!
   batch: RecipeBatch!
   createdAt: Int!
-  deletedAt: Int
   updatedAt: Int!
+  deletedAt: Int
 }
 
 type RecipeBatchLye {
@@ -7587,8 +6706,8 @@ type RecipeBatchLye {
   lye: Lye!
   batch: RecipeBatch!
   createdAt: Int!
-  updatedAt: Int!
   deletedAt: Int
+  updatedAt: Int!
 }
 
 type RecipeBatchNote {
@@ -7596,9 +6715,9 @@ type RecipeBatchNote {
   note: String!
   link: String!
   batch: RecipeBatch!
-  updatedAt: Int!
   deletedAt: Int
   createdAt: Int!
+  updatedAt: Int!
 }
 
 type RecipeFragrance {
@@ -7607,8 +6726,8 @@ type RecipeFragrance {
   fragrance: Fragrance!
   recipe: Recipe!
   deletedAt: Int
-  createdAt: Int!
   updatedAt: Int!
+  createdAt: Int!
 }
 
 type RecipeLipid {
@@ -7617,8 +6736,8 @@ type RecipeLipid {
   lipid: Lipid!
   recipe: Recipe!
   updatedAt: Int!
-  createdAt: Int!
   deletedAt: Int
+  createdAt: Int!
 }
 
 type RecipeStep {
@@ -7626,9 +6745,9 @@ type RecipeStep {
   num: Int!
   note: String!
   recipe: Recipe!
+  updatedAt: Int!
   deletedAt: Int
   createdAt: Int!
-  updatedAt: Int!
 }
 
 type Supplier {
@@ -7636,9 +6755,9 @@ type Supplier {
   name: String!
   website: String!
   note: String!
-  updatedAt: Int!
-  deletedAt: Int
   createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
   additiveInventories: [AdditiveInventory]
   fragranceInventories: [FragranceInventory]
   lipidInventories: [LipidInventory]
@@ -7712,9 +6831,9 @@ input AdditiveWhere {
   id: IDFilter
   name: StringFilter
   note: StringFilter
+  updatedAt: IntFilter
   createdAt: IntFilter
   deletedAt: IntFilter
-  updatedAt: IntFilter
   recipeAdditive: RecipeAdditiveWhere
   recipeBatchAdditive: RecipeBatchAdditiveWhere
   additiveInventories: AdditiveInventoryWhere
@@ -7777,7 +6896,7 @@ input AuthPermissionFilter {
 input AuthPermissionWhere {
   id: IDFilter
   name: StringFilter
-  contentType: DjangoContentTypeWhere
+  contentTypeId: IDFilter
   codename: StringFilter
   permissionAuthGroupPermissions: AuthGroupPermissionWhere
   permissionAuthUserUserPermissions: AuthUserUserPermissionWhere
@@ -7804,7 +6923,6 @@ input AuthUserWhere {
   dateJoined: IntFilter
   userAuthUserGroups: AuthUserGroupWhere
   userAuthUserUserPermissions: AuthUserUserPermissionWhere
-  userDjangoAdminLogs: DjangoAdminLogWhere
   or: AuthUserWhere
   and: AuthUserWhere
 }
@@ -7835,66 +6953,6 @@ input AuthUserUserPermissionWhere {
   and: AuthUserUserPermissionWhere
 }
 
-input DjangoAdminLogFilter {
-  search: String
-  where: DjangoAdminLogWhere
-}
-
-input DjangoAdminLogWhere {
-  id: IDFilter
-  actionTime: IntFilter
-  objectId: IDFilter
-  objectRepr: StringFilter
-  actionFlag: IntFilter
-  changeMessage: StringFilter
-  contentType: DjangoContentTypeWhere
-  user: AuthUserWhere
-  or: DjangoAdminLogWhere
-  and: DjangoAdminLogWhere
-}
-
-input DjangoContentTypeFilter {
-  search: String
-  where: DjangoContentTypeWhere
-}
-
-input DjangoContentTypeWhere {
-  id: IDFilter
-  appLabel: StringFilter
-  model: StringFilter
-  contentTypeAuthPermissions: AuthPermissionWhere
-  contentTypeDjangoAdminLogs: DjangoAdminLogWhere
-  or: DjangoContentTypeWhere
-  and: DjangoContentTypeWhere
-}
-
-input DjangoMigrationFilter {
-  search: String
-  where: DjangoMigrationWhere
-}
-
-input DjangoMigrationWhere {
-  id: IDFilter
-  app: StringFilter
-  name: StringFilter
-  applied: IntFilter
-  or: DjangoMigrationWhere
-  and: DjangoMigrationWhere
-}
-
-input DjangoSessionFilter {
-  search: String
-  where: DjangoSessionWhere
-}
-
-input DjangoSessionWhere {
-  sessionKey: StringFilter
-  sessionData: StringFilter
-  expireDate: IntFilter
-  or: DjangoSessionWhere
-  and: DjangoSessionWhere
-}
-
 input FragranceFilter {
   search: String
   where: FragranceWhere
@@ -7905,8 +6963,8 @@ input FragranceWhere {
   name: StringFilter
   note: StringFilter
   deletedAt: IntFilter
-  updatedAt: IntFilter
   createdAt: IntFilter
+  updatedAt: IntFilter
   recipeBatchFragrance: RecipeBatchFragranceWhere
   recipeFragrance: RecipeFragranceWhere
   fragranceInventories: FragranceInventoryWhere
@@ -7927,9 +6985,9 @@ input FragranceInventoryWhere {
   weight: FloatFilter
   fragrance: FragranceWhere
   supplier: SupplierWhere
-  updatedAt: IntFilter
   createdAt: IntFilter
   deletedAt: IntFilter
+  updatedAt: IntFilter
   or: FragranceInventoryWhere
   and: FragranceInventoryWhere
 }
@@ -7960,8 +7018,8 @@ input LipidWhere {
   inciName: StringFilter
   family: StringFilter
   naoh: FloatFilter
-  createdAt: IntFilter
   deletedAt: IntFilter
+  createdAt: IntFilter
   updatedAt: IntFilter
   recipeBatchLipid: RecipeBatchLipidWhere
   recipeLipid: RecipeLipidWhere
@@ -8004,9 +7062,9 @@ input LyeWhere {
   kind: StringFilter
   name: StringFilter
   note: StringFilter
-  createdAt: IntFilter
-  updatedAt: IntFilter
   deletedAt: IntFilter
+  updatedAt: IntFilter
+  createdAt: IntFilter
   recipeBatchLye: RecipeBatchLyeWhere
   lyeInventories: LyeInventoryWhere
   or: LyeWhere
@@ -8028,8 +7086,8 @@ input LyeInventoryWhere {
   lye: LyeWhere
   supplier: SupplierWhere
   deletedAt: IntFilter
-  createdAt: IntFilter
   updatedAt: IntFilter
+  createdAt: IntFilter
   or: LyeInventoryWhere
   and: LyeInventoryWhere
 }
@@ -8043,9 +7101,9 @@ input RecipeWhere {
   id: IDFilter
   name: StringFilter
   note: StringFilter
+  updatedAt: IntFilter
   deletedAt: IntFilter
   createdAt: IntFilter
-  updatedAt: IntFilter
   recipeAdditives: RecipeAdditiveWhere
   recipeBatches: RecipeBatchWhere
   recipeFragrances: RecipeFragranceWhere
@@ -8065,8 +7123,8 @@ input RecipeAdditiveWhere {
   percentage: FloatFilter
   additive: AdditiveWhere
   recipe: RecipeWhere
-  updatedAt: IntFilter
   createdAt: IntFilter
+  updatedAt: IntFilter
   deletedAt: IntFilter
   or: RecipeAdditiveWhere
   and: RecipeAdditiveWhere
@@ -8110,8 +7168,8 @@ input RecipeBatchAdditiveWhere {
   cost: FloatFilter
   additive: AdditiveWhere
   batch: RecipeBatchWhere
-  deletedAt: IntFilter
   createdAt: IntFilter
+  deletedAt: IntFilter
   updatedAt: IntFilter
   or: RecipeBatchAdditiveWhere
   and: RecipeBatchAdditiveWhere
@@ -8128,9 +7186,9 @@ input RecipeBatchFragranceWhere {
   cost: FloatFilter
   fragrance: FragranceWhere
   batch: RecipeBatchWhere
-  updatedAt: IntFilter
-  deletedAt: IntFilter
   createdAt: IntFilter
+  deletedAt: IntFilter
+  updatedAt: IntFilter
   or: RecipeBatchFragranceWhere
   and: RecipeBatchFragranceWhere
 }
@@ -8147,8 +7205,8 @@ input RecipeBatchLipidWhere {
   lipid: LipidWhere
   batch: RecipeBatchWhere
   createdAt: IntFilter
-  deletedAt: IntFilter
   updatedAt: IntFilter
+  deletedAt: IntFilter
   or: RecipeBatchLipidWhere
   and: RecipeBatchLipidWhere
 }
@@ -8166,8 +7224,8 @@ input RecipeBatchLyeWhere {
   lye: LyeWhere
   batch: RecipeBatchWhere
   createdAt: IntFilter
-  updatedAt: IntFilter
   deletedAt: IntFilter
+  updatedAt: IntFilter
   or: RecipeBatchLyeWhere
   and: RecipeBatchLyeWhere
 }
@@ -8182,9 +7240,9 @@ input RecipeBatchNoteWhere {
   note: StringFilter
   link: StringFilter
   batch: RecipeBatchWhere
-  updatedAt: IntFilter
   deletedAt: IntFilter
   createdAt: IntFilter
+  updatedAt: IntFilter
   or: RecipeBatchNoteWhere
   and: RecipeBatchNoteWhere
 }
@@ -8200,8 +7258,8 @@ input RecipeFragranceWhere {
   fragrance: FragranceWhere
   recipe: RecipeWhere
   deletedAt: IntFilter
-  createdAt: IntFilter
   updatedAt: IntFilter
+  createdAt: IntFilter
   or: RecipeFragranceWhere
   and: RecipeFragranceWhere
 }
@@ -8217,8 +7275,8 @@ input RecipeLipidWhere {
   lipid: LipidWhere
   recipe: RecipeWhere
   updatedAt: IntFilter
-  createdAt: IntFilter
   deletedAt: IntFilter
+  createdAt: IntFilter
   or: RecipeLipidWhere
   and: RecipeLipidWhere
 }
@@ -8233,9 +7291,9 @@ input RecipeStepWhere {
   num: IntFilter
   note: StringFilter
   recipe: RecipeWhere
+  updatedAt: IntFilter
   deletedAt: IntFilter
   createdAt: IntFilter
-  updatedAt: IntFilter
   or: RecipeStepWhere
   and: RecipeStepWhere
 }
@@ -8250,9 +7308,9 @@ input SupplierWhere {
   name: StringFilter
   website: StringFilter
   note: StringFilter
-  updatedAt: IntFilter
-  deletedAt: IntFilter
   createdAt: IntFilter
+  deletedAt: IntFilter
+  updatedAt: IntFilter
   additiveInventories: AdditiveInventoryWhere
   fragranceInventories: FragranceInventoryWhere
   lipidInventories: LipidInventoryWhere
@@ -8282,14 +7340,6 @@ type Query {
   authUserUserPermissions(
     filter: AuthUserUserPermissionFilter
   ): [AuthUserUserPermission!]!
-  djangoAdminLog(id: ID!): DjangoAdminLog!
-  djangoAdminLogs(filter: DjangoAdminLogFilter): [DjangoAdminLog!]!
-  djangoContentType(id: ID!): DjangoContentType!
-  djangoContentTypes(filter: DjangoContentTypeFilter): [DjangoContentType!]!
-  djangoMigration(id: ID!): DjangoMigration!
-  djangoMigrations(filter: DjangoMigrationFilter): [DjangoMigration!]!
-  djangoSession(id: ID!): DjangoSession!
-  djangoSessions(filter: DjangoSessionFilter): [DjangoSession!]!
   fragrance(id: ID!): Fragrance!
   fragrances(filter: FragranceFilter): [Fragrance!]!
   fragranceInventory(id: ID!): FragranceInventory!
@@ -8335,17 +7385,17 @@ type Query {
 input AdditiveCreateInput {
   name: String!
   note: String!
+  updatedAt: Int!
   createdAt: Int!
   deletedAt: Int
-  updatedAt: Int!
 }
 
 input AdditiveUpdateInput {
   name: String
   note: String
+  updatedAt: Int
   createdAt: Int
   deletedAt: Int
-  updatedAt: Int
 }
 
 input AdditivesCreateInput {
@@ -8640,170 +7690,20 @@ type AuthUserUserPermissionsUpdatePayload {
   ok: Boolean!
 }
 
-input DjangoAdminLogCreateInput {
-  actionTime: Int!
-  objectId: ID
-  objectRepr: String!
-  actionFlag: Int!
-  changeMessage: String!
-  contentTypeId: ID
-  userId: ID!
-}
-
-input DjangoAdminLogUpdateInput {
-  actionTime: Int
-  objectId: ID
-  objectRepr: String
-  actionFlag: Int
-  changeMessage: String
-  contentTypeId: ID
-  userId: ID
-}
-
-input DjangoAdminLogsCreateInput {
-  djangoAdminLogs: [DjangoAdminLogCreateInput!]!
-}
-
-type DjangoAdminLogPayload {
-  djangoAdminLog: DjangoAdminLog!
-}
-
-type DjangoAdminLogDeletePayload {
-  id: ID!
-}
-
-type DjangoAdminLogsPayload {
-  djangoAdminLogs: [DjangoAdminLog!]!
-}
-
-type DjangoAdminLogsDeletePayload {
-  ids: [ID!]!
-}
-
-type DjangoAdminLogsUpdatePayload {
-  ok: Boolean!
-}
-
-input DjangoContentTypeCreateInput {
-  appLabel: String!
-  model: String!
-}
-
-input DjangoContentTypeUpdateInput {
-  appLabel: String
-  model: String
-}
-
-input DjangoContentTypesCreateInput {
-  djangoContentTypes: [DjangoContentTypeCreateInput!]!
-}
-
-type DjangoContentTypePayload {
-  djangoContentType: DjangoContentType!
-}
-
-type DjangoContentTypeDeletePayload {
-  id: ID!
-}
-
-type DjangoContentTypesPayload {
-  djangoContentTypes: [DjangoContentType!]!
-}
-
-type DjangoContentTypesDeletePayload {
-  ids: [ID!]!
-}
-
-type DjangoContentTypesUpdatePayload {
-  ok: Boolean!
-}
-
-input DjangoMigrationCreateInput {
-  app: String!
-  name: String!
-  applied: Int!
-}
-
-input DjangoMigrationUpdateInput {
-  app: String
-  name: String
-  applied: Int
-}
-
-input DjangoMigrationsCreateInput {
-  djangoMigrations: [DjangoMigrationCreateInput!]!
-}
-
-type DjangoMigrationPayload {
-  djangoMigration: DjangoMigration!
-}
-
-type DjangoMigrationDeletePayload {
-  id: ID!
-}
-
-type DjangoMigrationsPayload {
-  djangoMigrations: [DjangoMigration!]!
-}
-
-type DjangoMigrationsDeletePayload {
-  ids: [ID!]!
-}
-
-type DjangoMigrationsUpdatePayload {
-  ok: Boolean!
-}
-
-input DjangoSessionCreateInput {
-  sessionKey: String!
-  sessionData: String!
-  expireDate: Int!
-}
-
-input DjangoSessionUpdateInput {
-  sessionKey: String
-  sessionData: String
-  expireDate: Int
-}
-
-input DjangoSessionsCreateInput {
-  djangoSessions: [DjangoSessionCreateInput!]!
-}
-
-type DjangoSessionPayload {
-  djangoSession: DjangoSession!
-}
-
-type DjangoSessionDeletePayload {
-  id: ID!
-}
-
-type DjangoSessionsPayload {
-  djangoSessions: [DjangoSession!]!
-}
-
-type DjangoSessionsDeletePayload {
-  ids: [ID!]!
-}
-
-type DjangoSessionsUpdatePayload {
-  ok: Boolean!
-}
-
 input FragranceCreateInput {
   name: String!
   note: String!
   deletedAt: Int
-  updatedAt: Int!
   createdAt: Int!
+  updatedAt: Int!
 }
 
 input FragranceUpdateInput {
   name: String
   note: String
   deletedAt: Int
-  updatedAt: Int
   createdAt: Int
+  updatedAt: Int
 }
 
 input FragrancesCreateInput {
@@ -8837,9 +7737,9 @@ input FragranceInventoryCreateInput {
   weight: Float!
   fragranceId: ID!
   supplierId: ID!
-  updatedAt: Int!
   createdAt: Int!
   deletedAt: Int
+  updatedAt: Int!
 }
 
 input FragranceInventoryUpdateInput {
@@ -8849,9 +7749,9 @@ input FragranceInventoryUpdateInput {
   weight: Float
   fragranceId: ID
   supplierId: ID
-  updatedAt: Int
   createdAt: Int
   deletedAt: Int
+  updatedAt: Int
 }
 
 input FragranceInventoriesCreateInput {
@@ -8898,8 +7798,8 @@ input LipidCreateInput {
   inciName: String!
   family: String!
   naoh: Float!
-  createdAt: Int!
   deletedAt: Int
+  createdAt: Int!
   updatedAt: Int!
 }
 
@@ -8923,8 +7823,8 @@ input LipidUpdateInput {
   inciName: String
   family: String
   naoh: Float
-  createdAt: Int
   deletedAt: Int
+  createdAt: Int
   updatedAt: Int
 }
 
@@ -9012,18 +7912,18 @@ input LyeCreateInput {
   kind: String!
   name: String!
   note: String!
-  createdAt: Int!
-  updatedAt: Int!
   deletedAt: Int
+  updatedAt: Int!
+  createdAt: Int!
 }
 
 input LyeUpdateInput {
   kind: String
   name: String
   note: String
-  createdAt: Int
-  updatedAt: Int
   deletedAt: Int
+  updatedAt: Int
+  createdAt: Int
 }
 
 input LyesCreateInput {
@@ -9059,8 +7959,8 @@ input LyeInventoryCreateInput {
   lyeId: ID!
   supplierId: ID!
   deletedAt: Int
-  createdAt: Int!
   updatedAt: Int!
+  createdAt: Int!
 }
 
 input LyeInventoryUpdateInput {
@@ -9072,8 +7972,8 @@ input LyeInventoryUpdateInput {
   lyeId: ID
   supplierId: ID
   deletedAt: Int
-  createdAt: Int
   updatedAt: Int
+  createdAt: Int
 }
 
 input LyeInventoriesCreateInput {
@@ -9103,17 +8003,17 @@ type LyeInventoriesUpdatePayload {
 input RecipeCreateInput {
   name: String!
   note: String!
+  updatedAt: Int!
   deletedAt: Int
   createdAt: Int!
-  updatedAt: Int!
 }
 
 input RecipeUpdateInput {
   name: String
   note: String
+  updatedAt: Int
   deletedAt: Int
   createdAt: Int
-  updatedAt: Int
 }
 
 input RecipesCreateInput {
@@ -9144,8 +8044,8 @@ input RecipeAdditiveCreateInput {
   percentage: Float!
   additiveId: ID!
   recipeId: ID!
-  updatedAt: Int!
   createdAt: Int!
+  updatedAt: Int!
   deletedAt: Int
 }
 
@@ -9153,8 +8053,8 @@ input RecipeAdditiveUpdateInput {
   percentage: Float
   additiveId: ID
   recipeId: ID
-  updatedAt: Int
   createdAt: Int
+  updatedAt: Int
   deletedAt: Int
 }
 
@@ -9239,8 +8139,8 @@ input RecipeBatchAdditiveCreateInput {
   cost: Float!
   additiveId: ID!
   batchId: ID!
-  deletedAt: Int
   createdAt: Int!
+  deletedAt: Int
   updatedAt: Int!
 }
 
@@ -9249,8 +8149,8 @@ input RecipeBatchAdditiveUpdateInput {
   cost: Float
   additiveId: ID
   batchId: ID
-  deletedAt: Int
   createdAt: Int
+  deletedAt: Int
   updatedAt: Int
 }
 
@@ -9283,9 +8183,9 @@ input RecipeBatchFragranceCreateInput {
   cost: Float!
   fragranceId: ID!
   batchId: ID!
-  updatedAt: Int!
-  deletedAt: Int
   createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
 }
 
 input RecipeBatchFragranceUpdateInput {
@@ -9293,9 +8193,9 @@ input RecipeBatchFragranceUpdateInput {
   cost: Float
   fragranceId: ID
   batchId: ID
-  updatedAt: Int
-  deletedAt: Int
   createdAt: Int
+  deletedAt: Int
+  updatedAt: Int
 }
 
 input RecipeBatchFragrancesCreateInput {
@@ -9328,8 +8228,8 @@ input RecipeBatchLipidCreateInput {
   lipidId: ID!
   batchId: ID!
   createdAt: Int!
-  deletedAt: Int
   updatedAt: Int!
+  deletedAt: Int
 }
 
 input RecipeBatchLipidUpdateInput {
@@ -9338,8 +8238,8 @@ input RecipeBatchLipidUpdateInput {
   lipidId: ID
   batchId: ID
   createdAt: Int
-  deletedAt: Int
   updatedAt: Int
+  deletedAt: Int
 }
 
 input RecipeBatchLipidsCreateInput {
@@ -9373,8 +8273,8 @@ input RecipeBatchLyeCreateInput {
   lyeId: ID!
   batchId: ID!
   createdAt: Int!
-  updatedAt: Int!
   deletedAt: Int
+  updatedAt: Int!
 }
 
 input RecipeBatchLyeUpdateInput {
@@ -9384,8 +8284,8 @@ input RecipeBatchLyeUpdateInput {
   lyeId: ID
   batchId: ID
   createdAt: Int
-  updatedAt: Int
   deletedAt: Int
+  updatedAt: Int
 }
 
 input RecipeBatchLyesCreateInput {
@@ -9416,18 +8316,18 @@ input RecipeBatchNoteCreateInput {
   note: String!
   link: String!
   batchId: ID!
-  updatedAt: Int!
   deletedAt: Int
   createdAt: Int!
+  updatedAt: Int!
 }
 
 input RecipeBatchNoteUpdateInput {
   note: String
   link: String
   batchId: ID
-  updatedAt: Int
   deletedAt: Int
   createdAt: Int
+  updatedAt: Int
 }
 
 input RecipeBatchNotesCreateInput {
@@ -9459,8 +8359,8 @@ input RecipeFragranceCreateInput {
   fragranceId: ID!
   recipeId: ID!
   deletedAt: Int
-  createdAt: Int!
   updatedAt: Int!
+  createdAt: Int!
 }
 
 input RecipeFragranceUpdateInput {
@@ -9468,8 +8368,8 @@ input RecipeFragranceUpdateInput {
   fragranceId: ID
   recipeId: ID
   deletedAt: Int
-  createdAt: Int
   updatedAt: Int
+  createdAt: Int
 }
 
 input RecipeFragrancesCreateInput {
@@ -9501,8 +8401,8 @@ input RecipeLipidCreateInput {
   lipidId: ID!
   recipeId: ID!
   updatedAt: Int!
-  createdAt: Int!
   deletedAt: Int
+  createdAt: Int!
 }
 
 input RecipeLipidUpdateInput {
@@ -9510,8 +8410,8 @@ input RecipeLipidUpdateInput {
   lipidId: ID
   recipeId: ID
   updatedAt: Int
-  createdAt: Int
   deletedAt: Int
+  createdAt: Int
 }
 
 input RecipeLipidsCreateInput {
@@ -9542,18 +8442,18 @@ input RecipeStepCreateInput {
   num: Int!
   note: String!
   recipeId: ID!
+  updatedAt: Int!
   deletedAt: Int
   createdAt: Int!
-  updatedAt: Int!
 }
 
 input RecipeStepUpdateInput {
   num: Int
   note: String
   recipeId: ID
+  updatedAt: Int
   deletedAt: Int
   createdAt: Int
-  updatedAt: Int
 }
 
 input RecipeStepsCreateInput {
@@ -9584,18 +8484,18 @@ input SupplierCreateInput {
   name: String!
   website: String!
   note: String!
-  updatedAt: Int!
-  deletedAt: Int
   createdAt: Int!
+  deletedAt: Int
+  updatedAt: Int!
 }
 
 input SupplierUpdateInput {
   name: String
   website: String
   note: String
-  updatedAt: Int
-  deletedAt: Int
   createdAt: Int
+  deletedAt: Int
+  updatedAt: Int
 }
 
 input SuppliersCreateInput {
@@ -9738,76 +8638,6 @@ type Mutation {
   deleteAuthUserUserPermissions(
     filter: AuthUserUserPermissionFilter
   ): AuthUserUserPermissionsDeletePayload!
-  createDjangoAdminLog(
-    input: DjangoAdminLogCreateInput!
-  ): DjangoAdminLogPayload!
-  createDjangoAdminLogs(
-    input: DjangoAdminLogsCreateInput!
-  ): DjangoAdminLogsPayload!
-  updateDjangoAdminLog(
-    id: ID!
-    input: DjangoAdminLogUpdateInput!
-  ): DjangoAdminLogPayload!
-  updateDjangoAdminLogs(
-    filter: DjangoAdminLogFilter
-    input: DjangoAdminLogUpdateInput!
-  ): DjangoAdminLogsUpdatePayload!
-  deleteDjangoAdminLog(id: ID!): DjangoAdminLogDeletePayload!
-  deleteDjangoAdminLogs(
-    filter: DjangoAdminLogFilter
-  ): DjangoAdminLogsDeletePayload!
-  createDjangoContentType(
-    input: DjangoContentTypeCreateInput!
-  ): DjangoContentTypePayload!
-  createDjangoContentTypes(
-    input: DjangoContentTypesCreateInput!
-  ): DjangoContentTypesPayload!
-  updateDjangoContentType(
-    id: ID!
-    input: DjangoContentTypeUpdateInput!
-  ): DjangoContentTypePayload!
-  updateDjangoContentTypes(
-    filter: DjangoContentTypeFilter
-    input: DjangoContentTypeUpdateInput!
-  ): DjangoContentTypesUpdatePayload!
-  deleteDjangoContentType(id: ID!): DjangoContentTypeDeletePayload!
-  deleteDjangoContentTypes(
-    filter: DjangoContentTypeFilter
-  ): DjangoContentTypesDeletePayload!
-  createDjangoMigration(
-    input: DjangoMigrationCreateInput!
-  ): DjangoMigrationPayload!
-  createDjangoMigrations(
-    input: DjangoMigrationsCreateInput!
-  ): DjangoMigrationsPayload!
-  updateDjangoMigration(
-    id: ID!
-    input: DjangoMigrationUpdateInput!
-  ): DjangoMigrationPayload!
-  updateDjangoMigrations(
-    filter: DjangoMigrationFilter
-    input: DjangoMigrationUpdateInput!
-  ): DjangoMigrationsUpdatePayload!
-  deleteDjangoMigration(id: ID!): DjangoMigrationDeletePayload!
-  deleteDjangoMigrations(
-    filter: DjangoMigrationFilter
-  ): DjangoMigrationsDeletePayload!
-  createDjangoSession(input: DjangoSessionCreateInput!): DjangoSessionPayload!
-  createDjangoSessions(
-    input: DjangoSessionsCreateInput!
-  ): DjangoSessionsPayload!
-  updateDjangoSession(
-    id: ID!
-    input: DjangoSessionUpdateInput!
-  ): DjangoSessionPayload!
-  updateDjangoSessions(
-    filter: DjangoSessionFilter
-    input: DjangoSessionUpdateInput!
-  ): DjangoSessionsUpdatePayload!
-  deleteDjangoSession(id: ID!): DjangoSessionDeletePayload!
-  deleteDjangoSessions(
-    filter: DjangoSessionFilter
-  ): DjangoSessionsDeletePayload!
   createFragrance(input: FragranceCreateInput!): FragrancePayload!
   createFragrances(input: FragrancesCreateInput!): FragrancesPayload!
   updateFragrance(id: ID!, input: FragranceUpdateInput!): FragrancePayload!
@@ -10284,118 +9114,6 @@ func (ec *executionContext) field_Mutation_createAuthUsers_args(ctx context.Cont
 	var arg0 AuthUsersCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNAuthUsersCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthUsersCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_createDjangoAdminLog_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 DjangoAdminLogCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNDjangoAdminLogCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_createDjangoAdminLogs_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 DjangoAdminLogsCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNDjangoAdminLogsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogsCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_createDjangoContentType_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 DjangoContentTypeCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNDjangoContentTypeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_createDjangoContentTypes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 DjangoContentTypesCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNDjangoContentTypesCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypesCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_createDjangoMigration_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 DjangoMigrationCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNDjangoMigrationCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_createDjangoMigrations_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 DjangoMigrationsCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNDjangoMigrationsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationsCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_createDjangoSession_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 DjangoSessionCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNDjangoSessionCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_createDjangoSessions_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 DjangoSessionsCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNDjangoSessionsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionsCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -11124,118 +9842,6 @@ func (ec *executionContext) field_Mutation_deleteAuthUsers_args(ctx context.Cont
 	var arg0 *AuthUserFilter
 	if tmp, ok := rawArgs["filter"]; ok {
 		arg0, err = ec.unmarshalOAuthUserFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthUserFilter(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["filter"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_deleteDjangoAdminLog_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["id"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_deleteDjangoAdminLogs_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 *DjangoAdminLogFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalODjangoAdminLogFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogFilter(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["filter"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_deleteDjangoContentType_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["id"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_deleteDjangoContentTypes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 *DjangoContentTypeFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalODjangoContentTypeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeFilter(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["filter"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_deleteDjangoMigration_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["id"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_deleteDjangoMigrations_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 *DjangoMigrationFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalODjangoMigrationFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationFilter(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["filter"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_deleteDjangoSession_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["id"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_deleteDjangoSessions_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 *DjangoSessionFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalODjangoSessionFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -12092,182 +10698,6 @@ func (ec *executionContext) field_Mutation_updateAuthUsers_args(ctx context.Cont
 	var arg1 AuthUserUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
 		arg1, err = ec.unmarshalNAuthUserUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthUserUpdateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg1
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_updateDjangoAdminLog_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["id"] = arg0
-	var arg1 DjangoAdminLogUpdateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg1, err = ec.unmarshalNDjangoAdminLogUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogUpdateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg1
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_updateDjangoAdminLogs_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 *DjangoAdminLogFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalODjangoAdminLogFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogFilter(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["filter"] = arg0
-	var arg1 DjangoAdminLogUpdateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg1, err = ec.unmarshalNDjangoAdminLogUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogUpdateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg1
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_updateDjangoContentType_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["id"] = arg0
-	var arg1 DjangoContentTypeUpdateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg1, err = ec.unmarshalNDjangoContentTypeUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeUpdateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg1
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_updateDjangoContentTypes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 *DjangoContentTypeFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalODjangoContentTypeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeFilter(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["filter"] = arg0
-	var arg1 DjangoContentTypeUpdateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg1, err = ec.unmarshalNDjangoContentTypeUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeUpdateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg1
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_updateDjangoMigration_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["id"] = arg0
-	var arg1 DjangoMigrationUpdateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg1, err = ec.unmarshalNDjangoMigrationUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationUpdateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg1
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_updateDjangoMigrations_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 *DjangoMigrationFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalODjangoMigrationFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationFilter(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["filter"] = arg0
-	var arg1 DjangoMigrationUpdateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg1, err = ec.unmarshalNDjangoMigrationUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationUpdateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg1
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_updateDjangoSession_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["id"] = arg0
-	var arg1 DjangoSessionUpdateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg1, err = ec.unmarshalNDjangoSessionUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionUpdateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg1
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_updateDjangoSessions_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 *DjangoSessionFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalODjangoSessionFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionFilter(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["filter"] = arg0
-	var arg1 DjangoSessionUpdateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg1, err = ec.unmarshalNDjangoSessionUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -13306,118 +11736,6 @@ func (ec *executionContext) field_Query_authUsers_args(ctx context.Context, rawA
 	return args, nil
 }
 
-func (ec *executionContext) field_Query_djangoAdminLog_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["id"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Query_djangoAdminLogs_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 *DjangoAdminLogFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalODjangoAdminLogFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogFilter(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["filter"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Query_djangoContentType_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["id"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Query_djangoContentTypes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 *DjangoContentTypeFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalODjangoContentTypeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeFilter(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["filter"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Query_djangoMigration_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["id"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Query_djangoMigrations_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 *DjangoMigrationFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalODjangoMigrationFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationFilter(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["filter"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Query_djangoSession_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["id"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Query_djangoSessions_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 *DjangoSessionFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalODjangoSessionFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionFilter(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["filter"] = arg0
-	return args, nil
-}
-
 func (ec *executionContext) field_Query_fragranceInventories_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
@@ -14060,6 +12378,40 @@ func (ec *executionContext) _Additive_note(ctx context.Context, field graphql.Co
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Additive_updatedAt(ctx context.Context, field graphql.CollectedField, obj *Additive) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Additive",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Additive_createdAt(ctx context.Context, field graphql.CollectedField, obj *Additive) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -14123,40 +12475,6 @@ func (ec *executionContext) _Additive_deletedAt(ctx context.Context, field graph
 	res := resTmp.(*int)
 	fc.Result = res
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Additive_updatedAt(ctx context.Context, field graphql.CollectedField, obj *Additive) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Additive",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Additive_recipeAdditive(ctx context.Context, field graphql.CollectedField, obj *Additive) (ret graphql.Marshaler) {
@@ -15569,7 +13887,7 @@ func (ec *executionContext) _AuthPermission_name(ctx context.Context, field grap
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _AuthPermission_contentType(ctx context.Context, field graphql.CollectedField, obj *AuthPermission) (ret graphql.Marshaler) {
+func (ec *executionContext) _AuthPermission_contentTypeId(ctx context.Context, field graphql.CollectedField, obj *AuthPermission) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -15586,7 +13904,7 @@ func (ec *executionContext) _AuthPermission_contentType(ctx context.Context, fie
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.ContentType, nil
+		return obj.ContentTypeID, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -15598,9 +13916,9 @@ func (ec *executionContext) _AuthPermission_contentType(ctx context.Context, fie
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*DjangoContentType)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNDjangoContentType2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentType(ctx, field.Selections, res)
+	return ec.marshalNID2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _AuthPermission_codename(ctx context.Context, field graphql.CollectedField, obj *AuthPermission) (ret graphql.Marshaler) {
@@ -16300,37 +14618,6 @@ func (ec *executionContext) _AuthUser_userAuthUserUserPermissions(ctx context.Co
 	res := resTmp.([]*AuthUserUserPermission)
 	fc.Result = res
 	return ec.marshalOAuthUserUserPermission2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthUserUserPermission(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _AuthUser_userDjangoAdminLogs(ctx context.Context, field graphql.CollectedField, obj *AuthUser) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "AuthUser",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.UserDjangoAdminLogs, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*DjangoAdminLog)
-	fc.Result = res
-	return ec.marshalODjangoAdminLog2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLog(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _AuthUserDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *AuthUserDeletePayload) (ret graphql.Marshaler) {
@@ -17047,1354 +15334,6 @@ func (ec *executionContext) _AuthUsersUpdatePayload_ok(ctx context.Context, fiel
 	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _DjangoAdminLog_id(ctx context.Context, field graphql.CollectedField, obj *DjangoAdminLog) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoAdminLog",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoAdminLog_actionTime(ctx context.Context, field graphql.CollectedField, obj *DjangoAdminLog) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoAdminLog",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ActionTime, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoAdminLog_objectId(ctx context.Context, field graphql.CollectedField, obj *DjangoAdminLog) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoAdminLog",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ObjectID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoAdminLog_objectRepr(ctx context.Context, field graphql.CollectedField, obj *DjangoAdminLog) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoAdminLog",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ObjectRepr, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoAdminLog_actionFlag(ctx context.Context, field graphql.CollectedField, obj *DjangoAdminLog) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoAdminLog",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ActionFlag, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoAdminLog_changeMessage(ctx context.Context, field graphql.CollectedField, obj *DjangoAdminLog) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoAdminLog",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ChangeMessage, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoAdminLog_contentType(ctx context.Context, field graphql.CollectedField, obj *DjangoAdminLog) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoAdminLog",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ContentType, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoContentType)
-	fc.Result = res
-	return ec.marshalODjangoContentType2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentType(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoAdminLog_user(ctx context.Context, field graphql.CollectedField, obj *DjangoAdminLog) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoAdminLog",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.User, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*AuthUser)
-	fc.Result = res
-	return ec.marshalNAuthUser2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthUser(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoAdminLogDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *DjangoAdminLogDeletePayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoAdminLogDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoAdminLogPayload_djangoAdminLog(ctx context.Context, field graphql.CollectedField, obj *DjangoAdminLogPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoAdminLogPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DjangoAdminLog, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoAdminLog)
-	fc.Result = res
-	return ec.marshalNDjangoAdminLog2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLog(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoAdminLogsDeletePayload_ids(ctx context.Context, field graphql.CollectedField, obj *DjangoAdminLogsDeletePayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoAdminLogsDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Ids, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]string)
-	fc.Result = res
-	return ec.marshalNID2ᚕstringᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoAdminLogsPayload_djangoAdminLogs(ctx context.Context, field graphql.CollectedField, obj *DjangoAdminLogsPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoAdminLogsPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DjangoAdminLogs, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*DjangoAdminLog)
-	fc.Result = res
-	return ec.marshalNDjangoAdminLog2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoAdminLogsUpdatePayload_ok(ctx context.Context, field graphql.CollectedField, obj *DjangoAdminLogsUpdatePayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoAdminLogsUpdatePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Ok, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoContentType_id(ctx context.Context, field graphql.CollectedField, obj *DjangoContentType) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoContentType",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoContentType_appLabel(ctx context.Context, field graphql.CollectedField, obj *DjangoContentType) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoContentType",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.AppLabel, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoContentType_model(ctx context.Context, field graphql.CollectedField, obj *DjangoContentType) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoContentType",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Model, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoContentType_contentTypeAuthPermissions(ctx context.Context, field graphql.CollectedField, obj *DjangoContentType) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoContentType",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ContentTypeAuthPermissions, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*AuthPermission)
-	fc.Result = res
-	return ec.marshalOAuthPermission2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthPermission(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoContentType_contentTypeDjangoAdminLogs(ctx context.Context, field graphql.CollectedField, obj *DjangoContentType) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoContentType",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ContentTypeDjangoAdminLogs, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*DjangoAdminLog)
-	fc.Result = res
-	return ec.marshalODjangoAdminLog2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLog(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoContentTypeDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *DjangoContentTypeDeletePayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoContentTypeDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoContentTypePayload_djangoContentType(ctx context.Context, field graphql.CollectedField, obj *DjangoContentTypePayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoContentTypePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DjangoContentType, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoContentType)
-	fc.Result = res
-	return ec.marshalNDjangoContentType2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentType(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoContentTypesDeletePayload_ids(ctx context.Context, field graphql.CollectedField, obj *DjangoContentTypesDeletePayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoContentTypesDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Ids, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]string)
-	fc.Result = res
-	return ec.marshalNID2ᚕstringᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoContentTypesPayload_djangoContentTypes(ctx context.Context, field graphql.CollectedField, obj *DjangoContentTypesPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoContentTypesPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DjangoContentTypes, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*DjangoContentType)
-	fc.Result = res
-	return ec.marshalNDjangoContentType2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoContentTypesUpdatePayload_ok(ctx context.Context, field graphql.CollectedField, obj *DjangoContentTypesUpdatePayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoContentTypesUpdatePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Ok, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoMigration_id(ctx context.Context, field graphql.CollectedField, obj *DjangoMigration) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoMigration",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoMigration_app(ctx context.Context, field graphql.CollectedField, obj *DjangoMigration) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoMigration",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.App, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoMigration_name(ctx context.Context, field graphql.CollectedField, obj *DjangoMigration) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoMigration",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoMigration_applied(ctx context.Context, field graphql.CollectedField, obj *DjangoMigration) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoMigration",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Applied, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoMigrationDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *DjangoMigrationDeletePayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoMigrationDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoMigrationPayload_djangoMigration(ctx context.Context, field graphql.CollectedField, obj *DjangoMigrationPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoMigrationPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DjangoMigration, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoMigration)
-	fc.Result = res
-	return ec.marshalNDjangoMigration2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigration(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoMigrationsDeletePayload_ids(ctx context.Context, field graphql.CollectedField, obj *DjangoMigrationsDeletePayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoMigrationsDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Ids, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]string)
-	fc.Result = res
-	return ec.marshalNID2ᚕstringᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoMigrationsPayload_djangoMigrations(ctx context.Context, field graphql.CollectedField, obj *DjangoMigrationsPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoMigrationsPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DjangoMigrations, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*DjangoMigration)
-	fc.Result = res
-	return ec.marshalNDjangoMigration2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoMigrationsUpdatePayload_ok(ctx context.Context, field graphql.CollectedField, obj *DjangoMigrationsUpdatePayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoMigrationsUpdatePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Ok, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoSession_sessionKey(ctx context.Context, field graphql.CollectedField, obj *DjangoSession) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoSession",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.SessionKey, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoSession_sessionData(ctx context.Context, field graphql.CollectedField, obj *DjangoSession) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoSession",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.SessionData, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoSession_expireDate(ctx context.Context, field graphql.CollectedField, obj *DjangoSession) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoSession",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ExpireDate, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoSessionDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *DjangoSessionDeletePayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoSessionDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoSessionPayload_djangoSession(ctx context.Context, field graphql.CollectedField, obj *DjangoSessionPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoSessionPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DjangoSession, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoSession)
-	fc.Result = res
-	return ec.marshalNDjangoSession2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSession(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoSessionsDeletePayload_ids(ctx context.Context, field graphql.CollectedField, obj *DjangoSessionsDeletePayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoSessionsDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Ids, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]string)
-	fc.Result = res
-	return ec.marshalNID2ᚕstringᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoSessionsPayload_djangoSessions(ctx context.Context, field graphql.CollectedField, obj *DjangoSessionsPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoSessionsPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DjangoSessions, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*DjangoSession)
-	fc.Result = res
-	return ec.marshalNDjangoSession2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _DjangoSessionsUpdatePayload_ok(ctx context.Context, field graphql.CollectedField, obj *DjangoSessionsUpdatePayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "DjangoSessionsUpdatePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Ok, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Fragrance_id(ctx context.Context, field graphql.CollectedField, obj *Fragrance) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -18528,40 +15467,6 @@ func (ec *executionContext) _Fragrance_deletedAt(ctx context.Context, field grap
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Fragrance_updatedAt(ctx context.Context, field graphql.CollectedField, obj *Fragrance) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Fragrance",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Fragrance_createdAt(ctx context.Context, field graphql.CollectedField, obj *Fragrance) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -18580,6 +15485,40 @@ func (ec *executionContext) _Fragrance_createdAt(ctx context.Context, field grap
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Fragrance_updatedAt(ctx context.Context, field graphql.CollectedField, obj *Fragrance) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Fragrance",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -19063,40 +16002,6 @@ func (ec *executionContext) _FragranceInventory_supplier(ctx context.Context, fi
 	return ec.marshalNSupplier2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐSupplier(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _FragranceInventory_updatedAt(ctx context.Context, field graphql.CollectedField, obj *FragranceInventory) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "FragranceInventory",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _FragranceInventory_createdAt(ctx context.Context, field graphql.CollectedField, obj *FragranceInventory) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -19160,6 +16065,40 @@ func (ec *executionContext) _FragranceInventory_deletedAt(ctx context.Context, f
 	res := resTmp.(*int)
 	fc.Result = res
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _FragranceInventory_updatedAt(ctx context.Context, field graphql.CollectedField, obj *FragranceInventory) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "FragranceInventory",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _FragranceInventoryDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *FragranceInventoryDeletePayload) (ret graphql.Marshaler) {
@@ -20046,6 +16985,37 @@ func (ec *executionContext) _Lipid_naoh(ctx context.Context, field graphql.Colle
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Lipid_deletedAt(ctx context.Context, field graphql.CollectedField, obj *Lipid) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Lipid",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DeletedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Lipid_createdAt(ctx context.Context, field graphql.CollectedField, obj *Lipid) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -20078,37 +17048,6 @@ func (ec *executionContext) _Lipid_createdAt(ctx context.Context, field graphql.
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Lipid_deletedAt(ctx context.Context, field graphql.CollectedField, obj *Lipid) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Lipid",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DeletedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Lipid_updatedAt(ctx context.Context, field graphql.CollectedField, obj *Lipid) (ret graphql.Marshaler) {
@@ -21187,7 +18126,7 @@ func (ec *executionContext) _Lye_note(ctx context.Context, field graphql.Collect
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Lye_createdAt(ctx context.Context, field graphql.CollectedField, obj *Lye) (ret graphql.Marshaler) {
+func (ec *executionContext) _Lye_deletedAt(ctx context.Context, field graphql.CollectedField, obj *Lye) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -21204,21 +18143,18 @@ func (ec *executionContext) _Lye_createdAt(ctx context.Context, field graphql.Co
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedAt, nil
+		return obj.DeletedAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(int)
+	res := resTmp.(*int)
 	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Lye_updatedAt(ctx context.Context, field graphql.CollectedField, obj *Lye) (ret graphql.Marshaler) {
@@ -21255,7 +18191,7 @@ func (ec *executionContext) _Lye_updatedAt(ctx context.Context, field graphql.Co
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Lye_deletedAt(ctx context.Context, field graphql.CollectedField, obj *Lye) (ret graphql.Marshaler) {
+func (ec *executionContext) _Lye_createdAt(ctx context.Context, field graphql.CollectedField, obj *Lye) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -21272,18 +18208,21 @@ func (ec *executionContext) _Lye_deletedAt(ctx context.Context, field graphql.Co
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.DeletedAt, nil
+		return obj.CreatedAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
 	}
 	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
 		return graphql.Null
 	}
-	res := resTmp.(*int)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Lye_recipeBatchLye(ctx context.Context, field graphql.CollectedField, obj *Lye) (ret graphql.Marshaler) {
@@ -21787,40 +18726,6 @@ func (ec *executionContext) _LyeInventory_deletedAt(ctx context.Context, field g
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _LyeInventory_createdAt(ctx context.Context, field graphql.CollectedField, obj *LyeInventory) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "LyeInventory",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _LyeInventory_updatedAt(ctx context.Context, field graphql.CollectedField, obj *LyeInventory) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -21839,6 +18744,40 @@ func (ec *executionContext) _LyeInventory_updatedAt(ctx context.Context, field g
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _LyeInventory_createdAt(ctx context.Context, field graphql.CollectedField, obj *LyeInventory) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "LyeInventory",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -24025,990 +20964,6 @@ func (ec *executionContext) _Mutation_deleteAuthUserUserPermissions(ctx context.
 	res := resTmp.(*AuthUserUserPermissionsDeletePayload)
 	fc.Result = res
 	return ec.marshalNAuthUserUserPermissionsDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthUserUserPermissionsDeletePayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_createDjangoAdminLog(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createDjangoAdminLog_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateDjangoAdminLog(rctx, args["input"].(DjangoAdminLogCreateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoAdminLogPayload)
-	fc.Result = res
-	return ec.marshalNDjangoAdminLogPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogPayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_createDjangoAdminLogs(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createDjangoAdminLogs_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateDjangoAdminLogs(rctx, args["input"].(DjangoAdminLogsCreateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoAdminLogsPayload)
-	fc.Result = res
-	return ec.marshalNDjangoAdminLogsPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogsPayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_updateDjangoAdminLog(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_updateDjangoAdminLog_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateDjangoAdminLog(rctx, args["id"].(string), args["input"].(DjangoAdminLogUpdateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoAdminLogPayload)
-	fc.Result = res
-	return ec.marshalNDjangoAdminLogPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogPayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_updateDjangoAdminLogs(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_updateDjangoAdminLogs_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateDjangoAdminLogs(rctx, args["filter"].(*DjangoAdminLogFilter), args["input"].(DjangoAdminLogUpdateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoAdminLogsUpdatePayload)
-	fc.Result = res
-	return ec.marshalNDjangoAdminLogsUpdatePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogsUpdatePayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_deleteDjangoAdminLog(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_deleteDjangoAdminLog_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteDjangoAdminLog(rctx, args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoAdminLogDeletePayload)
-	fc.Result = res
-	return ec.marshalNDjangoAdminLogDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogDeletePayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_deleteDjangoAdminLogs(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_deleteDjangoAdminLogs_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteDjangoAdminLogs(rctx, args["filter"].(*DjangoAdminLogFilter))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoAdminLogsDeletePayload)
-	fc.Result = res
-	return ec.marshalNDjangoAdminLogsDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogsDeletePayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_createDjangoContentType(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createDjangoContentType_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateDjangoContentType(rctx, args["input"].(DjangoContentTypeCreateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoContentTypePayload)
-	fc.Result = res
-	return ec.marshalNDjangoContentTypePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypePayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_createDjangoContentTypes(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createDjangoContentTypes_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateDjangoContentTypes(rctx, args["input"].(DjangoContentTypesCreateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoContentTypesPayload)
-	fc.Result = res
-	return ec.marshalNDjangoContentTypesPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypesPayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_updateDjangoContentType(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_updateDjangoContentType_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateDjangoContentType(rctx, args["id"].(string), args["input"].(DjangoContentTypeUpdateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoContentTypePayload)
-	fc.Result = res
-	return ec.marshalNDjangoContentTypePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypePayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_updateDjangoContentTypes(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_updateDjangoContentTypes_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateDjangoContentTypes(rctx, args["filter"].(*DjangoContentTypeFilter), args["input"].(DjangoContentTypeUpdateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoContentTypesUpdatePayload)
-	fc.Result = res
-	return ec.marshalNDjangoContentTypesUpdatePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypesUpdatePayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_deleteDjangoContentType(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_deleteDjangoContentType_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteDjangoContentType(rctx, args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoContentTypeDeletePayload)
-	fc.Result = res
-	return ec.marshalNDjangoContentTypeDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeDeletePayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_deleteDjangoContentTypes(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_deleteDjangoContentTypes_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteDjangoContentTypes(rctx, args["filter"].(*DjangoContentTypeFilter))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoContentTypesDeletePayload)
-	fc.Result = res
-	return ec.marshalNDjangoContentTypesDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypesDeletePayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_createDjangoMigration(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createDjangoMigration_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateDjangoMigration(rctx, args["input"].(DjangoMigrationCreateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoMigrationPayload)
-	fc.Result = res
-	return ec.marshalNDjangoMigrationPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationPayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_createDjangoMigrations(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createDjangoMigrations_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateDjangoMigrations(rctx, args["input"].(DjangoMigrationsCreateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoMigrationsPayload)
-	fc.Result = res
-	return ec.marshalNDjangoMigrationsPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationsPayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_updateDjangoMigration(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_updateDjangoMigration_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateDjangoMigration(rctx, args["id"].(string), args["input"].(DjangoMigrationUpdateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoMigrationPayload)
-	fc.Result = res
-	return ec.marshalNDjangoMigrationPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationPayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_updateDjangoMigrations(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_updateDjangoMigrations_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateDjangoMigrations(rctx, args["filter"].(*DjangoMigrationFilter), args["input"].(DjangoMigrationUpdateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoMigrationsUpdatePayload)
-	fc.Result = res
-	return ec.marshalNDjangoMigrationsUpdatePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationsUpdatePayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_deleteDjangoMigration(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_deleteDjangoMigration_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteDjangoMigration(rctx, args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoMigrationDeletePayload)
-	fc.Result = res
-	return ec.marshalNDjangoMigrationDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationDeletePayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_deleteDjangoMigrations(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_deleteDjangoMigrations_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteDjangoMigrations(rctx, args["filter"].(*DjangoMigrationFilter))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoMigrationsDeletePayload)
-	fc.Result = res
-	return ec.marshalNDjangoMigrationsDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationsDeletePayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_createDjangoSession(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createDjangoSession_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateDjangoSession(rctx, args["input"].(DjangoSessionCreateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoSessionPayload)
-	fc.Result = res
-	return ec.marshalNDjangoSessionPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionPayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_createDjangoSessions(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createDjangoSessions_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateDjangoSessions(rctx, args["input"].(DjangoSessionsCreateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoSessionsPayload)
-	fc.Result = res
-	return ec.marshalNDjangoSessionsPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionsPayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_updateDjangoSession(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_updateDjangoSession_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateDjangoSession(rctx, args["id"].(string), args["input"].(DjangoSessionUpdateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoSessionPayload)
-	fc.Result = res
-	return ec.marshalNDjangoSessionPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionPayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_updateDjangoSessions(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_updateDjangoSessions_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateDjangoSessions(rctx, args["filter"].(*DjangoSessionFilter), args["input"].(DjangoSessionUpdateInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoSessionsUpdatePayload)
-	fc.Result = res
-	return ec.marshalNDjangoSessionsUpdatePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionsUpdatePayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_deleteDjangoSession(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_deleteDjangoSession_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteDjangoSession(rctx, args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoSessionDeletePayload)
-	fc.Result = res
-	return ec.marshalNDjangoSessionDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionDeletePayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_deleteDjangoSessions(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_deleteDjangoSessions_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteDjangoSessions(rctx, args["filter"].(*DjangoSessionFilter))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoSessionsDeletePayload)
-	fc.Result = res
-	return ec.marshalNDjangoSessionsDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionsDeletePayload(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_createFragrance(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -30095,334 +26050,6 @@ func (ec *executionContext) _Query_authUserUserPermissions(ctx context.Context, 
 	return ec.marshalNAuthUserUserPermission2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthUserUserPermissionᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Query_djangoAdminLog(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Query_djangoAdminLog_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().DjangoAdminLog(rctx, args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoAdminLog)
-	fc.Result = res
-	return ec.marshalNDjangoAdminLog2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLog(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Query_djangoAdminLogs(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Query_djangoAdminLogs_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().DjangoAdminLogs(rctx, args["filter"].(*DjangoAdminLogFilter))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*DjangoAdminLog)
-	fc.Result = res
-	return ec.marshalNDjangoAdminLog2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Query_djangoContentType(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Query_djangoContentType_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().DjangoContentType(rctx, args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoContentType)
-	fc.Result = res
-	return ec.marshalNDjangoContentType2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentType(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Query_djangoContentTypes(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Query_djangoContentTypes_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().DjangoContentTypes(rctx, args["filter"].(*DjangoContentTypeFilter))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*DjangoContentType)
-	fc.Result = res
-	return ec.marshalNDjangoContentType2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Query_djangoMigration(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Query_djangoMigration_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().DjangoMigration(rctx, args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoMigration)
-	fc.Result = res
-	return ec.marshalNDjangoMigration2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigration(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Query_djangoMigrations(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Query_djangoMigrations_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().DjangoMigrations(rctx, args["filter"].(*DjangoMigrationFilter))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*DjangoMigration)
-	fc.Result = res
-	return ec.marshalNDjangoMigration2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Query_djangoSession(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Query_djangoSession_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().DjangoSession(rctx, args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*DjangoSession)
-	fc.Result = res
-	return ec.marshalNDjangoSession2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSession(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Query_djangoSessions(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Query_djangoSessions_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().DjangoSessions(rctx, args["filter"].(*DjangoSessionFilter))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*DjangoSession)
-	fc.Result = res
-	return ec.marshalNDjangoSession2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionᚄ(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Query_fragrance(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -32070,6 +27697,40 @@ func (ec *executionContext) _Recipe_note(ctx context.Context, field graphql.Coll
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Recipe_updatedAt(ctx context.Context, field graphql.CollectedField, obj *Recipe) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Recipe",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Recipe_deletedAt(ctx context.Context, field graphql.CollectedField, obj *Recipe) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -32119,40 +27780,6 @@ func (ec *executionContext) _Recipe_createdAt(ctx context.Context, field graphql
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.CreatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Recipe_updatedAt(ctx context.Context, field graphql.CollectedField, obj *Recipe) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Recipe",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -32460,40 +28087,6 @@ func (ec *executionContext) _RecipeAdditive_recipe(ctx context.Context, field gr
 	return ec.marshalNRecipe2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐRecipe(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _RecipeAdditive_updatedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeAdditive) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "RecipeAdditive",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _RecipeAdditive_createdAt(ctx context.Context, field graphql.CollectedField, obj *RecipeAdditive) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -32512,6 +28105,40 @@ func (ec *executionContext) _RecipeAdditive_createdAt(ctx context.Context, field
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _RecipeAdditive_updatedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeAdditive) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "RecipeAdditive",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -33459,37 +29086,6 @@ func (ec *executionContext) _RecipeBatchAdditive_batch(ctx context.Context, fiel
 	return ec.marshalNRecipeBatch2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐRecipeBatch(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _RecipeBatchAdditive_deletedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchAdditive) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "RecipeBatchAdditive",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DeletedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _RecipeBatchAdditive_createdAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchAdditive) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -33522,6 +29118,37 @@ func (ec *executionContext) _RecipeBatchAdditive_createdAt(ctx context.Context, 
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _RecipeBatchAdditive_deletedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchAdditive) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "RecipeBatchAdditive",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DeletedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _RecipeBatchAdditive_updatedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchAdditive) (ret graphql.Marshaler) {
@@ -33932,7 +29559,7 @@ func (ec *executionContext) _RecipeBatchFragrance_batch(ctx context.Context, fie
 	return ec.marshalNRecipeBatch2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐRecipeBatch(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _RecipeBatchFragrance_updatedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchFragrance) (ret graphql.Marshaler) {
+func (ec *executionContext) _RecipeBatchFragrance_createdAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchFragrance) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -33949,7 +29576,7 @@ func (ec *executionContext) _RecipeBatchFragrance_updatedAt(ctx context.Context,
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedAt, nil
+		return obj.CreatedAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -33997,7 +29624,7 @@ func (ec *executionContext) _RecipeBatchFragrance_deletedAt(ctx context.Context,
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _RecipeBatchFragrance_createdAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchFragrance) (ret graphql.Marshaler) {
+func (ec *executionContext) _RecipeBatchFragrance_updatedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchFragrance) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -34014,7 +29641,7 @@ func (ec *executionContext) _RecipeBatchFragrance_createdAt(ctx context.Context,
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedAt, nil
+		return obj.UpdatedAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -34405,37 +30032,6 @@ func (ec *executionContext) _RecipeBatchLipid_createdAt(ctx context.Context, fie
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _RecipeBatchLipid_deletedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchLipid) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "RecipeBatchLipid",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DeletedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _RecipeBatchLipid_updatedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchLipid) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -34468,6 +30064,37 @@ func (ec *executionContext) _RecipeBatchLipid_updatedAt(ctx context.Context, fie
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _RecipeBatchLipid_deletedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchLipid) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "RecipeBatchLipid",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DeletedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _RecipeBatchLipidDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchLipidDeletePayload) (ret graphql.Marshaler) {
@@ -34878,6 +30505,37 @@ func (ec *executionContext) _RecipeBatchLye_createdAt(ctx context.Context, field
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _RecipeBatchLye_deletedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchLye) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "RecipeBatchLye",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DeletedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _RecipeBatchLye_updatedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchLye) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -34910,37 +30568,6 @@ func (ec *executionContext) _RecipeBatchLye_updatedAt(ctx context.Context, field
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _RecipeBatchLye_deletedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchLye) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "RecipeBatchLye",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DeletedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _RecipeBatchLyeDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchLyeDeletePayload) (ret graphql.Marshaler) {
@@ -35249,40 +30876,6 @@ func (ec *executionContext) _RecipeBatchNote_batch(ctx context.Context, field gr
 	return ec.marshalNRecipeBatch2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐRecipeBatch(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _RecipeBatchNote_updatedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchNote) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "RecipeBatchNote",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _RecipeBatchNote_deletedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchNote) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -35332,6 +30925,40 @@ func (ec *executionContext) _RecipeBatchNote_createdAt(ctx context.Context, fiel
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _RecipeBatchNote_updatedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeBatchNote) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "RecipeBatchNote",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -35855,40 +31482,6 @@ func (ec *executionContext) _RecipeFragrance_deletedAt(ctx context.Context, fiel
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _RecipeFragrance_createdAt(ctx context.Context, field graphql.CollectedField, obj *RecipeFragrance) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "RecipeFragrance",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _RecipeFragrance_updatedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeFragrance) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -35907,6 +31500,40 @@ func (ec *executionContext) _RecipeFragrance_updatedAt(ctx context.Context, fiel
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _RecipeFragrance_createdAt(ctx context.Context, field graphql.CollectedField, obj *RecipeFragrance) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "RecipeFragrance",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -36263,6 +31890,37 @@ func (ec *executionContext) _RecipeLipid_updatedAt(ctx context.Context, field gr
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _RecipeLipid_deletedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeLipid) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "RecipeLipid",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DeletedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _RecipeLipid_createdAt(ctx context.Context, field graphql.CollectedField, obj *RecipeLipid) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -36295,37 +31953,6 @@ func (ec *executionContext) _RecipeLipid_createdAt(ctx context.Context, field gr
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _RecipeLipid_deletedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeLipid) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "RecipeLipid",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DeletedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _RecipeLipidDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *RecipeLipidDeletePayload) (ret graphql.Marshaler) {
@@ -36668,6 +32295,40 @@ func (ec *executionContext) _RecipeStep_recipe(ctx context.Context, field graphq
 	return ec.marshalNRecipe2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐRecipe(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _RecipeStep_updatedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeStep) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "RecipeStep",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _RecipeStep_deletedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeStep) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -36717,40 +32378,6 @@ func (ec *executionContext) _RecipeStep_createdAt(ctx context.Context, field gra
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.CreatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _RecipeStep_updatedAt(ctx context.Context, field graphql.CollectedField, obj *RecipeStep) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "RecipeStep",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -37175,7 +32802,7 @@ func (ec *executionContext) _Supplier_note(ctx context.Context, field graphql.Co
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Supplier_updatedAt(ctx context.Context, field graphql.CollectedField, obj *Supplier) (ret graphql.Marshaler) {
+func (ec *executionContext) _Supplier_createdAt(ctx context.Context, field graphql.CollectedField, obj *Supplier) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -37192,7 +32819,7 @@ func (ec *executionContext) _Supplier_updatedAt(ctx context.Context, field graph
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedAt, nil
+		return obj.CreatedAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -37240,7 +32867,7 @@ func (ec *executionContext) _Supplier_deletedAt(ctx context.Context, field graph
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Supplier_createdAt(ctx context.Context, field graphql.CollectedField, obj *Supplier) (ret graphql.Marshaler) {
+func (ec *executionContext) _Supplier_updatedAt(ctx context.Context, field graphql.CollectedField, obj *Supplier) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -37257,7 +32884,7 @@ func (ec *executionContext) _Supplier_createdAt(ctx context.Context, field graph
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedAt, nil
+		return obj.UpdatedAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -38641,6 +34268,12 @@ func (ec *executionContext) unmarshalInputAdditiveCreateInput(ctx context.Contex
 			if err != nil {
 				return it, err
 			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
@@ -38650,12 +34283,6 @@ func (ec *executionContext) unmarshalInputAdditiveCreateInput(ctx context.Contex
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -38965,6 +34592,12 @@ func (ec *executionContext) unmarshalInputAdditiveUpdateInput(ctx context.Contex
 			if err != nil {
 				return it, err
 			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
@@ -38974,12 +34607,6 @@ func (ec *executionContext) unmarshalInputAdditiveUpdateInput(ctx context.Contex
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -39013,6 +34640,12 @@ func (ec *executionContext) unmarshalInputAdditiveWhere(ctx context.Context, obj
 			if err != nil {
 				return it, err
 			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
@@ -39022,12 +34655,6 @@ func (ec *executionContext) unmarshalInputAdditiveWhere(ctx context.Context, obj
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -39445,9 +35072,9 @@ func (ec *executionContext) unmarshalInputAuthPermissionWhere(ctx context.Contex
 			if err != nil {
 				return it, err
 			}
-		case "contentType":
+		case "contentTypeId":
 			var err error
-			it.ContentType, err = ec.unmarshalODjangoContentTypeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeWhere(ctx, v)
+			it.ContentTypeID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -40021,12 +35648,6 @@ func (ec *executionContext) unmarshalInputAuthUserWhere(ctx context.Context, obj
 			if err != nil {
 				return it, err
 			}
-		case "userDjangoAdminLogs":
-			var err error
-			it.UserDjangoAdminLogs, err = ec.unmarshalODjangoAdminLogWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "or":
 			var err error
 			it.Or, err = ec.unmarshalOAuthUserWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthUserWhere(ctx, v)
@@ -40078,666 +35699,6 @@ func (ec *executionContext) unmarshalInputBooleanFilter(ctx context.Context, obj
 		case "notEqualTo":
 			var err error
 			it.NotEqualTo, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoAdminLogCreateInput(ctx context.Context, obj interface{}) (DjangoAdminLogCreateInput, error) {
-	var it DjangoAdminLogCreateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "actionTime":
-			var err error
-			it.ActionTime, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "objectId":
-			var err error
-			it.ObjectID, err = ec.unmarshalOID2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "objectRepr":
-			var err error
-			it.ObjectRepr, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "actionFlag":
-			var err error
-			it.ActionFlag, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "changeMessage":
-			var err error
-			it.ChangeMessage, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "contentTypeId":
-			var err error
-			it.ContentTypeID, err = ec.unmarshalOID2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "userId":
-			var err error
-			it.UserID, err = ec.unmarshalNID2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoAdminLogFilter(ctx context.Context, obj interface{}) (DjangoAdminLogFilter, error) {
-	var it DjangoAdminLogFilter
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "search":
-			var err error
-			it.Search, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "where":
-			var err error
-			it.Where, err = ec.unmarshalODjangoAdminLogWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoAdminLogUpdateInput(ctx context.Context, obj interface{}) (DjangoAdminLogUpdateInput, error) {
-	var it DjangoAdminLogUpdateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "actionTime":
-			var err error
-			it.ActionTime, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "objectId":
-			var err error
-			it.ObjectID, err = ec.unmarshalOID2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "objectRepr":
-			var err error
-			it.ObjectRepr, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "actionFlag":
-			var err error
-			it.ActionFlag, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "changeMessage":
-			var err error
-			it.ChangeMessage, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "contentTypeId":
-			var err error
-			it.ContentTypeID, err = ec.unmarshalOID2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "userId":
-			var err error
-			it.UserID, err = ec.unmarshalOID2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoAdminLogWhere(ctx context.Context, obj interface{}) (DjangoAdminLogWhere, error) {
-	var it DjangoAdminLogWhere
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "id":
-			var err error
-			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIDFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "actionTime":
-			var err error
-			it.ActionTime, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "objectId":
-			var err error
-			it.ObjectID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIDFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "objectRepr":
-			var err error
-			it.ObjectRepr, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐStringFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "actionFlag":
-			var err error
-			it.ActionFlag, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "changeMessage":
-			var err error
-			it.ChangeMessage, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐStringFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "contentType":
-			var err error
-			it.ContentType, err = ec.unmarshalODjangoContentTypeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "user":
-			var err error
-			it.User, err = ec.unmarshalOAuthUserWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthUserWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "or":
-			var err error
-			it.Or, err = ec.unmarshalODjangoAdminLogWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "and":
-			var err error
-			it.And, err = ec.unmarshalODjangoAdminLogWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoAdminLogsCreateInput(ctx context.Context, obj interface{}) (DjangoAdminLogsCreateInput, error) {
-	var it DjangoAdminLogsCreateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "djangoAdminLogs":
-			var err error
-			it.DjangoAdminLogs, err = ec.unmarshalNDjangoAdminLogCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogCreateInputᚄ(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoContentTypeCreateInput(ctx context.Context, obj interface{}) (DjangoContentTypeCreateInput, error) {
-	var it DjangoContentTypeCreateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "appLabel":
-			var err error
-			it.AppLabel, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "model":
-			var err error
-			it.Model, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoContentTypeFilter(ctx context.Context, obj interface{}) (DjangoContentTypeFilter, error) {
-	var it DjangoContentTypeFilter
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "search":
-			var err error
-			it.Search, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "where":
-			var err error
-			it.Where, err = ec.unmarshalODjangoContentTypeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoContentTypeUpdateInput(ctx context.Context, obj interface{}) (DjangoContentTypeUpdateInput, error) {
-	var it DjangoContentTypeUpdateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "appLabel":
-			var err error
-			it.AppLabel, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "model":
-			var err error
-			it.Model, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoContentTypeWhere(ctx context.Context, obj interface{}) (DjangoContentTypeWhere, error) {
-	var it DjangoContentTypeWhere
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "id":
-			var err error
-			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIDFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "appLabel":
-			var err error
-			it.AppLabel, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐStringFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "model":
-			var err error
-			it.Model, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐStringFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "contentTypeAuthPermissions":
-			var err error
-			it.ContentTypeAuthPermissions, err = ec.unmarshalOAuthPermissionWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthPermissionWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "contentTypeDjangoAdminLogs":
-			var err error
-			it.ContentTypeDjangoAdminLogs, err = ec.unmarshalODjangoAdminLogWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "or":
-			var err error
-			it.Or, err = ec.unmarshalODjangoContentTypeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "and":
-			var err error
-			it.And, err = ec.unmarshalODjangoContentTypeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoContentTypesCreateInput(ctx context.Context, obj interface{}) (DjangoContentTypesCreateInput, error) {
-	var it DjangoContentTypesCreateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "djangoContentTypes":
-			var err error
-			it.DjangoContentTypes, err = ec.unmarshalNDjangoContentTypeCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeCreateInputᚄ(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoMigrationCreateInput(ctx context.Context, obj interface{}) (DjangoMigrationCreateInput, error) {
-	var it DjangoMigrationCreateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "app":
-			var err error
-			it.App, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "name":
-			var err error
-			it.Name, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "applied":
-			var err error
-			it.Applied, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoMigrationFilter(ctx context.Context, obj interface{}) (DjangoMigrationFilter, error) {
-	var it DjangoMigrationFilter
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "search":
-			var err error
-			it.Search, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "where":
-			var err error
-			it.Where, err = ec.unmarshalODjangoMigrationWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoMigrationUpdateInput(ctx context.Context, obj interface{}) (DjangoMigrationUpdateInput, error) {
-	var it DjangoMigrationUpdateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "app":
-			var err error
-			it.App, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "name":
-			var err error
-			it.Name, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "applied":
-			var err error
-			it.Applied, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoMigrationWhere(ctx context.Context, obj interface{}) (DjangoMigrationWhere, error) {
-	var it DjangoMigrationWhere
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "id":
-			var err error
-			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIDFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "app":
-			var err error
-			it.App, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐStringFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "name":
-			var err error
-			it.Name, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐStringFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "applied":
-			var err error
-			it.Applied, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "or":
-			var err error
-			it.Or, err = ec.unmarshalODjangoMigrationWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "and":
-			var err error
-			it.And, err = ec.unmarshalODjangoMigrationWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoMigrationsCreateInput(ctx context.Context, obj interface{}) (DjangoMigrationsCreateInput, error) {
-	var it DjangoMigrationsCreateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "djangoMigrations":
-			var err error
-			it.DjangoMigrations, err = ec.unmarshalNDjangoMigrationCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationCreateInputᚄ(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoSessionCreateInput(ctx context.Context, obj interface{}) (DjangoSessionCreateInput, error) {
-	var it DjangoSessionCreateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "sessionKey":
-			var err error
-			it.SessionKey, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "sessionData":
-			var err error
-			it.SessionData, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "expireDate":
-			var err error
-			it.ExpireDate, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoSessionFilter(ctx context.Context, obj interface{}) (DjangoSessionFilter, error) {
-	var it DjangoSessionFilter
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "search":
-			var err error
-			it.Search, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "where":
-			var err error
-			it.Where, err = ec.unmarshalODjangoSessionWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoSessionUpdateInput(ctx context.Context, obj interface{}) (DjangoSessionUpdateInput, error) {
-	var it DjangoSessionUpdateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "sessionKey":
-			var err error
-			it.SessionKey, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "sessionData":
-			var err error
-			it.SessionData, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "expireDate":
-			var err error
-			it.ExpireDate, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoSessionWhere(ctx context.Context, obj interface{}) (DjangoSessionWhere, error) {
-	var it DjangoSessionWhere
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "sessionKey":
-			var err error
-			it.SessionKey, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐStringFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "sessionData":
-			var err error
-			it.SessionData, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐStringFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "expireDate":
-			var err error
-			it.ExpireDate, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "or":
-			var err error
-			it.Or, err = ec.unmarshalODjangoSessionWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "and":
-			var err error
-			it.And, err = ec.unmarshalODjangoSessionWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputDjangoSessionsCreateInput(ctx context.Context, obj interface{}) (DjangoSessionsCreateInput, error) {
-	var it DjangoSessionsCreateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "djangoSessions":
-			var err error
-			it.DjangoSessions, err = ec.unmarshalNDjangoSessionCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionCreateInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -40831,15 +35792,15 @@ func (ec *executionContext) unmarshalInputFragranceCreateInput(ctx context.Conte
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -40933,12 +35894,6 @@ func (ec *executionContext) unmarshalInputFragranceInventoryCreateInput(ctx cont
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
@@ -40948,6 +35903,12 @@ func (ec *executionContext) unmarshalInputFragranceInventoryCreateInput(ctx cont
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -41023,12 +35984,6 @@ func (ec *executionContext) unmarshalInputFragranceInventoryUpdateInput(ctx cont
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
@@ -41038,6 +35993,12 @@ func (ec *executionContext) unmarshalInputFragranceInventoryUpdateInput(ctx cont
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -41095,12 +36056,6 @@ func (ec *executionContext) unmarshalInputFragranceInventoryWhere(ctx context.Co
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
@@ -41110,6 +36065,12 @@ func (ec *executionContext) unmarshalInputFragranceInventoryWhere(ctx context.Co
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -41155,15 +36116,15 @@ func (ec *executionContext) unmarshalInputFragranceUpdateInput(ctx context.Conte
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -41203,15 +36164,15 @@ func (ec *executionContext) unmarshalInputFragranceWhere(ctx context.Context, ob
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -41485,15 +36446,15 @@ func (ec *executionContext) unmarshalInputLipidCreateInput(ctx context.Context, 
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
-			var err error
-			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -41983,15 +36944,15 @@ func (ec *executionContext) unmarshalInputLipidUpdateInput(ctx context.Context, 
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
-			var err error
-			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -42133,15 +37094,15 @@ func (ec *executionContext) unmarshalInputLipidWhere(ctx context.Context, obj in
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
-			var err error
-			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -42229,9 +37190,9 @@ func (ec *executionContext) unmarshalInputLyeCreateInput(ctx context.Context, ob
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
+		case "deletedAt":
 			var err error
-			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
+			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -42241,9 +37202,9 @@ func (ec *executionContext) unmarshalInputLyeCreateInput(ctx context.Context, ob
 			if err != nil {
 				return it, err
 			}
-		case "deletedAt":
+		case "createdAt":
 			var err error
-			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -42349,15 +37310,15 @@ func (ec *executionContext) unmarshalInputLyeInventoryCreateInput(ctx context.Co
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
-			var err error
-			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "updatedAt":
 			var err error
 			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -42445,15 +37406,15 @@ func (ec *executionContext) unmarshalInputLyeInventoryUpdateInput(ctx context.Co
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
-			var err error
-			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "updatedAt":
 			var err error
 			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -42523,15 +37484,15 @@ func (ec *executionContext) unmarshalInputLyeInventoryWhere(ctx context.Context,
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
-			var err error
-			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "updatedAt":
 			var err error
 			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -42577,9 +37538,9 @@ func (ec *executionContext) unmarshalInputLyeUpdateInput(ctx context.Context, ob
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
+		case "deletedAt":
 			var err error
-			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -42589,9 +37550,9 @@ func (ec *executionContext) unmarshalInputLyeUpdateInput(ctx context.Context, ob
 			if err != nil {
 				return it, err
 			}
-		case "deletedAt":
+		case "createdAt":
 			var err error
-			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -42631,9 +37592,9 @@ func (ec *executionContext) unmarshalInputLyeWhere(ctx context.Context, obj inte
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
+		case "deletedAt":
 			var err error
-			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			it.DeletedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -42643,9 +37604,9 @@ func (ec *executionContext) unmarshalInputLyeWhere(ctx context.Context, obj inte
 			if err != nil {
 				return it, err
 			}
-		case "deletedAt":
+		case "createdAt":
 			var err error
-			it.DeletedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -42721,15 +37682,15 @@ func (ec *executionContext) unmarshalInputRecipeAdditiveCreateInput(ctx context.
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -42793,15 +37754,15 @@ func (ec *executionContext) unmarshalInputRecipeAdditiveUpdateInput(ctx context.
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -42847,15 +37808,15 @@ func (ec *executionContext) unmarshalInputRecipeAdditiveWhere(ctx context.Contex
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -42931,15 +37892,15 @@ func (ec *executionContext) unmarshalInputRecipeBatchAdditiveCreateInput(ctx con
 			if err != nil {
 				return it, err
 			}
-		case "deletedAt":
-			var err error
-			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "deletedAt":
+			var err error
+			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -43009,15 +37970,15 @@ func (ec *executionContext) unmarshalInputRecipeBatchAdditiveUpdateInput(ctx con
 			if err != nil {
 				return it, err
 			}
-		case "deletedAt":
-			var err error
-			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "deletedAt":
+			var err error
+			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -43069,15 +38030,15 @@ func (ec *executionContext) unmarshalInputRecipeBatchAdditiveWhere(ctx context.C
 			if err != nil {
 				return it, err
 			}
-		case "deletedAt":
-			var err error
-			it.DeletedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "deletedAt":
+			var err error
+			it.DeletedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -43255,9 +38216,9 @@ func (ec *executionContext) unmarshalInputRecipeBatchFragranceCreateInput(ctx co
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
+		case "createdAt":
 			var err error
-			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
+			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -43267,9 +38228,9 @@ func (ec *executionContext) unmarshalInputRecipeBatchFragranceCreateInput(ctx co
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
+		case "updatedAt":
 			var err error
-			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
+			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -43333,9 +38294,9 @@ func (ec *executionContext) unmarshalInputRecipeBatchFragranceUpdateInput(ctx co
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
+		case "createdAt":
 			var err error
-			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -43345,9 +38306,9 @@ func (ec *executionContext) unmarshalInputRecipeBatchFragranceUpdateInput(ctx co
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
+		case "updatedAt":
 			var err error
-			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -43393,9 +38354,9 @@ func (ec *executionContext) unmarshalInputRecipeBatchFragranceWhere(ctx context.
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
+		case "createdAt":
 			var err error
-			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -43405,9 +38366,9 @@ func (ec *executionContext) unmarshalInputRecipeBatchFragranceWhere(ctx context.
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
+		case "updatedAt":
 			var err error
-			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -43483,15 +38444,15 @@ func (ec *executionContext) unmarshalInputRecipeBatchLipidCreateInput(ctx contex
 			if err != nil {
 				return it, err
 			}
-		case "deletedAt":
-			var err error
-			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "updatedAt":
 			var err error
 			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "deletedAt":
+			var err error
+			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -43561,15 +38522,15 @@ func (ec *executionContext) unmarshalInputRecipeBatchLipidUpdateInput(ctx contex
 			if err != nil {
 				return it, err
 			}
-		case "deletedAt":
-			var err error
-			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "updatedAt":
 			var err error
 			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "deletedAt":
+			var err error
+			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -43621,15 +38582,15 @@ func (ec *executionContext) unmarshalInputRecipeBatchLipidWhere(ctx context.Cont
 			if err != nil {
 				return it, err
 			}
-		case "deletedAt":
-			var err error
-			it.DeletedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "updatedAt":
 			var err error
 			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "deletedAt":
+			var err error
+			it.DeletedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -43711,15 +38672,15 @@ func (ec *executionContext) unmarshalInputRecipeBatchLyeCreateInput(ctx context.
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -43795,15 +38756,15 @@ func (ec *executionContext) unmarshalInputRecipeBatchLyeUpdateInput(ctx context.
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -43861,15 +38822,15 @@ func (ec *executionContext) unmarshalInputRecipeBatchLyeWhere(ctx context.Contex
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -43933,12 +38894,6 @@ func (ec *executionContext) unmarshalInputRecipeBatchNoteCreateInput(ctx context
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
@@ -43948,6 +38903,12 @@ func (ec *executionContext) unmarshalInputRecipeBatchNoteCreateInput(ctx context
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -44005,12 +38966,6 @@ func (ec *executionContext) unmarshalInputRecipeBatchNoteUpdateInput(ctx context
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
@@ -44020,6 +38975,12 @@ func (ec *executionContext) unmarshalInputRecipeBatchNoteUpdateInput(ctx context
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -44059,12 +39020,6 @@ func (ec *executionContext) unmarshalInputRecipeBatchNoteWhere(ctx context.Conte
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
@@ -44074,6 +39029,12 @@ func (ec *executionContext) unmarshalInputRecipeBatchNoteWhere(ctx context.Conte
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -44353,6 +39314,12 @@ func (ec *executionContext) unmarshalInputRecipeCreateInput(ctx context.Context,
 			if err != nil {
 				return it, err
 			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
@@ -44362,12 +39329,6 @@ func (ec *executionContext) unmarshalInputRecipeCreateInput(ctx context.Context,
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -44431,15 +39392,15 @@ func (ec *executionContext) unmarshalInputRecipeFragranceCreateInput(ctx context
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
-			var err error
-			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "updatedAt":
 			var err error
 			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -44503,15 +39464,15 @@ func (ec *executionContext) unmarshalInputRecipeFragranceUpdateInput(ctx context
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
-			var err error
-			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "updatedAt":
 			var err error
 			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -44557,15 +39518,15 @@ func (ec *executionContext) unmarshalInputRecipeFragranceWhere(ctx context.Conte
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
-			var err error
-			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "updatedAt":
 			var err error
 			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -44635,15 +39596,15 @@ func (ec *executionContext) unmarshalInputRecipeLipidCreateInput(ctx context.Con
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
-			var err error
-			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -44707,15 +39668,15 @@ func (ec *executionContext) unmarshalInputRecipeLipidUpdateInput(ctx context.Con
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
-			var err error
-			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -44761,15 +39722,15 @@ func (ec *executionContext) unmarshalInputRecipeLipidWhere(ctx context.Context, 
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
-			var err error
-			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -44833,6 +39794,12 @@ func (ec *executionContext) unmarshalInputRecipeStepCreateInput(ctx context.Cont
 			if err != nil {
 				return it, err
 			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
@@ -44842,12 +39809,6 @@ func (ec *executionContext) unmarshalInputRecipeStepCreateInput(ctx context.Cont
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -44905,6 +39866,12 @@ func (ec *executionContext) unmarshalInputRecipeStepUpdateInput(ctx context.Cont
 			if err != nil {
 				return it, err
 			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
@@ -44914,12 +39881,6 @@ func (ec *executionContext) unmarshalInputRecipeStepUpdateInput(ctx context.Cont
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -44959,6 +39920,12 @@ func (ec *executionContext) unmarshalInputRecipeStepWhere(ctx context.Context, o
 			if err != nil {
 				return it, err
 			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
@@ -44968,12 +39935,6 @@ func (ec *executionContext) unmarshalInputRecipeStepWhere(ctx context.Context, o
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -45031,6 +39992,12 @@ func (ec *executionContext) unmarshalInputRecipeUpdateInput(ctx context.Context,
 			if err != nil {
 				return it, err
 			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
@@ -45040,12 +40007,6 @@ func (ec *executionContext) unmarshalInputRecipeUpdateInput(ctx context.Context,
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -45079,6 +40040,12 @@ func (ec *executionContext) unmarshalInputRecipeWhere(ctx context.Context, obj i
 			if err != nil {
 				return it, err
 			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "deletedAt":
 			var err error
 			it.DeletedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
@@ -45088,12 +40055,6 @@ func (ec *executionContext) unmarshalInputRecipeWhere(ctx context.Context, obj i
 		case "createdAt":
 			var err error
 			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "updatedAt":
-			var err error
-			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -45295,9 +40256,9 @@ func (ec *executionContext) unmarshalInputSupplierCreateInput(ctx context.Contex
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
+		case "createdAt":
 			var err error
-			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
+			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -45307,9 +40268,9 @@ func (ec *executionContext) unmarshalInputSupplierCreateInput(ctx context.Contex
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
+		case "updatedAt":
 			var err error
-			it.CreatedAt, err = ec.unmarshalNInt2int(ctx, v)
+			it.UpdatedAt, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -45367,9 +40328,9 @@ func (ec *executionContext) unmarshalInputSupplierUpdateInput(ctx context.Contex
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
+		case "createdAt":
 			var err error
-			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -45379,9 +40340,9 @@ func (ec *executionContext) unmarshalInputSupplierUpdateInput(ctx context.Contex
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
+		case "updatedAt":
 			var err error
-			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.UpdatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -45421,9 +40382,9 @@ func (ec *executionContext) unmarshalInputSupplierWhere(ctx context.Context, obj
 			if err != nil {
 				return it, err
 			}
-		case "updatedAt":
+		case "createdAt":
 			var err error
-			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -45433,9 +40394,9 @@ func (ec *executionContext) unmarshalInputSupplierWhere(ctx context.Context, obj
 			if err != nil {
 				return it, err
 			}
-		case "createdAt":
+		case "updatedAt":
 			var err error
-			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			it.UpdatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -45533,6 +40494,11 @@ func (ec *executionContext) _Additive(ctx context.Context, sel ast.SelectionSet,
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "updatedAt":
+			out.Values[i] = ec._Additive_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "createdAt":
 			out.Values[i] = ec._Additive_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -45540,11 +40506,6 @@ func (ec *executionContext) _Additive(ctx context.Context, sel ast.SelectionSet,
 			}
 		case "deletedAt":
 			out.Values[i] = ec._Additive_deletedAt(ctx, field, obj)
-		case "updatedAt":
-			out.Values[i] = ec._Additive_updatedAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
 		case "recipeAdditive":
 			out.Values[i] = ec._Additive_recipeAdditive(ctx, field, obj)
 		case "recipeBatchAdditive":
@@ -46265,8 +41226,8 @@ func (ec *executionContext) _AuthPermission(ctx context.Context, sel ast.Selecti
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "contentType":
-			out.Values[i] = ec._AuthPermission_contentType(ctx, field, obj)
+		case "contentTypeId":
+			out.Values[i] = ec._AuthPermission_contentTypeId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -46492,8 +41453,6 @@ func (ec *executionContext) _AuthUser(ctx context.Context, sel ast.SelectionSet,
 			out.Values[i] = ec._AuthUser_userAuthUserGroups(ctx, field, obj)
 		case "userAuthUserUserPermissions":
 			out.Values[i] = ec._AuthUser_userAuthUserUserPermissions(ctx, field, obj)
-		case "userDjangoAdminLogs":
-			out.Values[i] = ec._AuthUser_userDjangoAdminLogs(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -46984,722 +41943,6 @@ func (ec *executionContext) _AuthUsersUpdatePayload(ctx context.Context, sel ast
 	return out
 }
 
-var djangoAdminLogImplementors = []string{"DjangoAdminLog"}
-
-func (ec *executionContext) _DjangoAdminLog(ctx context.Context, sel ast.SelectionSet, obj *DjangoAdminLog) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoAdminLogImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoAdminLog")
-		case "id":
-			out.Values[i] = ec._DjangoAdminLog_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "actionTime":
-			out.Values[i] = ec._DjangoAdminLog_actionTime(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "objectId":
-			out.Values[i] = ec._DjangoAdminLog_objectId(ctx, field, obj)
-		case "objectRepr":
-			out.Values[i] = ec._DjangoAdminLog_objectRepr(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "actionFlag":
-			out.Values[i] = ec._DjangoAdminLog_actionFlag(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "changeMessage":
-			out.Values[i] = ec._DjangoAdminLog_changeMessage(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "contentType":
-			out.Values[i] = ec._DjangoAdminLog_contentType(ctx, field, obj)
-		case "user":
-			out.Values[i] = ec._DjangoAdminLog_user(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoAdminLogDeletePayloadImplementors = []string{"DjangoAdminLogDeletePayload"}
-
-func (ec *executionContext) _DjangoAdminLogDeletePayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoAdminLogDeletePayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoAdminLogDeletePayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoAdminLogDeletePayload")
-		case "id":
-			out.Values[i] = ec._DjangoAdminLogDeletePayload_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoAdminLogPayloadImplementors = []string{"DjangoAdminLogPayload"}
-
-func (ec *executionContext) _DjangoAdminLogPayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoAdminLogPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoAdminLogPayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoAdminLogPayload")
-		case "djangoAdminLog":
-			out.Values[i] = ec._DjangoAdminLogPayload_djangoAdminLog(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoAdminLogsDeletePayloadImplementors = []string{"DjangoAdminLogsDeletePayload"}
-
-func (ec *executionContext) _DjangoAdminLogsDeletePayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoAdminLogsDeletePayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoAdminLogsDeletePayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoAdminLogsDeletePayload")
-		case "ids":
-			out.Values[i] = ec._DjangoAdminLogsDeletePayload_ids(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoAdminLogsPayloadImplementors = []string{"DjangoAdminLogsPayload"}
-
-func (ec *executionContext) _DjangoAdminLogsPayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoAdminLogsPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoAdminLogsPayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoAdminLogsPayload")
-		case "djangoAdminLogs":
-			out.Values[i] = ec._DjangoAdminLogsPayload_djangoAdminLogs(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoAdminLogsUpdatePayloadImplementors = []string{"DjangoAdminLogsUpdatePayload"}
-
-func (ec *executionContext) _DjangoAdminLogsUpdatePayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoAdminLogsUpdatePayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoAdminLogsUpdatePayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoAdminLogsUpdatePayload")
-		case "ok":
-			out.Values[i] = ec._DjangoAdminLogsUpdatePayload_ok(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoContentTypeImplementors = []string{"DjangoContentType"}
-
-func (ec *executionContext) _DjangoContentType(ctx context.Context, sel ast.SelectionSet, obj *DjangoContentType) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoContentTypeImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoContentType")
-		case "id":
-			out.Values[i] = ec._DjangoContentType_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "appLabel":
-			out.Values[i] = ec._DjangoContentType_appLabel(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "model":
-			out.Values[i] = ec._DjangoContentType_model(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "contentTypeAuthPermissions":
-			out.Values[i] = ec._DjangoContentType_contentTypeAuthPermissions(ctx, field, obj)
-		case "contentTypeDjangoAdminLogs":
-			out.Values[i] = ec._DjangoContentType_contentTypeDjangoAdminLogs(ctx, field, obj)
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoContentTypeDeletePayloadImplementors = []string{"DjangoContentTypeDeletePayload"}
-
-func (ec *executionContext) _DjangoContentTypeDeletePayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoContentTypeDeletePayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoContentTypeDeletePayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoContentTypeDeletePayload")
-		case "id":
-			out.Values[i] = ec._DjangoContentTypeDeletePayload_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoContentTypePayloadImplementors = []string{"DjangoContentTypePayload"}
-
-func (ec *executionContext) _DjangoContentTypePayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoContentTypePayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoContentTypePayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoContentTypePayload")
-		case "djangoContentType":
-			out.Values[i] = ec._DjangoContentTypePayload_djangoContentType(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoContentTypesDeletePayloadImplementors = []string{"DjangoContentTypesDeletePayload"}
-
-func (ec *executionContext) _DjangoContentTypesDeletePayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoContentTypesDeletePayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoContentTypesDeletePayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoContentTypesDeletePayload")
-		case "ids":
-			out.Values[i] = ec._DjangoContentTypesDeletePayload_ids(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoContentTypesPayloadImplementors = []string{"DjangoContentTypesPayload"}
-
-func (ec *executionContext) _DjangoContentTypesPayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoContentTypesPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoContentTypesPayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoContentTypesPayload")
-		case "djangoContentTypes":
-			out.Values[i] = ec._DjangoContentTypesPayload_djangoContentTypes(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoContentTypesUpdatePayloadImplementors = []string{"DjangoContentTypesUpdatePayload"}
-
-func (ec *executionContext) _DjangoContentTypesUpdatePayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoContentTypesUpdatePayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoContentTypesUpdatePayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoContentTypesUpdatePayload")
-		case "ok":
-			out.Values[i] = ec._DjangoContentTypesUpdatePayload_ok(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoMigrationImplementors = []string{"DjangoMigration"}
-
-func (ec *executionContext) _DjangoMigration(ctx context.Context, sel ast.SelectionSet, obj *DjangoMigration) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoMigrationImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoMigration")
-		case "id":
-			out.Values[i] = ec._DjangoMigration_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "app":
-			out.Values[i] = ec._DjangoMigration_app(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "name":
-			out.Values[i] = ec._DjangoMigration_name(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "applied":
-			out.Values[i] = ec._DjangoMigration_applied(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoMigrationDeletePayloadImplementors = []string{"DjangoMigrationDeletePayload"}
-
-func (ec *executionContext) _DjangoMigrationDeletePayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoMigrationDeletePayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoMigrationDeletePayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoMigrationDeletePayload")
-		case "id":
-			out.Values[i] = ec._DjangoMigrationDeletePayload_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoMigrationPayloadImplementors = []string{"DjangoMigrationPayload"}
-
-func (ec *executionContext) _DjangoMigrationPayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoMigrationPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoMigrationPayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoMigrationPayload")
-		case "djangoMigration":
-			out.Values[i] = ec._DjangoMigrationPayload_djangoMigration(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoMigrationsDeletePayloadImplementors = []string{"DjangoMigrationsDeletePayload"}
-
-func (ec *executionContext) _DjangoMigrationsDeletePayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoMigrationsDeletePayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoMigrationsDeletePayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoMigrationsDeletePayload")
-		case "ids":
-			out.Values[i] = ec._DjangoMigrationsDeletePayload_ids(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoMigrationsPayloadImplementors = []string{"DjangoMigrationsPayload"}
-
-func (ec *executionContext) _DjangoMigrationsPayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoMigrationsPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoMigrationsPayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoMigrationsPayload")
-		case "djangoMigrations":
-			out.Values[i] = ec._DjangoMigrationsPayload_djangoMigrations(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoMigrationsUpdatePayloadImplementors = []string{"DjangoMigrationsUpdatePayload"}
-
-func (ec *executionContext) _DjangoMigrationsUpdatePayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoMigrationsUpdatePayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoMigrationsUpdatePayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoMigrationsUpdatePayload")
-		case "ok":
-			out.Values[i] = ec._DjangoMigrationsUpdatePayload_ok(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoSessionImplementors = []string{"DjangoSession"}
-
-func (ec *executionContext) _DjangoSession(ctx context.Context, sel ast.SelectionSet, obj *DjangoSession) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoSessionImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoSession")
-		case "sessionKey":
-			out.Values[i] = ec._DjangoSession_sessionKey(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "sessionData":
-			out.Values[i] = ec._DjangoSession_sessionData(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "expireDate":
-			out.Values[i] = ec._DjangoSession_expireDate(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoSessionDeletePayloadImplementors = []string{"DjangoSessionDeletePayload"}
-
-func (ec *executionContext) _DjangoSessionDeletePayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoSessionDeletePayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoSessionDeletePayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoSessionDeletePayload")
-		case "id":
-			out.Values[i] = ec._DjangoSessionDeletePayload_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoSessionPayloadImplementors = []string{"DjangoSessionPayload"}
-
-func (ec *executionContext) _DjangoSessionPayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoSessionPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoSessionPayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoSessionPayload")
-		case "djangoSession":
-			out.Values[i] = ec._DjangoSessionPayload_djangoSession(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoSessionsDeletePayloadImplementors = []string{"DjangoSessionsDeletePayload"}
-
-func (ec *executionContext) _DjangoSessionsDeletePayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoSessionsDeletePayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoSessionsDeletePayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoSessionsDeletePayload")
-		case "ids":
-			out.Values[i] = ec._DjangoSessionsDeletePayload_ids(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoSessionsPayloadImplementors = []string{"DjangoSessionsPayload"}
-
-func (ec *executionContext) _DjangoSessionsPayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoSessionsPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoSessionsPayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoSessionsPayload")
-		case "djangoSessions":
-			out.Values[i] = ec._DjangoSessionsPayload_djangoSessions(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var djangoSessionsUpdatePayloadImplementors = []string{"DjangoSessionsUpdatePayload"}
-
-func (ec *executionContext) _DjangoSessionsUpdatePayload(ctx context.Context, sel ast.SelectionSet, obj *DjangoSessionsUpdatePayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, djangoSessionsUpdatePayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DjangoSessionsUpdatePayload")
-		case "ok":
-			out.Values[i] = ec._DjangoSessionsUpdatePayload_ok(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
 var fragranceImplementors = []string{"Fragrance"}
 
 func (ec *executionContext) _Fragrance(ctx context.Context, sel ast.SelectionSet, obj *Fragrance) graphql.Marshaler {
@@ -47728,13 +41971,13 @@ func (ec *executionContext) _Fragrance(ctx context.Context, sel ast.SelectionSet
 			}
 		case "deletedAt":
 			out.Values[i] = ec._Fragrance_deletedAt(ctx, field, obj)
-		case "updatedAt":
-			out.Values[i] = ec._Fragrance_updatedAt(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._Fragrance_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "createdAt":
-			out.Values[i] = ec._Fragrance_createdAt(ctx, field, obj)
+		case "updatedAt":
+			out.Values[i] = ec._Fragrance_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -47909,11 +42152,6 @@ func (ec *executionContext) _FragranceInventory(ctx context.Context, sel ast.Sel
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "updatedAt":
-			out.Values[i] = ec._FragranceInventory_updatedAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
 		case "createdAt":
 			out.Values[i] = ec._FragranceInventory_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -47921,6 +42159,11 @@ func (ec *executionContext) _FragranceInventory(ctx context.Context, sel ast.Sel
 			}
 		case "deletedAt":
 			out.Values[i] = ec._FragranceInventory_deletedAt(ctx, field, obj)
+		case "updatedAt":
+			out.Values[i] = ec._FragranceInventory_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -48205,13 +42448,13 @@ func (ec *executionContext) _Lipid(ctx context.Context, sel ast.SelectionSet, ob
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "deletedAt":
+			out.Values[i] = ec._Lipid_deletedAt(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._Lipid_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "deletedAt":
-			out.Values[i] = ec._Lipid_deletedAt(ctx, field, obj)
 		case "updatedAt":
 			out.Values[i] = ec._Lipid_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -48624,18 +42867,18 @@ func (ec *executionContext) _Lye(ctx context.Context, sel ast.SelectionSet, obj 
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "createdAt":
-			out.Values[i] = ec._Lye_createdAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
+		case "deletedAt":
+			out.Values[i] = ec._Lye_deletedAt(ctx, field, obj)
 		case "updatedAt":
 			out.Values[i] = ec._Lye_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "deletedAt":
-			out.Values[i] = ec._Lye_deletedAt(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._Lye_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "recipeBatchLye":
 			out.Values[i] = ec._Lye_recipeBatchLye(ctx, field, obj)
 		case "lyeInventories":
@@ -48812,13 +43055,13 @@ func (ec *executionContext) _LyeInventory(ctx context.Context, sel ast.Selection
 			}
 		case "deletedAt":
 			out.Values[i] = ec._LyeInventory_deletedAt(ctx, field, obj)
-		case "createdAt":
-			out.Values[i] = ec._LyeInventory_createdAt(ctx, field, obj)
+		case "updatedAt":
+			out.Values[i] = ec._LyeInventory_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "updatedAt":
-			out.Values[i] = ec._LyeInventory_updatedAt(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._LyeInventory_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -49247,126 +43490,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			}
 		case "deleteAuthUserUserPermissions":
 			out.Values[i] = ec._Mutation_deleteAuthUserUserPermissions(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "createDjangoAdminLog":
-			out.Values[i] = ec._Mutation_createDjangoAdminLog(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "createDjangoAdminLogs":
-			out.Values[i] = ec._Mutation_createDjangoAdminLogs(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "updateDjangoAdminLog":
-			out.Values[i] = ec._Mutation_updateDjangoAdminLog(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "updateDjangoAdminLogs":
-			out.Values[i] = ec._Mutation_updateDjangoAdminLogs(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "deleteDjangoAdminLog":
-			out.Values[i] = ec._Mutation_deleteDjangoAdminLog(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "deleteDjangoAdminLogs":
-			out.Values[i] = ec._Mutation_deleteDjangoAdminLogs(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "createDjangoContentType":
-			out.Values[i] = ec._Mutation_createDjangoContentType(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "createDjangoContentTypes":
-			out.Values[i] = ec._Mutation_createDjangoContentTypes(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "updateDjangoContentType":
-			out.Values[i] = ec._Mutation_updateDjangoContentType(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "updateDjangoContentTypes":
-			out.Values[i] = ec._Mutation_updateDjangoContentTypes(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "deleteDjangoContentType":
-			out.Values[i] = ec._Mutation_deleteDjangoContentType(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "deleteDjangoContentTypes":
-			out.Values[i] = ec._Mutation_deleteDjangoContentTypes(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "createDjangoMigration":
-			out.Values[i] = ec._Mutation_createDjangoMigration(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "createDjangoMigrations":
-			out.Values[i] = ec._Mutation_createDjangoMigrations(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "updateDjangoMigration":
-			out.Values[i] = ec._Mutation_updateDjangoMigration(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "updateDjangoMigrations":
-			out.Values[i] = ec._Mutation_updateDjangoMigrations(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "deleteDjangoMigration":
-			out.Values[i] = ec._Mutation_deleteDjangoMigration(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "deleteDjangoMigrations":
-			out.Values[i] = ec._Mutation_deleteDjangoMigrations(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "createDjangoSession":
-			out.Values[i] = ec._Mutation_createDjangoSession(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "createDjangoSessions":
-			out.Values[i] = ec._Mutation_createDjangoSessions(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "updateDjangoSession":
-			out.Values[i] = ec._Mutation_updateDjangoSession(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "updateDjangoSessions":
-			out.Values[i] = ec._Mutation_updateDjangoSessions(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "deleteDjangoSession":
-			out.Values[i] = ec._Mutation_deleteDjangoSession(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "deleteDjangoSessions":
-			out.Values[i] = ec._Mutation_deleteDjangoSessions(ctx, field)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -50160,118 +44283,6 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				}
 				return res
 			})
-		case "djangoAdminLog":
-			field := field
-			out.Concurrently(i, func() (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_djangoAdminLog(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&invalids, 1)
-				}
-				return res
-			})
-		case "djangoAdminLogs":
-			field := field
-			out.Concurrently(i, func() (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_djangoAdminLogs(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&invalids, 1)
-				}
-				return res
-			})
-		case "djangoContentType":
-			field := field
-			out.Concurrently(i, func() (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_djangoContentType(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&invalids, 1)
-				}
-				return res
-			})
-		case "djangoContentTypes":
-			field := field
-			out.Concurrently(i, func() (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_djangoContentTypes(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&invalids, 1)
-				}
-				return res
-			})
-		case "djangoMigration":
-			field := field
-			out.Concurrently(i, func() (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_djangoMigration(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&invalids, 1)
-				}
-				return res
-			})
-		case "djangoMigrations":
-			field := field
-			out.Concurrently(i, func() (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_djangoMigrations(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&invalids, 1)
-				}
-				return res
-			})
-		case "djangoSession":
-			field := field
-			out.Concurrently(i, func() (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_djangoSession(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&invalids, 1)
-				}
-				return res
-			})
-		case "djangoSessions":
-			field := field
-			out.Concurrently(i, func() (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_djangoSessions(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&invalids, 1)
-				}
-				return res
-			})
 		case "fragrance":
 			field := field
 			out.Concurrently(i, func() (res graphql.Marshaler) {
@@ -50817,15 +44828,15 @@ func (ec *executionContext) _Recipe(ctx context.Context, sel ast.SelectionSet, o
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "updatedAt":
+			out.Values[i] = ec._Recipe_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "deletedAt":
 			out.Values[i] = ec._Recipe_deletedAt(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._Recipe_createdAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "updatedAt":
-			out.Values[i] = ec._Recipe_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -50881,13 +44892,13 @@ func (ec *executionContext) _RecipeAdditive(ctx context.Context, sel ast.Selecti
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "updatedAt":
-			out.Values[i] = ec._RecipeAdditive_updatedAt(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._RecipeAdditive_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "createdAt":
-			out.Values[i] = ec._RecipeAdditive_createdAt(ctx, field, obj)
+		case "updatedAt":
+			out.Values[i] = ec._RecipeAdditive_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -51164,13 +45175,13 @@ func (ec *executionContext) _RecipeBatchAdditive(ctx context.Context, sel ast.Se
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "deletedAt":
-			out.Values[i] = ec._RecipeBatchAdditive_deletedAt(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._RecipeBatchAdditive_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "deletedAt":
+			out.Values[i] = ec._RecipeBatchAdditive_deletedAt(ctx, field, obj)
 		case "updatedAt":
 			out.Values[i] = ec._RecipeBatchAdditive_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -51385,15 +45396,15 @@ func (ec *executionContext) _RecipeBatchFragrance(ctx context.Context, sel ast.S
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "updatedAt":
-			out.Values[i] = ec._RecipeBatchFragrance_updatedAt(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._RecipeBatchFragrance_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "deletedAt":
 			out.Values[i] = ec._RecipeBatchFragrance_deletedAt(ctx, field, obj)
-		case "createdAt":
-			out.Values[i] = ec._RecipeBatchFragrance_createdAt(ctx, field, obj)
+		case "updatedAt":
+			out.Values[i] = ec._RecipeBatchFragrance_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -51584,13 +45595,13 @@ func (ec *executionContext) _RecipeBatchLipid(ctx context.Context, sel ast.Selec
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "deletedAt":
-			out.Values[i] = ec._RecipeBatchLipid_deletedAt(ctx, field, obj)
 		case "updatedAt":
 			out.Values[i] = ec._RecipeBatchLipid_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "deletedAt":
+			out.Values[i] = ec._RecipeBatchLipid_deletedAt(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -51783,13 +45794,13 @@ func (ec *executionContext) _RecipeBatchLye(ctx context.Context, sel ast.Selecti
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "deletedAt":
+			out.Values[i] = ec._RecipeBatchLye_deletedAt(ctx, field, obj)
 		case "updatedAt":
 			out.Values[i] = ec._RecipeBatchLye_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "deletedAt":
-			out.Values[i] = ec._RecipeBatchLye_deletedAt(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -51967,15 +45978,15 @@ func (ec *executionContext) _RecipeBatchNote(ctx context.Context, sel ast.Select
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "updatedAt":
-			out.Values[i] = ec._RecipeBatchNote_updatedAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
 		case "deletedAt":
 			out.Values[i] = ec._RecipeBatchNote_deletedAt(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._RecipeBatchNote_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updatedAt":
+			out.Values[i] = ec._RecipeBatchNote_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -52293,13 +46304,13 @@ func (ec *executionContext) _RecipeFragrance(ctx context.Context, sel ast.Select
 			}
 		case "deletedAt":
 			out.Values[i] = ec._RecipeFragrance_deletedAt(ctx, field, obj)
-		case "createdAt":
-			out.Values[i] = ec._RecipeFragrance_createdAt(ctx, field, obj)
+		case "updatedAt":
+			out.Values[i] = ec._RecipeFragrance_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "updatedAt":
-			out.Values[i] = ec._RecipeFragrance_updatedAt(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._RecipeFragrance_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -52485,13 +46496,13 @@ func (ec *executionContext) _RecipeLipid(ctx context.Context, sel ast.SelectionS
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "deletedAt":
+			out.Values[i] = ec._RecipeLipid_deletedAt(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._RecipeLipid_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "deletedAt":
-			out.Values[i] = ec._RecipeLipid_deletedAt(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -52696,15 +46707,15 @@ func (ec *executionContext) _RecipeStep(ctx context.Context, sel ast.SelectionSe
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "updatedAt":
+			out.Values[i] = ec._RecipeStep_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "deletedAt":
 			out.Values[i] = ec._RecipeStep_deletedAt(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._RecipeStep_createdAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "updatedAt":
-			out.Values[i] = ec._RecipeStep_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -52966,15 +46977,15 @@ func (ec *executionContext) _Supplier(ctx context.Context, sel ast.SelectionSet,
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "updatedAt":
-			out.Values[i] = ec._Supplier_updatedAt(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._Supplier_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "deletedAt":
 			out.Values[i] = ec._Supplier_deletedAt(ctx, field, obj)
-		case "createdAt":
-			out.Values[i] = ec._Supplier_createdAt(ctx, field, obj)
+		case "updatedAt":
+			out.Values[i] = ec._Supplier_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -54677,650 +48688,6 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 		}
 	}
 	return res
-}
-
-func (ec *executionContext) marshalNDjangoAdminLog2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLog(ctx context.Context, sel ast.SelectionSet, v DjangoAdminLog) graphql.Marshaler {
-	return ec._DjangoAdminLog(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoAdminLog2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogᚄ(ctx context.Context, sel ast.SelectionSet, v []*DjangoAdminLog) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNDjangoAdminLog2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLog(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
-}
-
-func (ec *executionContext) marshalNDjangoAdminLog2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLog(ctx context.Context, sel ast.SelectionSet, v *DjangoAdminLog) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoAdminLog(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoAdminLogCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogCreateInput(ctx context.Context, v interface{}) (DjangoAdminLogCreateInput, error) {
-	return ec.unmarshalInputDjangoAdminLogCreateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoAdminLogCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogCreateInputᚄ(ctx context.Context, v interface{}) ([]*DjangoAdminLogCreateInput, error) {
-	var vSlice []interface{}
-	if v != nil {
-		if tmp1, ok := v.([]interface{}); ok {
-			vSlice = tmp1
-		} else {
-			vSlice = []interface{}{v}
-		}
-	}
-	var err error
-	res := make([]*DjangoAdminLogCreateInput, len(vSlice))
-	for i := range vSlice {
-		res[i], err = ec.unmarshalNDjangoAdminLogCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogCreateInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNDjangoAdminLogCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogCreateInput(ctx context.Context, v interface{}) (*DjangoAdminLogCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNDjangoAdminLogCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogCreateInput(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) marshalNDjangoAdminLogDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogDeletePayload(ctx context.Context, sel ast.SelectionSet, v DjangoAdminLogDeletePayload) graphql.Marshaler {
-	return ec._DjangoAdminLogDeletePayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoAdminLogDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogDeletePayload(ctx context.Context, sel ast.SelectionSet, v *DjangoAdminLogDeletePayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoAdminLogDeletePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDjangoAdminLogPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogPayload(ctx context.Context, sel ast.SelectionSet, v DjangoAdminLogPayload) graphql.Marshaler {
-	return ec._DjangoAdminLogPayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoAdminLogPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogPayload(ctx context.Context, sel ast.SelectionSet, v *DjangoAdminLogPayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoAdminLogPayload(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoAdminLogUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogUpdateInput(ctx context.Context, v interface{}) (DjangoAdminLogUpdateInput, error) {
-	return ec.unmarshalInputDjangoAdminLogUpdateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoAdminLogsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogsCreateInput(ctx context.Context, v interface{}) (DjangoAdminLogsCreateInput, error) {
-	return ec.unmarshalInputDjangoAdminLogsCreateInput(ctx, v)
-}
-
-func (ec *executionContext) marshalNDjangoAdminLogsDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogsDeletePayload(ctx context.Context, sel ast.SelectionSet, v DjangoAdminLogsDeletePayload) graphql.Marshaler {
-	return ec._DjangoAdminLogsDeletePayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoAdminLogsDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogsDeletePayload(ctx context.Context, sel ast.SelectionSet, v *DjangoAdminLogsDeletePayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoAdminLogsDeletePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDjangoAdminLogsPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogsPayload(ctx context.Context, sel ast.SelectionSet, v DjangoAdminLogsPayload) graphql.Marshaler {
-	return ec._DjangoAdminLogsPayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoAdminLogsPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogsPayload(ctx context.Context, sel ast.SelectionSet, v *DjangoAdminLogsPayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoAdminLogsPayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDjangoAdminLogsUpdatePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogsUpdatePayload(ctx context.Context, sel ast.SelectionSet, v DjangoAdminLogsUpdatePayload) graphql.Marshaler {
-	return ec._DjangoAdminLogsUpdatePayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoAdminLogsUpdatePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogsUpdatePayload(ctx context.Context, sel ast.SelectionSet, v *DjangoAdminLogsUpdatePayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoAdminLogsUpdatePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDjangoContentType2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentType(ctx context.Context, sel ast.SelectionSet, v DjangoContentType) graphql.Marshaler {
-	return ec._DjangoContentType(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoContentType2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeᚄ(ctx context.Context, sel ast.SelectionSet, v []*DjangoContentType) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNDjangoContentType2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentType(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
-}
-
-func (ec *executionContext) marshalNDjangoContentType2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentType(ctx context.Context, sel ast.SelectionSet, v *DjangoContentType) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoContentType(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoContentTypeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeCreateInput(ctx context.Context, v interface{}) (DjangoContentTypeCreateInput, error) {
-	return ec.unmarshalInputDjangoContentTypeCreateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoContentTypeCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeCreateInputᚄ(ctx context.Context, v interface{}) ([]*DjangoContentTypeCreateInput, error) {
-	var vSlice []interface{}
-	if v != nil {
-		if tmp1, ok := v.([]interface{}); ok {
-			vSlice = tmp1
-		} else {
-			vSlice = []interface{}{v}
-		}
-	}
-	var err error
-	res := make([]*DjangoContentTypeCreateInput, len(vSlice))
-	for i := range vSlice {
-		res[i], err = ec.unmarshalNDjangoContentTypeCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeCreateInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNDjangoContentTypeCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeCreateInput(ctx context.Context, v interface{}) (*DjangoContentTypeCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNDjangoContentTypeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeCreateInput(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) marshalNDjangoContentTypeDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeDeletePayload(ctx context.Context, sel ast.SelectionSet, v DjangoContentTypeDeletePayload) graphql.Marshaler {
-	return ec._DjangoContentTypeDeletePayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoContentTypeDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeDeletePayload(ctx context.Context, sel ast.SelectionSet, v *DjangoContentTypeDeletePayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoContentTypeDeletePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDjangoContentTypePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypePayload(ctx context.Context, sel ast.SelectionSet, v DjangoContentTypePayload) graphql.Marshaler {
-	return ec._DjangoContentTypePayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoContentTypePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypePayload(ctx context.Context, sel ast.SelectionSet, v *DjangoContentTypePayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoContentTypePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoContentTypeUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeUpdateInput(ctx context.Context, v interface{}) (DjangoContentTypeUpdateInput, error) {
-	return ec.unmarshalInputDjangoContentTypeUpdateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoContentTypesCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypesCreateInput(ctx context.Context, v interface{}) (DjangoContentTypesCreateInput, error) {
-	return ec.unmarshalInputDjangoContentTypesCreateInput(ctx, v)
-}
-
-func (ec *executionContext) marshalNDjangoContentTypesDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypesDeletePayload(ctx context.Context, sel ast.SelectionSet, v DjangoContentTypesDeletePayload) graphql.Marshaler {
-	return ec._DjangoContentTypesDeletePayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoContentTypesDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypesDeletePayload(ctx context.Context, sel ast.SelectionSet, v *DjangoContentTypesDeletePayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoContentTypesDeletePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDjangoContentTypesPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypesPayload(ctx context.Context, sel ast.SelectionSet, v DjangoContentTypesPayload) graphql.Marshaler {
-	return ec._DjangoContentTypesPayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoContentTypesPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypesPayload(ctx context.Context, sel ast.SelectionSet, v *DjangoContentTypesPayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoContentTypesPayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDjangoContentTypesUpdatePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypesUpdatePayload(ctx context.Context, sel ast.SelectionSet, v DjangoContentTypesUpdatePayload) graphql.Marshaler {
-	return ec._DjangoContentTypesUpdatePayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoContentTypesUpdatePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypesUpdatePayload(ctx context.Context, sel ast.SelectionSet, v *DjangoContentTypesUpdatePayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoContentTypesUpdatePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDjangoMigration2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigration(ctx context.Context, sel ast.SelectionSet, v DjangoMigration) graphql.Marshaler {
-	return ec._DjangoMigration(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoMigration2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationᚄ(ctx context.Context, sel ast.SelectionSet, v []*DjangoMigration) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNDjangoMigration2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigration(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
-}
-
-func (ec *executionContext) marshalNDjangoMigration2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigration(ctx context.Context, sel ast.SelectionSet, v *DjangoMigration) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoMigration(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoMigrationCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationCreateInput(ctx context.Context, v interface{}) (DjangoMigrationCreateInput, error) {
-	return ec.unmarshalInputDjangoMigrationCreateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoMigrationCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationCreateInputᚄ(ctx context.Context, v interface{}) ([]*DjangoMigrationCreateInput, error) {
-	var vSlice []interface{}
-	if v != nil {
-		if tmp1, ok := v.([]interface{}); ok {
-			vSlice = tmp1
-		} else {
-			vSlice = []interface{}{v}
-		}
-	}
-	var err error
-	res := make([]*DjangoMigrationCreateInput, len(vSlice))
-	for i := range vSlice {
-		res[i], err = ec.unmarshalNDjangoMigrationCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationCreateInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNDjangoMigrationCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationCreateInput(ctx context.Context, v interface{}) (*DjangoMigrationCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNDjangoMigrationCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationCreateInput(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) marshalNDjangoMigrationDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationDeletePayload(ctx context.Context, sel ast.SelectionSet, v DjangoMigrationDeletePayload) graphql.Marshaler {
-	return ec._DjangoMigrationDeletePayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoMigrationDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationDeletePayload(ctx context.Context, sel ast.SelectionSet, v *DjangoMigrationDeletePayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoMigrationDeletePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDjangoMigrationPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationPayload(ctx context.Context, sel ast.SelectionSet, v DjangoMigrationPayload) graphql.Marshaler {
-	return ec._DjangoMigrationPayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoMigrationPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationPayload(ctx context.Context, sel ast.SelectionSet, v *DjangoMigrationPayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoMigrationPayload(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoMigrationUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationUpdateInput(ctx context.Context, v interface{}) (DjangoMigrationUpdateInput, error) {
-	return ec.unmarshalInputDjangoMigrationUpdateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoMigrationsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationsCreateInput(ctx context.Context, v interface{}) (DjangoMigrationsCreateInput, error) {
-	return ec.unmarshalInputDjangoMigrationsCreateInput(ctx, v)
-}
-
-func (ec *executionContext) marshalNDjangoMigrationsDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationsDeletePayload(ctx context.Context, sel ast.SelectionSet, v DjangoMigrationsDeletePayload) graphql.Marshaler {
-	return ec._DjangoMigrationsDeletePayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoMigrationsDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationsDeletePayload(ctx context.Context, sel ast.SelectionSet, v *DjangoMigrationsDeletePayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoMigrationsDeletePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDjangoMigrationsPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationsPayload(ctx context.Context, sel ast.SelectionSet, v DjangoMigrationsPayload) graphql.Marshaler {
-	return ec._DjangoMigrationsPayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoMigrationsPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationsPayload(ctx context.Context, sel ast.SelectionSet, v *DjangoMigrationsPayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoMigrationsPayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDjangoMigrationsUpdatePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationsUpdatePayload(ctx context.Context, sel ast.SelectionSet, v DjangoMigrationsUpdatePayload) graphql.Marshaler {
-	return ec._DjangoMigrationsUpdatePayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoMigrationsUpdatePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationsUpdatePayload(ctx context.Context, sel ast.SelectionSet, v *DjangoMigrationsUpdatePayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoMigrationsUpdatePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDjangoSession2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSession(ctx context.Context, sel ast.SelectionSet, v DjangoSession) graphql.Marshaler {
-	return ec._DjangoSession(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoSession2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionᚄ(ctx context.Context, sel ast.SelectionSet, v []*DjangoSession) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNDjangoSession2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSession(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
-}
-
-func (ec *executionContext) marshalNDjangoSession2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSession(ctx context.Context, sel ast.SelectionSet, v *DjangoSession) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoSession(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoSessionCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionCreateInput(ctx context.Context, v interface{}) (DjangoSessionCreateInput, error) {
-	return ec.unmarshalInputDjangoSessionCreateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoSessionCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionCreateInputᚄ(ctx context.Context, v interface{}) ([]*DjangoSessionCreateInput, error) {
-	var vSlice []interface{}
-	if v != nil {
-		if tmp1, ok := v.([]interface{}); ok {
-			vSlice = tmp1
-		} else {
-			vSlice = []interface{}{v}
-		}
-	}
-	var err error
-	res := make([]*DjangoSessionCreateInput, len(vSlice))
-	for i := range vSlice {
-		res[i], err = ec.unmarshalNDjangoSessionCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionCreateInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNDjangoSessionCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionCreateInput(ctx context.Context, v interface{}) (*DjangoSessionCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNDjangoSessionCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionCreateInput(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) marshalNDjangoSessionDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionDeletePayload(ctx context.Context, sel ast.SelectionSet, v DjangoSessionDeletePayload) graphql.Marshaler {
-	return ec._DjangoSessionDeletePayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoSessionDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionDeletePayload(ctx context.Context, sel ast.SelectionSet, v *DjangoSessionDeletePayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoSessionDeletePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDjangoSessionPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionPayload(ctx context.Context, sel ast.SelectionSet, v DjangoSessionPayload) graphql.Marshaler {
-	return ec._DjangoSessionPayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoSessionPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionPayload(ctx context.Context, sel ast.SelectionSet, v *DjangoSessionPayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoSessionPayload(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoSessionUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionUpdateInput(ctx context.Context, v interface{}) (DjangoSessionUpdateInput, error) {
-	return ec.unmarshalInputDjangoSessionUpdateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNDjangoSessionsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionsCreateInput(ctx context.Context, v interface{}) (DjangoSessionsCreateInput, error) {
-	return ec.unmarshalInputDjangoSessionsCreateInput(ctx, v)
-}
-
-func (ec *executionContext) marshalNDjangoSessionsDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionsDeletePayload(ctx context.Context, sel ast.SelectionSet, v DjangoSessionsDeletePayload) graphql.Marshaler {
-	return ec._DjangoSessionsDeletePayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoSessionsDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionsDeletePayload(ctx context.Context, sel ast.SelectionSet, v *DjangoSessionsDeletePayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoSessionsDeletePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDjangoSessionsPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionsPayload(ctx context.Context, sel ast.SelectionSet, v DjangoSessionsPayload) graphql.Marshaler {
-	return ec._DjangoSessionsPayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoSessionsPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionsPayload(ctx context.Context, sel ast.SelectionSet, v *DjangoSessionsPayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoSessionsPayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDjangoSessionsUpdatePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionsUpdatePayload(ctx context.Context, sel ast.SelectionSet, v DjangoSessionsUpdatePayload) graphql.Marshaler {
-	return ec._DjangoSessionsUpdatePayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDjangoSessionsUpdatePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionsUpdatePayload(ctx context.Context, sel ast.SelectionSet, v *DjangoSessionsUpdatePayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._DjangoSessionsUpdatePayload(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNFloat2float64(ctx context.Context, v interface{}) (float64, error) {
@@ -58730,57 +52097,6 @@ func (ec *executionContext) unmarshalOAuthGroupWhere2ᚖgithubᚗcomᚋwebᚑrid
 	return &res, err
 }
 
-func (ec *executionContext) marshalOAuthPermission2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthPermission(ctx context.Context, sel ast.SelectionSet, v AuthPermission) graphql.Marshaler {
-	return ec._AuthPermission(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalOAuthPermission2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthPermission(ctx context.Context, sel ast.SelectionSet, v []*AuthPermission) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalOAuthPermission2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthPermission(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
-}
-
-func (ec *executionContext) marshalOAuthPermission2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthPermission(ctx context.Context, sel ast.SelectionSet, v *AuthPermission) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	return ec._AuthPermission(ctx, sel, v)
-}
-
 func (ec *executionContext) unmarshalOAuthPermissionFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐAuthPermissionFilter(ctx context.Context, v interface{}) (AuthPermissionFilter, error) {
 	return ec.unmarshalInputAuthPermissionFilter(ctx, v)
 }
@@ -59011,164 +52327,6 @@ func (ec *executionContext) unmarshalOBooleanFilter2ᚖgithubᚗcomᚋwebᚑridg
 		return nil, nil
 	}
 	res, err := ec.unmarshalOBooleanFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐBooleanFilter(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) marshalODjangoAdminLog2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLog(ctx context.Context, sel ast.SelectionSet, v DjangoAdminLog) graphql.Marshaler {
-	return ec._DjangoAdminLog(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalODjangoAdminLog2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLog(ctx context.Context, sel ast.SelectionSet, v []*DjangoAdminLog) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalODjangoAdminLog2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLog(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
-}
-
-func (ec *executionContext) marshalODjangoAdminLog2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLog(ctx context.Context, sel ast.SelectionSet, v *DjangoAdminLog) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	return ec._DjangoAdminLog(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalODjangoAdminLogFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogFilter(ctx context.Context, v interface{}) (DjangoAdminLogFilter, error) {
-	return ec.unmarshalInputDjangoAdminLogFilter(ctx, v)
-}
-
-func (ec *executionContext) unmarshalODjangoAdminLogFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogFilter(ctx context.Context, v interface{}) (*DjangoAdminLogFilter, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalODjangoAdminLogFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogFilter(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) unmarshalODjangoAdminLogWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogWhere(ctx context.Context, v interface{}) (DjangoAdminLogWhere, error) {
-	return ec.unmarshalInputDjangoAdminLogWhere(ctx, v)
-}
-
-func (ec *executionContext) unmarshalODjangoAdminLogWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogWhere(ctx context.Context, v interface{}) (*DjangoAdminLogWhere, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalODjangoAdminLogWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoAdminLogWhere(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) marshalODjangoContentType2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentType(ctx context.Context, sel ast.SelectionSet, v DjangoContentType) graphql.Marshaler {
-	return ec._DjangoContentType(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalODjangoContentType2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentType(ctx context.Context, sel ast.SelectionSet, v *DjangoContentType) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	return ec._DjangoContentType(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalODjangoContentTypeFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeFilter(ctx context.Context, v interface{}) (DjangoContentTypeFilter, error) {
-	return ec.unmarshalInputDjangoContentTypeFilter(ctx, v)
-}
-
-func (ec *executionContext) unmarshalODjangoContentTypeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeFilter(ctx context.Context, v interface{}) (*DjangoContentTypeFilter, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalODjangoContentTypeFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeFilter(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) unmarshalODjangoContentTypeWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeWhere(ctx context.Context, v interface{}) (DjangoContentTypeWhere, error) {
-	return ec.unmarshalInputDjangoContentTypeWhere(ctx, v)
-}
-
-func (ec *executionContext) unmarshalODjangoContentTypeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeWhere(ctx context.Context, v interface{}) (*DjangoContentTypeWhere, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalODjangoContentTypeWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoContentTypeWhere(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) unmarshalODjangoMigrationFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationFilter(ctx context.Context, v interface{}) (DjangoMigrationFilter, error) {
-	return ec.unmarshalInputDjangoMigrationFilter(ctx, v)
-}
-
-func (ec *executionContext) unmarshalODjangoMigrationFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationFilter(ctx context.Context, v interface{}) (*DjangoMigrationFilter, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalODjangoMigrationFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationFilter(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) unmarshalODjangoMigrationWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationWhere(ctx context.Context, v interface{}) (DjangoMigrationWhere, error) {
-	return ec.unmarshalInputDjangoMigrationWhere(ctx, v)
-}
-
-func (ec *executionContext) unmarshalODjangoMigrationWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationWhere(ctx context.Context, v interface{}) (*DjangoMigrationWhere, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalODjangoMigrationWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoMigrationWhere(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) unmarshalODjangoSessionFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionFilter(ctx context.Context, v interface{}) (DjangoSessionFilter, error) {
-	return ec.unmarshalInputDjangoSessionFilter(ctx, v)
-}
-
-func (ec *executionContext) unmarshalODjangoSessionFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionFilter(ctx context.Context, v interface{}) (*DjangoSessionFilter, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalODjangoSessionFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionFilter(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) unmarshalODjangoSessionWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionWhere(ctx context.Context, v interface{}) (DjangoSessionWhere, error) {
-	return ec.unmarshalInputDjangoSessionWhere(ctx, v)
-}
-
-func (ec *executionContext) unmarshalODjangoSessionWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionWhere(ctx context.Context, v interface{}) (*DjangoSessionWhere, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalODjangoSessionWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ38ᚑpluginᚑpanicsᚋgraphql_modelsᚐDjangoSessionWhere(ctx, v)
 	return &res, err
 }
 

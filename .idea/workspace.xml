@@ -20,15 +20,89 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bfafb5c5-a505-409f-8b4a-0a3aaef1a279" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/issue-38-plugin-panics/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/.env" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/convert_plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/convert_plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/graphql_models/generated.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/graphql_models/generated_models.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/helpers/convert.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/helpers/convert_input.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/helpers/filter.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/helpers/preload.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/additive.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/additive_inventory.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/additive_inventory_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/additive_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/auth_group.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/auth_group_permissions.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/auth_group_permissions_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/auth_group_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/auth_permission.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/auth_permission_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/auth_user.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/auth_user_groups.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/auth_user_groups_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/auth_user_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/auth_user_user_permissions.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/auth_user_user_permissions_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/boil_main_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/boil_queries.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/boil_queries_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/boil_suites_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/boil_table_names.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/boil_types.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/django_admin_log.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/django_admin_log_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/django_content_type.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/django_content_type_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/django_migrations.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/django_migrations_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/django_session.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/django_session_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/fragrance.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/fragrance_inventory.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/fragrance_inventory_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/fragrance_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/lipid.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/lipid_inventory.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/lipid_inventory_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/lipid_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/lye.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/lye_inventory.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/lye_inventory_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/lye_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/psql_main_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/psql_suites_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/psql_upsert.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_additive.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_additive_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_batch.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_batch_additive.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_batch_additive_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_batch_fragrance.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_batch_fragrance_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_batch_lipid.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_batch_lipid_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_batch_lye.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_batch_lye_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_batch_note.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_batch_note_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_batch_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_fragrance.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_fragrance_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_lipid.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_lipid_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_step.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_step_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/recipe_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/supplier.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/models/supplier_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/resolver.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/resolver.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/schema.graphql" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/soap.sql" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/soap.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/sqlboiler.yml" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/sqlboiler.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +128,7 @@
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="watcher.settings" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -76,14 +151,20 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1287" y="433" width="730" height="616" key="find.popup" timestamp="1602795913742">
+    <state x="-1576" y="103" key="SettingsEditor" timestamp="1602962539837">
+      <screen x="-1920" y="23" width="1920" height="1057" />
+    </state>
+    <state x="-1576" y="103" key="SettingsEditor/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1602962539837" />
+    <state x="-1287" y="433" width="730" height="616" key="find.popup" timestamp="1602940998626">
       <screen x="-1920" y="23" width="1920" height="1057" />
     </state>
     <state x="-1287" y="433" width="730" height="616" key="find.popup/-1920.23.1920.1057/0.23.1920.989/1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1602795913742" />
+    <state x="-1287" y="433" width="730" height="616" key="find.popup/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1602940998626" />
   </component>
 </project>
