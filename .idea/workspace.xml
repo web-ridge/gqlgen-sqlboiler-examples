@@ -20,11 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bfafb5c5-a505-409f-8b4a-0a3aaef1a279" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue-12-string-ids/graphql_models/generated.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue-12-string-ids/helpers/convert.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-12-string-ids/helpers/convert.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue-12-string-ids/helpers/convert_input.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-12-string-ids/helpers/convert_input.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue-12-string-ids/resolver.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-12-string-ids/resolver.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gqlgen-sqlboiler-examples.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,10 +79,10 @@
     <integration-enabled>true</integration-enabled>
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1576" y="103" key="SettingsEditor" timestamp="1602962539837">
+    <state x="-1576" y="103" key="SettingsEditor" timestamp="1602965213308">
       <screen x="-1920" y="23" width="1920" height="1057" />
     </state>
-    <state x="-1576" y="103" key="SettingsEditor/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1602962539837" />
+    <state x="-1576" y="103" key="SettingsEditor/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1602965213308" />
     <state x="-1287" y="433" width="730" height="616" key="find.popup" timestamp="1602940998626">
       <screen x="-1920" y="23" width="1920" height="1057" />
     </state>

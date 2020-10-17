@@ -56,7 +56,6 @@ func CommentToGraphQL(m *models.Comment) *graphql_models.Comment {
 			r.Post = PostWithUintID(m.PostID)
 		}
 	}
-
 	if boilergql.UintIsFilled(m.UserID) {
 		if m.R != nil && m.R.User != nil {
 			r.User = UserToGraphQL(m.R.User)
@@ -115,7 +114,8 @@ func CommentLikeToGraphQL(m *models.CommentLike) *graphql_models.CommentLike {
 	}
 
 	r := &graphql_models.CommentLike{
-		ID:        CommentLikeIDToGraphQL(m.ID),
+		ID: CommentLikeIDToGraphQL(m.ID),
+
 		LikeType:  m.LikeType,
 		CreatedAt: boilergql.NullDotTimeToPointerInt(m.CreatedAt),
 	}
@@ -127,7 +127,6 @@ func CommentLikeToGraphQL(m *models.CommentLike) *graphql_models.CommentLike {
 			r.Comment = CommentWithUintID(m.CommentID)
 		}
 	}
-
 	if boilergql.UintIsFilled(m.UserID) {
 		if m.R != nil && m.R.User != nil {
 			r.User = UserToGraphQL(m.R.User)
@@ -238,7 +237,8 @@ func ImageToGraphQL(m *models.Image) *graphql_models.Image {
 	}
 
 	r := &graphql_models.Image{
-		ID:          ImageIDToGraphQL(m.ID),
+		ID: ImageIDToGraphQL(m.ID),
+
 		Views:       boilergql.NullDotIntToPointerInt(m.Views),
 		OriginalURL: boilergql.NullDotStringToPointerString(m.OriginalURL),
 	}
@@ -359,7 +359,8 @@ func LikeToGraphQL(m *models.Like) *graphql_models.Like {
 	}
 
 	r := &graphql_models.Like{
-		ID:        LikeIDToGraphQL(m.ID),
+		ID: LikeIDToGraphQL(m.ID),
+
 		LikeType:  m.LikeType,
 		CreatedAt: boilergql.NullDotTimeToPointerInt(m.CreatedAt),
 	}
@@ -371,7 +372,6 @@ func LikeToGraphQL(m *models.Like) *graphql_models.Like {
 			r.Post = PostWithUintID(m.PostID)
 		}
 	}
-
 	if boilergql.UintIsFilled(m.UserID) {
 		if m.R != nil && m.R.User != nil {
 			r.User = UserToGraphQL(m.R.User)
