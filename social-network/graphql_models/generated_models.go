@@ -2,6 +2,16 @@
 
 package graphql_models
 
+import (
+	"fmt"
+	"io"
+	"strconv"
+)
+
+type Node interface {
+	IsNode()
+}
+
 type BooleanFilter struct {
 	EqualTo    *bool `json:"equalTo"`
 	NotEqualTo *bool `json:"notEqualTo"`
@@ -15,13 +25,26 @@ type Comment struct {
 	CommentLikes []*CommentLike `json:"commentLikes"`
 }
 
+func (Comment) IsNode() {}
+
+type CommentConnection struct {
+	Edges    []*CommentEdge `json:"edges"`
+	PageInfo *PageInfo      `json:"pageInfo"`
+}
+
 type CommentCreateInput struct {
 	Content string `json:"content"`
 	PostID  string `json:"postId"`
+	UserID  string `json:"userId"`
 }
 
 type CommentDeletePayload struct {
 	ID string `json:"id"`
+}
+
+type CommentEdge struct {
+	Cursor string   `json:"cursor"`
+	Node   *Comment `json:"node"`
 }
 
 type CommentFilter struct {
@@ -37,8 +60,16 @@ type CommentLike struct {
 	CreatedAt *int     `json:"createdAt"`
 }
 
+func (CommentLike) IsNode() {}
+
+type CommentLikeConnection struct {
+	Edges    []*CommentLikeEdge `json:"edges"`
+	PageInfo *PageInfo          `json:"pageInfo"`
+}
+
 type CommentLikeCreateInput struct {
 	CommentID string `json:"commentId"`
+	UserID    string `json:"userId"`
 	LikeType  string `json:"likeType"`
 	CreatedAt *int   `json:"createdAt"`
 }
@@ -47,9 +78,19 @@ type CommentLikeDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type CommentLikeEdge struct {
+	Cursor string       `json:"cursor"`
+	Node   *CommentLike `json:"node"`
+}
+
 type CommentLikeFilter struct {
 	Search *string           `json:"search"`
 	Where  *CommentLikeWhere `json:"where"`
+}
+
+type CommentLikeOrdering struct {
+	Sort      CommentLikeSort `json:"sort"`
+	Direction SortDirection   `json:"direction"`
 }
 
 type CommentLikePayload struct {
@@ -58,6 +99,7 @@ type CommentLikePayload struct {
 
 type CommentLikeUpdateInput struct {
 	CommentID *string `json:"commentId"`
+	UserID    *string `json:"userId"`
 	LikeType  *string `json:"likeType"`
 	CreatedAt *int    `json:"createdAt"`
 }
@@ -88,6 +130,11 @@ type CommentLikesUpdatePayload struct {
 	Ok bool `json:"ok"`
 }
 
+type CommentOrdering struct {
+	Sort      CommentSort   `json:"sort"`
+	Direction SortDirection `json:"direction"`
+}
+
 type CommentPayload struct {
 	Comment *Comment `json:"comment"`
 }
@@ -95,6 +142,7 @@ type CommentPayload struct {
 type CommentUpdateInput struct {
 	Content *string `json:"content"`
 	PostID  *string `json:"postId"`
+	UserID  *string `json:"userId"`
 }
 
 type CommentWhere struct {
@@ -140,6 +188,13 @@ type Friendship struct {
 	Users     []*User `json:"users"`
 }
 
+func (Friendship) IsNode() {}
+
+type FriendshipConnection struct {
+	Edges    []*FriendshipEdge `json:"edges"`
+	PageInfo *PageInfo         `json:"pageInfo"`
+}
+
 type FriendshipCreateInput struct {
 	CreatedAt *int `json:"createdAt"`
 }
@@ -148,9 +203,19 @@ type FriendshipDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type FriendshipEdge struct {
+	Cursor string      `json:"cursor"`
+	Node   *Friendship `json:"node"`
+}
+
 type FriendshipFilter struct {
 	Search *string          `json:"search"`
 	Where  *FriendshipWhere `json:"where"`
+}
+
+type FriendshipOrdering struct {
+	Sort      FriendshipSort `json:"sort"`
+	Direction SortDirection  `json:"direction"`
 }
 
 type FriendshipPayload struct {
@@ -200,6 +265,13 @@ type Image struct {
 	ImageVariations []*ImageVariation `json:"imageVariations"`
 }
 
+func (Image) IsNode() {}
+
+type ImageConnection struct {
+	Edges    []*ImageEdge `json:"edges"`
+	PageInfo *PageInfo    `json:"pageInfo"`
+}
+
 type ImageCreateInput struct {
 	PostID      string  `json:"postId"`
 	Views       *int    `json:"views"`
@@ -210,9 +282,19 @@ type ImageDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type ImageEdge struct {
+	Cursor string `json:"cursor"`
+	Node   *Image `json:"node"`
+}
+
 type ImageFilter struct {
 	Search *string     `json:"search"`
 	Where  *ImageWhere `json:"where"`
+}
+
+type ImageOrdering struct {
+	Sort      ImageSort     `json:"sort"`
+	Direction SortDirection `json:"direction"`
 }
 
 type ImagePayload struct {
@@ -230,6 +312,13 @@ type ImageVariation struct {
 	Image *Image `json:"image"`
 }
 
+func (ImageVariation) IsNode() {}
+
+type ImageVariationConnection struct {
+	Edges    []*ImageVariationEdge `json:"edges"`
+	PageInfo *PageInfo             `json:"pageInfo"`
+}
+
 type ImageVariationCreateInput struct {
 	ImageID string `json:"imageId"`
 }
@@ -238,9 +327,19 @@ type ImageVariationDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type ImageVariationEdge struct {
+	Cursor string          `json:"cursor"`
+	Node   *ImageVariation `json:"node"`
+}
+
 type ImageVariationFilter struct {
 	Search *string              `json:"search"`
 	Where  *ImageVariationWhere `json:"where"`
+}
+
+type ImageVariationOrdering struct {
+	Sort      ImageVariationSort `json:"sort"`
+	Direction SortDirection      `json:"direction"`
 }
 
 type ImageVariationPayload struct {
@@ -319,8 +418,16 @@ type Like struct {
 	CreatedAt *int   `json:"createdAt"`
 }
 
+func (Like) IsNode() {}
+
+type LikeConnection struct {
+	Edges    []*LikeEdge `json:"edges"`
+	PageInfo *PageInfo   `json:"pageInfo"`
+}
+
 type LikeCreateInput struct {
 	PostID    string `json:"postId"`
+	UserID    string `json:"userId"`
 	LikeType  string `json:"likeType"`
 	CreatedAt *int   `json:"createdAt"`
 }
@@ -329,9 +436,19 @@ type LikeDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type LikeEdge struct {
+	Cursor string `json:"cursor"`
+	Node   *Like  `json:"node"`
+}
+
 type LikeFilter struct {
 	Search *string    `json:"search"`
 	Where  *LikeWhere `json:"where"`
+}
+
+type LikeOrdering struct {
+	Sort      LikeSort      `json:"sort"`
+	Direction SortDirection `json:"direction"`
 }
 
 type LikePayload struct {
@@ -340,6 +457,7 @@ type LikePayload struct {
 
 type LikeUpdateInput struct {
 	PostID    *string `json:"postId"`
+	UserID    *string `json:"userId"`
 	LikeType  *string `json:"likeType"`
 	CreatedAt *int    `json:"createdAt"`
 }
@@ -370,6 +488,13 @@ type LikesUpdatePayload struct {
 	Ok bool `json:"ok"`
 }
 
+type PageInfo struct {
+	HasNextPage     bool    `json:"hasNextPage"`
+	HasPreviousPage bool    `json:"hasPreviousPage"`
+	StartCursor     *string `json:"startCursor"`
+	EndCursor       *string `json:"endCursor"`
+}
+
 type Post struct {
 	ID       string     `json:"id"`
 	Content  string     `json:"content"`
@@ -379,17 +504,35 @@ type Post struct {
 	Likes    []*Like    `json:"likes"`
 }
 
+func (Post) IsNode() {}
+
+type PostConnection struct {
+	Edges    []*PostEdge `json:"edges"`
+	PageInfo *PageInfo   `json:"pageInfo"`
+}
+
 type PostCreateInput struct {
 	Content string `json:"content"`
+	UserID  string `json:"userId"`
 }
 
 type PostDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type PostEdge struct {
+	Cursor string `json:"cursor"`
+	Node   *Post  `json:"node"`
+}
+
 type PostFilter struct {
 	Search *string    `json:"search"`
 	Where  *PostWhere `json:"where"`
+}
+
+type PostOrdering struct {
+	Sort      PostSort      `json:"sort"`
+	Direction SortDirection `json:"direction"`
 }
 
 type PostPayload struct {
@@ -398,6 +541,7 @@ type PostPayload struct {
 
 type PostUpdateInput struct {
 	Content *string `json:"content"`
+	UserID  *string `json:"userId"`
 }
 
 type PostWhere struct {
@@ -458,6 +602,13 @@ type User struct {
 	Friendships  []*Friendship  `json:"friendships"`
 }
 
+func (User) IsNode() {}
+
+type UserConnection struct {
+	Edges    []*UserEdge `json:"edges"`
+	PageInfo *PageInfo   `json:"pageInfo"`
+}
+
 type UserCreateInput struct {
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
@@ -468,9 +619,19 @@ type UserDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type UserEdge struct {
+	Cursor string `json:"cursor"`
+	Node   *User  `json:"node"`
+}
+
 type UserFilter struct {
 	Search *string    `json:"search"`
 	Where  *UserWhere `json:"where"`
+}
+
+type UserOrdering struct {
+	Sort      UserSort      `json:"sort"`
+	Direction SortDirection `json:"direction"`
 }
 
 type UserPayload struct {
@@ -511,4 +672,421 @@ type UsersPayload struct {
 
 type UsersUpdatePayload struct {
 	Ok bool `json:"ok"`
+}
+
+type CommentLikeSort string
+
+const (
+	CommentLikeSortID        CommentLikeSort = "ID"
+	CommentLikeSortCommentID CommentLikeSort = "COMMENT_ID"
+	CommentLikeSortUserID    CommentLikeSort = "USER_ID"
+	CommentLikeSortLikeType  CommentLikeSort = "LIKE_TYPE"
+	CommentLikeSortCreatedAt CommentLikeSort = "CREATED_AT"
+)
+
+var AllCommentLikeSort = []CommentLikeSort{
+	CommentLikeSortID,
+	CommentLikeSortCommentID,
+	CommentLikeSortUserID,
+	CommentLikeSortLikeType,
+	CommentLikeSortCreatedAt,
+}
+
+func (e CommentLikeSort) IsValid() bool {
+	switch e {
+	case CommentLikeSortID, CommentLikeSortCommentID, CommentLikeSortUserID, CommentLikeSortLikeType, CommentLikeSortCreatedAt:
+		return true
+	}
+	return false
+}
+
+func (e CommentLikeSort) String() string {
+	return string(e)
+}
+
+func (e *CommentLikeSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CommentLikeSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CommentLikeSort", str)
+	}
+	return nil
+}
+
+func (e CommentLikeSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type CommentSort string
+
+const (
+	CommentSortID           CommentSort = "ID"
+	CommentSortContent      CommentSort = "CONTENT"
+	CommentSortPostID       CommentSort = "POST_ID"
+	CommentSortUserID       CommentSort = "USER_ID"
+	CommentSortCommentLikes CommentSort = "COMMENT_LIKES"
+)
+
+var AllCommentSort = []CommentSort{
+	CommentSortID,
+	CommentSortContent,
+	CommentSortPostID,
+	CommentSortUserID,
+	CommentSortCommentLikes,
+}
+
+func (e CommentSort) IsValid() bool {
+	switch e {
+	case CommentSortID, CommentSortContent, CommentSortPostID, CommentSortUserID, CommentSortCommentLikes:
+		return true
+	}
+	return false
+}
+
+func (e CommentSort) String() string {
+	return string(e)
+}
+
+func (e *CommentSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CommentSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CommentSort", str)
+	}
+	return nil
+}
+
+func (e CommentSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type FriendshipSort string
+
+const (
+	FriendshipSortID        FriendshipSort = "ID"
+	FriendshipSortCreatedAt FriendshipSort = "CREATED_AT"
+	FriendshipSortUsers     FriendshipSort = "USERS"
+)
+
+var AllFriendshipSort = []FriendshipSort{
+	FriendshipSortID,
+	FriendshipSortCreatedAt,
+	FriendshipSortUsers,
+}
+
+func (e FriendshipSort) IsValid() bool {
+	switch e {
+	case FriendshipSortID, FriendshipSortCreatedAt, FriendshipSortUsers:
+		return true
+	}
+	return false
+}
+
+func (e FriendshipSort) String() string {
+	return string(e)
+}
+
+func (e *FriendshipSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = FriendshipSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid FriendshipSort", str)
+	}
+	return nil
+}
+
+func (e FriendshipSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type ImageSort string
+
+const (
+	ImageSortID              ImageSort = "ID"
+	ImageSortPostID          ImageSort = "POST_ID"
+	ImageSortViews           ImageSort = "VIEWS"
+	ImageSortOriginalURL     ImageSort = "ORIGINAL_URL"
+	ImageSortImageVariations ImageSort = "IMAGE_VARIATIONS"
+)
+
+var AllImageSort = []ImageSort{
+	ImageSortID,
+	ImageSortPostID,
+	ImageSortViews,
+	ImageSortOriginalURL,
+	ImageSortImageVariations,
+}
+
+func (e ImageSort) IsValid() bool {
+	switch e {
+	case ImageSortID, ImageSortPostID, ImageSortViews, ImageSortOriginalURL, ImageSortImageVariations:
+		return true
+	}
+	return false
+}
+
+func (e ImageSort) String() string {
+	return string(e)
+}
+
+func (e *ImageSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ImageSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ImageSort", str)
+	}
+	return nil
+}
+
+func (e ImageSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type ImageVariationSort string
+
+const (
+	ImageVariationSortID      ImageVariationSort = "ID"
+	ImageVariationSortImageID ImageVariationSort = "IMAGE_ID"
+)
+
+var AllImageVariationSort = []ImageVariationSort{
+	ImageVariationSortID,
+	ImageVariationSortImageID,
+}
+
+func (e ImageVariationSort) IsValid() bool {
+	switch e {
+	case ImageVariationSortID, ImageVariationSortImageID:
+		return true
+	}
+	return false
+}
+
+func (e ImageVariationSort) String() string {
+	return string(e)
+}
+
+func (e *ImageVariationSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ImageVariationSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ImageVariationSort", str)
+	}
+	return nil
+}
+
+func (e ImageVariationSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type LikeSort string
+
+const (
+	LikeSortID        LikeSort = "ID"
+	LikeSortPostID    LikeSort = "POST_ID"
+	LikeSortUserID    LikeSort = "USER_ID"
+	LikeSortLikeType  LikeSort = "LIKE_TYPE"
+	LikeSortCreatedAt LikeSort = "CREATED_AT"
+)
+
+var AllLikeSort = []LikeSort{
+	LikeSortID,
+	LikeSortPostID,
+	LikeSortUserID,
+	LikeSortLikeType,
+	LikeSortCreatedAt,
+}
+
+func (e LikeSort) IsValid() bool {
+	switch e {
+	case LikeSortID, LikeSortPostID, LikeSortUserID, LikeSortLikeType, LikeSortCreatedAt:
+		return true
+	}
+	return false
+}
+
+func (e LikeSort) String() string {
+	return string(e)
+}
+
+func (e *LikeSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = LikeSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid LikeSort", str)
+	}
+	return nil
+}
+
+func (e LikeSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type PostSort string
+
+const (
+	PostSortID       PostSort = "ID"
+	PostSortContent  PostSort = "CONTENT"
+	PostSortUserID   PostSort = "USER_ID"
+	PostSortComments PostSort = "COMMENTS"
+	PostSortImages   PostSort = "IMAGES"
+	PostSortLikes    PostSort = "LIKES"
+)
+
+var AllPostSort = []PostSort{
+	PostSortID,
+	PostSortContent,
+	PostSortUserID,
+	PostSortComments,
+	PostSortImages,
+	PostSortLikes,
+}
+
+func (e PostSort) IsValid() bool {
+	switch e {
+	case PostSortID, PostSortContent, PostSortUserID, PostSortComments, PostSortImages, PostSortLikes:
+		return true
+	}
+	return false
+}
+
+func (e PostSort) String() string {
+	return string(e)
+}
+
+func (e *PostSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PostSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PostSort", str)
+	}
+	return nil
+}
+
+func (e PostSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SortDirection string
+
+const (
+	SortDirectionAsc  SortDirection = "ASC"
+	SortDirectionDesc SortDirection = "DESC"
+)
+
+var AllSortDirection = []SortDirection{
+	SortDirectionAsc,
+	SortDirectionDesc,
+}
+
+func (e SortDirection) IsValid() bool {
+	switch e {
+	case SortDirectionAsc, SortDirectionDesc:
+		return true
+	}
+	return false
+}
+
+func (e SortDirection) String() string {
+	return string(e)
+}
+
+func (e *SortDirection) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SortDirection(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SortDirection", str)
+	}
+	return nil
+}
+
+func (e SortDirection) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type UserSort string
+
+const (
+	UserSortID           UserSort = "ID"
+	UserSortFirstName    UserSort = "FIRST_NAME"
+	UserSortLastName     UserSort = "LAST_NAME"
+	UserSortEmail        UserSort = "EMAIL"
+	UserSortComments     UserSort = "COMMENTS"
+	UserSortCommentLikes UserSort = "COMMENT_LIKES"
+	UserSortLikes        UserSort = "LIKES"
+	UserSortPosts        UserSort = "POSTS"
+	UserSortFriendships  UserSort = "FRIENDSHIPS"
+)
+
+var AllUserSort = []UserSort{
+	UserSortID,
+	UserSortFirstName,
+	UserSortLastName,
+	UserSortEmail,
+	UserSortComments,
+	UserSortCommentLikes,
+	UserSortLikes,
+	UserSortPosts,
+	UserSortFriendships,
+}
+
+func (e UserSort) IsValid() bool {
+	switch e {
+	case UserSortID, UserSortFirstName, UserSortLastName, UserSortEmail, UserSortComments, UserSortCommentLikes, UserSortLikes, UserSortPosts, UserSortFriendships:
+		return true
+	}
+	return false
+}
+
+func (e UserSort) String() string {
+	return string(e)
+}
+
+func (e *UserSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = UserSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid UserSort", str)
+	}
+	return nil
+}
+
+func (e UserSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
 }

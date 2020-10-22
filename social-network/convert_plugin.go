@@ -33,6 +33,21 @@ func main() {
 		PackageName: "graphql_models",
 	}
 
+	err = gbgen.SchemaWrite(gbgen.SchemaConfig{
+		ModelDirectory:      "models",
+		Pagination:          gbgen.Paginations.Connections,
+		GenerateBatchCreate: true,
+		GenerateMutations:   true,
+		GenerateBatchDelete: true,
+		GenerateBatchUpdate: true,
+		Directives:          []string{"isAuthenticated"},
+	}, "schema.graphql", false)
+
+	if err != nil {
+		fmt.Println("error while trying to gbgen.SchemaWrite")
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(3)
+	}
 	err = api.Generate(cfg,
 		api.AddPlugin(gbgen.NewConvertPlugin(
 			output,   // directory where convert.go, convert_input.go and preload.go should live

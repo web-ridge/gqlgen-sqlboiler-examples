@@ -3,7 +3,6 @@ module github.com/web-ridge/gqlgen-sqlboiler-examples
 go 1.14
 
 replace github.com/web-ridge/gqlgen-sqlboiler/v2 => ../gqlgen-sqlboiler
-
 replace github.com/web-ridge/sqlboiler-graphql-schema => ../sqlboiler-graphql-schema
 
 require (

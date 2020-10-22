@@ -1,6 +1,126 @@
 directive @isAuthenticated on FIELD_DEFINITION
 
-type Comment {
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+enum SortDirection {
+  ASC
+  DESC
+}
+
+enum CommentSort {
+  ID
+  CONTENT
+  POST_ID
+  USER_ID
+  COMMENT_LIKES
+}
+
+input CommentOrdering {
+  sort: CommentSort!
+  direction: SortDirection! = ASC
+}
+
+enum CommentLikeSort {
+  ID
+  COMMENT_ID
+  USER_ID
+  LIKE_TYPE
+  CREATED_AT
+}
+
+input CommentLikeOrdering {
+  sort: CommentLikeSort!
+  direction: SortDirection! = ASC
+}
+
+enum FriendshipSort {
+  ID
+  CREATED_AT
+  USERS
+}
+
+input FriendshipOrdering {
+  sort: FriendshipSort!
+  direction: SortDirection! = ASC
+}
+
+enum ImageSort {
+  ID
+  POST_ID
+  VIEWS
+  ORIGINAL_URL
+  IMAGE_VARIATIONS
+}
+
+input ImageOrdering {
+  sort: ImageSort!
+  direction: SortDirection! = ASC
+}
+
+enum ImageVariationSort {
+  ID
+  IMAGE_ID
+}
+
+input ImageVariationOrdering {
+  sort: ImageVariationSort!
+  direction: SortDirection! = ASC
+}
+
+enum LikeSort {
+  ID
+  POST_ID
+  USER_ID
+  LIKE_TYPE
+  CREATED_AT
+}
+
+input LikeOrdering {
+  sort: LikeSort!
+  direction: SortDirection! = ASC
+}
+
+enum PostSort {
+  ID
+  CONTENT
+  USER_ID
+  COMMENTS
+  IMAGES
+  LIKES
+}
+
+input PostOrdering {
+  sort: PostSort!
+  direction: SortDirection! = ASC
+}
+
+enum UserSort {
+  ID
+  FIRST_NAME
+  LAST_NAME
+  EMAIL
+  COMMENTS
+  COMMENT_LIKES
+  LIKES
+  POSTS
+  FRIENDSHIPS
+}
+
+input UserOrdering {
+  sort: UserSort!
+  direction: SortDirection! = ASC
+}
+
+type Comment implements Node {
   id: ID!
   content: String!
   post: Post!
@@ -8,7 +128,7 @@ type Comment {
   commentLikes: [CommentLike]
 }
 
-type CommentLike {
+type CommentLike implements Node {
   id: ID!
   comment: Comment!
   user: User!
@@ -16,13 +136,13 @@ type CommentLike {
   createdAt: Int
 }
 
-type Friendship {
+type Friendship implements Node {
   id: ID!
   createdAt: Int
   users: [User]
 }
 
-type Image {
+type Image implements Node {
   id: ID!
   post: Post!
   views: Int
@@ -30,12 +150,12 @@ type Image {
   imageVariations: [ImageVariation]
 }
 
-type ImageVariation {
+type ImageVariation implements Node {
   id: ID!
   image: Image!
 }
 
-type Like {
+type Like implements Node {
   id: ID!
   post: Post!
   user: User!
@@ -43,7 +163,7 @@ type Like {
   createdAt: Int
 }
 
-type Post {
+type Post implements Node {
   id: ID!
   content: String!
   user: User!
@@ -52,7 +172,7 @@ type Post {
   likes: [Like]
 }
 
-type User {
+type User implements Node {
   id: ID!
   firstName: String!
   lastName: String!
@@ -62,6 +182,86 @@ type User {
   likes: [Like]
   posts: [Post]
   friendships: [Friendship]
+}
+
+type CommentEdge {
+  cursor: String!
+  node: Comment
+}
+
+type CommentLikeEdge {
+  cursor: String!
+  node: CommentLike
+}
+
+type FriendshipEdge {
+  cursor: String!
+  node: Friendship
+}
+
+type ImageEdge {
+  cursor: String!
+  node: Image
+}
+
+type ImageVariationEdge {
+  cursor: String!
+  node: ImageVariation
+}
+
+type LikeEdge {
+  cursor: String!
+  node: Like
+}
+
+type PostEdge {
+  cursor: String!
+  node: Post
+}
+
+type UserEdge {
+  cursor: String!
+  node: User
+}
+
+type CommentConnection {
+  edges: [CommentEdge]
+  pageInfo: PageInfo!
+}
+
+type CommentLikeConnection {
+  edges: [CommentLikeEdge]
+  pageInfo: PageInfo!
+}
+
+type FriendshipConnection {
+  edges: [FriendshipEdge]
+  pageInfo: PageInfo!
+}
+
+type ImageConnection {
+  edges: [ImageEdge]
+  pageInfo: PageInfo!
+}
+
+type ImageVariationConnection {
+  edges: [ImageVariationEdge]
+  pageInfo: PageInfo!
+}
+
+type LikeConnection {
+  edges: [LikeEdge]
+  pageInfo: PageInfo!
+}
+
+type PostConnection {
+  edges: [PostEdge]
+  pageInfo: PageInfo!
+}
+
+type UserConnection {
+  edges: [UserEdge]
+  pageInfo: PageInfo!
 }
 
 input IDFilter {
@@ -243,6 +443,7 @@ input UserWhere {
 }
 
 type Query {
+  node(id: ID!): Node
   comment(id: ID!): Comment! @isAuthenticated
   comments(filter: CommentFilter): [Comment!]! @isAuthenticated
   commentLike(id: ID!): CommentLike! @isAuthenticated
@@ -265,11 +466,13 @@ type Query {
 input CommentCreateInput {
   content: String!
   postId: ID!
+  userId: ID!
 }
 
 input CommentUpdateInput {
   content: String
   postId: ID
+  userId: ID
 }
 
 input CommentsCreateInput {
@@ -298,12 +501,14 @@ type CommentsUpdatePayload {
 
 input CommentLikeCreateInput {
   commentId: ID!
+  userId: ID!
   likeType: String!
   createdAt: Int
 }
 
 input CommentLikeUpdateInput {
   commentId: ID
+  userId: ID
   likeType: String
   createdAt: Int
 }
@@ -434,12 +639,14 @@ type ImageVariationsUpdatePayload {
 
 input LikeCreateInput {
   postId: ID!
+  userId: ID!
   likeType: String!
   createdAt: Int
 }
 
 input LikeUpdateInput {
   postId: ID
+  userId: ID
   likeType: String
   createdAt: Int
 }
@@ -470,10 +677,12 @@ type LikesUpdatePayload {
 
 input PostCreateInput {
   content: String!
+  userId: ID!
 }
 
 input PostUpdateInput {
   content: String
+  userId: ID
 }
 
 input PostsCreateInput {
