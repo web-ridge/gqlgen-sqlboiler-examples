@@ -20,17 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bfafb5c5-a505-409f-8b4a-0a3aaef1a279" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/issue-6-edges-connections/resolver_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue-12-string-ids/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/issue-12-string-ids/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social-network/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social-network/graphql_models/generated.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/graphql_models/generated.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social-network/graphql_models/generated_models.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/graphql_models/generated_models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social-network/helpers/convert.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/helpers/convert.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social-network/resolver.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/resolver.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social-network/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/schema.graphql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social-network/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-6-edges-connections/resolver_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-6-edges-connections/resolver_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
