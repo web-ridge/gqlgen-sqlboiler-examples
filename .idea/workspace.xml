@@ -20,19 +20,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bfafb5c5-a505-409f-8b4a-0a3aaef1a279" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/issue-6-edges-connections/resolver_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social-network/convert_plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/convert_plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-12-string-ids/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/issue-12-string-ids/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social-network/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social-network/graphql_models/generated.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/graphql_models/generated.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social-network/graphql_models/generated_models.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/graphql_models/generated_models.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social-network/helpers/convert.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/helpers/convert.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social-network/helpers/convert_input.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/helpers/convert_input.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social-network/schema.graphql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social-network/resolver.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/resolver.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social-network/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social-network/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
   </component>
   <component name="GOROOT" path="/usr/local/go" />
   <component name="Git.Settings">
@@ -48,6 +58,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
@@ -83,15 +94,19 @@
     <integration-enabled>true</integration-enabled>
   </component>
   <component name="WindowStateProjectService">
+    <state x="-1230" y="268" key="#Go" timestamp="1603473838007">
+      <screen x="-1920" y="23" width="1920" height="1057" />
+    </state>
+    <state x="-1230" y="268" key="#Go/-1920.23.1920.1057/0.23.1920.989/1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1603473838007" />
     <state x="344" y="98" key="SettingsEditor" timestamp="1603230423695">
       <screen x="0" y="23" width="1920" height="989" />
     </state>
     <state x="-1576" y="103" key="SettingsEditor/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1602965213308" />
     <state x="344" y="98" key="SettingsEditor/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@0.23.1920.989" timestamp="1603230423695" />
-    <state x="-1287" y="433" width="730" height="616" key="find.popup" timestamp="1602940998626">
+    <state x="-1287" y="316" width="730" height="764" key="find.popup" timestamp="1603705083766">
       <screen x="-1920" y="23" width="1920" height="1057" />
     </state>
-    <state x="-1287" y="433" width="730" height="616" key="find.popup/-1920.23.1920.1057/0.23.1920.989/1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1602795913742" />
-    <state x="-1287" y="433" width="730" height="616" key="find.popup/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1602940998626" />
+    <state x="415" y="395" width="730" height="616" key="find.popup/-1920.23.1920.1057/0.23.1920.989/1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1603481315461" />
+    <state x="-1287" y="316" width="730" height="764" key="find.popup/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1603705083766" />
   </component>
 </project>

@@ -5,6 +5,10 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
+	"math"
+	"strconv"
+	"strings"
 
 	"github.com/rs/zerolog/log"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
@@ -24,7 +28,6 @@ const inputKey = "input"
 const publicCommentCreateError = "could not create comment"
 
 func (r *mutationResolver) CreateComment(ctx context.Context, input fm.CommentCreateInput) (*fm.CommentPayload, error) {
-
 	m := CommentCreateInputToBoiler(&input)
 
 	m.UserID = auth.UserIDFromContext(ctx)
@@ -56,7 +59,7 @@ func (r *mutationResolver) CreateComment(ctx context.Context, input fm.CommentCr
 	}, nil
 }
 
-//const publicCommentBatchCreateError = "could not create comments"
+// const publicCommentBatchCreateError = "could not create comments"
 
 func (r *mutationResolver) CreateComments(ctx context.Context, input fm.CommentsCreateInput) (*fm.CommentsPayload, error) {
 	// TODO: Implement batch create
@@ -165,7 +168,6 @@ func (r *mutationResolver) DeleteComments(ctx context.Context, filter *fm.Commen
 const publicCommentLikeCreateError = "could not create commentLike"
 
 func (r *mutationResolver) CreateCommentLike(ctx context.Context, input fm.CommentLikeCreateInput) (*fm.CommentLikePayload, error) {
-
 	m := CommentLikeCreateInputToBoiler(&input)
 
 	m.UserID = auth.UserIDFromContext(ctx)
@@ -197,7 +199,7 @@ func (r *mutationResolver) CreateCommentLike(ctx context.Context, input fm.Comme
 	}, nil
 }
 
-//const publicCommentLikeBatchCreateError = "could not create commentLikes"
+// const publicCommentLikeBatchCreateError = "could not create commentLikes"
 
 func (r *mutationResolver) CreateCommentLikes(ctx context.Context, input fm.CommentLikesCreateInput) (*fm.CommentLikesPayload, error) {
 	// TODO: Implement batch create
@@ -306,7 +308,6 @@ func (r *mutationResolver) DeleteCommentLikes(ctx context.Context, filter *fm.Co
 const publicFriendshipCreateError = "could not create friendship"
 
 func (r *mutationResolver) CreateFriendship(ctx context.Context, input fm.FriendshipCreateInput) (*fm.FriendshipPayload, error) {
-
 	m := FriendshipCreateInputToBoiler(&input)
 
 	whiteList := FriendshipCreateInputToBoilerWhitelist(
@@ -331,7 +332,7 @@ func (r *mutationResolver) CreateFriendship(ctx context.Context, input fm.Friend
 	}, nil
 }
 
-//const publicFriendshipBatchCreateError = "could not create friendships"
+// const publicFriendshipBatchCreateError = "could not create friendships"
 
 func (r *mutationResolver) CreateFriendships(ctx context.Context, input fm.FriendshipsCreateInput) (*fm.FriendshipsPayload, error) {
 	// TODO: Implement batch create
@@ -429,7 +430,6 @@ func (r *mutationResolver) DeleteFriendships(ctx context.Context, filter *fm.Fri
 const publicImageCreateError = "could not create image"
 
 func (r *mutationResolver) CreateImage(ctx context.Context, input fm.ImageCreateInput) (*fm.ImagePayload, error) {
-
 	m := ImageCreateInputToBoiler(&input)
 
 	whiteList := ImageCreateInputToBoilerWhitelist(
@@ -454,7 +454,7 @@ func (r *mutationResolver) CreateImage(ctx context.Context, input fm.ImageCreate
 	}, nil
 }
 
-//const publicImageBatchCreateError = "could not create images"
+// const publicImageBatchCreateError = "could not create images"
 
 func (r *mutationResolver) CreateImages(ctx context.Context, input fm.ImagesCreateInput) (*fm.ImagesPayload, error) {
 	// TODO: Implement batch create
@@ -552,7 +552,6 @@ func (r *mutationResolver) DeleteImages(ctx context.Context, filter *fm.ImageFil
 const publicImageVariationCreateError = "could not create imageVariation"
 
 func (r *mutationResolver) CreateImageVariation(ctx context.Context, input fm.ImageVariationCreateInput) (*fm.ImageVariationPayload, error) {
-
 	m := ImageVariationCreateInputToBoiler(&input)
 
 	whiteList := ImageVariationCreateInputToBoilerWhitelist(
@@ -577,7 +576,7 @@ func (r *mutationResolver) CreateImageVariation(ctx context.Context, input fm.Im
 	}, nil
 }
 
-//const publicImageVariationBatchCreateError = "could not create imageVariations"
+// const publicImageVariationBatchCreateError = "could not create imageVariations"
 
 func (r *mutationResolver) CreateImageVariations(ctx context.Context, input fm.ImageVariationsCreateInput) (*fm.ImageVariationsPayload, error) {
 	// TODO: Implement batch create
@@ -675,7 +674,6 @@ func (r *mutationResolver) DeleteImageVariations(ctx context.Context, filter *fm
 const publicLikeCreateError = "could not create like"
 
 func (r *mutationResolver) CreateLike(ctx context.Context, input fm.LikeCreateInput) (*fm.LikePayload, error) {
-
 	m := LikeCreateInputToBoiler(&input)
 
 	m.UserID = auth.UserIDFromContext(ctx)
@@ -707,7 +705,7 @@ func (r *mutationResolver) CreateLike(ctx context.Context, input fm.LikeCreateIn
 	}, nil
 }
 
-//const publicLikeBatchCreateError = "could not create likes"
+// const publicLikeBatchCreateError = "could not create likes"
 
 func (r *mutationResolver) CreateLikes(ctx context.Context, input fm.LikesCreateInput) (*fm.LikesPayload, error) {
 	// TODO: Implement batch create
@@ -816,7 +814,6 @@ func (r *mutationResolver) DeleteLikes(ctx context.Context, filter *fm.LikeFilte
 const publicPostCreateError = "could not create post"
 
 func (r *mutationResolver) CreatePost(ctx context.Context, input fm.PostCreateInput) (*fm.PostPayload, error) {
-
 	m := PostCreateInputToBoiler(&input)
 
 	m.UserID = auth.UserIDFromContext(ctx)
@@ -848,7 +845,7 @@ func (r *mutationResolver) CreatePost(ctx context.Context, input fm.PostCreateIn
 	}, nil
 }
 
-//const publicPostBatchCreateError = "could not create posts"
+// const publicPostBatchCreateError = "could not create posts"
 
 func (r *mutationResolver) CreatePosts(ctx context.Context, input fm.PostsCreateInput) (*fm.PostsPayload, error) {
 	// TODO: Implement batch create
@@ -957,7 +954,6 @@ func (r *mutationResolver) DeletePosts(ctx context.Context, filter *fm.PostFilte
 const publicUserCreateError = "could not create user"
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input fm.UserCreateInput) (*fm.UserPayload, error) {
-
 	m := UserCreateInputToBoiler(&input)
 
 	whiteList := UserCreateInputToBoilerWhitelist(
@@ -982,7 +978,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input fm.UserCreateIn
 	}, nil
 }
 
-//const publicUserBatchCreateError = "could not create users"
+// const publicUserBatchCreateError = "could not create users"
 
 func (r *mutationResolver) CreateUsers(ctx context.Context, input fm.UsersCreateInput) (*fm.UsersPayload, error) {
 	// TODO: Implement batch create
@@ -1099,20 +1095,41 @@ func (r *queryResolver) Comment(ctx context.Context, id string) (*fm.Comment, er
 
 const publicCommentListError = "could not list comments"
 
-func (r *queryResolver) Comments(ctx context.Context, filter *fm.CommentFilter) ([]*fm.Comment, error) {
+func (r *queryResolver) Comments(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.CommentOrdering, filter *fm.CommentFilter) (*fm.CommentConnection, error) {
 	mods := GetCommentPreloadMods(ctx)
 
 	mods = append(mods, dm.CommentWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
 
+	// TODO: use these if no connection is used
+	// return CommentsToGraphQL(a), nil
+
 	mods = append(mods, CommentFilterToMods(filter)...)
+
 	a, err := dm.Comments(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicCommentListError)
 		return nil, errors.New(publicCommentListError)
 	}
-	return CommentsToGraphQL(a), nil
+
+	edges := make([]*fm.CommentEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.CommentEdge{
+			Cursor: "",
+			Node:   CommentToGraphQL(row),
+		}
+	}
+
+	return &fm.CommentConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicCommentLikeSingleError = "could not get commentLike"
@@ -1137,20 +1154,41 @@ func (r *queryResolver) CommentLike(ctx context.Context, id string) (*fm.Comment
 
 const publicCommentLikeListError = "could not list commentLikes"
 
-func (r *queryResolver) CommentLikes(ctx context.Context, filter *fm.CommentLikeFilter) ([]*fm.CommentLike, error) {
+func (r *queryResolver) CommentLikes(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.CommentLikeOrdering, filter *fm.CommentLikeFilter) (*fm.CommentLikeConnection, error) {
 	mods := GetCommentLikePreloadMods(ctx)
 
 	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
 
+	// TODO: use these if no connection is used
+	// return CommentLikesToGraphQL(a), nil
+
 	mods = append(mods, CommentLikeFilterToMods(filter)...)
+
 	a, err := dm.CommentLikes(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicCommentLikeListError)
 		return nil, errors.New(publicCommentLikeListError)
 	}
-	return CommentLikesToGraphQL(a), nil
+
+	edges := make([]*fm.CommentLikeEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.CommentLikeEdge{
+			Cursor: "",
+			Node:   CommentLikeToGraphQL(row),
+		}
+	}
+
+	return &fm.CommentLikeConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicFriendshipSingleError = "could not get friendship"
@@ -1171,16 +1209,37 @@ func (r *queryResolver) Friendship(ctx context.Context, id string) (*fm.Friendsh
 
 const publicFriendshipListError = "could not list friendships"
 
-func (r *queryResolver) Friendships(ctx context.Context, filter *fm.FriendshipFilter) ([]*fm.Friendship, error) {
+func (r *queryResolver) Friendships(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.FriendshipOrdering, filter *fm.FriendshipFilter) (*fm.FriendshipConnection, error) {
 	mods := GetFriendshipPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return FriendshipsToGraphQL(a), nil
+
 	mods = append(mods, FriendshipFilterToMods(filter)...)
+
 	a, err := dm.Friendships(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicFriendshipListError)
 		return nil, errors.New(publicFriendshipListError)
 	}
-	return FriendshipsToGraphQL(a), nil
+
+	edges := make([]*fm.FriendshipEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.FriendshipEdge{
+			Cursor: "",
+			Node:   FriendshipToGraphQL(row),
+		}
+	}
+
+	return &fm.FriendshipConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicImageSingleError = "could not get image"
@@ -1201,16 +1260,37 @@ func (r *queryResolver) Image(ctx context.Context, id string) (*fm.Image, error)
 
 const publicImageListError = "could not list images"
 
-func (r *queryResolver) Images(ctx context.Context, filter *fm.ImageFilter) ([]*fm.Image, error) {
+func (r *queryResolver) Images(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.ImageOrdering, filter *fm.ImageFilter) (*fm.ImageConnection, error) {
 	mods := GetImagePreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return ImagesToGraphQL(a), nil
+
 	mods = append(mods, ImageFilterToMods(filter)...)
+
 	a, err := dm.Images(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicImageListError)
 		return nil, errors.New(publicImageListError)
 	}
-	return ImagesToGraphQL(a), nil
+
+	edges := make([]*fm.ImageEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.ImageEdge{
+			Cursor: "",
+			Node:   ImageToGraphQL(row),
+		}
+	}
+
+	return &fm.ImageConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicImageVariationSingleError = "could not get imageVariation"
@@ -1231,16 +1311,37 @@ func (r *queryResolver) ImageVariation(ctx context.Context, id string) (*fm.Imag
 
 const publicImageVariationListError = "could not list imageVariations"
 
-func (r *queryResolver) ImageVariations(ctx context.Context, filter *fm.ImageVariationFilter) ([]*fm.ImageVariation, error) {
+func (r *queryResolver) ImageVariations(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.ImageVariationOrdering, filter *fm.ImageVariationFilter) (*fm.ImageVariationConnection, error) {
 	mods := GetImageVariationPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return ImageVariationsToGraphQL(a), nil
+
 	mods = append(mods, ImageVariationFilterToMods(filter)...)
+
 	a, err := dm.ImageVariations(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicImageVariationListError)
 		return nil, errors.New(publicImageVariationListError)
 	}
-	return ImageVariationsToGraphQL(a), nil
+
+	edges := make([]*fm.ImageVariationEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.ImageVariationEdge{
+			Cursor: "",
+			Node:   ImageVariationToGraphQL(row),
+		}
+	}
+
+	return &fm.ImageVariationConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicLikeSingleError = "could not get like"
@@ -1265,20 +1366,164 @@ func (r *queryResolver) Like(ctx context.Context, id string) (*fm.Like, error) {
 
 const publicLikeListError = "could not list likes"
 
-func (r *queryResolver) Likes(ctx context.Context, filter *fm.LikeFilter) ([]*fm.Like, error) {
+func getUintIDFromCursor(id string) (uint, error) {
+	splitID := strings.SplitN(id, "-", 2)
+	if len(splitID) != 2 {
+		return 0, errors.New("could not parse id")
+	}
+	cursorID, err := strconv.Atoi(splitID[1])
+	if err != nil {
+		return 0, fmt.Errorf("could not parse id from cursor")
+	}
+	return uint(cursorID), nil
+}
+
+func getReverseLimitAndCursor(forward *fm.ConnectionForwardPagination, backward *fm.ConnectionBackwardPagination) (string, string, string, int) {
+	if forward != nil {
+		return forward.After, "<", "ASC", 1
+	}
+	if backward != nil {
+		return backward.Before, ">", "ASC", 1
+	}
+	return "", "", "", 0
+}
+
+func zeroOrMore(limit int) int {
+	if limit < 0 {
+		return 0
+	}
+	return limit
+}
+
+func getLimitAndCursor(forward *fm.ConnectionForwardPagination, backward *fm.ConnectionBackwardPagination) (string, string, string, int) {
+	if forward != nil {
+		return forward.After, ">", "ASC", zeroOrMore(forward.First + 1)
+	}
+	if backward != nil {
+		return backward.Before, "<", "DESC", zeroOrMore(backward.Last + 1)
+	}
+	return "", "", "", 0
+}
+
+func (r *queryResolver) Likes(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.LikeOrdering, filter *fm.LikeFilter) (*fm.LikeConnection, error) {
 	mods := GetLikePreloadMods(ctx)
-
-	mods = append(mods, dm.LikeWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
-
 	mods = append(mods, LikeFilterToMods(filter)...)
-	a, err := dm.Likes(mods...).All(ctx, r.db)
+
+	normalMods := mods
+	reverseMods := mods
+
+	var hasNextPage, hasPreviousPage bool
+	var startCursor, endCursor *string
+
+	if pagination.Forward != nil && pagination.Backward != nil {
+		return nil, errors.New("can not use forward and backward pagination at once")
+	}
+	if pagination.Forward == nil && pagination.Backward == nil {
+		return nil, errors.New("no forward or backward pagination provided")
+	}
+
+	cursor, comparisonSign, direction, limit := getLimitAndCursor(pagination.Forward, pagination.Backward)
+	_, reverseComparisonSign, reverseDirection, reverseLimit := getReverseLimitAndCursor(pagination.Forward, pagination.Backward)
+	if cursor != "" {
+		cursorID, _ := getUintIDFromCursor(cursor)
+		normalMods = append(normalMods, qm.Where("id "+comparisonSign+" ?", cursorID))
+		reverseMods = append(reverseMods, qm.Where("id "+reverseComparisonSign+" ?", cursorID))
+	}
+
+	normalMods = append(normalMods, qm.OrderBy("id "+direction))
+	reverseMods = append(reverseMods, qm.OrderBy("id "+reverseDirection))
+
+	normalMods = append(normalMods, qm.Limit(limit))
+	reverseMods = append(reverseMods, qm.Limit(reverseLimit))
+
+	if cursor != "" {
+		reverseCount, err := dm.Likes(reverseMods...).Count(ctx, r.db)
+		if err != nil {
+			log.Error().Err(err).Msg(publicLikeListError)
+			return nil, errors.New(publicLikeListError)
+		}
+
+		if reverseCount > 0 {
+			if pagination.Forward != nil {
+				hasPreviousPage = true
+			}
+			if pagination.Backward != nil {
+				hasPreviousPage = true
+			}
+		}
+	}
+
+	a, err := dm.Likes(normalMods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicLikeListError)
 		return nil, errors.New(publicLikeListError)
 	}
-	return LikesToGraphQL(a), nil
+
+	maxLength := limit - 1
+	lowestLength := math.Min(float64(len(a)), float64(maxLength))
+	edges := make([]*fm.LikeEdge, 0, int(lowestLength))
+
+	fmt.Println(len(a), limit)
+
+	switch {
+	case pagination.Backward != nil:
+		// If no less last+1 results are returned, I set hasPreviousPage: true, otherwise I set it to false.
+		if len(a) == limit {
+			hasNextPage = true
+		}
+
+		// If the last argument is provided, reverse the order of the results
+		for i := len(a) - 1; i >= 0; i-- {
+			isLast := i == maxLength
+			if isLast {
+				continue
+			}
+			n := LikeToGraphQL(a[i])
+			edges = append(edges, &fm.LikeEdge{
+				Cursor: fmt.Sprintf("%v", n.ID),
+				Node:   LikeToGraphQL(a[i]),
+			})
+		}
+
+	case pagination.Forward != nil:
+
+		// If no less than first+1 results are returned, I set hasNextPage: true, otherwise I set it to false.
+		if len(a) == limit {
+			hasNextPage = true
+		}
+		for i, row := range a {
+			isLast := i == maxLength
+			if isLast {
+				break
+			}
+			n := LikeToGraphQL(row)
+			edges = append(edges, &fm.LikeEdge{
+				Cursor: fmt.Sprintf("%v", n.ID),
+				Node:   n,
+			})
+		}
+	}
+
+	fmt.Println("edges length", len(edges))
+	if len(edges) >= 2 {
+		s, e := edges[0].Cursor, edges[len(edges)-1].Cursor
+		startCursor = &s
+		endCursor = &e
+	} else if len(edges) == 1 {
+		c := edges[0].Cursor
+		startCursor = &c
+		endCursor = &c
+	}
+
+	return &fm.LikeConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     hasNextPage,
+			HasPreviousPage: hasPreviousPage,
+			StartCursor:     startCursor,
+			EndCursor:       endCursor,
+		},
+	}, nil
 }
 
 const publicPostSingleError = "could not get post"
@@ -1303,20 +1548,41 @@ func (r *queryResolver) Post(ctx context.Context, id string) (*fm.Post, error) {
 
 const publicPostListError = "could not list posts"
 
-func (r *queryResolver) Posts(ctx context.Context, filter *fm.PostFilter) ([]*fm.Post, error) {
+func (r *queryResolver) Posts(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.PostOrdering, filter *fm.PostFilter) (*fm.PostConnection, error) {
 	mods := GetPostPreloadMods(ctx)
 
 	mods = append(mods, dm.PostWhere.UserID.EQ(
 		auth.UserIDFromContext(ctx),
 	))
 
+	// TODO: use these if no connection is used
+	// return PostsToGraphQL(a), nil
+
 	mods = append(mods, PostFilterToMods(filter)...)
+
 	a, err := dm.Posts(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicPostListError)
 		return nil, errors.New(publicPostListError)
 	}
-	return PostsToGraphQL(a), nil
+
+	edges := make([]*fm.PostEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.PostEdge{
+			Cursor: "",
+			Node:   PostToGraphQL(row),
+		}
+	}
+
+	return &fm.PostConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicUserSingleError = "could not get user"
@@ -1337,20 +1603,72 @@ func (r *queryResolver) User(ctx context.Context, id string) (*fm.User, error) {
 
 const publicUserListError = "could not list users"
 
-func (r *queryResolver) Users(ctx context.Context, filter *fm.UserFilter) ([]*fm.User, error) {
+func (r *queryResolver) Users(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.UserOrdering, filter *fm.UserFilter) (*fm.UserConnection, error) {
 	mods := GetUserPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return UsersToGraphQL(a), nil
+
 	mods = append(mods, UserFilterToMods(filter)...)
+
 	a, err := dm.Users(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicUserListError)
 		return nil, errors.New(publicUserListError)
 	}
-	return UsersToGraphQL(a), nil
+
+	edges := make([]*fm.UserEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.UserEdge{
+			Cursor: "",
+			Node:   UserToGraphQL(row),
+		}
+	}
+
+	return &fm.UserConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
+}
+
+func (r *queryResolver) Node(ctx context.Context, globalGraphID string) (fm.Node, error) {
+	splitID := strings.SplitN(globalGraphID, "-", 1)
+	if len(splitID) != 2 {
+		return nil, errors.New("could not parse id")
+	}
+
+	model := splitID[0]
+	switch model {
+	case "Comment":
+		return r.Comment(ctx, globalGraphID)
+	case "CommentLike":
+		return r.CommentLike(ctx, globalGraphID)
+	case "Friendship":
+		return r.Friendship(ctx, globalGraphID)
+	case "Image":
+		return r.Image(ctx, globalGraphID)
+	case "ImageVariation":
+		return r.ImageVariation(ctx, globalGraphID)
+	case "Like":
+		return r.Like(ctx, globalGraphID)
+	case "Post":
+		return r.Post(ctx, globalGraphID)
+	case "User":
+		return r.User(ctx, globalGraphID)
+	default:
+		return nil, errors.New("could not find corresponding model for id")
+	}
 }
 
 func (r *Resolver) Mutation() fm.MutationResolver { return &mutationResolver{r} }
 func (r *Resolver) Query() fm.QueryResolver       { return &queryResolver{r} }
 
-type mutationResolver struct{ *Resolver }
-type queryResolver struct{ *Resolver }
+type (
+	mutationResolver struct{ *Resolver }
+	queryResolver    struct{ *Resolver }
+)

@@ -1,14 +1,12 @@
 package main
 
 import (
-	"context"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/99designs/gqlgen/graphql/playground"
 
-	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
@@ -18,8 +16,7 @@ import (
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/auth"
-	"github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models"
+	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/graphql_models"
 	"github.com/web-ridge/utils-go/api"
 )
 
@@ -39,13 +36,6 @@ func main() {
 		},
 	}
 
-	c.Directives.IsAuthenticated = func(ctx context.Context, obj interface{}, next graphql.Resolver) (interface{}, error) {
-		//if exist := auth.ExistsInContext((ctx)); !exist {
-		//	return nil, fmt.Errorf("Access denied")
-		//}
-		return next(ctx)
-	}
-
 	srv := handler.New(graphql_models.NewExecutableSchema(c))
 	srv.Use(extension.Introspection{})
 	srv.AddTransport(transport.Websocket{
@@ -59,7 +49,6 @@ func main() {
 
 	r := chi.NewRouter()
 
-	r.Use(auth.Middleware(db))
 	r.Handle("/", playground.Handler("GraphQL playground", "/graphql"))
 
 	r.Handle("/graphql", srv)

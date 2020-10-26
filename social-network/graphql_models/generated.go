@@ -367,21 +367,21 @@ type ComplexityRoot struct {
 	Query struct {
 		Comment         func(childComplexity int, id string) int
 		CommentLike     func(childComplexity int, id string) int
-		CommentLikes    func(childComplexity int, filter *CommentLikeFilter) int
-		Comments        func(childComplexity int, filter *CommentFilter) int
+		CommentLikes    func(childComplexity int, pagination ConnectionPagination, ordering []*CommentLikeOrdering, filter *CommentLikeFilter) int
+		Comments        func(childComplexity int, pagination ConnectionPagination, ordering []*CommentOrdering, filter *CommentFilter) int
 		Friendship      func(childComplexity int, id string) int
-		Friendships     func(childComplexity int, filter *FriendshipFilter) int
+		Friendships     func(childComplexity int, pagination ConnectionPagination, ordering []*FriendshipOrdering, filter *FriendshipFilter) int
 		Image           func(childComplexity int, id string) int
 		ImageVariation  func(childComplexity int, id string) int
-		ImageVariations func(childComplexity int, filter *ImageVariationFilter) int
-		Images          func(childComplexity int, filter *ImageFilter) int
+		ImageVariations func(childComplexity int, pagination ConnectionPagination, ordering []*ImageVariationOrdering, filter *ImageVariationFilter) int
+		Images          func(childComplexity int, pagination ConnectionPagination, ordering []*ImageOrdering, filter *ImageFilter) int
 		Like            func(childComplexity int, id string) int
-		Likes           func(childComplexity int, filter *LikeFilter) int
+		Likes           func(childComplexity int, pagination ConnectionPagination, ordering []*LikeOrdering, filter *LikeFilter) int
 		Node            func(childComplexity int, id string) int
 		Post            func(childComplexity int, id string) int
-		Posts           func(childComplexity int, filter *PostFilter) int
+		Posts           func(childComplexity int, pagination ConnectionPagination, ordering []*PostOrdering, filter *PostFilter) int
 		User            func(childComplexity int, id string) int
-		Users           func(childComplexity int, filter *UserFilter) int
+		Users           func(childComplexity int, pagination ConnectionPagination, ordering []*UserOrdering, filter *UserFilter) int
 	}
 
 	User struct {
@@ -480,21 +480,21 @@ type MutationResolver interface {
 type QueryResolver interface {
 	Node(ctx context.Context, id string) (Node, error)
 	Comment(ctx context.Context, id string) (*Comment, error)
-	Comments(ctx context.Context, filter *CommentFilter) ([]*Comment, error)
+	Comments(ctx context.Context, pagination ConnectionPagination, ordering []*CommentOrdering, filter *CommentFilter) (*CommentConnection, error)
 	CommentLike(ctx context.Context, id string) (*CommentLike, error)
-	CommentLikes(ctx context.Context, filter *CommentLikeFilter) ([]*CommentLike, error)
+	CommentLikes(ctx context.Context, pagination ConnectionPagination, ordering []*CommentLikeOrdering, filter *CommentLikeFilter) (*CommentLikeConnection, error)
 	Friendship(ctx context.Context, id string) (*Friendship, error)
-	Friendships(ctx context.Context, filter *FriendshipFilter) ([]*Friendship, error)
+	Friendships(ctx context.Context, pagination ConnectionPagination, ordering []*FriendshipOrdering, filter *FriendshipFilter) (*FriendshipConnection, error)
 	Image(ctx context.Context, id string) (*Image, error)
-	Images(ctx context.Context, filter *ImageFilter) ([]*Image, error)
+	Images(ctx context.Context, pagination ConnectionPagination, ordering []*ImageOrdering, filter *ImageFilter) (*ImageConnection, error)
 	ImageVariation(ctx context.Context, id string) (*ImageVariation, error)
-	ImageVariations(ctx context.Context, filter *ImageVariationFilter) ([]*ImageVariation, error)
+	ImageVariations(ctx context.Context, pagination ConnectionPagination, ordering []*ImageVariationOrdering, filter *ImageVariationFilter) (*ImageVariationConnection, error)
 	Like(ctx context.Context, id string) (*Like, error)
-	Likes(ctx context.Context, filter *LikeFilter) ([]*Like, error)
+	Likes(ctx context.Context, pagination ConnectionPagination, ordering []*LikeOrdering, filter *LikeFilter) (*LikeConnection, error)
 	Post(ctx context.Context, id string) (*Post, error)
-	Posts(ctx context.Context, filter *PostFilter) ([]*Post, error)
+	Posts(ctx context.Context, pagination ConnectionPagination, ordering []*PostOrdering, filter *PostFilter) (*PostConnection, error)
 	User(ctx context.Context, id string) (*User, error)
-	Users(ctx context.Context, filter *UserFilter) ([]*User, error)
+	Users(ctx context.Context, pagination ConnectionPagination, ordering []*UserOrdering, filter *UserFilter) (*UserConnection, error)
 }
 
 type executableSchema struct {
@@ -1808,7 +1808,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.CommentLikes(childComplexity, args["filter"].(*CommentLikeFilter)), true
+		return e.complexity.Query.CommentLikes(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*CommentLikeOrdering), args["filter"].(*CommentLikeFilter)), true
 
 	case "Query.comments":
 		if e.complexity.Query.Comments == nil {
@@ -1820,7 +1820,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Comments(childComplexity, args["filter"].(*CommentFilter)), true
+		return e.complexity.Query.Comments(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*CommentOrdering), args["filter"].(*CommentFilter)), true
 
 	case "Query.friendship":
 		if e.complexity.Query.Friendship == nil {
@@ -1844,7 +1844,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Friendships(childComplexity, args["filter"].(*FriendshipFilter)), true
+		return e.complexity.Query.Friendships(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*FriendshipOrdering), args["filter"].(*FriendshipFilter)), true
 
 	case "Query.image":
 		if e.complexity.Query.Image == nil {
@@ -1880,7 +1880,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.ImageVariations(childComplexity, args["filter"].(*ImageVariationFilter)), true
+		return e.complexity.Query.ImageVariations(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*ImageVariationOrdering), args["filter"].(*ImageVariationFilter)), true
 
 	case "Query.images":
 		if e.complexity.Query.Images == nil {
@@ -1892,7 +1892,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Images(childComplexity, args["filter"].(*ImageFilter)), true
+		return e.complexity.Query.Images(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*ImageOrdering), args["filter"].(*ImageFilter)), true
 
 	case "Query.like":
 		if e.complexity.Query.Like == nil {
@@ -1916,7 +1916,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Likes(childComplexity, args["filter"].(*LikeFilter)), true
+		return e.complexity.Query.Likes(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*LikeOrdering), args["filter"].(*LikeFilter)), true
 
 	case "Query.node":
 		if e.complexity.Query.Node == nil {
@@ -1952,7 +1952,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Posts(childComplexity, args["filter"].(*PostFilter)), true
+		return e.complexity.Query.Posts(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*PostOrdering), args["filter"].(*PostFilter)), true
 
 	case "Query.user":
 		if e.complexity.Query.User == nil {
@@ -1976,7 +1976,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Users(childComplexity, args["filter"].(*UserFilter)), true
+		return e.complexity.Query.Users(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter)), true
 
 	case "User.commentLikes":
 		if e.complexity.User.CommentLikes == nil {
@@ -2181,17 +2181,31 @@ type PageInfo {
   endCursor: String
 }
 
+input ConnectionForwardPagination {
+  first: Int!
+  after: ID!
+}
+
+input ConnectionBackwardPagination {
+  last: Int!
+  before: ID!
+}
+
+input ConnectionPagination {
+  forward: ConnectionForwardPagination
+  backward: ConnectionBackwardPagination
+}
+
 enum SortDirection {
   ASC
   DESC
 }
+
 enum CommentSort {
   ID
   CONTENT
-  POST_ID
-  USER_ID
-  COMMENT_LIKES
 }
+
 input CommentOrdering {
   sort: CommentSort!
   direction: SortDirection! = ASC
@@ -2199,8 +2213,6 @@ input CommentOrdering {
 
 enum CommentLikeSort {
   ID
-  COMMENT_ID
-  USER_ID
   LIKE_TYPE
   CREATED_AT
 }
@@ -2213,8 +2225,8 @@ input CommentLikeOrdering {
 enum FriendshipSort {
   ID
   CREATED_AT
-  USERS
 }
+
 input FriendshipOrdering {
   sort: FriendshipSort!
   direction: SortDirection! = ASC
@@ -2222,11 +2234,10 @@ input FriendshipOrdering {
 
 enum ImageSort {
   ID
-  POST_ID
   VIEWS
   ORIGINAL_URL
-  IMAGE_VARIATIONS
 }
+
 input ImageOrdering {
   sort: ImageSort!
   direction: SortDirection! = ASC
@@ -2234,8 +2245,8 @@ input ImageOrdering {
 
 enum ImageVariationSort {
   ID
-  IMAGE_ID
 }
+
 input ImageVariationOrdering {
   sort: ImageVariationSort!
   direction: SortDirection! = ASC
@@ -2243,11 +2254,10 @@ input ImageVariationOrdering {
 
 enum LikeSort {
   ID
-  POST_ID
-  USER_ID
   LIKE_TYPE
   CREATED_AT
 }
+
 input LikeOrdering {
   sort: LikeSort!
   direction: SortDirection! = ASC
@@ -2256,11 +2266,8 @@ input LikeOrdering {
 enum PostSort {
   ID
   CONTENT
-  USER_ID
-  COMMENTS
-  IMAGES
-  LIKES
 }
+
 input PostOrdering {
   sort: PostSort!
   direction: SortDirection! = ASC
@@ -2271,12 +2278,8 @@ enum UserSort {
   FIRST_NAME
   LAST_NAME
   EMAIL
-  COMMENTS
-  COMMENT_LIKES
-  LIKES
-  POSTS
-  FRIENDSHIPS
 }
+
 input UserOrdering {
   sort: UserSort!
   direction: SortDirection! = ASC
@@ -2607,22 +2610,53 @@ input UserWhere {
 type Query {
   node(id: ID!): Node
   comment(id: ID!): Comment! @isAuthenticated
-  comments(filter: CommentFilter): [Comment!]! @isAuthenticated
+  comments(
+    pagination: ConnectionPagination!
+    ordering: [CommentOrdering!]
+    filter: CommentFilter
+  ): CommentConnection! @isAuthenticated
   commentLike(id: ID!): CommentLike! @isAuthenticated
-  commentLikes(filter: CommentLikeFilter): [CommentLike!]! @isAuthenticated
+  commentLikes(
+    pagination: ConnectionPagination!
+    ordering: [CommentLikeOrdering!]
+    filter: CommentLikeFilter
+  ): CommentLikeConnection! @isAuthenticated
   friendship(id: ID!): Friendship! @isAuthenticated
-  friendships(filter: FriendshipFilter): [Friendship!]! @isAuthenticated
+  friendships(
+    pagination: ConnectionPagination!
+    ordering: [FriendshipOrdering!]
+    filter: FriendshipFilter
+  ): FriendshipConnection! @isAuthenticated
   image(id: ID!): Image! @isAuthenticated
-  images(filter: ImageFilter): [Image!]! @isAuthenticated
+  images(
+    pagination: ConnectionPagination!
+    ordering: [ImageOrdering!]
+    filter: ImageFilter
+  ): ImageConnection! @isAuthenticated
   imageVariation(id: ID!): ImageVariation! @isAuthenticated
-  imageVariations(filter: ImageVariationFilter): [ImageVariation!]!
-    @isAuthenticated
+  imageVariations(
+    pagination: ConnectionPagination!
+    ordering: [ImageVariationOrdering!]
+    filter: ImageVariationFilter
+  ): ImageVariationConnection! @isAuthenticated
   like(id: ID!): Like! @isAuthenticated
-  likes(filter: LikeFilter): [Like!]! @isAuthenticated
+  likes(
+    pagination: ConnectionPagination!
+    ordering: [LikeOrdering!]
+    filter: LikeFilter
+  ): LikeConnection! @isAuthenticated
   post(id: ID!): Post! @isAuthenticated
-  posts(filter: PostFilter): [Post!]! @isAuthenticated
+  posts(
+    pagination: ConnectionPagination!
+    ordering: [PostOrdering!]
+    filter: PostFilter
+  ): PostConnection! @isAuthenticated
   user(id: ID!): User! @isAuthenticated
-  users(filter: UserFilter): [User!]! @isAuthenticated
+  users(
+    pagination: ConnectionPagination!
+    ordering: [UserOrdering!]
+    filter: UserFilter
+  ): UserConnection! @isAuthenticated
 }
 
 input CommentCreateInput {
@@ -3834,14 +3868,30 @@ func (ec *executionContext) field_Query_commentLike_args(ctx context.Context, ra
 func (ec *executionContext) field_Query_commentLikes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *CommentLikeFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOCommentLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeFilter(ctx, tmp)
+	var arg0 ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*CommentLikeOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOCommentLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *CommentLikeFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOCommentLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
 	return args, nil
 }
 
@@ -3862,14 +3912,30 @@ func (ec *executionContext) field_Query_comment_args(ctx context.Context, rawArg
 func (ec *executionContext) field_Query_comments_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *CommentFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOCommentFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentFilter(ctx, tmp)
+	var arg0 ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*CommentOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOCommentOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *CommentFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOCommentFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
 	return args, nil
 }
 
@@ -3890,14 +3956,30 @@ func (ec *executionContext) field_Query_friendship_args(ctx context.Context, raw
 func (ec *executionContext) field_Query_friendships_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *FriendshipFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOFriendshipFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipFilter(ctx, tmp)
+	var arg0 ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*FriendshipOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOFriendshipOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *FriendshipFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOFriendshipFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
 	return args, nil
 }
 
@@ -3918,14 +4000,30 @@ func (ec *executionContext) field_Query_imageVariation_args(ctx context.Context,
 func (ec *executionContext) field_Query_imageVariations_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *ImageVariationFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOImageVariationFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationFilter(ctx, tmp)
+	var arg0 ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*ImageVariationOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOImageVariationOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *ImageVariationFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOImageVariationFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
 	return args, nil
 }
 
@@ -3946,14 +4044,30 @@ func (ec *executionContext) field_Query_image_args(ctx context.Context, rawArgs 
 func (ec *executionContext) field_Query_images_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *ImageFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOImageFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageFilter(ctx, tmp)
+	var arg0 ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*ImageOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOImageOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *ImageFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOImageFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
 	return args, nil
 }
 
@@ -3974,14 +4088,30 @@ func (ec *executionContext) field_Query_like_args(ctx context.Context, rawArgs m
 func (ec *executionContext) field_Query_likes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *LikeFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeFilter(ctx, tmp)
+	var arg0 ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*LikeOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *LikeFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
 	return args, nil
 }
 
@@ -4016,14 +4146,30 @@ func (ec *executionContext) field_Query_post_args(ctx context.Context, rawArgs m
 func (ec *executionContext) field_Query_posts_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *PostFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOPostFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostFilter(ctx, tmp)
+	var arg0 ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*PostOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOPostOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *PostFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOPostFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
 	return args, nil
 }
 
@@ -4044,14 +4190,30 @@ func (ec *executionContext) field_Query_user_args(ctx context.Context, rawArgs m
 func (ec *executionContext) field_Query_users_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *UserFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOUserFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserFilter(ctx, tmp)
+	var arg0 ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*UserOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOUserOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *UserFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOUserFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
 	return args, nil
 }
 
@@ -10394,7 +10556,7 @@ func (ec *executionContext) _Query_comments(ctx context.Context, field graphql.C
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Comments(rctx, args["filter"].(*CommentFilter))
+			return ec.resolvers.Query().Comments(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*CommentOrdering), args["filter"].(*CommentFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -10410,10 +10572,10 @@ func (ec *executionContext) _Query_comments(ctx context.Context, field graphql.C
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*Comment); ok {
+		if data, ok := tmp.(*CommentConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.Comment`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.CommentConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -10425,9 +10587,9 @@ func (ec *executionContext) _Query_comments(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*Comment)
+	res := resTmp.(*CommentConnection)
 	fc.Result = res
-	return ec.marshalNComment2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentᚄ(ctx, field.Selections, res)
+	return ec.marshalNCommentConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_commentLike(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -10516,7 +10678,7 @@ func (ec *executionContext) _Query_commentLikes(ctx context.Context, field graph
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().CommentLikes(rctx, args["filter"].(*CommentLikeFilter))
+			return ec.resolvers.Query().CommentLikes(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*CommentLikeOrdering), args["filter"].(*CommentLikeFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -10532,10 +10694,10 @@ func (ec *executionContext) _Query_commentLikes(ctx context.Context, field graph
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*CommentLike); ok {
+		if data, ok := tmp.(*CommentLikeConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.CommentLike`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.CommentLikeConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -10547,9 +10709,9 @@ func (ec *executionContext) _Query_commentLikes(ctx context.Context, field graph
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*CommentLike)
+	res := resTmp.(*CommentLikeConnection)
 	fc.Result = res
-	return ec.marshalNCommentLike2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeᚄ(ctx, field.Selections, res)
+	return ec.marshalNCommentLikeConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_friendship(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -10638,7 +10800,7 @@ func (ec *executionContext) _Query_friendships(ctx context.Context, field graphq
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Friendships(rctx, args["filter"].(*FriendshipFilter))
+			return ec.resolvers.Query().Friendships(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*FriendshipOrdering), args["filter"].(*FriendshipFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -10654,10 +10816,10 @@ func (ec *executionContext) _Query_friendships(ctx context.Context, field graphq
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*Friendship); ok {
+		if data, ok := tmp.(*FriendshipConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.Friendship`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.FriendshipConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -10669,9 +10831,9 @@ func (ec *executionContext) _Query_friendships(ctx context.Context, field graphq
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*Friendship)
+	res := resTmp.(*FriendshipConnection)
 	fc.Result = res
-	return ec.marshalNFriendship2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipᚄ(ctx, field.Selections, res)
+	return ec.marshalNFriendshipConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_image(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -10760,7 +10922,7 @@ func (ec *executionContext) _Query_images(ctx context.Context, field graphql.Col
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Images(rctx, args["filter"].(*ImageFilter))
+			return ec.resolvers.Query().Images(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*ImageOrdering), args["filter"].(*ImageFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -10776,10 +10938,10 @@ func (ec *executionContext) _Query_images(ctx context.Context, field graphql.Col
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*Image); ok {
+		if data, ok := tmp.(*ImageConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.Image`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.ImageConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -10791,9 +10953,9 @@ func (ec *executionContext) _Query_images(ctx context.Context, field graphql.Col
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*Image)
+	res := resTmp.(*ImageConnection)
 	fc.Result = res
-	return ec.marshalNImage2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageᚄ(ctx, field.Selections, res)
+	return ec.marshalNImageConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_imageVariation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -10882,7 +11044,7 @@ func (ec *executionContext) _Query_imageVariations(ctx context.Context, field gr
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().ImageVariations(rctx, args["filter"].(*ImageVariationFilter))
+			return ec.resolvers.Query().ImageVariations(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*ImageVariationOrdering), args["filter"].(*ImageVariationFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -10898,10 +11060,10 @@ func (ec *executionContext) _Query_imageVariations(ctx context.Context, field gr
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*ImageVariation); ok {
+		if data, ok := tmp.(*ImageVariationConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.ImageVariation`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.ImageVariationConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -10913,9 +11075,9 @@ func (ec *executionContext) _Query_imageVariations(ctx context.Context, field gr
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*ImageVariation)
+	res := resTmp.(*ImageVariationConnection)
 	fc.Result = res
-	return ec.marshalNImageVariation2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationᚄ(ctx, field.Selections, res)
+	return ec.marshalNImageVariationConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_like(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -11004,7 +11166,7 @@ func (ec *executionContext) _Query_likes(ctx context.Context, field graphql.Coll
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Likes(rctx, args["filter"].(*LikeFilter))
+			return ec.resolvers.Query().Likes(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*LikeOrdering), args["filter"].(*LikeFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -11020,10 +11182,10 @@ func (ec *executionContext) _Query_likes(ctx context.Context, field graphql.Coll
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*Like); ok {
+		if data, ok := tmp.(*LikeConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.Like`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.LikeConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11035,9 +11197,9 @@ func (ec *executionContext) _Query_likes(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*Like)
+	res := resTmp.(*LikeConnection)
 	fc.Result = res
-	return ec.marshalNLike2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeᚄ(ctx, field.Selections, res)
+	return ec.marshalNLikeConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_post(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -11126,7 +11288,7 @@ func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.Coll
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Posts(rctx, args["filter"].(*PostFilter))
+			return ec.resolvers.Query().Posts(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*PostOrdering), args["filter"].(*PostFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -11142,10 +11304,10 @@ func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.Coll
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*Post); ok {
+		if data, ok := tmp.(*PostConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.Post`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.PostConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11157,9 +11319,9 @@ func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*Post)
+	res := resTmp.(*PostConnection)
 	fc.Result = res
-	return ec.marshalNPost2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostᚄ(ctx, field.Selections, res)
+	return ec.marshalNPostConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_user(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -11248,7 +11410,7 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Users(rctx, args["filter"].(*UserFilter))
+			return ec.resolvers.Query().Users(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -11264,10 +11426,10 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*User); ok {
+		if data, ok := tmp.(*UserConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.User`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models.UserConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11279,9 +11441,9 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*User)
+	res := resTmp.(*UserConnection)
 	fc.Result = res
-	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserᚄ(ctx, field.Selections, res)
+	return ec.marshalNUserConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -13394,6 +13556,78 @@ func (ec *executionContext) unmarshalInputCommentsCreateInput(ctx context.Contex
 		case "comments":
 			var err error
 			it.Comments, err = ec.unmarshalNCommentCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentCreateInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputConnectionBackwardPagination(ctx context.Context, obj interface{}) (ConnectionBackwardPagination, error) {
+	var it ConnectionBackwardPagination
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "last":
+			var err error
+			it.Last, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "before":
+			var err error
+			it.Before, err = ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputConnectionForwardPagination(ctx context.Context, obj interface{}) (ConnectionForwardPagination, error) {
+	var it ConnectionForwardPagination
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "first":
+			var err error
+			it.First, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "after":
+			var err error
+			it.After, err = ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputConnectionPagination(ctx context.Context, obj interface{}) (ConnectionPagination, error) {
+	var it ConnectionPagination
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "forward":
+			var err error
+			it.Forward, err = ec.unmarshalOConnectionForwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionForwardPagination(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "backward":
+			var err error
+			it.Backward, err = ec.unmarshalOConnectionBackwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionBackwardPagination(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -17545,6 +17779,20 @@ func (ec *executionContext) marshalNComment2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlg
 	return ec._Comment(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNCommentConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentConnection(ctx context.Context, sel ast.SelectionSet, v CommentConnection) graphql.Marshaler {
+	return ec._CommentConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNCommentConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentConnection(ctx context.Context, sel ast.SelectionSet, v *CommentConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._CommentConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNCommentCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentCreateInput(ctx context.Context, v interface{}) (CommentCreateInput, error) {
 	return ec.unmarshalInputCommentCreateInput(ctx, v)
 }
@@ -17642,6 +17890,20 @@ func (ec *executionContext) marshalNCommentLike2ᚖgithubᚗcomᚋwebᚑridgeᚋ
 	return ec._CommentLike(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNCommentLikeConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeConnection(ctx context.Context, sel ast.SelectionSet, v CommentLikeConnection) graphql.Marshaler {
+	return ec._CommentLikeConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNCommentLikeConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeConnection(ctx context.Context, sel ast.SelectionSet, v *CommentLikeConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._CommentLikeConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNCommentLikeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeCreateInput(ctx context.Context, v interface{}) (CommentLikeCreateInput, error) {
 	return ec.unmarshalInputCommentLikeCreateInput(ctx, v)
 }
@@ -17686,6 +17948,18 @@ func (ec *executionContext) marshalNCommentLikeDeletePayload2ᚖgithubᚗcomᚋw
 		return graphql.Null
 	}
 	return ec._CommentLikeDeletePayload(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNCommentLikeOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeOrdering(ctx context.Context, v interface{}) (CommentLikeOrdering, error) {
+	return ec.unmarshalInputCommentLikeOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNCommentLikeOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeOrdering(ctx context.Context, v interface{}) (*CommentLikeOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNCommentLikeOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeOrdering(ctx, v)
+	return &res, err
 }
 
 func (ec *executionContext) marshalNCommentLikePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikePayload(ctx context.Context, sel ast.SelectionSet, v CommentLikePayload) graphql.Marshaler {
@@ -17761,6 +18035,18 @@ func (ec *executionContext) marshalNCommentLikesUpdatePayload2ᚖgithubᚗcomᚋ
 	return ec._CommentLikesUpdatePayload(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNCommentOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentOrdering(ctx context.Context, v interface{}) (CommentOrdering, error) {
+	return ec.unmarshalInputCommentOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNCommentOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentOrdering(ctx context.Context, v interface{}) (*CommentOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNCommentOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentOrdering(ctx, v)
+	return &res, err
+}
+
 func (ec *executionContext) marshalNCommentPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentPayload(ctx context.Context, sel ast.SelectionSet, v CommentPayload) graphql.Marshaler {
 	return ec._CommentPayload(ctx, sel, &v)
 }
@@ -17834,6 +18120,10 @@ func (ec *executionContext) marshalNCommentsUpdatePayload2ᚖgithubᚗcomᚋweb�
 	return ec._CommentsUpdatePayload(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx context.Context, v interface{}) (ConnectionPagination, error) {
+	return ec.unmarshalInputConnectionPagination(ctx, v)
+}
+
 func (ec *executionContext) unmarshalNFloat2float64(ctx context.Context, v interface{}) (float64, error) {
 	return graphql.UnmarshalFloat(v)
 }
@@ -17899,6 +18189,20 @@ func (ec *executionContext) marshalNFriendship2ᚖgithubᚗcomᚋwebᚑridgeᚋg
 	return ec._Friendship(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNFriendshipConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipConnection(ctx context.Context, sel ast.SelectionSet, v FriendshipConnection) graphql.Marshaler {
+	return ec._FriendshipConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNFriendshipConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipConnection(ctx context.Context, sel ast.SelectionSet, v *FriendshipConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._FriendshipConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNFriendshipCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipCreateInput(ctx context.Context, v interface{}) (FriendshipCreateInput, error) {
 	return ec.unmarshalInputFriendshipCreateInput(ctx, v)
 }
@@ -17943,6 +18247,18 @@ func (ec *executionContext) marshalNFriendshipDeletePayload2ᚖgithubᚗcomᚋwe
 		return graphql.Null
 	}
 	return ec._FriendshipDeletePayload(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNFriendshipOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipOrdering(ctx context.Context, v interface{}) (FriendshipOrdering, error) {
+	return ec.unmarshalInputFriendshipOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNFriendshipOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipOrdering(ctx context.Context, v interface{}) (*FriendshipOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNFriendshipOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipOrdering(ctx, v)
+	return &res, err
 }
 
 func (ec *executionContext) marshalNFriendshipPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipPayload(ctx context.Context, sel ast.SelectionSet, v FriendshipPayload) graphql.Marshaler {
@@ -18112,6 +18428,20 @@ func (ec *executionContext) marshalNImage2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen
 	return ec._Image(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNImageConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageConnection(ctx context.Context, sel ast.SelectionSet, v ImageConnection) graphql.Marshaler {
+	return ec._ImageConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNImageConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageConnection(ctx context.Context, sel ast.SelectionSet, v *ImageConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._ImageConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNImageCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageCreateInput(ctx context.Context, v interface{}) (ImageCreateInput, error) {
 	return ec.unmarshalInputImageCreateInput(ctx, v)
 }
@@ -18156,6 +18486,18 @@ func (ec *executionContext) marshalNImageDeletePayload2ᚖgithubᚗcomᚋwebᚑr
 		return graphql.Null
 	}
 	return ec._ImageDeletePayload(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNImageOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageOrdering(ctx context.Context, v interface{}) (ImageOrdering, error) {
+	return ec.unmarshalInputImageOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNImageOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageOrdering(ctx context.Context, v interface{}) (*ImageOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNImageOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageOrdering(ctx, v)
+	return &res, err
 }
 
 func (ec *executionContext) marshalNImagePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImagePayload(ctx context.Context, sel ast.SelectionSet, v ImagePayload) graphql.Marshaler {
@@ -18236,6 +18578,20 @@ func (ec *executionContext) marshalNImageVariation2ᚖgithubᚗcomᚋwebᚑridge
 	return ec._ImageVariation(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNImageVariationConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationConnection(ctx context.Context, sel ast.SelectionSet, v ImageVariationConnection) graphql.Marshaler {
+	return ec._ImageVariationConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNImageVariationConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationConnection(ctx context.Context, sel ast.SelectionSet, v *ImageVariationConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._ImageVariationConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNImageVariationCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationCreateInput(ctx context.Context, v interface{}) (ImageVariationCreateInput, error) {
 	return ec.unmarshalInputImageVariationCreateInput(ctx, v)
 }
@@ -18280,6 +18636,18 @@ func (ec *executionContext) marshalNImageVariationDeletePayload2ᚖgithubᚗcom�
 		return graphql.Null
 	}
 	return ec._ImageVariationDeletePayload(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNImageVariationOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationOrdering(ctx context.Context, v interface{}) (ImageVariationOrdering, error) {
+	return ec.unmarshalInputImageVariationOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNImageVariationOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationOrdering(ctx context.Context, v interface{}) (*ImageVariationOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNImageVariationOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationOrdering(ctx, v)
+	return &res, err
 }
 
 func (ec *executionContext) marshalNImageVariationPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationPayload(ctx context.Context, sel ast.SelectionSet, v ImageVariationPayload) graphql.Marshaler {
@@ -18466,6 +18834,20 @@ func (ec *executionContext) marshalNLike2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen�
 	return ec._Like(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNLikeConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeConnection(ctx context.Context, sel ast.SelectionSet, v LikeConnection) graphql.Marshaler {
+	return ec._LikeConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNLikeConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeConnection(ctx context.Context, sel ast.SelectionSet, v *LikeConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._LikeConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNLikeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeCreateInput(ctx context.Context, v interface{}) (LikeCreateInput, error) {
 	return ec.unmarshalInputLikeCreateInput(ctx, v)
 }
@@ -18510,6 +18892,18 @@ func (ec *executionContext) marshalNLikeDeletePayload2ᚖgithubᚗcomᚋwebᚑri
 		return graphql.Null
 	}
 	return ec._LikeDeletePayload(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNLikeOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeOrdering(ctx context.Context, v interface{}) (LikeOrdering, error) {
+	return ec.unmarshalInputLikeOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNLikeOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeOrdering(ctx context.Context, v interface{}) (*LikeOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNLikeOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeOrdering(ctx, v)
+	return &res, err
 }
 
 func (ec *executionContext) marshalNLikePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikePayload(ctx context.Context, sel ast.SelectionSet, v LikePayload) graphql.Marshaler {
@@ -18650,6 +19044,20 @@ func (ec *executionContext) marshalNPost2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen�
 	return ec._Post(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNPostConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostConnection(ctx context.Context, sel ast.SelectionSet, v PostConnection) graphql.Marshaler {
+	return ec._PostConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNPostConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostConnection(ctx context.Context, sel ast.SelectionSet, v *PostConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._PostConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNPostCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostCreateInput(ctx context.Context, v interface{}) (PostCreateInput, error) {
 	return ec.unmarshalInputPostCreateInput(ctx, v)
 }
@@ -18694,6 +19102,18 @@ func (ec *executionContext) marshalNPostDeletePayload2ᚖgithubᚗcomᚋwebᚑri
 		return graphql.Null
 	}
 	return ec._PostDeletePayload(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNPostOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostOrdering(ctx context.Context, v interface{}) (PostOrdering, error) {
+	return ec.unmarshalInputPostOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNPostOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostOrdering(ctx context.Context, v interface{}) (*PostOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNPostOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostOrdering(ctx, v)
+	return &res, err
 }
 
 func (ec *executionContext) marshalNPostPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostPayload(ctx context.Context, sel ast.SelectionSet, v PostPayload) graphql.Marshaler {
@@ -18843,6 +19263,20 @@ func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen�
 	return ec._User(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNUserConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserConnection(ctx context.Context, sel ast.SelectionSet, v UserConnection) graphql.Marshaler {
+	return ec._UserConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNUserConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserConnection(ctx context.Context, sel ast.SelectionSet, v *UserConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._UserConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNUserCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserCreateInput(ctx context.Context, v interface{}) (UserCreateInput, error) {
 	return ec.unmarshalInputUserCreateInput(ctx, v)
 }
@@ -18887,6 +19321,18 @@ func (ec *executionContext) marshalNUserDeletePayload2ᚖgithubᚗcomᚋwebᚑri
 		return graphql.Null
 	}
 	return ec._UserDeletePayload(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNUserOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserOrdering(ctx context.Context, v interface{}) (UserOrdering, error) {
+	return ec.unmarshalInputUserOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNUserOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserOrdering(ctx context.Context, v interface{}) (*UserOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNUserOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserOrdering(ctx, v)
+	return &res, err
 }
 
 func (ec *executionContext) marshalNUserPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserPayload(ctx context.Context, sel ast.SelectionSet, v UserPayload) graphql.Marshaler {
@@ -19439,6 +19885,26 @@ func (ec *executionContext) unmarshalOCommentLikeFilter2ᚖgithubᚗcomᚋwebᚑ
 	return &res, err
 }
 
+func (ec *executionContext) unmarshalOCommentLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeOrderingᚄ(ctx context.Context, v interface{}) ([]*CommentLikeOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*CommentLikeOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNCommentLikeOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
 func (ec *executionContext) unmarshalOCommentLikeWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeWhere(ctx context.Context, v interface{}) (CommentLikeWhere, error) {
 	return ec.unmarshalInputCommentLikeWhere(ctx, v)
 }
@@ -19451,6 +19917,26 @@ func (ec *executionContext) unmarshalOCommentLikeWhere2ᚖgithubᚗcomᚋwebᚑr
 	return &res, err
 }
 
+func (ec *executionContext) unmarshalOCommentOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentOrderingᚄ(ctx context.Context, v interface{}) ([]*CommentOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*CommentOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNCommentOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
 func (ec *executionContext) unmarshalOCommentWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentWhere(ctx context.Context, v interface{}) (CommentWhere, error) {
 	return ec.unmarshalInputCommentWhere(ctx, v)
 }
@@ -19460,6 +19946,30 @@ func (ec *executionContext) unmarshalOCommentWhere2ᚖgithubᚗcomᚋwebᚑridge
 		return nil, nil
 	}
 	res, err := ec.unmarshalOCommentWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentWhere(ctx, v)
+	return &res, err
+}
+
+func (ec *executionContext) unmarshalOConnectionBackwardPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionBackwardPagination(ctx context.Context, v interface{}) (ConnectionBackwardPagination, error) {
+	return ec.unmarshalInputConnectionBackwardPagination(ctx, v)
+}
+
+func (ec *executionContext) unmarshalOConnectionBackwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionBackwardPagination(ctx context.Context, v interface{}) (*ConnectionBackwardPagination, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalOConnectionBackwardPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionBackwardPagination(ctx, v)
+	return &res, err
+}
+
+func (ec *executionContext) unmarshalOConnectionForwardPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionForwardPagination(ctx context.Context, v interface{}) (ConnectionForwardPagination, error) {
+	return ec.unmarshalInputConnectionForwardPagination(ctx, v)
+}
+
+func (ec *executionContext) unmarshalOConnectionForwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionForwardPagination(ctx context.Context, v interface{}) (*ConnectionForwardPagination, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalOConnectionForwardPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionForwardPagination(ctx, v)
 	return &res, err
 }
 
@@ -19630,6 +20140,26 @@ func (ec *executionContext) unmarshalOFriendshipFilter2ᚖgithubᚗcomᚋwebᚑr
 	}
 	res, err := ec.unmarshalOFriendshipFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipFilter(ctx, v)
 	return &res, err
+}
+
+func (ec *executionContext) unmarshalOFriendshipOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipOrderingᚄ(ctx context.Context, v interface{}) ([]*FriendshipOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*FriendshipOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNFriendshipOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
 }
 
 func (ec *executionContext) unmarshalOFriendshipWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipWhere(ctx context.Context, v interface{}) (FriendshipWhere, error) {
@@ -19825,6 +20355,26 @@ func (ec *executionContext) unmarshalOImageFilter2ᚖgithubᚗcomᚋwebᚑridge�
 	return &res, err
 }
 
+func (ec *executionContext) unmarshalOImageOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageOrderingᚄ(ctx context.Context, v interface{}) ([]*ImageOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*ImageOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNImageOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
 func (ec *executionContext) marshalOImageVariation2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariation(ctx context.Context, sel ast.SelectionSet, v ImageVariation) graphql.Marshaler {
 	return ec._ImageVariation(ctx, sel, &v)
 }
@@ -19937,6 +20487,26 @@ func (ec *executionContext) unmarshalOImageVariationFilter2ᚖgithubᚗcomᚋweb
 	}
 	res, err := ec.unmarshalOImageVariationFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationFilter(ctx, v)
 	return &res, err
+}
+
+func (ec *executionContext) unmarshalOImageVariationOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationOrderingᚄ(ctx context.Context, v interface{}) ([]*ImageVariationOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*ImageVariationOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNImageVariationOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
 }
 
 func (ec *executionContext) unmarshalOImageVariationWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationWhere(ctx context.Context, v interface{}) (ImageVariationWhere, error) {
@@ -20144,6 +20714,26 @@ func (ec *executionContext) unmarshalOLikeFilter2ᚖgithubᚗcomᚋwebᚑridge�
 	return &res, err
 }
 
+func (ec *executionContext) unmarshalOLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeOrderingᚄ(ctx context.Context, v interface{}) ([]*LikeOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*LikeOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNLikeOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
 func (ec *executionContext) unmarshalOLikeWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeWhere(ctx context.Context, v interface{}) (LikeWhere, error) {
 	return ec.unmarshalInputLikeWhere(ctx, v)
 }
@@ -20275,6 +20865,26 @@ func (ec *executionContext) unmarshalOPostFilter2ᚖgithubᚗcomᚋwebᚑridge�
 	}
 	res, err := ec.unmarshalOPostFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostFilter(ctx, v)
 	return &res, err
+}
+
+func (ec *executionContext) unmarshalOPostOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostOrderingᚄ(ctx context.Context, v interface{}) ([]*PostOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*PostOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNPostOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
 }
 
 func (ec *executionContext) unmarshalOPostWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostWhere(ctx context.Context, v interface{}) (PostWhere, error) {
@@ -20468,6 +21078,26 @@ func (ec *executionContext) unmarshalOUserFilter2ᚖgithubᚗcomᚋwebᚑridge�
 	}
 	res, err := ec.unmarshalOUserFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserFilter(ctx, v)
 	return &res, err
+}
+
+func (ec *executionContext) unmarshalOUserOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserOrderingᚄ(ctx context.Context, v interface{}) ([]*UserOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*UserOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNUserOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
 }
 
 func (ec *executionContext) unmarshalOUserWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserWhere(ctx context.Context, v interface{}) (UserWhere, error) {

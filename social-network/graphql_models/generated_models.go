@@ -171,6 +171,21 @@ type CommentsUpdatePayload struct {
 	Ok bool `json:"ok"`
 }
 
+type ConnectionBackwardPagination struct {
+	Last   int    `json:"last"`
+	Before string `json:"before"`
+}
+
+type ConnectionForwardPagination struct {
+	First int    `json:"first"`
+	After string `json:"after"`
+}
+
+type ConnectionPagination struct {
+	Forward  *ConnectionForwardPagination  `json:"forward"`
+	Backward *ConnectionBackwardPagination `json:"backward"`
+}
+
 type FloatFilter struct {
 	EqualTo           *float64  `json:"equalTo"`
 	NotEqualTo        *float64  `json:"notEqualTo"`
@@ -678,23 +693,19 @@ type CommentLikeSort string
 
 const (
 	CommentLikeSortID        CommentLikeSort = "ID"
-	CommentLikeSortCommentID CommentLikeSort = "COMMENT_ID"
-	CommentLikeSortUserID    CommentLikeSort = "USER_ID"
 	CommentLikeSortLikeType  CommentLikeSort = "LIKE_TYPE"
 	CommentLikeSortCreatedAt CommentLikeSort = "CREATED_AT"
 )
 
 var AllCommentLikeSort = []CommentLikeSort{
 	CommentLikeSortID,
-	CommentLikeSortCommentID,
-	CommentLikeSortUserID,
 	CommentLikeSortLikeType,
 	CommentLikeSortCreatedAt,
 }
 
 func (e CommentLikeSort) IsValid() bool {
 	switch e {
-	case CommentLikeSortID, CommentLikeSortCommentID, CommentLikeSortUserID, CommentLikeSortLikeType, CommentLikeSortCreatedAt:
+	case CommentLikeSortID, CommentLikeSortLikeType, CommentLikeSortCreatedAt:
 		return true
 	}
 	return false
@@ -724,24 +735,18 @@ func (e CommentLikeSort) MarshalGQL(w io.Writer) {
 type CommentSort string
 
 const (
-	CommentSortID           CommentSort = "ID"
-	CommentSortContent      CommentSort = "CONTENT"
-	CommentSortPostID       CommentSort = "POST_ID"
-	CommentSortUserID       CommentSort = "USER_ID"
-	CommentSortCommentLikes CommentSort = "COMMENT_LIKES"
+	CommentSortID      CommentSort = "ID"
+	CommentSortContent CommentSort = "CONTENT"
 )
 
 var AllCommentSort = []CommentSort{
 	CommentSortID,
 	CommentSortContent,
-	CommentSortPostID,
-	CommentSortUserID,
-	CommentSortCommentLikes,
 }
 
 func (e CommentSort) IsValid() bool {
 	switch e {
-	case CommentSortID, CommentSortContent, CommentSortPostID, CommentSortUserID, CommentSortCommentLikes:
+	case CommentSortID, CommentSortContent:
 		return true
 	}
 	return false
@@ -773,18 +778,16 @@ type FriendshipSort string
 const (
 	FriendshipSortID        FriendshipSort = "ID"
 	FriendshipSortCreatedAt FriendshipSort = "CREATED_AT"
-	FriendshipSortUsers     FriendshipSort = "USERS"
 )
 
 var AllFriendshipSort = []FriendshipSort{
 	FriendshipSortID,
 	FriendshipSortCreatedAt,
-	FriendshipSortUsers,
 }
 
 func (e FriendshipSort) IsValid() bool {
 	switch e {
-	case FriendshipSortID, FriendshipSortCreatedAt, FriendshipSortUsers:
+	case FriendshipSortID, FriendshipSortCreatedAt:
 		return true
 	}
 	return false
@@ -814,24 +817,20 @@ func (e FriendshipSort) MarshalGQL(w io.Writer) {
 type ImageSort string
 
 const (
-	ImageSortID              ImageSort = "ID"
-	ImageSortPostID          ImageSort = "POST_ID"
-	ImageSortViews           ImageSort = "VIEWS"
-	ImageSortOriginalURL     ImageSort = "ORIGINAL_URL"
-	ImageSortImageVariations ImageSort = "IMAGE_VARIATIONS"
+	ImageSortID          ImageSort = "ID"
+	ImageSortViews       ImageSort = "VIEWS"
+	ImageSortOriginalURL ImageSort = "ORIGINAL_URL"
 )
 
 var AllImageSort = []ImageSort{
 	ImageSortID,
-	ImageSortPostID,
 	ImageSortViews,
 	ImageSortOriginalURL,
-	ImageSortImageVariations,
 }
 
 func (e ImageSort) IsValid() bool {
 	switch e {
-	case ImageSortID, ImageSortPostID, ImageSortViews, ImageSortOriginalURL, ImageSortImageVariations:
+	case ImageSortID, ImageSortViews, ImageSortOriginalURL:
 		return true
 	}
 	return false
@@ -861,18 +860,16 @@ func (e ImageSort) MarshalGQL(w io.Writer) {
 type ImageVariationSort string
 
 const (
-	ImageVariationSortID      ImageVariationSort = "ID"
-	ImageVariationSortImageID ImageVariationSort = "IMAGE_ID"
+	ImageVariationSortID ImageVariationSort = "ID"
 )
 
 var AllImageVariationSort = []ImageVariationSort{
 	ImageVariationSortID,
-	ImageVariationSortImageID,
 }
 
 func (e ImageVariationSort) IsValid() bool {
 	switch e {
-	case ImageVariationSortID, ImageVariationSortImageID:
+	case ImageVariationSortID:
 		return true
 	}
 	return false
@@ -903,23 +900,19 @@ type LikeSort string
 
 const (
 	LikeSortID        LikeSort = "ID"
-	LikeSortPostID    LikeSort = "POST_ID"
-	LikeSortUserID    LikeSort = "USER_ID"
 	LikeSortLikeType  LikeSort = "LIKE_TYPE"
 	LikeSortCreatedAt LikeSort = "CREATED_AT"
 )
 
 var AllLikeSort = []LikeSort{
 	LikeSortID,
-	LikeSortPostID,
-	LikeSortUserID,
 	LikeSortLikeType,
 	LikeSortCreatedAt,
 }
 
 func (e LikeSort) IsValid() bool {
 	switch e {
-	case LikeSortID, LikeSortPostID, LikeSortUserID, LikeSortLikeType, LikeSortCreatedAt:
+	case LikeSortID, LikeSortLikeType, LikeSortCreatedAt:
 		return true
 	}
 	return false
@@ -949,26 +942,18 @@ func (e LikeSort) MarshalGQL(w io.Writer) {
 type PostSort string
 
 const (
-	PostSortID       PostSort = "ID"
-	PostSortContent  PostSort = "CONTENT"
-	PostSortUserID   PostSort = "USER_ID"
-	PostSortComments PostSort = "COMMENTS"
-	PostSortImages   PostSort = "IMAGES"
-	PostSortLikes    PostSort = "LIKES"
+	PostSortID      PostSort = "ID"
+	PostSortContent PostSort = "CONTENT"
 )
 
 var AllPostSort = []PostSort{
 	PostSortID,
 	PostSortContent,
-	PostSortUserID,
-	PostSortComments,
-	PostSortImages,
-	PostSortLikes,
 }
 
 func (e PostSort) IsValid() bool {
 	switch e {
-	case PostSortID, PostSortContent, PostSortUserID, PostSortComments, PostSortImages, PostSortLikes:
+	case PostSortID, PostSortContent:
 		return true
 	}
 	return false
@@ -1039,15 +1024,10 @@ func (e SortDirection) MarshalGQL(w io.Writer) {
 type UserSort string
 
 const (
-	UserSortID           UserSort = "ID"
-	UserSortFirstName    UserSort = "FIRST_NAME"
-	UserSortLastName     UserSort = "LAST_NAME"
-	UserSortEmail        UserSort = "EMAIL"
-	UserSortComments     UserSort = "COMMENTS"
-	UserSortCommentLikes UserSort = "COMMENT_LIKES"
-	UserSortLikes        UserSort = "LIKES"
-	UserSortPosts        UserSort = "POSTS"
-	UserSortFriendships  UserSort = "FRIENDSHIPS"
+	UserSortID        UserSort = "ID"
+	UserSortFirstName UserSort = "FIRST_NAME"
+	UserSortLastName  UserSort = "LAST_NAME"
+	UserSortEmail     UserSort = "EMAIL"
 )
 
 var AllUserSort = []UserSort{
@@ -1055,16 +1035,11 @@ var AllUserSort = []UserSort{
 	UserSortFirstName,
 	UserSortLastName,
 	UserSortEmail,
-	UserSortComments,
-	UserSortCommentLikes,
-	UserSortLikes,
-	UserSortPosts,
-	UserSortFriendships,
 }
 
 func (e UserSort) IsValid() bool {
 	switch e {
-	case UserSortID, UserSortFirstName, UserSortLastName, UserSortEmail, UserSortComments, UserSortCommentLikes, UserSortLikes, UserSortPosts, UserSortFriendships:
+	case UserSortID, UserSortFirstName, UserSortLastName, UserSortEmail:
 		return true
 	}
 	return false

@@ -3,6 +3,7 @@ module github.com/web-ridge/gqlgen-sqlboiler-examples
 go 1.14
 
 replace github.com/web-ridge/gqlgen-sqlboiler/v2 => ../gqlgen-sqlboiler
+
 replace github.com/web-ridge/sqlboiler-graphql-schema => ../sqlboiler-graphql-schema
 
 require (
@@ -17,6 +18,7 @@ require (
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/rs/zerolog v1.18.0
 	github.com/spf13/viper v1.7.0
+	github.com/stretchr/testify v1.4.0
 	github.com/vektah/gqlparser/v2 v2.0.1
 	github.com/volatiletech/null/v8 v8.1.0
 	github.com/volatiletech/randomize v0.0.1

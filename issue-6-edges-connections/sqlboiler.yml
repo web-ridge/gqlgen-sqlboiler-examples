@@ -1,0 +1,7 @@
+mysql:
+  dbname: connections
+  host: localhost
+  port: 3390
+  user: root
+  pass: root
+  sslmode: "false"

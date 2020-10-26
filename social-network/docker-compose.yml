@@ -7,6 +7,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
     volumes:
-      - ./socialnetwork.sql:/docker-entrypoint-initdb.d/socialnetwork.sql
+      - ./connections.sql:/docker-entrypoint-initdb.d/connections.sql
     ports:
       - "3307:3306"

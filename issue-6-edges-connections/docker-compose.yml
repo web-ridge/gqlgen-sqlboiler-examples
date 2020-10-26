@@ -9,4 +9,4 @@ services:
     volumes:
       - ./connections.sql:/docker-entrypoint-initdb.d/connections.sql
     ports:
-      - "3308:3306"
+      - "3390:3306"

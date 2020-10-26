@@ -11,6 +11,21 @@ type PageInfo {
   endCursor: String
 }
 
+input ConnectionForwardPagination {
+  first: Int!
+  after: ID!
+}
+
+input ConnectionBackwardPagination {
+  last: Int!
+  before: ID!
+}
+
+input ConnectionPagination {
+  forward: ConnectionForwardPagination
+  backward: ConnectionBackwardPagination
+}
+
 enum SortDirection {
   ASC
   DESC
@@ -19,9 +34,6 @@ enum SortDirection {
 enum CommentSort {
   ID
   CONTENT
-  POST_ID
-  USER_ID
-  COMMENT_LIKES
 }
 
 input CommentOrdering {
@@ -31,8 +43,6 @@ input CommentOrdering {
 
 enum CommentLikeSort {
   ID
-  COMMENT_ID
-  USER_ID
   LIKE_TYPE
   CREATED_AT
 }
@@ -45,7 +55,6 @@ input CommentLikeOrdering {
 enum FriendshipSort {
   ID
   CREATED_AT
-  USERS
 }
 
 input FriendshipOrdering {
@@ -55,10 +64,8 @@ input FriendshipOrdering {
 
 enum ImageSort {
   ID
-  POST_ID
   VIEWS
   ORIGINAL_URL
-  IMAGE_VARIATIONS
 }
 
 input ImageOrdering {
@@ -68,7 +75,6 @@ input ImageOrdering {
 
 enum ImageVariationSort {
   ID
-  IMAGE_ID
 }
 
 input ImageVariationOrdering {
@@ -78,8 +84,6 @@ input ImageVariationOrdering {
 
 enum LikeSort {
   ID
-  POST_ID
-  USER_ID
   LIKE_TYPE
   CREATED_AT
 }
@@ -92,10 +96,6 @@ input LikeOrdering {
 enum PostSort {
   ID
   CONTENT
-  USER_ID
-  COMMENTS
-  IMAGES
-  LIKES
 }
 
 input PostOrdering {
@@ -108,11 +108,6 @@ enum UserSort {
   FIRST_NAME
   LAST_NAME
   EMAIL
-  COMMENTS
-  COMMENT_LIKES
-  LIKES
-  POSTS
-  FRIENDSHIPS
 }
 
 input UserOrdering {
@@ -445,22 +440,53 @@ input UserWhere {
 type Query {
   node(id: ID!): Node
   comment(id: ID!): Comment! @isAuthenticated
-  comments(filter: CommentFilter): [Comment!]! @isAuthenticated
+  comments(
+    pagination: ConnectionPagination!
+    ordering: [CommentOrdering!]
+    filter: CommentFilter
+  ): CommentConnection! @isAuthenticated
   commentLike(id: ID!): CommentLike! @isAuthenticated
-  commentLikes(filter: CommentLikeFilter): [CommentLike!]! @isAuthenticated
+  commentLikes(
+    pagination: ConnectionPagination!
+    ordering: [CommentLikeOrdering!]
+    filter: CommentLikeFilter
+  ): CommentLikeConnection! @isAuthenticated
   friendship(id: ID!): Friendship! @isAuthenticated
-  friendships(filter: FriendshipFilter): [Friendship!]! @isAuthenticated
+  friendships(
+    pagination: ConnectionPagination!
+    ordering: [FriendshipOrdering!]
+    filter: FriendshipFilter
+  ): FriendshipConnection! @isAuthenticated
   image(id: ID!): Image! @isAuthenticated
-  images(filter: ImageFilter): [Image!]! @isAuthenticated
+  images(
+    pagination: ConnectionPagination!
+    ordering: [ImageOrdering!]
+    filter: ImageFilter
+  ): ImageConnection! @isAuthenticated
   imageVariation(id: ID!): ImageVariation! @isAuthenticated
-  imageVariations(filter: ImageVariationFilter): [ImageVariation!]!
-    @isAuthenticated
+  imageVariations(
+    pagination: ConnectionPagination!
+    ordering: [ImageVariationOrdering!]
+    filter: ImageVariationFilter
+  ): ImageVariationConnection! @isAuthenticated
   like(id: ID!): Like! @isAuthenticated
-  likes(filter: LikeFilter): [Like!]! @isAuthenticated
+  likes(
+    pagination: ConnectionPagination!
+    ordering: [LikeOrdering!]
+    filter: LikeFilter
+  ): LikeConnection! @isAuthenticated
   post(id: ID!): Post! @isAuthenticated
-  posts(filter: PostFilter): [Post!]! @isAuthenticated
+  posts(
+    pagination: ConnectionPagination!
+    ordering: [PostOrdering!]
+    filter: PostFilter
+  ): PostConnection! @isAuthenticated
   user(id: ID!): User! @isAuthenticated
-  users(filter: UserFilter): [User!]! @isAuthenticated
+  users(
+    pagination: ConnectionPagination!
+    ordering: [UserOrdering!]
+    filter: UserFilter
+  ): UserConnection! @isAuthenticated
 }
 
 input CommentCreateInput {
