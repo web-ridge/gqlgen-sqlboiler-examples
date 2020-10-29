@@ -4,6 +4,7 @@ package main
 import (
 	"context"
 	"database/sql"
+	"encoding/base64"
 	"errors"
 	"fmt"
 	"math"
@@ -49,14 +50,24 @@ func getIDFromCursor(id string) interface{} {
 	return splitID[1]
 }
 
-func getReverseLimitAndCursor(forward *fm.ConnectionForwardPagination, backward *fm.ConnectionBackwardPagination) (*string, string, string, int) {
+func getCursor(forward *fm.ConnectionForwardPagination, backward *fm.ConnectionBackwardPagination) *string {
 	if forward != nil {
-		return forward.After, "<=", "DESC", zeroOrMore(forward.First + 1)
+		return forward.After
 	}
 	if backward != nil {
-		return backward.Before, ">=", "ASC", zeroOrMore(backward.Last + 1)
+		return backward.Before
 	}
-	return nil, "", "", 0
+	return nil
+}
+
+func getLimit(forward *fm.ConnectionForwardPagination, backward *fm.ConnectionBackwardPagination) int {
+	if forward != nil {
+		return zeroOrMore(forward.First + 1)
+	}
+	if backward != nil {
+		return zeroOrMore(backward.Last + 1)
+	}
+	return 0
 }
 
 func zeroOrMore(limit int) int {
@@ -66,14 +77,20 @@ func zeroOrMore(limit int) int {
 	return limit
 }
 
-func getLimitAndCursor(forward *fm.ConnectionForwardPagination, backward *fm.ConnectionBackwardPagination) (*string, string, string, int) {
+func getComparison(forward *fm.ConnectionForwardPagination, backward *fm.ConnectionBackwardPagination, reverse bool) string {
 	if forward != nil {
-		return forward.After, ">", "ASC", zeroOrMore(forward.First + 1)
+		if reverse {
+			return "<="
+		}
+		return ">"
 	}
 	if backward != nil {
-		return backward.Before, "<", "DESC", zeroOrMore(backward.Last + 1)
+		if reverse {
+			return ">="
+		}
+		return "<"
 	}
-	return nil, "", "", 0
+	return ""
 }
 
 func UserPaginationMods(pagination fm.ConnectionPagination, ordering []*fm.UserOrdering) ([]qm.QueryMod, error) {
@@ -85,30 +102,46 @@ func UserPaginationMods(pagination fm.ConnectionPagination, ordering []*fm.UserO
 	}
 
 	var mods []qm.QueryMod
-	cursor, comparisonSign, direction, limit := getLimitAndCursor(pagination.Forward, pagination.Backward)
+	reverse := pagination.Backward != nil
+	limit := getLimit(pagination.Forward, pagination.Backward)
+	cursor := getCursor(pagination.Forward, pagination.Backward)
+	sign := getComparison(pagination.Forward, pagination.Backward, false)
 	if cursor != nil {
-		mods = append(mods, FromUserCursor(*cursor, comparisonSign)...)
+		mods = append(mods, FromUserCursor(*cursor, sign)...)
 	}
 
-	mods = append(mods, ToUserSortMods(ordering, direction)...)
+	mods = append(mods, ToUserSortMods(ordering, reverse)...)
 	mods = append(mods, qm.Limit(limit))
 	return mods, nil
 }
 
-func ToUserSortMods(ordering []*fm.UserOrdering, sortDirection string) []qm.QueryMod {
+func getDirection(direction fm.SortDirection, reverse bool) fm.SortDirection {
+	if reverse {
+		if direction == fm.SortDirectionAsc {
+			return fm.SortDirectionDesc
+		}
+		return fm.SortDirectionAsc
+	}
+	return direction
+}
+
+func ToUserSortMods(ordering []*fm.UserOrdering, reverse bool) []qm.QueryMod {
 	var a []qm.QueryMod
 
+	idSortDirection := fm.SortDirectionAsc
 	for _, column := range ordering {
 		switch column.Sort {
+		case fm.UserSortID:
+			idSortDirection = column.Direction
 		case fm.UserSortFirstName:
-			a = append(a, qm.OrderBy(dm.UserColumns.FirstName+" "+sortDirection))
+			a = append(a, qm.OrderBy(dm.UserColumns.FirstName+" "+getDirection(column.Direction, reverse).String()))
 		case fm.UserSortLastName:
-			a = append(a, qm.OrderBy(dm.UserColumns.LastName+" "+sortDirection))
+			a = append(a, qm.OrderBy(dm.UserColumns.LastName+" "+getDirection(column.Direction, reverse).String()))
 		case fm.UserSortEmail:
-			a = append(a, qm.OrderBy(dm.UserColumns.Email+" "+sortDirection))
+			a = append(a, qm.OrderBy(dm.UserColumns.Email+" "+getDirection(column.Direction, reverse).String()))
 		}
 	}
-	a = append(a, qm.OrderBy(dm.UserColumns.ID+" "+sortDirection))
+	a = append(a, qm.OrderBy(dm.UserColumns.ID+" "+getDirection(idSortDirection, reverse).String()))
 	return a
 }
 
@@ -122,8 +155,8 @@ func ToUserCursor(ordering []*fm.UserOrdering, user *fm.User) string {
 
 	for _, column := range ordering {
 		switch column.Sort {
-		case fm.UserSortID:
-			a = append(a, fmt.Sprintf("%v%v%v", fm.UserSortID, Separator2, user.ID))
+		// case fm.UserSortID:
+		//	a = append(a, fmt.Sprintf("%v%v%v", fm.UserSortID, Separator2, user.ID))
 		case fm.UserSortFirstName:
 			a = append(a, fmt.Sprintf("%v%v%v", fm.UserSortFirstName, Separator2, user.FirstName))
 		case fm.UserSortLastName:
@@ -132,17 +165,20 @@ func ToUserCursor(ordering []*fm.UserOrdering, user *fm.User) string {
 			a = append(a, fmt.Sprintf("%v%v%v", fm.UserSortEmail, Separator2, user.Email))
 		}
 	}
-	if len(a) == 0 {
-		a = append(a, fmt.Sprintf("%v%v%v", fm.UserSortID, Separator2, user.ID))
-	}
 
-	return strings.Join(a, Separator1)
+	a = append(a, fmt.Sprintf("%v%v%v", fm.UserSortID, Separator2, user.ID))
+
+	return base64.StdEncoding.EncodeToString([]byte(strings.Join(a, Separator1)))
 }
 
-func FromUserCursor(v string, comparisonSign string) []qm.QueryMod {
-	var a []qm.QueryMod
+func FromUserCursor(cursor string, comparisonSign string) []qm.QueryMod {
+	b, _ := base64.StdEncoding.DecodeString(cursor)
 
-	for _, columnAndValue := range strings.Split(v, Separator1) {
+	var columns []string
+	var values []interface{}
+
+	// https://www.slideshare.net/MarkusWinand/p2d2-pagination-done-the-postgresql-way
+	for _, columnAndValue := range strings.Split(string(b), Separator1) {
 		s := strings.SplitN(columnAndValue, Separator2, 2)
 		if len(s) != 2 {
 			continue
@@ -151,16 +187,32 @@ func FromUserCursor(v string, comparisonSign string) []qm.QueryMod {
 		value := s[1]
 		switch column {
 		case fm.UserSortID:
-			a = append(a, qm.Where(dm.UserColumns.ID+" "+comparisonSign+" ?", getIDFromCursor(value)))
+			columns = append(columns, dm.UserColumns.ID)
+			values = append(values, getIDFromCursor(value))
 		case fm.UserSortFirstName:
-			a = append(a, qm.Where(dm.UserColumns.FirstName+" "+comparisonSign+" ?", value))
+			columns = append(columns, dm.UserColumns.FirstName)
+			values = append(values, value)
 		case fm.UserSortLastName:
-			a = append(a, qm.Where(dm.UserColumns.LastName+" "+comparisonSign+" ?", value))
+			columns = append(columns, dm.UserColumns.LastName)
+			values = append(values, value)
 		case fm.UserSortEmail:
-			a = append(a, qm.Where(dm.UserColumns.Email+" "+comparisonSign+" ?", value))
+			columns = append(columns, dm.UserColumns.Email)
+			values = append(values, value)
 		}
 	}
-	return a
+
+	if len(columns) > 0 {
+		return []qm.QueryMod{
+			qm.Where(
+				fmt.Sprintf("(%v) %v (%v)",
+					strings.Join(columns, ", "),
+					comparisonSign,
+					// strings.Join(columns, ", ")
+					strings.TrimSuffix(strings.Repeat("?,", len(values)), ","),
+				), values...),
+		}
+	}
+	return nil
 }
 
 func ToUserConnection(ctx context.Context, db *sql.DB, originalMods []qm.QueryMod, pagination fm.ConnectionPagination, ordering []*fm.UserOrdering) (*fm.UserConnection, error) {
@@ -177,11 +229,14 @@ func ToUserConnection(ctx context.Context, db *sql.DB, originalMods []qm.QueryMo
 	// reverse query to check hasPrevious / hasNext
 	reverseMods := originalMods
 
-	cursor, comparisonSign, sortDirection, limit := getReverseLimitAndCursor(pagination.Forward, pagination.Backward)
+	reverse := pagination.Forward != nil
+	limit := getLimit(pagination.Forward, pagination.Backward)
+	cursor := getCursor(pagination.Forward, pagination.Backward)
+	comparisonSign := getComparison(pagination.Forward, pagination.Backward, true)
 	if cursor != nil {
 		reverseMods = append(reverseMods, FromUserCursor(*cursor, comparisonSign)...)
 	}
-	reverseMods = append(reverseMods, ToUserSortMods(ordering, sortDirection)...)
+	reverseMods = append(reverseMods, ToUserSortMods(ordering, reverse)...)
 	reverseMods = append(reverseMods, qm.Limit(1))
 
 	var hasNextPage, hasPreviousPage bool

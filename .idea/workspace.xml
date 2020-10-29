@@ -21,6 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bfafb5c5-a505-409f-8b4a-0a3aaef1a279" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-6-edges-connections/resolver.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-6-edges-connections/resolver.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/issue-6-edges-connections/resolver_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-6-edges-connections/resolver_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,10 +95,11 @@
     </state>
     <state x="-1576" y="103" key="SettingsEditor/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1602965213308" />
     <state x="344" y="98" key="SettingsEditor/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@0.23.1920.989" timestamp="1603230423695" />
-    <state x="-1287" y="316" width="730" height="764" key="find.popup" timestamp="1603705083766">
-      <screen x="-1920" y="23" width="1920" height="1057" />
+    <state x="633" y="297" width="730" height="715" key="find.popup" timestamp="1603917230385">
+      <screen x="0" y="23" width="1920" height="989" />
     </state>
     <state x="415" y="395" width="730" height="616" key="find.popup/-1920.23.1920.1057/0.23.1920.989/1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1603481315461" />
     <state x="-1287" y="316" width="730" height="764" key="find.popup/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1603705083766" />
+    <state x="633" y="297" width="730" height="715" key="find.popup/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@0.23.1920.989" timestamp="1603917230385" />
   </component>
 </project>

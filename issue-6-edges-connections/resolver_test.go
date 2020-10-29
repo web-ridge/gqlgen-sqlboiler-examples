@@ -3,18 +3,21 @@ package main
 import (
 	"context"
 	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/stretchr/testify/assert"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 
+	//"github.com/stretchr/testify/assert"
+
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/models"
 
 	fm "github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/graphql_models"
 )
 
-func TestConnectionsWithoutSort(t *testing.T) {
+func TestConnections(t *testing.T) {
 	operationCtx := &graphql.OperationContext{
 		Variables: map[string]interface{}{},
 	}
@@ -33,32 +36,31 @@ func TestConnectionsWithoutSort(t *testing.T) {
 	_, err := models.Users().DeleteAll(ctx, db)
 	handleErr(t, err)
 
-	var users []models.User
 	// Eve
 	for i := 0; i < 20; i++ {
 		number := 20 - i
-		users = append(users, models.User{
-			FirstName: fmt.Sprintf("Eve%v", number),
-			LastName:  fmt.Sprintf("Woman%v", number),
-			Email:     fmt.Sprintf("eve%v@gmail.com", number),
-		})
+		user := models.User{
+			FirstName: fmt.Sprintf("Eve%02d", number),
+			LastName:  fmt.Sprintf("Eve%02d", number),
+			Email:     fmt.Sprintf("eve%02d@gmail.com", number),
+		}
+		err = user.Insert(ctx, db, boil.Infer())
+		handleErr(t, err)
 	}
 
 	// Adam
 	for i := 0; i < 20; i++ {
 		number := 20 - i
-		users = append(users, models.User{
-			FirstName: fmt.Sprintf("Adam%v", number),
-			LastName:  fmt.Sprintf("Men%v", number),
-			Email:     fmt.Sprintf("adam%v@gmail.com", number),
-		})
-	}
-
-	for _, user := range users {
+		user := models.User{
+			FirstName: fmt.Sprintf("Adam%02d", number),
+			LastName:  fmt.Sprintf("Adam%02d", number),
+			Email:     fmt.Sprintf("adam%02d@gmail.com", number),
+		}
 		err = user.Insert(ctx, db, boil.Infer())
 		handleErr(t, err)
 	}
-	//
+
+	////
 	userConnection, err := resolver.Query().Users(ctx, fm.ConnectionPagination{
 		Forward: &fm.ConnectionForwardPagination{
 			First: 10,
@@ -83,7 +85,7 @@ func TestConnectionsWithoutSort(t *testing.T) {
 	handleErr(t, err)
 	assert.Equal(t, 10, len(userConnection.Edges), "edges not equal")
 	assert.Equal(t, "Eve10", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
-	assert.Equal(t, "Eve1", firstNameFromUser(userConnection.Edges[9]), "edges not equal")
+	assert.Equal(t, "Eve01", firstNameFromUser(userConnection.Edges[9]), "edges not equal")
 	assert.Equal(t, true, userConnection.PageInfo.HasNextPage, "nextPage not equal")
 	assert.Equal(t, true, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
 
@@ -111,7 +113,7 @@ func TestConnectionsWithoutSort(t *testing.T) {
 	handleErr(t, err)
 	assert.Equal(t, 40, len(userConnection.Edges), "edges not equal")
 	assert.Equal(t, "Eve20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
-	assert.Equal(t, "Adam1", firstNameFromUser(userConnection.Edges[39]), "edges not equal")
+	assert.Equal(t, "Adam01", firstNameFromUser(userConnection.Edges[39]), "edges not equal")
 	assert.Equal(t, false, userConnection.PageInfo.HasNextPage, "nextPage not equal")
 	assert.Equal(t, false, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
 
@@ -125,7 +127,7 @@ func TestConnectionsWithoutSort(t *testing.T) {
 	handleErr(t, err)
 	assert.Equal(t, 10, len(userConnection.Edges), "edges not equal")
 	assert.Equal(t, "Adam10", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
-	assert.Equal(t, "Adam1", firstNameFromUser(userConnection.Edges[9]), "edges not equal")
+	assert.Equal(t, "Adam01", firstNameFromUser(userConnection.Edges[9]), "edges not equal")
 	assert.Equal(t, true, userConnection.PageInfo.HasPreviousPage, "nextPage not equal")
 	assert.Equal(t, false, userConnection.PageInfo.HasNextPage, "previousPage not equal")
 
@@ -152,7 +154,7 @@ func TestConnectionsWithoutSort(t *testing.T) {
 	}, nil, nil)
 	handleErr(t, err)
 	assert.Equal(t, "Eve20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
-	assert.Equal(t, "Adam1", firstNameFromUser(userConnection.Edges[39]), "edges not equal")
+	assert.Equal(t, "Adam01", firstNameFromUser(userConnection.Edges[39]), "edges not equal")
 	assert.Equal(t, 40, len(userConnection.Edges), "edges not equal")
 	assert.Equal(t, false, userConnection.PageInfo.HasNextPage, "nextPage not equal")
 	assert.Equal(t, false, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
@@ -160,15 +162,123 @@ func TestConnectionsWithoutSort(t *testing.T) {
 	// Adam
 	for i := 0; i < 20; i++ {
 		m := models.User{
-			FirstName: fmt.Sprintf("DDDD%v", i),
-			LastName:  fmt.Sprintf("dddd%v", i),
-			Email:     fmt.Sprintf("ddddd%v@gmail.com", i),
+			FirstName: fmt.Sprintf("Dirk%02d", i),
+			LastName:  fmt.Sprintf("Dirk%02d", i),
+			Email:     fmt.Sprintf("Dirk%02d@gmail.com", i),
 		}
 		err = m.Insert(ctx, db, boil.Infer())
-
 	}
 
-	fmt.Println(resolver)
+	// With sorting
+	sort := []*fm.UserOrdering{
+		{
+			Sort:      fm.UserSortFirstName,
+			Direction: fm.SortDirectionAsc,
+		},
+		{
+			Sort:      fm.UserSortLastName,
+			Direction: fm.SortDirectionAsc,
+		},
+	}
+	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
+		Backward: &fm.ConnectionBackwardPagination{
+			Last:   20,
+			Before: nil,
+		},
+	}, sort, nil)
+	handleErr(t, err)
+	startCursor = userConnection.PageInfo.StartCursor
+	for _, edge := range userConnection.Edges {
+		expected := "Eve"
+		if !strings.HasPrefix(firstNameFromUser(edge), expected) {
+			t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+		}
+	}
+	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
+		Backward: &fm.ConnectionBackwardPagination{
+			Last:   20,
+			Before: startCursor,
+		},
+	}, sort, nil)
+	handleErr(t, err)
+	startCursor = userConnection.PageInfo.StartCursor
+	for _, edge := range userConnection.Edges {
+		expected := "Dirk"
+		if !strings.HasPrefix(firstNameFromUser(edge), expected) {
+			t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+		}
+	}
+
+	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
+		Backward: &fm.ConnectionBackwardPagination{
+			Last:   20,
+			Before: startCursor,
+		},
+	}, sort, nil)
+	handleErr(t, err)
+	startCursor = userConnection.PageInfo.StartCursor
+	for _, edge := range userConnection.Edges {
+		expected := "Adam"
+		if !strings.HasPrefix(firstNameFromUser(edge), expected) {
+			t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+		}
+	}
+
+	// other sort
+
+	sort = []*fm.UserOrdering{
+		{
+			Sort:      fm.UserSortFirstName,
+			Direction: fm.SortDirectionDesc,
+		},
+		{
+			Sort:      fm.UserSortLastName,
+			Direction: fm.SortDirectionDesc,
+		},
+	}
+	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
+		Backward: &fm.ConnectionBackwardPagination{
+			Last:   20,
+			Before: nil,
+		},
+	}, sort, nil)
+	handleErr(t, err)
+	startCursor = userConnection.PageInfo.StartCursor
+	for _, edge := range userConnection.Edges {
+		expected := "Adam"
+		if !strings.HasPrefix(firstNameFromUser(edge), expected) {
+			t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+		}
+	}
+	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
+		Backward: &fm.ConnectionBackwardPagination{
+			Last:   20,
+			Before: startCursor,
+		},
+	}, sort, nil)
+	handleErr(t, err)
+	startCursor = userConnection.PageInfo.StartCursor
+	for _, edge := range userConnection.Edges {
+		expected := "Dirk"
+		if !strings.HasPrefix(firstNameFromUser(edge), expected) {
+			t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+		}
+	}
+
+	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
+		Backward: &fm.ConnectionBackwardPagination{
+			Last:   20,
+			Before: startCursor,
+		},
+	}, sort, nil)
+	handleErr(t, err)
+	startCursor = userConnection.PageInfo.StartCursor
+	for _, edge := range userConnection.Edges {
+		expected := "Eve"
+		if !strings.HasPrefix(firstNameFromUser(edge), expected) {
+			t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+		}
+	}
 }
 
 func firstNameFromUser(e *fm.UserEdge) string {
