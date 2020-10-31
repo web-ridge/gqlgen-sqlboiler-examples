@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"strings"
 	"testing"
@@ -17,7 +18,7 @@ import (
 	fm "github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/graphql_models"
 )
 
-func TestConnections(t *testing.T) {
+func getDependencies() (context.Context, *sql.DB, *Resolver) {
 	operationCtx := &graphql.OperationContext{
 		Variables: map[string]interface{}{},
 	}
@@ -27,11 +28,15 @@ func TestConnections(t *testing.T) {
 	ctx := context.Background()
 	ctx = graphql.WithOperationContext(ctx, operationCtx)
 	ctx = graphql.WithFieldContext(ctx, fieldCtx)
-
 	db := getDatabase()
 	resolver := &Resolver{
 		db: db,
 	}
+	return ctx, db, resolver
+}
+
+func TestConnections(t *testing.T) {
+	ctx, db, resolver := getDependencies()
 
 	_, err := models.Users().DeleteAll(ctx, db)
 	handleErr(t, err)
@@ -294,6 +299,39 @@ func TestConnections(t *testing.T) {
 				t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
 			}
 		}
+	}
+}
+
+func TestAscDescSortingAtOnce(t *testing.T) {
+	ctx, db, resolver := getDependencies()
+	_, err := models.Users().DeleteAll(ctx, db)
+	handleErr(t, err)
+
+	for i := 0; i < 20; i++ {
+		number := 20 - i
+		user := models.User{
+			FirstName: fmt.Sprintf("Adam", number),
+			LastName:  fmt.Sprintf("%v", i),
+		}
+		err = user.Insert(ctx, db, boil.Infer())
+		handleErr(t, err)
+	}
+	for i := 0; i < 20; i++ {
+		user := models.User{
+			FirstName: fmt.Sprintf("Zara", i),
+			LastName:  fmt.Sprintf("%v", 20-i),
+		}
+		err = user.Insert(ctx, db, boil.Infer())
+		handleErr(t, err)
+	}
+	for i := 0; i < 20; i++ {
+		number := 20 - i
+		user := models.User{
+			FirstName: fmt.Sprintf("Eve", number),
+			LastName:  fmt.Sprintf("%v", i),
+		}
+		err = user.Insert(ctx, db, boil.Infer())
+		handleErr(t, err)
 	}
 }
 
