@@ -68,11 +68,12 @@ func TestConnections(t *testing.T) {
 		},
 	}, nil, nil)
 	handleErr(t, err)
-	assert.Equal(t, 10, len(userConnection.Edges), "edges not equal")
-	assert.Equal(t, "Eve20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
-	assert.Equal(t, "Eve11", firstNameFromUser(userConnection.Edges[9]), "edges not equal")
-	assert.Equal(t, true, userConnection.PageInfo.HasNextPage, "nextPage not equal")
-	assert.Equal(t, false, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
+	if assert.Equal(t, 10, len(userConnection.Edges), "edges not equal") {
+		assert.Equal(t, "Eve20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
+		assert.Equal(t, "Eve11", firstNameFromUser(userConnection.Edges[9]), "edges not equal")
+		assert.Equal(t, true, userConnection.PageInfo.HasNextPage, "nextPage not equal")
+		assert.Equal(t, false, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
+	}
 
 	endCursor := userConnection.PageInfo.EndCursor
 
@@ -83,11 +84,12 @@ func TestConnections(t *testing.T) {
 		},
 	}, nil, nil)
 	handleErr(t, err)
-	assert.Equal(t, 10, len(userConnection.Edges), "edges not equal")
-	assert.Equal(t, "Eve10", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
-	assert.Equal(t, "Eve01", firstNameFromUser(userConnection.Edges[9]), "edges not equal")
-	assert.Equal(t, true, userConnection.PageInfo.HasNextPage, "nextPage not equal")
-	assert.Equal(t, true, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
+	if assert.Equal(t, 10, len(userConnection.Edges), "edges not equal") {
+		assert.Equal(t, "Eve10", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
+		assert.Equal(t, "Eve01", firstNameFromUser(userConnection.Edges[9]), "edges not equal")
+		assert.Equal(t, true, userConnection.PageInfo.HasNextPage, "nextPage not equal")
+		assert.Equal(t, true, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
+	}
 
 	endCursor = userConnection.PageInfo.EndCursor
 
@@ -98,12 +100,12 @@ func TestConnections(t *testing.T) {
 		},
 	}, nil, nil)
 	handleErr(t, err)
-	assert.Equal(t, 10, len(userConnection.Edges), "edges not equal")
-	assert.Equal(t, "Adam20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
-	assert.Equal(t, "Adam11", firstNameFromUser(userConnection.Edges[9]), "edges not equal")
-	assert.Equal(t, true, userConnection.PageInfo.HasNextPage, "nextPage not equal")
-	assert.Equal(t, true, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
-
+	if assert.Equal(t, 10, len(userConnection.Edges), "edges not equal") {
+		assert.Equal(t, "Adam20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
+		assert.Equal(t, "Adam11", firstNameFromUser(userConnection.Edges[9]), "edges not equal")
+		assert.Equal(t, true, userConnection.PageInfo.HasNextPage, "nextPage not equal")
+		assert.Equal(t, true, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
+	}
 	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
 		Forward: &fm.ConnectionForwardPagination{
 			First: 100,
@@ -111,12 +113,12 @@ func TestConnections(t *testing.T) {
 		},
 	}, nil, nil)
 	handleErr(t, err)
-	assert.Equal(t, 40, len(userConnection.Edges), "edges not equal")
-	assert.Equal(t, "Eve20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
-	assert.Equal(t, "Adam01", firstNameFromUser(userConnection.Edges[39]), "edges not equal")
-	assert.Equal(t, false, userConnection.PageInfo.HasNextPage, "nextPage not equal")
-	assert.Equal(t, false, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
-
+	if assert.Equal(t, 40, len(userConnection.Edges), "edges not equal") {
+		assert.Equal(t, "Eve20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
+		assert.Equal(t, "Adam01", firstNameFromUser(userConnection.Edges[39]), "edges not equal")
+		assert.Equal(t, false, userConnection.PageInfo.HasNextPage, "nextPage not equal")
+		assert.Equal(t, false, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
+	}
 	// BACKWARD PAGINATION
 	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
 		Backward: &fm.ConnectionBackwardPagination{
@@ -125,12 +127,12 @@ func TestConnections(t *testing.T) {
 		},
 	}, nil, nil)
 	handleErr(t, err)
-	assert.Equal(t, 10, len(userConnection.Edges), "edges not equal")
-	assert.Equal(t, "Adam10", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
-	assert.Equal(t, "Adam01", firstNameFromUser(userConnection.Edges[9]), "edges not equal")
-	assert.Equal(t, true, userConnection.PageInfo.HasPreviousPage, "nextPage not equal")
-	assert.Equal(t, false, userConnection.PageInfo.HasNextPage, "previousPage not equal")
-
+	if assert.Equal(t, 10, len(userConnection.Edges), "edges not equal") {
+		assert.Equal(t, "Adam10", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
+		assert.Equal(t, "Adam01", firstNameFromUser(userConnection.Edges[9]), "edges not equal")
+		assert.Equal(t, true, userConnection.PageInfo.HasPreviousPage, "nextPage not equal")
+		assert.Equal(t, false, userConnection.PageInfo.HasNextPage, "previousPage not equal")
+	}
 	startCursor := userConnection.PageInfo.StartCursor
 
 	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
@@ -140,12 +142,13 @@ func TestConnections(t *testing.T) {
 		},
 	}, nil, nil)
 	handleErr(t, err)
-	assert.Equal(t, 10, len(userConnection.Edges), "edges not equal")
-	assert.Equal(t, "Adam20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
-	assert.Equal(t, "Adam11", firstNameFromUser(userConnection.Edges[9]), "edges not equal")
-	assert.Equal(t, true, userConnection.PageInfo.HasPreviousPage, "nextPage not equal")
-	assert.Equal(t, true, userConnection.PageInfo.HasNextPage, "previousPage not equal")
 
+	if assert.Equal(t, 10, len(userConnection.Edges), "edges not equal") {
+		assert.Equal(t, "Adam20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
+		assert.Equal(t, "Adam11", firstNameFromUser(userConnection.Edges[9]), "edges not equal")
+		assert.Equal(t, true, userConnection.PageInfo.HasPreviousPage, "nextPage not equal")
+		assert.Equal(t, true, userConnection.PageInfo.HasNextPage, "previousPage not equal")
+	}
 	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
 		Backward: &fm.ConnectionBackwardPagination{
 			Last:   100,
@@ -153,11 +156,12 @@ func TestConnections(t *testing.T) {
 		},
 	}, nil, nil)
 	handleErr(t, err)
-	assert.Equal(t, "Eve20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
-	assert.Equal(t, "Adam01", firstNameFromUser(userConnection.Edges[39]), "edges not equal")
-	assert.Equal(t, 40, len(userConnection.Edges), "edges not equal")
-	assert.Equal(t, false, userConnection.PageInfo.HasNextPage, "nextPage not equal")
-	assert.Equal(t, false, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
+	if assert.Equal(t, 40, len(userConnection.Edges), "edges not equal") {
+		assert.Equal(t, "Eve20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
+		assert.Equal(t, "Adam01", firstNameFromUser(userConnection.Edges[39]), "edges not equal")
+		assert.Equal(t, false, userConnection.PageInfo.HasNextPage, "nextPage not equal")
+		assert.Equal(t, false, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
+	}
 
 	// Adam
 	for i := 0; i < 20; i++ {
@@ -188,10 +192,12 @@ func TestConnections(t *testing.T) {
 	}, sort, nil)
 	handleErr(t, err)
 	startCursor = userConnection.PageInfo.StartCursor
-	for _, edge := range userConnection.Edges {
-		expected := "Eve"
-		if !strings.HasPrefix(firstNameFromUser(edge), expected) {
-			t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+	if assert.Equal(t, 20, len(userConnection.Edges), "edges not equal backward sorting ASC EVE") {
+		for _, edge := range userConnection.Edges {
+			expected := "Eve"
+			if !strings.HasPrefix(firstNameFromUser(edge), expected) {
+				t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+			}
 		}
 	}
 	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
@@ -202,10 +208,12 @@ func TestConnections(t *testing.T) {
 	}, sort, nil)
 	handleErr(t, err)
 	startCursor = userConnection.PageInfo.StartCursor
-	for _, edge := range userConnection.Edges {
-		expected := "Dirk"
-		if !strings.HasPrefix(firstNameFromUser(edge), expected) {
-			t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+	if assert.Equal(t, 20, len(userConnection.Edges), "edges not equal backward sorting ASC Dirk") {
+		for _, edge := range userConnection.Edges {
+			expected := "Dirk"
+			if !strings.HasPrefix(firstNameFromUser(edge), expected) {
+				t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+			}
 		}
 	}
 
@@ -217,10 +225,12 @@ func TestConnections(t *testing.T) {
 	}, sort, nil)
 	handleErr(t, err)
 	startCursor = userConnection.PageInfo.StartCursor
-	for _, edge := range userConnection.Edges {
-		expected := "Adam"
-		if !strings.HasPrefix(firstNameFromUser(edge), expected) {
-			t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+	if assert.Equal(t, 20, len(userConnection.Edges), "edges not equal backward sorting ASC Adam") {
+		for _, edge := range userConnection.Edges {
+			expected := "Adam"
+			if !strings.HasPrefix(firstNameFromUser(edge), expected) {
+				t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+			}
 		}
 	}
 
@@ -244,10 +254,12 @@ func TestConnections(t *testing.T) {
 	}, sort, nil)
 	handleErr(t, err)
 	startCursor = userConnection.PageInfo.StartCursor
-	for _, edge := range userConnection.Edges {
-		expected := "Adam"
-		if !strings.HasPrefix(firstNameFromUser(edge), expected) {
-			t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+	if assert.Equal(t, 20, len(userConnection.Edges), "edges not equal backward sorting DESC Adam") {
+		for _, edge := range userConnection.Edges {
+			expected := "Adam"
+			if !strings.HasPrefix(firstNameFromUser(edge), expected) {
+				t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+			}
 		}
 	}
 	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
@@ -258,10 +270,12 @@ func TestConnections(t *testing.T) {
 	}, sort, nil)
 	handleErr(t, err)
 	startCursor = userConnection.PageInfo.StartCursor
-	for _, edge := range userConnection.Edges {
-		expected := "Dirk"
-		if !strings.HasPrefix(firstNameFromUser(edge), expected) {
-			t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+	if assert.Equal(t, 20, len(userConnection.Edges), "edges not equal backward sorting DESC Dirk") {
+		for _, edge := range userConnection.Edges {
+			expected := "Dirk"
+			if !strings.HasPrefix(firstNameFromUser(edge), expected) {
+				t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+			}
 		}
 	}
 
@@ -273,10 +287,12 @@ func TestConnections(t *testing.T) {
 	}, sort, nil)
 	handleErr(t, err)
 	startCursor = userConnection.PageInfo.StartCursor
-	for _, edge := range userConnection.Edges {
-		expected := "Eve"
-		if !strings.HasPrefix(firstNameFromUser(edge), expected) {
-			t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+	if assert.Equal(t, 20, len(userConnection.Edges), "edges not equal backward sorting DESC Eve") {
+		for _, edge := range userConnection.Edges {
+			expected := "Eve"
+			if !strings.HasPrefix(firstNameFromUser(edge), expected) {
+				t.Errorf("backward should start with %v but is %v", expected, firstNameFromUser(edge))
+			}
 		}
 	}
 }
