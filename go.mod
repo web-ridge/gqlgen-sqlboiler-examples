@@ -6,6 +6,8 @@ replace github.com/web-ridge/gqlgen-sqlboiler/v2 => ../gqlgen-sqlboiler
 
 replace github.com/web-ridge/sqlboiler-graphql-schema => ../sqlboiler-graphql-schema
 
+replace github.com/web-ridge/utils-go/boilergql => ../utils-go/boilergql
+
 require (
 	github.com/99designs/gqlgen v0.11.3
 	github.com/didip/tollbooth v4.0.2+incompatible
@@ -24,7 +26,6 @@ require (
 	github.com/volatiletech/randomize v0.0.1
 	github.com/volatiletech/sqlboiler/v4 v4.2.0
 	github.com/volatiletech/strmangle v0.0.1
-	github.com/web-ridge/sqlboiler-graphql-schema v0.0.0-00010101000000-000000000000 // indirect
 	github.com/web-ridge/utils-go/api v0.0.0-20201017151809-22aa4aa28bbb
 	github.com/web-ridge/utils-go/boilergql v0.0.0-20201017192349-9efd036e9e61
 	golang.org/x/crypto v0.0.0-20200510223506-06a226fb4e37

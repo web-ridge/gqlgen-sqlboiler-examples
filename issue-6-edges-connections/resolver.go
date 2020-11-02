@@ -11,18 +11,12 @@ import (
 	"strings"
 
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
+	"github.com/web-ridge/utils-go/boilergql"
 
 	"github.com/rs/zerolog/log"
 	fm "github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/graphql_models"
 	. "github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/helpers"
 	dm "github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/models"
-)
-
-type CursorType string
-
-const (
-	CursorTypeOffset CursorType = "OFFSET"
-	CursorTypeCursor CursorType = "CURSOR"
 )
 
 type Resolver struct {
@@ -49,100 +43,6 @@ func (r *queryResolver) User(ctx context.Context, id string) (*fm.User, error) {
 
 const publicUserListError = "could not list users"
 
-func getIDFromCursor(id string) interface{} {
-	splitID := strings.SplitN(id, "-", 2)
-	if len(splitID) != 2 {
-		return 0
-	}
-	return splitID[1]
-}
-
-func getCursor(forward *fm.ConnectionForwardPagination, backward *fm.ConnectionBackwardPagination) *string {
-	if forward != nil {
-		return forward.After
-	}
-	if backward != nil {
-		return backward.Before
-	}
-	return nil
-}
-
-func getLimit(forward *fm.ConnectionForwardPagination, backward *fm.ConnectionBackwardPagination) int {
-	if forward != nil {
-		return zeroOrMore(forward.First + 1)
-	}
-	if backward != nil {
-		return zeroOrMore(backward.Last + 1)
-	}
-	return 0
-}
-
-func zeroOrMore(limit int) int {
-	if limit < 0 {
-		return 0
-	}
-	return limit
-}
-
-const (
-	biggerThan         = ">"
-	biggerThanOrEqual  = ">="
-	smallerThan        = "<"
-	smallerThanOrEqual = "<="
-)
-
-func getForwardComparison(reverse bool) string {
-	if reverse {
-		return smallerThanOrEqual
-	}
-	return biggerThan
-}
-
-func getForwardComparisonDesc(reverse bool) string {
-	if reverse {
-		return biggerThanOrEqual
-	}
-	return smallerThan
-}
-
-func getBackwardComparison(reverse bool) string {
-	if reverse {
-		return biggerThan
-	}
-	return smallerThanOrEqual
-}
-
-func getBackwardComparisonAsc(reverse bool) string {
-	if reverse {
-		return smallerThan
-	}
-	return biggerThanOrEqual
-}
-
-func getComparison(forward *fm.ConnectionForwardPagination, backward *fm.ConnectionBackwardPagination, reverse bool, direction fm.SortDirection) string {
-	if forward != nil {
-		if direction == fm.SortDirectionDesc {
-			return getForwardComparisonDesc(reverse)
-		}
-		return getForwardComparison(reverse)
-	}
-	if backward != nil {
-		if direction == fm.SortDirectionAsc {
-			return getBackwardComparisonAsc(reverse)
-		}
-		return getBackwardComparison(reverse)
-	}
-	return ""
-}
-
-func getOffsetFromCursor(cursor *string) int {
-	if cursor == nil {
-		return 0
-	}
-	i, _ := strconv.Atoi(*cursor)
-	return i
-}
-
 func getSortDirection(ordering []*fm.UserOrdering) fm.SortDirection {
 	for _, o := range ordering {
 		return o.Direction
@@ -150,7 +50,7 @@ func getSortDirection(ordering []*fm.UserOrdering) fm.SortDirection {
 	return fm.SortDirectionAsc
 }
 
-func getCursorType(ordering []*fm.UserOrdering) CursorType {
+func getCursorType(ordering []*fm.UserOrdering) boilergql.CursorType {
 	var asc, desc int
 	for _, o := range ordering {
 		switch o.Direction {
@@ -163,26 +63,29 @@ func getCursorType(ordering []*fm.UserOrdering) CursorType {
 
 	oneDirectionOnly := asc == 0 || desc == 0
 	if oneDirectionOnly {
-		return CursorTypeCursor
+		return boilergql.CursorTypeCursor
 	}
-	return CursorTypeOffset
+	return boilergql.CursorTypeOffset
+}
+
+func UserCursorMods(ordering []*fm.UserOrdering, cursor *string, sign boilergql.ComparisonSign) []qm.QueryMod {
+	if cursor != nil {
+		if getCursorType(ordering) == boilergql.CursorTypeCursor {
+			return FromUserCursor(*cursor, sign)
+		}
+		return FromOffsetCursor(*cursor)
+	}
+	return nil
 }
 
 func UserPaginationModsBase(pagination fm.ConnectionPagination, ordering []*fm.UserOrdering, reverse bool, limit int) (*string, []qm.QueryMod) {
-	var mods []qm.QueryMod
-
 	direction := getSortDirection(ordering)
-	cursor := getCursor(pagination.Forward, pagination.Backward)
-	sign := getComparison(pagination.Forward, pagination.Backward, reverse, direction)
-	if cursor != nil {
-		if getCursorType(ordering) == CursorTypeCursor {
-			mods = append(mods, FromUserCursor(*cursor, sign)...)
-		} else {
-			mods = append(mods, FromOffsetCursor(*cursor)...)
-		}
-	}
+	cursor := boilergql.GetCursor(pagination.Forward, pagination.Backward)
+	sign := boilergql.GetComparison(pagination.Forward, pagination.Backward, reverse, direction)
 
-	mods = append(mods, ToUserSortMods(ordering, reverse, direction)...)
+	var mods []qm.QueryMod
+	mods = append(mods, UserCursorMods(ordering, cursor, sign)...)
+	mods = append(mods, UserSortMods(ordering, reverse, direction)...)
 	mods = append(mods, qm.Limit(limit))
 	return cursor, mods
 }
@@ -196,7 +99,7 @@ func UserPaginationMods(pagination fm.ConnectionPagination, ordering []*fm.UserO
 	}
 
 	reverse := pagination.Backward != nil
-	limit := getLimit(pagination.Forward, pagination.Backward)
+	limit := boilergql.GetLimit(pagination.Forward, pagination.Backward)
 	_, mods := UserPaginationModsBase(pagination, ordering, reverse, limit)
 	return mods, nil
 }
@@ -211,7 +114,7 @@ func getDirection(direction fm.SortDirection, reverse bool) fm.SortDirection {
 	return direction
 }
 
-func ToUserSortMods(ordering []*fm.UserOrdering, reverse bool, defaultDirection fm.SortDirection) []qm.QueryMod {
+func UserSortMods(ordering []*fm.UserOrdering, reverse bool, defaultDirection fm.SortDirection) []qm.QueryMod {
 	var a []qm.QueryMod
 
 	idSortDirection := defaultDirection
@@ -287,7 +190,7 @@ func FromOffsetCursor(cursor string) []qm.QueryMod {
 	return nil
 }
 
-func FromUserCursor(cursor string, comparisonSign string) []qm.QueryMod {
+func FromUserCursor(cursor string, comparisonSign ComparisonSign) []qm.QueryMod {
 	// b, _ := base64.StdEncoding.DecodeString(cursor)
 	b := cursor
 	var columns []string
@@ -304,7 +207,7 @@ func FromUserCursor(cursor string, comparisonSign string) []qm.QueryMod {
 		switch column {
 		case fm.UserSortID:
 			columns = append(columns, dm.UserColumns.ID)
-			values = append(values, getIDFromCursor(value))
+			values = append(values, boilergql.GetIDFromCursor(value))
 		case fm.UserSortAge:
 			columns = append(columns, dm.UserColumns.Age)
 			values = append(values, value)
@@ -345,7 +248,7 @@ func HasReversePage(ctx context.Context, db *sql.DB, pagination fm.ConnectionPag
 	if cursor != nil {
 		var hasReverseObjects bool
 
-		if cursorType == CursorTypeCursor {
+		if cursorType == boilergql.CursorTypeCursor {
 			reverseCount, err := dm.Users(reverseMods...).Count(ctx, db)
 			if err != nil {
 				return false, false, err
@@ -367,6 +270,20 @@ func HasReversePage(ctx context.Context, db *sql.DB, pagination fm.ConnectionPag
 	return hasNextPage, hasPreviousPage, nil
 }
 
+func UserEdgeConverter(pagination fm.ConnectionPagination, ordering []*fm.UserOrdering) func(*dm.User, int) *fm.UserEdge {
+	cursorType := getCursorType(ordering)
+	cursor := boilergql.GetCursor(pagination.Forward, pagination.Backward)
+	offset := boilergql.GetOffsetFromCursor(cursor)
+
+	return func(m *dm.User, i int) *fm.UserEdge {
+		n := UserToGraphQL(m)
+		return &fm.UserEdge{
+			Cursor: ToUserCursorSwitch(ordering, n, cursorType, offset, i),
+			Node:   n,
+		}
+	}
+}
+
 func ToUserConnection(ctx context.Context, db *sql.DB, originalMods []qm.QueryMod, pagination fm.ConnectionPagination, ordering []*fm.UserOrdering) (*fm.UserConnection, error) {
 	paginationMods, err := UserPaginationMods(pagination, ordering)
 	if err != nil {
@@ -383,13 +300,11 @@ func ToUserConnection(ctx context.Context, db *sql.DB, originalMods []qm.QueryMo
 		return nil, err
 	}
 
-	limit := getLimit(pagination.Forward, pagination.Backward)
+	limit := boilergql.GetLimit(pagination.Forward, pagination.Backward)
 	maxLength := limit - 1
 	lowestLength := math.Min(float64(len(a)), float64(maxLength))
 	edges := make([]*fm.UserEdge, 0, int(lowestLength))
-	cursorType := getCursorType(ordering)
-	cursor := getCursor(pagination.Forward, pagination.Backward)
-	offset := getOffsetFromCursor(cursor)
+	edgeConverter := UserEdgeConverter(pagination, ordering)
 
 	switch {
 	case pagination.Backward != nil:
@@ -404,15 +319,10 @@ func ToUserConnection(ctx context.Context, db *sql.DB, originalMods []qm.QueryMo
 			if isLast {
 				continue
 			}
-			n := UserToGraphQL(a[i])
-			edges = append(edges, &fm.UserEdge{
-				Cursor: ToUserCursorSwitch(ordering, n, cursorType, offset, i),
-				Node:   n,
-			})
+			edges = append(edges, edgeConverter(a[i], i))
 		}
 
 	case pagination.Forward != nil:
-
 		// If no less than first+1 results are returned,  set hasNextPage: true, otherwise set it to false.
 		if len(a) == limit {
 			hasNextPage = true
@@ -422,11 +332,7 @@ func ToUserConnection(ctx context.Context, db *sql.DB, originalMods []qm.QueryMo
 			if isLast {
 				break
 			}
-			n := UserToGraphQL(row)
-			edges = append(edges, &fm.UserEdge{
-				Cursor: ToUserCursorSwitch(ordering, n, cursorType, offset, i),
-				Node:   n,
-			})
+			edges = append(edges, edgeConverter(row, i))
 		}
 	}
 
