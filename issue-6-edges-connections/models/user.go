@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/friendsofgo/errors"
+	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
@@ -23,10 +24,11 @@ import (
 
 // User is an object representing the database table.
 type User struct {
-	ID        uint   `boil:"id" json:"id" toml:"id" yaml:"id"`
-	FirstName string `boil:"first_name" json:"first_name" toml:"first_name" yaml:"first_name"`
-	LastName  string `boil:"last_name" json:"last_name" toml:"last_name" yaml:"last_name"`
-	Email     string `boil:"email" json:"email" toml:"email" yaml:"email"`
+	ID        uint        `boil:"id" json:"id" toml:"id" yaml:"id"`
+	FirstName string      `boil:"first_name" json:"first_name" toml:"first_name" yaml:"first_name"`
+	LastName  string      `boil:"last_name" json:"last_name" toml:"last_name" yaml:"last_name"`
+	Age       uint        `boil:"age" json:"age" toml:"age" yaml:"age"`
+	Email     null.String `boil:"email" json:"email,omitempty" toml:"email" yaml:"email,omitempty"`
 
 	R *userR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L userL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -36,11 +38,13 @@ var UserColumns = struct {
 	ID        string
 	FirstName string
 	LastName  string
+	Age       string
 	Email     string
 }{
 	ID:        "id",
 	FirstName: "first_name",
 	LastName:  "last_name",
+	Age:       "age",
 	Email:     "email",
 }
 
@@ -92,16 +96,41 @@ func (w whereHelperstring) NIN(slice []string) qm.QueryMod {
 	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
 }
 
+type whereHelpernull_String struct{ field string }
+
+func (w whereHelpernull_String) EQ(x null.String) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, false, x)
+}
+func (w whereHelpernull_String) NEQ(x null.String) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, true, x)
+}
+func (w whereHelpernull_String) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
+func (w whereHelpernull_String) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
+func (w whereHelpernull_String) LT(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LT, x)
+}
+func (w whereHelpernull_String) LTE(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LTE, x)
+}
+func (w whereHelpernull_String) GT(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GT, x)
+}
+func (w whereHelpernull_String) GTE(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GTE, x)
+}
+
 var UserWhere = struct {
 	ID        whereHelperuint
 	FirstName whereHelperstring
 	LastName  whereHelperstring
-	Email     whereHelperstring
+	Age       whereHelperuint
+	Email     whereHelpernull_String
 }{
 	ID:        whereHelperuint{field: "`user`.`id`"},
 	FirstName: whereHelperstring{field: "`user`.`first_name`"},
 	LastName:  whereHelperstring{field: "`user`.`last_name`"},
-	Email:     whereHelperstring{field: "`user`.`email`"},
+	Age:       whereHelperuint{field: "`user`.`age`"},
+	Email:     whereHelpernull_String{field: "`user`.`email`"},
 }
 
 // UserRels is where relationship names are stored.
@@ -121,8 +150,8 @@ func (*userR) NewStruct() *userR {
 type userL struct{}
 
 var (
-	userAllColumns            = []string{"id", "first_name", "last_name", "email"}
-	userColumnsWithoutDefault = []string{"first_name", "last_name", "email"}
+	userAllColumns            = []string{"id", "first_name", "last_name", "age", "email"}
+	userColumnsWithoutDefault = []string{"first_name", "last_name", "age", "email"}
 	userColumnsWithDefault    = []string{"id"}
 	userPrimaryKeyColumns     = []string{"id"}
 )

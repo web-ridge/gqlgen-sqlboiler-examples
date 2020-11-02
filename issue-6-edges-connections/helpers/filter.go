@@ -227,6 +227,7 @@ func UserWhereToMods(m *graphql_models.UserWhere, withPrimaryID bool, parentTabl
 	}
 	queryMods = append(queryMods, StringFilterToMods(m.FirstName, models.UserColumns.FirstName)...)
 	queryMods = append(queryMods, StringFilterToMods(m.LastName, models.UserColumns.LastName)...)
+	queryMods = append(queryMods, IntFilterToMods(m.Age, models.UserColumns.Age)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Email, models.UserColumns.Email)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(UserWhereToMods(m.Or, true, "")...)))

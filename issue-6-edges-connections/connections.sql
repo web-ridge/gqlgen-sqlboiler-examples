@@ -24,9 +24,9 @@ DROP TABLE IF EXISTS `connections`.`user` ;
 
 CREATE TABLE IF NOT EXISTS `connections`.`user` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `first_name` VARCHAR(45),
-  `last_name` VARCHAR(45) ,
-  `age` INT,
+  `first_name` VARCHAR(45) NOT NULL,
+  `last_name` VARCHAR(45) NOT NULL,
+  `age` INT UNSIGNED NOT NULL,
   `email` VARCHAR(45) ,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC))

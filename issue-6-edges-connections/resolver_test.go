@@ -4,6 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"sort"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -47,7 +49,6 @@ func TestConnections(t *testing.T) {
 		user := models.User{
 			FirstName: fmt.Sprintf("Eve%02d", number),
 			LastName:  fmt.Sprintf("Eve%02d", number),
-			Email:     fmt.Sprintf("eve%02d@gmail.com", number),
 		}
 		err = user.Insert(ctx, db, boil.Infer())
 		handleErr(t, err)
@@ -59,7 +60,6 @@ func TestConnections(t *testing.T) {
 		user := models.User{
 			FirstName: fmt.Sprintf("Adam%02d", number),
 			LastName:  fmt.Sprintf("Adam%02d", number),
-			Email:     fmt.Sprintf("adam%02d@gmail.com", number),
 		}
 		err = user.Insert(ctx, db, boil.Infer())
 		handleErr(t, err)
@@ -173,7 +173,6 @@ func TestConnections(t *testing.T) {
 		m := models.User{
 			FirstName: fmt.Sprintf("Dirk%02d", i),
 			LastName:  fmt.Sprintf("Dirk%02d", i),
-			Email:     fmt.Sprintf("Dirk%02d@gmail.com", i),
 		}
 		err = m.Insert(ctx, db, boil.Infer())
 	}
@@ -308,31 +307,213 @@ func TestAscDescSortingAtOnce(t *testing.T) {
 	handleErr(t, err)
 
 	for i := 0; i < 20; i++ {
-		number := 20 - i
 		user := models.User{
-			FirstName: fmt.Sprintf("Adam", number),
-			LastName:  fmt.Sprintf("%v", i),
+			FirstName: "Adam",
+			LastName:  "",
+			Age:       uint(50 - i),
 		}
 		err = user.Insert(ctx, db, boil.Infer())
 		handleErr(t, err)
 	}
 	for i := 0; i < 20; i++ {
 		user := models.User{
-			FirstName: fmt.Sprintf("Zara", i),
-			LastName:  fmt.Sprintf("%v", 20-i),
+			FirstName: "Zara",
+			LastName:  "",
+			Age:       uint(50 - i),
 		}
 		err = user.Insert(ctx, db, boil.Infer())
 		handleErr(t, err)
 	}
 	for i := 0; i < 20; i++ {
-		number := 20 - i
 		user := models.User{
-			FirstName: fmt.Sprintf("Eve", number),
-			LastName:  fmt.Sprintf("%v", i),
+			FirstName: "Eve",
+			LastName:  "",
+			Age:       uint(i + 20),
 		}
 		err = user.Insert(ctx, db, boil.Infer())
 		handleErr(t, err)
 	}
+	fmt.Println(resolver)
+
+	dbUsers, err := models.Users().All(ctx, db)
+	handleErr(t, err)
+	for _, firstNameDirection := range fm.AllSortDirection {
+		for _, ageDirection := range fm.AllSortDirection {
+			testIdentifier := fmt.Sprintf("sortFirstName%v and sortAge%v", firstNameDirection, ageDirection)
+			t.Logf("Starting test: %v", testIdentifier)
+			ordering := []*fm.UserOrdering{
+				{
+					Sort:      fm.UserSortFirstName,
+					Direction: firstNameDirection,
+				},
+				{
+					Sort:      fm.UserSortAge,
+					Direction: ageDirection,
+				},
+			}
+			allExpectedFirstNames, allExpectedAges := sortFirstNameAndAge(dbUsers, firstNameDirection, ageDirection)
+
+			// forward
+			var endCursor *string
+			for i := 0; i < 3; i++ {
+				userConnection, err := resolver.Query().Users(ctx, fm.ConnectionPagination{
+					Forward: &fm.ConnectionForwardPagination{
+						First: 20,
+						After: endCursor,
+					},
+				}, ordering, nil)
+				handleErr(t, err)
+				endCursor = userConnection.PageInfo.EndCursor
+
+				offset := i * 20
+				firstNames, ages := pickFirstNamesAndEdges(userConnection)
+				expectedFirstNames, expectedAges := allExpectedFirstNames[offset:offset+20], allExpectedAges[offset:offset+20]
+				assert.Equal(t, commaS(expectedFirstNames), commaS(firstNames), testIdentifier+" > forward pagination > firstnames not equal > "+fmt.Sprintf("offset: %v", offset))
+				assert.Equal(t, commaU(expectedAges), commaU(ages), testIdentifier+" > forward pagination > ages not equal > "+fmt.Sprintf("offset: %v", offset))
+			}
+
+			// backward
+			//var startCursorBackward *string
+			//for i := 0; i < 3; i++ {
+			//	userConnection, err := resolver.Query().Users(ctx, fm.ConnectionPagination{
+			//		Backward: &fm.ConnectionBackwardPagination{
+			//			Last:   20,
+			//			Before: startCursorBackward,
+			//		},
+			//	}, ordering, nil)
+			//	handleErr(t, err)
+			//	startCursorBackward = userConnection.PageInfo.StartCursor
+			//
+			//	// offset := i * 20
+			//	// firstNames, ages := pickFirstNamesAndEdges(userConnection)
+			//	// expectedFirstNames, expectedAges := allExpectedFirstNames[offset:offset+20], allExpectedAges[offset:offset+20]
+			//	// assert.Equal(t, expectedFirstNames, firstNames, testIdentifier+" > backward pagination > firstnames not equal")
+			//	// assert.Equal(t, expectedAges, ages, testIdentifier+" > backward pagination > ages not equal")
+			//}
+		}
+	}
+}
+
+func sortFirstNameAsc(a, b string) bool {
+	return a < b
+}
+
+func sortAgeAsc(a, b uint) bool {
+	return a < b
+}
+
+func sortFirstNameDesc(a, b string) bool {
+	return a > b
+}
+
+func sortAgeDesc(a, b uint) bool {
+	return a > b
+}
+
+func commaS(a []string) string {
+	return strings.Join(a, ", ")
+}
+
+func commaU(a []uint) string {
+	return uintJoin(a, ", ")
+}
+
+func uintJoin(a []uint, sep string) string {
+	b := make([]string, len(a))
+	for i, v := range a {
+		b[i] = strconv.Itoa(int(v))
+	}
+	return strings.Join(b, sep)
+}
+
+func pickFirstNamesAndEdges(uc *fm.UserConnection) ([]string, []uint) {
+	firstNames := make([]string, len(uc.Edges))
+	ages := make([]uint, len(uc.Edges))
+	for i, e := range uc.Edges {
+		firstNames[i] = e.Node.FirstName
+		ages[i] = uint(e.Node.Age)
+	}
+	return firstNames, ages
+}
+
+func pickFirstNames(users []*models.User) []string {
+	pa := make([]string, len(users))
+	for i, u := range users {
+		pa[i] = u.FirstName
+	}
+	return pa
+}
+
+func pickAges(users []*models.User) []uint {
+	pa := make([]uint, len(users))
+	for i, u := range users {
+		pa[i] = u.Age
+	}
+	return pa
+}
+
+func sortFirstNameAndAge(users []*models.User, firstNameDirection fm.SortDirection, ageDirection fm.SortDirection) ([]string, []uint) {
+	switch firstNameDirection {
+	case fm.SortDirectionAsc:
+		switch ageDirection {
+		case fm.SortDirectionAsc:
+			return sortFirstNameAscAndAgeAsc(users)
+		case fm.SortDirectionDesc:
+			return sortFirstNameAscAndAgeDesc(users)
+		}
+	case fm.SortDirectionDesc:
+		switch ageDirection {
+		case fm.SortDirectionAsc:
+			return sortFirstNameDescAndAgeAsc(users)
+		case fm.SortDirectionDesc:
+			return sortFirstNameDescAndAgeDesc(users)
+		}
+	}
+	return nil, nil
+}
+
+func sortFirstNameAscAndAgeDesc(users []*models.User) ([]string, []uint) {
+	sort.Slice(users, func(i, j int) bool {
+		a, b := users[i], users[j]
+		if a.FirstName == b.FirstName {
+			return sortAgeDesc(a.Age, b.Age)
+		}
+		return sortFirstNameAsc(a.FirstName, b.FirstName)
+	})
+	return pickFirstNames(users), pickAges(users)
+}
+
+func sortFirstNameDescAndAgeAsc(users []*models.User) ([]string, []uint) {
+	sort.Slice(users, func(i, j int) bool {
+		a, b := users[i], users[j]
+		if a.FirstName == b.FirstName {
+			return sortAgeAsc(a.Age, b.Age)
+		}
+		return sortFirstNameDesc(a.FirstName, b.FirstName)
+	})
+	return pickFirstNames(users), pickAges(users)
+}
+
+func sortFirstNameAscAndAgeAsc(users []*models.User) ([]string, []uint) {
+	sort.Slice(users, func(i, j int) bool {
+		a, b := users[i], users[j]
+		if a.FirstName == b.FirstName {
+			return sortAgeAsc(a.Age, b.Age)
+		}
+		return sortFirstNameAsc(a.FirstName, b.FirstName)
+	})
+	return pickFirstNames(users), pickAges(users)
+}
+
+func sortFirstNameDescAndAgeDesc(users []*models.User) ([]string, []uint) {
+	sort.Slice(users, func(i, j int) bool {
+		a, b := users[i], users[j]
+		if a.FirstName == b.FirstName {
+			return sortAgeDesc(a.Age, b.Age)
+		}
+		return sortFirstNameDesc(a.FirstName, b.FirstName)
+	})
+	return pickFirstNames(users), pickAges(users)
 }
 
 func firstNameFromUser(e *fm.UserEdge) string {

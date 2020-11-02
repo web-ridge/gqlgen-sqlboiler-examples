@@ -56,6 +56,7 @@ type ComplexityRoot struct {
 	}
 
 	User struct {
+		Age       func(childComplexity int) int
 		Email     func(childComplexity int) int
 		FirstName func(childComplexity int) int
 		ID        func(childComplexity int) int
@@ -157,6 +158,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.Users(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter)), true
+
+	case "User.age":
+		if e.complexity.User.Age == nil {
+			break
+		}
+
+		return e.complexity.User.Age(childComplexity), true
 
 	case "User.email":
 		if e.complexity.User.Email == nil {
@@ -299,6 +307,7 @@ enum UserSort {
   ID
   FIRST_NAME
   LAST_NAME
+  AGE
   EMAIL
 }
 
@@ -311,7 +320,8 @@ type User implements Node {
   id: ID!
   firstName: String!
   lastName: String!
-  email: String!
+  age: Int!
+  email: String
 }
 
 type UserEdge {
@@ -391,6 +401,7 @@ input UserWhere {
   id: IDFilter
   firstName: StringFilter
   lastName: StringFilter
+  age: IntFilter
   email: StringFilter
   or: UserWhere
   and: UserWhere
@@ -942,6 +953,40 @@ func (ec *executionContext) _User_lastName(ctx context.Context, field graphql.Co
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _User_age(ctx context.Context, field graphql.CollectedField, obj *User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "User",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Age, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _User_email(ctx context.Context, field graphql.CollectedField, obj *User) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -966,14 +1011,11 @@ func (ec *executionContext) _User_email(ctx context.Context, field graphql.Colle
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _UserConnection_edges(ctx context.Context, field graphql.CollectedField, obj *UserConnection) (ret graphql.Marshaler) {
@@ -2597,6 +2639,12 @@ func (ec *executionContext) unmarshalInputUserWhere(ctx context.Context, obj int
 			if err != nil {
 				return it, err
 			}
+		case "age":
+			var err error
+			it.Age, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐIntFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "email":
 			var err error
 			it.Email, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐStringFilter(ctx, v)
@@ -2776,11 +2824,13 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "email":
-			out.Values[i] = ec._User_email(ctx, field, obj)
+		case "age":
+			out.Values[i] = ec._User_age(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "email":
+			out.Values[i] = ec._User_email(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -3689,6 +3739,18 @@ func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.Sele
 		return graphql.Null
 	}
 	return ec.marshalOInt2int(ctx, sel, *v)
+}
+
+func (ec *executionContext) unmarshalOIntFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐIntFilter(ctx context.Context, v interface{}) (IntFilter, error) {
+	return ec.unmarshalInputIntFilter(ctx, v)
+}
+
+func (ec *executionContext) unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐIntFilter(ctx context.Context, v interface{}) (*IntFilter, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalOIntFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐIntFilter(ctx, v)
+	return &res, err
 }
 
 func (ec *executionContext) marshalONode2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐNode(ctx context.Context, sel ast.SelectionSet, v Node) graphql.Marshaler {

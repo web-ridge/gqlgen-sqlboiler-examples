@@ -33,6 +33,7 @@ enum UserSort {
   ID
   FIRST_NAME
   LAST_NAME
+  AGE
   EMAIL
 }
 
@@ -45,7 +46,8 @@ type User implements Node {
   id: ID!
   firstName: String!
   lastName: String!
-  email: String!
+  age: Int!
+  email: String
 }
 
 type UserEdge {
@@ -125,6 +127,7 @@ input UserWhere {
   id: IDFilter
   firstName: StringFilter
   lastName: StringFilter
+  age: IntFilter
   email: StringFilter
   or: UserWhere
   and: UserWhere

@@ -88,10 +88,11 @@ type StringFilter struct {
 }
 
 type User struct {
-	ID        string `json:"id"`
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Email     string `json:"email"`
+	ID        string  `json:"id"`
+	FirstName string  `json:"firstName"`
+	LastName  string  `json:"lastName"`
+	Age       int     `json:"age"`
+	Email     *string `json:"email"`
 }
 
 func (User) IsNode() {}
@@ -120,6 +121,7 @@ type UserWhere struct {
 	ID        *IDFilter     `json:"id"`
 	FirstName *StringFilter `json:"firstName"`
 	LastName  *StringFilter `json:"lastName"`
+	Age       *IntFilter    `json:"age"`
 	Email     *StringFilter `json:"email"`
 	Or        *UserWhere    `json:"or"`
 	And       *UserWhere    `json:"and"`
@@ -172,6 +174,7 @@ const (
 	UserSortID        UserSort = "ID"
 	UserSortFirstName UserSort = "FIRST_NAME"
 	UserSortLastName  UserSort = "LAST_NAME"
+	UserSortAge       UserSort = "AGE"
 	UserSortEmail     UserSort = "EMAIL"
 )
 
@@ -179,12 +182,13 @@ var AllUserSort = []UserSort{
 	UserSortID,
 	UserSortFirstName,
 	UserSortLastName,
+	UserSortAge,
 	UserSortEmail,
 }
 
 func (e UserSort) IsValid() bool {
 	switch e {
-	case UserSortID, UserSortFirstName, UserSortLastName, UserSortEmail:
+	case UserSortID, UserSortFirstName, UserSortLastName, UserSortAge, UserSortEmail:
 		return true
 	}
 	return false

@@ -96,6 +96,9 @@ func StringToUserSort(v string) graphql_models.UserSort {
 	if v == "lastName" {
 		return graphql_models.UserSortLastName
 	}
+	if v == "age" {
+		return graphql_models.UserSortAge
+	}
 	if v == "email" {
 		return graphql_models.UserSortEmail
 	}
@@ -138,6 +141,9 @@ func UserSortToString(v graphql_models.UserSort) string {
 	}
 	if v == graphql_models.UserSortLastName {
 		return "lastName"
+	}
+	if v == graphql_models.UserSortAge {
+		return "age"
 	}
 	if v == graphql_models.UserSortEmail {
 		return "email"
@@ -184,7 +190,8 @@ func UserToGraphQL(m *models.User) *graphql_models.User {
 		ID:        UserIDToGraphQL(m.ID),
 		FirstName: m.FirstName,
 		LastName:  m.LastName,
-		Email:     m.Email,
+		Age:       boilergql.UintToInt(m.Age),
+		Email:     boilergql.NullDotStringToPointerString(m.Email),
 	}
 
 	return r
