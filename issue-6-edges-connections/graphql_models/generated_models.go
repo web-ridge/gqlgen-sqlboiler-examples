@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"strconv"
+
+	"github.com/web-ridge/utils-go/boilergql"
 )
 
 type Node interface {
@@ -15,21 +17,6 @@ type Node interface {
 type BooleanFilter struct {
 	EqualTo    *bool `json:"equalTo"`
 	NotEqualTo *bool `json:"notEqualTo"`
-}
-
-type ConnectionBackwardPagination struct {
-	Last   int     `json:"last"`
-	Before *string `json:"before"`
-}
-
-type ConnectionForwardPagination struct {
-	First int     `json:"first"`
-	After *string `json:"after"`
-}
-
-type ConnectionPagination struct {
-	Forward  *ConnectionForwardPagination  `json:"forward"`
-	Backward *ConnectionBackwardPagination `json:"backward"`
 }
 
 type FloatFilter struct {
@@ -113,8 +100,8 @@ type UserFilter struct {
 }
 
 type UserOrdering struct {
-	Sort      UserSort      `json:"sort"`
-	Direction SortDirection `json:"direction"`
+	Sort      UserSort                `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type UserWhere struct {
@@ -125,47 +112,6 @@ type UserWhere struct {
 	Email     *StringFilter `json:"email"`
 	Or        *UserWhere    `json:"or"`
 	And       *UserWhere    `json:"and"`
-}
-
-type SortDirection string
-
-const (
-	SortDirectionAsc  SortDirection = "ASC"
-	SortDirectionDesc SortDirection = "DESC"
-)
-
-var AllSortDirection = []SortDirection{
-	SortDirectionAsc,
-	SortDirectionDesc,
-}
-
-func (e SortDirection) IsValid() bool {
-	switch e {
-	case SortDirectionAsc, SortDirectionDesc:
-		return true
-	}
-	return false
-}
-
-func (e SortDirection) String() string {
-	return string(e)
-}
-
-func (e *SortDirection) UnmarshalGQL(v interface{}) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	*e = SortDirection(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SortDirection", str)
-	}
-	return nil
-}
-
-func (e SortDirection) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
 type UserSort string

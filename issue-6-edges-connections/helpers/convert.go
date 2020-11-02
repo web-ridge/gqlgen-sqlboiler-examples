@@ -9,68 +9,6 @@ import (
 	"github.com/web-ridge/utils-go/boilergql"
 )
 
-func NullDotStringToPointerSortDirection(v null.String) *graphql_models.SortDirection {
-	s := StringToSortDirection(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToSortDirection(v null.String) graphql_models.SortDirection {
-	if !v.Valid {
-		return ""
-	}
-	return StringToSortDirection(v.String)
-}
-
-func StringToSortDirection(v string) graphql_models.SortDirection {
-	if v == "asc" {
-		return graphql_models.SortDirectionAsc
-	}
-	if v == "desc" {
-		return graphql_models.SortDirectionDesc
-	}
-	return ""
-}
-
-func StringToPointerSortDirection(v string) *graphql_models.SortDirection {
-	s := StringToSortDirection(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerSortDirectionToString(v *graphql_models.SortDirection) string {
-	if v == nil {
-		return ""
-	}
-	return SortDirectionToString(*v)
-}
-
-func PointerSortDirectionToNullDotString(v *graphql_models.SortDirection) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return SortDirectionToNullDotString(*v)
-}
-
-func SortDirectionToNullDotString(v graphql_models.SortDirection) null.String {
-	s := SortDirectionToString(v)
-	return null.NewString(s, s != "")
-}
-
-func SortDirectionToString(v graphql_models.SortDirection) string {
-	if v == graphql_models.SortDirectionAsc {
-		return "asc"
-	}
-	if v == graphql_models.SortDirectionDesc {
-		return "desc"
-	}
-	return ""
-}
-
 func NullDotStringToPointerUserSort(v null.String) *graphql_models.UserSort {
 	s := StringToUserSort(v.String)
 	if s == "" {

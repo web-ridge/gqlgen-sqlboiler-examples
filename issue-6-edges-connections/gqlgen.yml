@@ -16,10 +16,10 @@ resolver:
   type: Resolver
 models:
   ConnectionBackwardPagination:
-    model: github.com/web-ridge/boilergql/boilergql.ConnectionBackwardPagination
+    model: github.com/web-ridge/utils-go/boilergql.ConnectionBackwardPagination
   ConnectionForwardPagination:
-    model: github.com/web-ridge/boilergql/boilergql.ConnectionForwardPagination
+    model: github.com/web-ridge/utils-go/boilergql.ConnectionForwardPagination
   ConnectionPagination:
-    model: github.com/web-ridge/boilergql/boilergql.ConnectionPagination
+    model: github.com/web-ridge/utils-go/boilergql.ConnectionPagination
   SortDirection:
-    model: github.com/web-ridge/boilergql/boilergql.SortDirection
+    model: github.com/web-ridge/utils-go/boilergql.SortDirection

@@ -12,6 +12,7 @@ import (
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/stretchr/testify/assert"
 	"github.com/volatiletech/sqlboiler/v4/boil"
+	"github.com/web-ridge/utils-go/boilergql"
 
 	//"github.com/stretchr/testify/assert"
 
@@ -66,8 +67,8 @@ func TestConnections(t *testing.T) {
 	}
 
 	////
-	userConnection, err := resolver.Query().Users(ctx, fm.ConnectionPagination{
-		Forward: &fm.ConnectionForwardPagination{
+	userConnection, err := resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+		Forward: &boilergql.ConnectionForwardPagination{
 			First: 10,
 			After: nil,
 		},
@@ -82,8 +83,8 @@ func TestConnections(t *testing.T) {
 
 	endCursor := userConnection.PageInfo.EndCursor
 
-	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
-		Forward: &fm.ConnectionForwardPagination{
+	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+		Forward: &boilergql.ConnectionForwardPagination{
 			First: 10,
 			After: endCursor,
 		},
@@ -98,8 +99,8 @@ func TestConnections(t *testing.T) {
 
 	endCursor = userConnection.PageInfo.EndCursor
 
-	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
-		Forward: &fm.ConnectionForwardPagination{
+	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+		Forward: &boilergql.ConnectionForwardPagination{
 			First: 10,
 			After: endCursor,
 		},
@@ -111,8 +112,8 @@ func TestConnections(t *testing.T) {
 		assert.Equal(t, true, userConnection.PageInfo.HasNextPage, "nextPage not equal")
 		assert.Equal(t, true, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
 	}
-	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
-		Forward: &fm.ConnectionForwardPagination{
+	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+		Forward: &boilergql.ConnectionForwardPagination{
 			First: 100,
 			After: nil,
 		},
@@ -125,8 +126,8 @@ func TestConnections(t *testing.T) {
 		assert.Equal(t, false, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
 	}
 	// BACKWARD PAGINATION
-	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
-		Backward: &fm.ConnectionBackwardPagination{
+	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   10,
 			Before: nil,
 		},
@@ -140,8 +141,8 @@ func TestConnections(t *testing.T) {
 	}
 	startCursor := userConnection.PageInfo.StartCursor
 
-	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
-		Backward: &fm.ConnectionBackwardPagination{
+	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   10,
 			Before: startCursor,
 		},
@@ -154,8 +155,8 @@ func TestConnections(t *testing.T) {
 		assert.Equal(t, true, userConnection.PageInfo.HasPreviousPage, "nextPage not equal")
 		assert.Equal(t, true, userConnection.PageInfo.HasNextPage, "previousPage not equal")
 	}
-	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
-		Backward: &fm.ConnectionBackwardPagination{
+	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   100,
 			Before: nil,
 		},
@@ -181,15 +182,15 @@ func TestConnections(t *testing.T) {
 	sort := []*fm.UserOrdering{
 		{
 			Sort:      fm.UserSortFirstName,
-			Direction: fm.SortDirectionAsc,
+			Direction: boilergql.SortDirectionAsc,
 		},
 		{
 			Sort:      fm.UserSortLastName,
-			Direction: fm.SortDirectionAsc,
+			Direction: boilergql.SortDirectionAsc,
 		},
 	}
-	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
-		Backward: &fm.ConnectionBackwardPagination{
+	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   20,
 			Before: nil,
 		},
@@ -204,8 +205,8 @@ func TestConnections(t *testing.T) {
 			}
 		}
 	}
-	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
-		Backward: &fm.ConnectionBackwardPagination{
+	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   20,
 			Before: startCursor,
 		},
@@ -221,8 +222,8 @@ func TestConnections(t *testing.T) {
 		}
 	}
 
-	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
-		Backward: &fm.ConnectionBackwardPagination{
+	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   20,
 			Before: startCursor,
 		},
@@ -243,15 +244,15 @@ func TestConnections(t *testing.T) {
 	sort = []*fm.UserOrdering{
 		{
 			Sort:      fm.UserSortFirstName,
-			Direction: fm.SortDirectionDesc,
+			Direction: boilergql.SortDirectionDesc,
 		},
 		{
 			Sort:      fm.UserSortLastName,
-			Direction: fm.SortDirectionDesc,
+			Direction: boilergql.SortDirectionDesc,
 		},
 	}
-	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
-		Backward: &fm.ConnectionBackwardPagination{
+	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   20,
 			Before: nil,
 		},
@@ -266,8 +267,8 @@ func TestConnections(t *testing.T) {
 			}
 		}
 	}
-	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
-		Backward: &fm.ConnectionBackwardPagination{
+	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   20,
 			Before: startCursor,
 		},
@@ -283,8 +284,8 @@ func TestConnections(t *testing.T) {
 		}
 	}
 
-	userConnection, err = resolver.Query().Users(ctx, fm.ConnectionPagination{
-		Backward: &fm.ConnectionBackwardPagination{
+	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   20,
 			Before: startCursor,
 		},
@@ -337,8 +338,8 @@ func TestAscDescSortingAtOnce(t *testing.T) {
 
 	dbUsers, err := models.Users().All(ctx, db)
 	handleErr(t, err)
-	for _, firstNameDirection := range fm.AllSortDirection {
-		for _, ageDirection := range fm.AllSortDirection {
+	for _, firstNameDirection := range boilergql.AllSortDirection {
+		for _, ageDirection := range boilergql.AllSortDirection {
 			testIdentifier := fmt.Sprintf("sortFirstName%v and sortAge%v", firstNameDirection, ageDirection)
 			t.Logf("Starting test: %v", testIdentifier)
 			ordering := []*fm.UserOrdering{
@@ -356,8 +357,8 @@ func TestAscDescSortingAtOnce(t *testing.T) {
 			// forward
 			var endCursor *string
 			for i := 0; i < 3; i++ {
-				userConnection, err := resolver.Query().Users(ctx, fm.ConnectionPagination{
-					Forward: &fm.ConnectionForwardPagination{
+				userConnection, err := resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+					Forward: &boilergql.ConnectionForwardPagination{
 						First: 20,
 						After: endCursor,
 					},
@@ -368,28 +369,32 @@ func TestAscDescSortingAtOnce(t *testing.T) {
 				offset := i * 20
 				firstNames, ages := pickFirstNamesAndEdges(userConnection)
 				expectedFirstNames, expectedAges := allExpectedFirstNames[offset:offset+20], allExpectedAges[offset:offset+20]
+				assert.Equal(t, i < 2, userConnection.PageInfo.HasNextPage, testIdentifier+" > forward pagination > has next page > "+fmt.Sprintf("offset: %v", offset))
+				assert.Equal(t, i > 0, userConnection.PageInfo.HasPreviousPage, testIdentifier+" > forward pagination > has previous page > "+fmt.Sprintf("offset: %v", offset))
 				assert.Equal(t, commaS(expectedFirstNames), commaS(firstNames), testIdentifier+" > forward pagination > firstnames not equal > "+fmt.Sprintf("offset: %v", offset))
 				assert.Equal(t, commaU(expectedAges), commaU(ages), testIdentifier+" > forward pagination > ages not equal > "+fmt.Sprintf("offset: %v", offset))
 			}
 
 			// backward
-			//var startCursorBackward *string
-			//for i := 0; i < 3; i++ {
-			//	userConnection, err := resolver.Query().Users(ctx, fm.ConnectionPagination{
-			//		Backward: &fm.ConnectionBackwardPagination{
-			//			Last:   20,
-			//			Before: startCursorBackward,
-			//		},
-			//	}, ordering, nil)
-			//	handleErr(t, err)
-			//	startCursorBackward = userConnection.PageInfo.StartCursor
-			//
-			//	// offset := i * 20
-			//	// firstNames, ages := pickFirstNamesAndEdges(userConnection)
-			//	// expectedFirstNames, expectedAges := allExpectedFirstNames[offset:offset+20], allExpectedAges[offset:offset+20]
-			//	// assert.Equal(t, expectedFirstNames, firstNames, testIdentifier+" > backward pagination > firstnames not equal")
-			//	// assert.Equal(t, expectedAges, ages, testIdentifier+" > backward pagination > ages not equal")
-			//}
+			var startCursorBackward *string
+			for i := 0; i < 3; i++ {
+				userConnection, err := resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+					Backward: &boilergql.ConnectionBackwardPagination{
+						Last:   20,
+						Before: startCursorBackward,
+					},
+				}, ordering, nil)
+				handleErr(t, err)
+				startCursorBackward = userConnection.PageInfo.StartCursor
+
+				offset := len(dbUsers) - i*20
+				firstNames, ages := pickFirstNamesAndEdges(userConnection)
+				expectedFirstNames, expectedAges := allExpectedFirstNames[offset-20:offset], allExpectedAges[offset-20:offset]
+				assert.Equal(t, i > 0, userConnection.PageInfo.HasNextPage, testIdentifier+" > backward pagination > has next page > "+fmt.Sprintf("offset: %v", offset))
+				assert.Equal(t, i < 2, userConnection.PageInfo.HasPreviousPage, testIdentifier+" > backward pagination > has previous page > "+fmt.Sprintf("offset: %v", offset))
+				assert.Equal(t, commaS(expectedFirstNames), commaS(firstNames), testIdentifier+" > backward pagination > firstnames not equal > "+fmt.Sprintf("offset: %v", offset))
+				assert.Equal(t, commaU(expectedAges), commaU(ages), testIdentifier+" > backward pagination > ages not equal > "+fmt.Sprintf("offset: %v", offset))
+			}
 		}
 	}
 }
@@ -452,20 +457,20 @@ func pickAges(users []*models.User) []uint {
 	return pa
 }
 
-func sortFirstNameAndAge(users []*models.User, firstNameDirection fm.SortDirection, ageDirection fm.SortDirection) ([]string, []uint) {
+func sortFirstNameAndAge(users []*models.User, firstNameDirection boilergql.SortDirection, ageDirection boilergql.SortDirection) ([]string, []uint) {
 	switch firstNameDirection {
-	case fm.SortDirectionAsc:
+	case boilergql.SortDirectionAsc:
 		switch ageDirection {
-		case fm.SortDirectionAsc:
+		case boilergql.SortDirectionAsc:
 			return sortFirstNameAscAndAgeAsc(users)
-		case fm.SortDirectionDesc:
+		case boilergql.SortDirectionDesc:
 			return sortFirstNameAscAndAgeDesc(users)
 		}
-	case fm.SortDirectionDesc:
+	case boilergql.SortDirectionDesc:
 		switch ageDirection {
-		case fm.SortDirectionAsc:
+		case boilergql.SortDirectionAsc:
 			return sortFirstNameDescAndAgeAsc(users)
-		case fm.SortDirectionDesc:
+		case boilergql.SortDirectionDesc:
 			return sortFirstNameDescAndAgeDesc(users)
 		}
 	}

@@ -15,6 +15,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/introspection"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
+	"github.com/web-ridge/utils-go/boilergql"
 )
 
 // region    ************************** generated!.gotpl **************************
@@ -52,7 +53,7 @@ type ComplexityRoot struct {
 	Query struct {
 		Node  func(childComplexity int, id string) int
 		User  func(childComplexity int, id string) int
-		Users func(childComplexity int, pagination ConnectionPagination, ordering []*UserOrdering, filter *UserFilter) int
+		Users func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*UserOrdering, filter *UserFilter) int
 	}
 
 	User struct {
@@ -77,7 +78,7 @@ type ComplexityRoot struct {
 type QueryResolver interface {
 	Node(ctx context.Context, id string) (Node, error)
 	User(ctx context.Context, id string) (*User, error)
-	Users(ctx context.Context, pagination ConnectionPagination, ordering []*UserOrdering, filter *UserFilter) (*UserConnection, error)
+	Users(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*UserOrdering, filter *UserFilter) (*UserConnection, error)
 }
 
 type executableSchema struct {
@@ -157,7 +158,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Users(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter)), true
+		return e.complexity.Query.Users(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter)), true
 
 	case "User.age":
 		if e.complexity.User.Age == nil {
@@ -469,9 +470,9 @@ func (ec *executionContext) field_Query_user_args(ctx context.Context, rawArgs m
 func (ec *executionContext) field_Query_users_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 ConnectionPagination
+	var arg0 boilergql.ConnectionPagination
 	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -765,7 +766,7 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Users(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter))
+		return ec.resolvers.Query().Users(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2227,8 +2228,8 @@ func (ec *executionContext) unmarshalInputBooleanFilter(ctx context.Context, obj
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputConnectionBackwardPagination(ctx context.Context, obj interface{}) (ConnectionBackwardPagination, error) {
-	var it ConnectionBackwardPagination
+func (ec *executionContext) unmarshalInputConnectionBackwardPagination(ctx context.Context, obj interface{}) (boilergql.ConnectionBackwardPagination, error) {
+	var it boilergql.ConnectionBackwardPagination
 	var asMap = obj.(map[string]interface{})
 
 	for k, v := range asMap {
@@ -2251,8 +2252,8 @@ func (ec *executionContext) unmarshalInputConnectionBackwardPagination(ctx conte
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputConnectionForwardPagination(ctx context.Context, obj interface{}) (ConnectionForwardPagination, error) {
-	var it ConnectionForwardPagination
+func (ec *executionContext) unmarshalInputConnectionForwardPagination(ctx context.Context, obj interface{}) (boilergql.ConnectionForwardPagination, error) {
+	var it boilergql.ConnectionForwardPagination
 	var asMap = obj.(map[string]interface{})
 
 	for k, v := range asMap {
@@ -2275,21 +2276,21 @@ func (ec *executionContext) unmarshalInputConnectionForwardPagination(ctx contex
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputConnectionPagination(ctx context.Context, obj interface{}) (ConnectionPagination, error) {
-	var it ConnectionPagination
+func (ec *executionContext) unmarshalInputConnectionPagination(ctx context.Context, obj interface{}) (boilergql.ConnectionPagination, error) {
+	var it boilergql.ConnectionPagination
 	var asMap = obj.(map[string]interface{})
 
 	for k, v := range asMap {
 		switch k {
 		case "forward":
 			var err error
-			it.Forward, err = ec.unmarshalOConnectionForwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐConnectionForwardPagination(ctx, v)
+			it.Forward, err = ec.unmarshalOConnectionForwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionForwardPagination(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "backward":
 			var err error
-			it.Backward, err = ec.unmarshalOConnectionBackwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐConnectionBackwardPagination(ctx, v)
+			it.Backward, err = ec.unmarshalOConnectionBackwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionBackwardPagination(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -2605,7 +2606,7 @@ func (ec *executionContext) unmarshalInputUserOrdering(ctx context.Context, obj 
 			}
 		case "direction":
 			var err error
-			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐSortDirection(ctx, v)
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -3159,7 +3160,7 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐConnectionPagination(ctx context.Context, v interface{}) (ConnectionPagination, error) {
+func (ec *executionContext) unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx context.Context, v interface{}) (boilergql.ConnectionPagination, error) {
 	return ec.unmarshalInputConnectionPagination(ctx, v)
 }
 
@@ -3219,12 +3220,12 @@ func (ec *executionContext) marshalNPageInfo2ᚖgithubᚗcomᚋwebᚑridgeᚋgql
 	return ec._PageInfo(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐSortDirection(ctx context.Context, v interface{}) (SortDirection, error) {
-	var res SortDirection
+func (ec *executionContext) unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx context.Context, v interface{}) (boilergql.SortDirection, error) {
+	var res boilergql.SortDirection
 	return res, res.UnmarshalGQL(v)
 }
 
-func (ec *executionContext) marshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐSortDirection(ctx context.Context, sel ast.SelectionSet, v SortDirection) graphql.Marshaler {
+func (ec *executionContext) marshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx context.Context, sel ast.SelectionSet, v boilergql.SortDirection) graphql.Marshaler {
 	return v
 }
 
@@ -3540,27 +3541,27 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return ec.marshalOBoolean2bool(ctx, sel, *v)
 }
 
-func (ec *executionContext) unmarshalOConnectionBackwardPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐConnectionBackwardPagination(ctx context.Context, v interface{}) (ConnectionBackwardPagination, error) {
+func (ec *executionContext) unmarshalOConnectionBackwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionBackwardPagination(ctx context.Context, v interface{}) (boilergql.ConnectionBackwardPagination, error) {
 	return ec.unmarshalInputConnectionBackwardPagination(ctx, v)
 }
 
-func (ec *executionContext) unmarshalOConnectionBackwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐConnectionBackwardPagination(ctx context.Context, v interface{}) (*ConnectionBackwardPagination, error) {
+func (ec *executionContext) unmarshalOConnectionBackwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionBackwardPagination(ctx context.Context, v interface{}) (*boilergql.ConnectionBackwardPagination, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOConnectionBackwardPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐConnectionBackwardPagination(ctx, v)
+	res, err := ec.unmarshalOConnectionBackwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionBackwardPagination(ctx, v)
 	return &res, err
 }
 
-func (ec *executionContext) unmarshalOConnectionForwardPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐConnectionForwardPagination(ctx context.Context, v interface{}) (ConnectionForwardPagination, error) {
+func (ec *executionContext) unmarshalOConnectionForwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionForwardPagination(ctx context.Context, v interface{}) (boilergql.ConnectionForwardPagination, error) {
 	return ec.unmarshalInputConnectionForwardPagination(ctx, v)
 }
 
-func (ec *executionContext) unmarshalOConnectionForwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐConnectionForwardPagination(ctx context.Context, v interface{}) (*ConnectionForwardPagination, error) {
+func (ec *executionContext) unmarshalOConnectionForwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionForwardPagination(ctx context.Context, v interface{}) (*boilergql.ConnectionForwardPagination, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOConnectionForwardPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ6ᚑedgesᚑconnectionsᚋgraphql_modelsᚐConnectionForwardPagination(ctx, v)
+	res, err := ec.unmarshalOConnectionForwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionForwardPagination(ctx, v)
 	return &res, err
 }
 

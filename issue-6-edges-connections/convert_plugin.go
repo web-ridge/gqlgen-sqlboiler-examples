@@ -54,12 +54,12 @@ func main() {
 			frontend, // directory where gqlgen models live
 			gbgen.ConvertPluginConfig{},
 		)),
-		api.AddPlugin(gbgen.NewResolverPlugin(
-			output,
-			backend,
-			frontend,
-			"", // leave empty if you don't have auth
-		)),
+		//api.AddPlugin(gbgen.NewResolverPlugin(
+		//	output,
+		//	backend,
+		//	frontend,
+		//	"", // leave empty if you don't have auth
+		//)),
 	)
 	if err != nil {
 		fmt.Println("error!!")
