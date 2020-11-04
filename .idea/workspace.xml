@@ -21,6 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bfafb5c5-a505-409f-8b4a-0a3aaef1a279" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-6-edges-connections/resolver.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-6-edges-connections/resolver.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

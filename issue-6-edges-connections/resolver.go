@@ -6,7 +6,6 @@ import (
 	"database/sql"
 	"errors"
 	"strconv"
-	"strings"
 
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	"github.com/web-ridge/utils-go/boilergql"
@@ -311,16 +310,11 @@ func (r *queryResolver) Users(
 	return connection, nil
 }
 
-func (r *queryResolver) Node(ctx context.Context, globalGraphID string) (fm.Node, error) {
-	splitID := strings.SplitN(globalGraphID, "-", 1)
-	if len(splitID) != 2 {
-		return nil, errors.New("could not parse id")
-	}
-
-	model := splitID[0]
+func (r *queryResolver) Node(ctx context.Context, id string) (fm.Node, error) {
+	model := boilergql.GetModelFromCursor(id)
 	switch model {
 	case "User":
-		return r.User(ctx, globalGraphID)
+		return r.User(ctx, id)
 	default:
 		return nil, errors.New("could not find corresponding model for id")
 	}
