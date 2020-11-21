@@ -54,6 +54,8 @@ func UserSortDirection(ordering []*graphql_models.UserOrdering) boilergql.SortDi
 }
 
 func FromUserCursor(cursor string, comparisonSign boilergql.ComparisonSign) []qm.QueryMod {
+	// b, _ := base64.StdEncoding.DecodeString(cursor)
+
 	var columns []string
 	var values []interface{}
 
