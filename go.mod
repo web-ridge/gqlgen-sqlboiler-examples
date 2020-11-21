@@ -11,6 +11,7 @@ replace github.com/web-ridge/utils-go/boilergql => ../utils-go/boilergql
 require (
 	github.com/99designs/gqlgen v0.11.3
 	github.com/didip/tollbooth v4.0.2+incompatible
+	github.com/ericlagergren/decimal v0.0.0-20191206042408-88212e6cfca9
 	github.com/friendsofgo/errors v0.9.2
 	github.com/go-chi/chi v4.1.1+incompatible
 	github.com/go-sql-driver/mysql v1.5.0

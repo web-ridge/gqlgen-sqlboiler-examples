@@ -176,6 +176,7 @@ func TestConnections(t *testing.T) {
 			LastName:  fmt.Sprintf("Dirk%02d", i),
 		}
 		err = m.Insert(ctx, db, boil.Infer())
+		handleErr(t, err)
 	}
 
 	// With sorting
@@ -196,6 +197,7 @@ func TestConnections(t *testing.T) {
 		},
 	}, sort, nil)
 	handleErr(t, err)
+
 	startCursor = userConnection.PageInfo.StartCursor
 	if assert.Equal(t, 20, len(userConnection.Edges), "edges not equal backward sorting ASC EVE") {
 		for _, edge := range userConnection.Edges {
@@ -229,7 +231,6 @@ func TestConnections(t *testing.T) {
 		},
 	}, sort, nil)
 	handleErr(t, err)
-	startCursor = userConnection.PageInfo.StartCursor
 	if assert.Equal(t, 20, len(userConnection.Edges), "edges not equal backward sorting ASC Adam") {
 		for _, edge := range userConnection.Edges {
 			expected := "Adam"
@@ -291,7 +292,8 @@ func TestConnections(t *testing.T) {
 		},
 	}, sort, nil)
 	handleErr(t, err)
-	startCursor = userConnection.PageInfo.StartCursor
+
+	startCursor = userConnection.PageInfo.StartCursor //nolint: ineffassign,staticcheck
 	if assert.Equal(t, 20, len(userConnection.Edges), "edges not equal backward sorting DESC Eve") {
 		for _, edge := range userConnection.Edges {
 			expected := "Eve"
@@ -368,11 +370,17 @@ func TestAscDescSortingAtOnce(t *testing.T) {
 
 				offset := i * 20
 				firstNames, ages := pickFirstNamesAndEdges(userConnection)
-				expectedFirstNames, expectedAges := allExpectedFirstNames[offset:offset+20], allExpectedAges[offset:offset+20]
-				assert.Equal(t, i < 2, userConnection.PageInfo.HasNextPage, testIdentifier+" > forward pagination > has next page > "+fmt.Sprintf("offset: %v", offset))
-				assert.Equal(t, i > 0, userConnection.PageInfo.HasPreviousPage, testIdentifier+" > forward pagination > has previous page > "+fmt.Sprintf("offset: %v", offset))
-				assert.Equal(t, commaS(expectedFirstNames), commaS(firstNames), testIdentifier+" > forward pagination > firstnames not equal > "+fmt.Sprintf("offset: %v", offset))
-				assert.Equal(t, commaU(expectedAges), commaU(ages), testIdentifier+" > forward pagination > ages not equal > "+fmt.Sprintf("offset: %v", offset))
+				expectedFirstNames, expectedAges := allExpectedFirstNames[offset:offset+20],
+					allExpectedAges[offset:offset+20]
+
+				assert.Equal(t, i < 2, userConnection.PageInfo.HasNextPage, testIdentifier+
+					" > forward pagination > has next page > "+fmt.Sprintf("offset: %v", offset))
+				assert.Equal(t, i > 0, userConnection.PageInfo.HasPreviousPage, testIdentifier+
+					" > forward pagination > has previous page > "+fmt.Sprintf("offset: %v", offset))
+				assert.Equal(t, commaS(expectedFirstNames), commaS(firstNames), testIdentifier+
+					" > forward pagination > firstnames not equal > "+fmt.Sprintf("offset: %v", offset))
+				assert.Equal(t, commaU(expectedAges), commaU(ages), testIdentifier+
+					" > forward pagination > ages not equal > "+fmt.Sprintf("offset: %v", offset))
 			}
 
 			// backward
@@ -390,10 +398,14 @@ func TestAscDescSortingAtOnce(t *testing.T) {
 				offset := len(dbUsers) - i*20
 				firstNames, ages := pickFirstNamesAndEdges(userConnection)
 				expectedFirstNames, expectedAges := allExpectedFirstNames[offset-20:offset], allExpectedAges[offset-20:offset]
-				assert.Equal(t, i > 0, userConnection.PageInfo.HasNextPage, testIdentifier+" > backward pagination > has next page > "+fmt.Sprintf("offset: %v", offset))
-				assert.Equal(t, i < 2, userConnection.PageInfo.HasPreviousPage, testIdentifier+" > backward pagination > has previous page > "+fmt.Sprintf("offset: %v", offset))
-				assert.Equal(t, commaS(expectedFirstNames), commaS(firstNames), testIdentifier+" > backward pagination > firstnames not equal > "+fmt.Sprintf("offset: %v", offset))
-				assert.Equal(t, commaU(expectedAges), commaU(ages), testIdentifier+" > backward pagination > ages not equal > "+fmt.Sprintf("offset: %v", offset))
+				assert.Equal(t, i > 0, userConnection.PageInfo.HasNextPage, testIdentifier+
+					" > backward pagination > has next page > "+fmt.Sprintf("offset: %v", offset))
+				assert.Equal(t, i < 2, userConnection.PageInfo.HasPreviousPage, testIdentifier+
+					" > backward pagination > has previous page > "+fmt.Sprintf("offset: %v", offset))
+				assert.Equal(t, commaS(expectedFirstNames), commaS(firstNames), testIdentifier+
+					" > backward pagination > firstnames not equal > "+fmt.Sprintf("offset: %v", offset))
+				assert.Equal(t, commaU(expectedAges), commaU(ages), testIdentifier+
+					" > backward pagination > ages not equal > "+fmt.Sprintf("offset: %v", offset))
 			}
 		}
 	}
@@ -457,7 +469,11 @@ func pickAges(users []*models.User) []uint {
 	return pa
 }
 
-func sortFirstNameAndAge(users []*models.User, firstNameDirection boilergql.SortDirection, ageDirection boilergql.SortDirection) ([]string, []uint) {
+func sortFirstNameAndAge(
+	users []*models.User,
+	firstNameDirection boilergql.SortDirection,
+	ageDirection boilergql.SortDirection,
+) ([]string, []uint) {
 	switch firstNameDirection {
 	case boilergql.SortDirectionAsc:
 		switch ageDirection {

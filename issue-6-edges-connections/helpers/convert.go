@@ -9,6 +9,31 @@ import (
 	"github.com/web-ridge/utils-go/boilergql"
 )
 
+type UserSort string
+
+const (
+	UserSortID        UserSort = "id"
+	UserSortFirstName UserSort = "firstName"
+	UserSortLastName  UserSort = "lastName"
+	UserSortAge       UserSort = "age"
+	UserSortEmail     UserSort = "email"
+)
+
+var UserSortDBValue = map[graphql_models.UserSort]UserSort{
+	graphql_models.UserSortID:        UserSortID,
+	graphql_models.UserSortFirstName: UserSortFirstName,
+	graphql_models.UserSortLastName:  UserSortLastName,
+	graphql_models.UserSortAge:       UserSortAge,
+	graphql_models.UserSortEmail:     UserSortEmail,
+}
+var UserSortAPIValue = map[UserSort]graphql_models.UserSort{
+	UserSortID:        graphql_models.UserSortID,
+	UserSortFirstName: graphql_models.UserSortFirstName,
+	UserSortLastName:  graphql_models.UserSortLastName,
+	UserSortAge:       graphql_models.UserSortAge,
+	UserSortEmail:     graphql_models.UserSortEmail,
+}
+
 func NullDotStringToPointerUserSort(v null.String) *graphql_models.UserSort {
 	s := StringToUserSort(v.String)
 	if s == "" {
@@ -25,22 +50,8 @@ func NullDotStringToUserSort(v null.String) graphql_models.UserSort {
 }
 
 func StringToUserSort(v string) graphql_models.UserSort {
-	if v == "id" {
-		return graphql_models.UserSortID
-	}
-	if v == "firstName" {
-		return graphql_models.UserSortFirstName
-	}
-	if v == "lastName" {
-		return graphql_models.UserSortLastName
-	}
-	if v == "age" {
-		return graphql_models.UserSortAge
-	}
-	if v == "email" {
-		return graphql_models.UserSortEmail
-	}
-	return ""
+	s := UserSortAPIValue[UserSort(v)]
+	return s
 }
 
 func StringToPointerUserSort(v string) *graphql_models.UserSort {
@@ -71,22 +82,8 @@ func UserSortToNullDotString(v graphql_models.UserSort) null.String {
 }
 
 func UserSortToString(v graphql_models.UserSort) string {
-	if v == graphql_models.UserSortID {
-		return "id"
-	}
-	if v == graphql_models.UserSortFirstName {
-		return "firstName"
-	}
-	if v == graphql_models.UserSortLastName {
-		return "lastName"
-	}
-	if v == graphql_models.UserSortAge {
-		return "age"
-	}
-	if v == graphql_models.UserSortEmail {
-		return "email"
-	}
-	return ""
+	s := UserSortDBValue[v]
+	return string(s)
 }
 
 func UserWithUintID(id uint) *graphql_models.User {
