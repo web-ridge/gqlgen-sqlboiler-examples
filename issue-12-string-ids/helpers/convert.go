@@ -6,73 +6,8 @@ import (
 	null "github.com/volatiletech/null/v8"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/models"
-	"github.com/web-ridge/utils-go/boilergql"
+	boilergql "github.com/web-ridge/utils-go/boilergql/v3"
 )
-
-type ImageVariationSort string
-
-const (
-	ImageVariationSortID ImageVariationSort = "id"
-)
-
-var ImageVariationSortDBValue = map[graphql_models.ImageVariationSort]ImageVariationSort{
-	graphql_models.ImageVariationSortID: ImageVariationSortID,
-}
-var ImageVariationSortAPIValue = map[ImageVariationSort]graphql_models.ImageVariationSort{
-	ImageVariationSortID: graphql_models.ImageVariationSortID,
-}
-
-func NullDotStringToPointerImageVariationSort(v null.String) *graphql_models.ImageVariationSort {
-	s := StringToImageVariationSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToImageVariationSort(v null.String) graphql_models.ImageVariationSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToImageVariationSort(v.String)
-}
-
-func StringToImageVariationSort(v string) graphql_models.ImageVariationSort {
-	s := ImageVariationSortAPIValue[ImageVariationSort(v)]
-	return s
-}
-
-func StringToPointerImageVariationSort(v string) *graphql_models.ImageVariationSort {
-	s := StringToImageVariationSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerImageVariationSortToString(v *graphql_models.ImageVariationSort) string {
-	if v == nil {
-		return ""
-	}
-	return ImageVariationSortToString(*v)
-}
-
-func PointerImageVariationSortToNullDotString(v *graphql_models.ImageVariationSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return ImageVariationSortToNullDotString(*v)
-}
-
-func ImageVariationSortToNullDotString(v graphql_models.ImageVariationSort) null.String {
-	s := ImageVariationSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func ImageVariationSortToString(v graphql_models.ImageVariationSort) string {
-	s := ImageVariationSortDBValue[v]
-	return string(s)
-}
 
 type PostSort string
 
@@ -139,6 +74,355 @@ func PostSortToNullDotString(v graphql_models.PostSort) null.String {
 
 func PostSortToString(v graphql_models.PostSort) string {
 	s := PostSortDBValue[v]
+	return string(s)
+}
+
+type CommentSort string
+
+const (
+	CommentSortID      CommentSort = "id"
+	CommentSortContent CommentSort = "content"
+)
+
+var CommentSortDBValue = map[graphql_models.CommentSort]CommentSort{
+	graphql_models.CommentSortID:      CommentSortID,
+	graphql_models.CommentSortContent: CommentSortContent,
+}
+var CommentSortAPIValue = map[CommentSort]graphql_models.CommentSort{
+	CommentSortID:      graphql_models.CommentSortID,
+	CommentSortContent: graphql_models.CommentSortContent,
+}
+
+func NullDotStringToPointerCommentSort(v null.String) *graphql_models.CommentSort {
+	s := StringToCommentSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToCommentSort(v null.String) graphql_models.CommentSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToCommentSort(v.String)
+}
+
+func StringToCommentSort(v string) graphql_models.CommentSort {
+	s := CommentSortAPIValue[CommentSort(v)]
+	return s
+}
+
+func StringToPointerCommentSort(v string) *graphql_models.CommentSort {
+	s := StringToCommentSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerCommentSortToString(v *graphql_models.CommentSort) string {
+	if v == nil {
+		return ""
+	}
+	return CommentSortToString(*v)
+}
+
+func PointerCommentSortToNullDotString(v *graphql_models.CommentSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return CommentSortToNullDotString(*v)
+}
+
+func CommentSortToNullDotString(v graphql_models.CommentSort) null.String {
+	s := CommentSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func CommentSortToString(v graphql_models.CommentSort) string {
+	s := CommentSortDBValue[v]
+	return string(s)
+}
+
+type ImageSort string
+
+const (
+	ImageSortID          ImageSort = "id"
+	ImageSortViews       ImageSort = "views"
+	ImageSortOriginalURL ImageSort = "originalUrl"
+)
+
+var ImageSortDBValue = map[graphql_models.ImageSort]ImageSort{
+	graphql_models.ImageSortID:          ImageSortID,
+	graphql_models.ImageSortViews:       ImageSortViews,
+	graphql_models.ImageSortOriginalURL: ImageSortOriginalURL,
+}
+var ImageSortAPIValue = map[ImageSort]graphql_models.ImageSort{
+	ImageSortID:          graphql_models.ImageSortID,
+	ImageSortViews:       graphql_models.ImageSortViews,
+	ImageSortOriginalURL: graphql_models.ImageSortOriginalURL,
+}
+
+func NullDotStringToPointerImageSort(v null.String) *graphql_models.ImageSort {
+	s := StringToImageSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToImageSort(v null.String) graphql_models.ImageSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToImageSort(v.String)
+}
+
+func StringToImageSort(v string) graphql_models.ImageSort {
+	s := ImageSortAPIValue[ImageSort(v)]
+	return s
+}
+
+func StringToPointerImageSort(v string) *graphql_models.ImageSort {
+	s := StringToImageSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerImageSortToString(v *graphql_models.ImageSort) string {
+	if v == nil {
+		return ""
+	}
+	return ImageSortToString(*v)
+}
+
+func PointerImageSortToNullDotString(v *graphql_models.ImageSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return ImageSortToNullDotString(*v)
+}
+
+func ImageSortToNullDotString(v graphql_models.ImageSort) null.String {
+	s := ImageSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func ImageSortToString(v graphql_models.ImageSort) string {
+	s := ImageSortDBValue[v]
+	return string(s)
+}
+
+type ImageVariationSort string
+
+const (
+	ImageVariationSortID ImageVariationSort = "id"
+)
+
+var ImageVariationSortDBValue = map[graphql_models.ImageVariationSort]ImageVariationSort{
+	graphql_models.ImageVariationSortID: ImageVariationSortID,
+}
+var ImageVariationSortAPIValue = map[ImageVariationSort]graphql_models.ImageVariationSort{
+	ImageVariationSortID: graphql_models.ImageVariationSortID,
+}
+
+func NullDotStringToPointerImageVariationSort(v null.String) *graphql_models.ImageVariationSort {
+	s := StringToImageVariationSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToImageVariationSort(v null.String) graphql_models.ImageVariationSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToImageVariationSort(v.String)
+}
+
+func StringToImageVariationSort(v string) graphql_models.ImageVariationSort {
+	s := ImageVariationSortAPIValue[ImageVariationSort(v)]
+	return s
+}
+
+func StringToPointerImageVariationSort(v string) *graphql_models.ImageVariationSort {
+	s := StringToImageVariationSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerImageVariationSortToString(v *graphql_models.ImageVariationSort) string {
+	if v == nil {
+		return ""
+	}
+	return ImageVariationSortToString(*v)
+}
+
+func PointerImageVariationSortToNullDotString(v *graphql_models.ImageVariationSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return ImageVariationSortToNullDotString(*v)
+}
+
+func ImageVariationSortToNullDotString(v graphql_models.ImageVariationSort) null.String {
+	s := ImageVariationSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func ImageVariationSortToString(v graphql_models.ImageVariationSort) string {
+	s := ImageVariationSortDBValue[v]
+	return string(s)
+}
+
+type CommentLikeSort string
+
+const (
+	CommentLikeSortID        CommentLikeSort = "id"
+	CommentLikeSortLikeType  CommentLikeSort = "likeType"
+	CommentLikeSortCreatedAt CommentLikeSort = "createdAt"
+)
+
+var CommentLikeSortDBValue = map[graphql_models.CommentLikeSort]CommentLikeSort{
+	graphql_models.CommentLikeSortID:        CommentLikeSortID,
+	graphql_models.CommentLikeSortLikeType:  CommentLikeSortLikeType,
+	graphql_models.CommentLikeSortCreatedAt: CommentLikeSortCreatedAt,
+}
+var CommentLikeSortAPIValue = map[CommentLikeSort]graphql_models.CommentLikeSort{
+	CommentLikeSortID:        graphql_models.CommentLikeSortID,
+	CommentLikeSortLikeType:  graphql_models.CommentLikeSortLikeType,
+	CommentLikeSortCreatedAt: graphql_models.CommentLikeSortCreatedAt,
+}
+
+func NullDotStringToPointerCommentLikeSort(v null.String) *graphql_models.CommentLikeSort {
+	s := StringToCommentLikeSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToCommentLikeSort(v null.String) graphql_models.CommentLikeSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToCommentLikeSort(v.String)
+}
+
+func StringToCommentLikeSort(v string) graphql_models.CommentLikeSort {
+	s := CommentLikeSortAPIValue[CommentLikeSort(v)]
+	return s
+}
+
+func StringToPointerCommentLikeSort(v string) *graphql_models.CommentLikeSort {
+	s := StringToCommentLikeSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerCommentLikeSortToString(v *graphql_models.CommentLikeSort) string {
+	if v == nil {
+		return ""
+	}
+	return CommentLikeSortToString(*v)
+}
+
+func PointerCommentLikeSortToNullDotString(v *graphql_models.CommentLikeSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return CommentLikeSortToNullDotString(*v)
+}
+
+func CommentLikeSortToNullDotString(v graphql_models.CommentLikeSort) null.String {
+	s := CommentLikeSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func CommentLikeSortToString(v graphql_models.CommentLikeSort) string {
+	s := CommentLikeSortDBValue[v]
+	return string(s)
+}
+
+type UserSort string
+
+const (
+	UserSortID        UserSort = "id"
+	UserSortFirstName UserSort = "firstName"
+	UserSortLastName  UserSort = "lastName"
+	UserSortEmail     UserSort = "email"
+)
+
+var UserSortDBValue = map[graphql_models.UserSort]UserSort{
+	graphql_models.UserSortID:        UserSortID,
+	graphql_models.UserSortFirstName: UserSortFirstName,
+	graphql_models.UserSortLastName:  UserSortLastName,
+	graphql_models.UserSortEmail:     UserSortEmail,
+}
+var UserSortAPIValue = map[UserSort]graphql_models.UserSort{
+	UserSortID:        graphql_models.UserSortID,
+	UserSortFirstName: graphql_models.UserSortFirstName,
+	UserSortLastName:  graphql_models.UserSortLastName,
+	UserSortEmail:     graphql_models.UserSortEmail,
+}
+
+func NullDotStringToPointerUserSort(v null.String) *graphql_models.UserSort {
+	s := StringToUserSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToUserSort(v null.String) graphql_models.UserSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToUserSort(v.String)
+}
+
+func StringToUserSort(v string) graphql_models.UserSort {
+	s := UserSortAPIValue[UserSort(v)]
+	return s
+}
+
+func StringToPointerUserSort(v string) *graphql_models.UserSort {
+	s := StringToUserSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerUserSortToString(v *graphql_models.UserSort) string {
+	if v == nil {
+		return ""
+	}
+	return UserSortToString(*v)
+}
+
+func PointerUserSortToNullDotString(v *graphql_models.UserSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return UserSortToNullDotString(*v)
+}
+
+func UserSortToNullDotString(v graphql_models.UserSort) null.String {
+	s := UserSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func UserSortToString(v graphql_models.UserSort) string {
+	s := UserSortDBValue[v]
 	return string(s)
 }
 
@@ -278,290 +562,6 @@ func FriendshipSortToNullDotString(v graphql_models.FriendshipSort) null.String 
 
 func FriendshipSortToString(v graphql_models.FriendshipSort) string {
 	s := FriendshipSortDBValue[v]
-	return string(s)
-}
-
-type CommentSort string
-
-const (
-	CommentSortID      CommentSort = "id"
-	CommentSortContent CommentSort = "content"
-)
-
-var CommentSortDBValue = map[graphql_models.CommentSort]CommentSort{
-	graphql_models.CommentSortID:      CommentSortID,
-	graphql_models.CommentSortContent: CommentSortContent,
-}
-var CommentSortAPIValue = map[CommentSort]graphql_models.CommentSort{
-	CommentSortID:      graphql_models.CommentSortID,
-	CommentSortContent: graphql_models.CommentSortContent,
-}
-
-func NullDotStringToPointerCommentSort(v null.String) *graphql_models.CommentSort {
-	s := StringToCommentSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToCommentSort(v null.String) graphql_models.CommentSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToCommentSort(v.String)
-}
-
-func StringToCommentSort(v string) graphql_models.CommentSort {
-	s := CommentSortAPIValue[CommentSort(v)]
-	return s
-}
-
-func StringToPointerCommentSort(v string) *graphql_models.CommentSort {
-	s := StringToCommentSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerCommentSortToString(v *graphql_models.CommentSort) string {
-	if v == nil {
-		return ""
-	}
-	return CommentSortToString(*v)
-}
-
-func PointerCommentSortToNullDotString(v *graphql_models.CommentSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return CommentSortToNullDotString(*v)
-}
-
-func CommentSortToNullDotString(v graphql_models.CommentSort) null.String {
-	s := CommentSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func CommentSortToString(v graphql_models.CommentSort) string {
-	s := CommentSortDBValue[v]
-	return string(s)
-}
-
-type CommentLikeSort string
-
-const (
-	CommentLikeSortID        CommentLikeSort = "id"
-	CommentLikeSortLikeType  CommentLikeSort = "likeType"
-	CommentLikeSortCreatedAt CommentLikeSort = "createdAt"
-)
-
-var CommentLikeSortDBValue = map[graphql_models.CommentLikeSort]CommentLikeSort{
-	graphql_models.CommentLikeSortID:        CommentLikeSortID,
-	graphql_models.CommentLikeSortLikeType:  CommentLikeSortLikeType,
-	graphql_models.CommentLikeSortCreatedAt: CommentLikeSortCreatedAt,
-}
-var CommentLikeSortAPIValue = map[CommentLikeSort]graphql_models.CommentLikeSort{
-	CommentLikeSortID:        graphql_models.CommentLikeSortID,
-	CommentLikeSortLikeType:  graphql_models.CommentLikeSortLikeType,
-	CommentLikeSortCreatedAt: graphql_models.CommentLikeSortCreatedAt,
-}
-
-func NullDotStringToPointerCommentLikeSort(v null.String) *graphql_models.CommentLikeSort {
-	s := StringToCommentLikeSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToCommentLikeSort(v null.String) graphql_models.CommentLikeSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToCommentLikeSort(v.String)
-}
-
-func StringToCommentLikeSort(v string) graphql_models.CommentLikeSort {
-	s := CommentLikeSortAPIValue[CommentLikeSort(v)]
-	return s
-}
-
-func StringToPointerCommentLikeSort(v string) *graphql_models.CommentLikeSort {
-	s := StringToCommentLikeSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerCommentLikeSortToString(v *graphql_models.CommentLikeSort) string {
-	if v == nil {
-		return ""
-	}
-	return CommentLikeSortToString(*v)
-}
-
-func PointerCommentLikeSortToNullDotString(v *graphql_models.CommentLikeSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return CommentLikeSortToNullDotString(*v)
-}
-
-func CommentLikeSortToNullDotString(v graphql_models.CommentLikeSort) null.String {
-	s := CommentLikeSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func CommentLikeSortToString(v graphql_models.CommentLikeSort) string {
-	s := CommentLikeSortDBValue[v]
-	return string(s)
-}
-
-type ImageSort string
-
-const (
-	ImageSortID          ImageSort = "id"
-	ImageSortViews       ImageSort = "views"
-	ImageSortOriginalURL ImageSort = "originalUrl"
-)
-
-var ImageSortDBValue = map[graphql_models.ImageSort]ImageSort{
-	graphql_models.ImageSortID:          ImageSortID,
-	graphql_models.ImageSortViews:       ImageSortViews,
-	graphql_models.ImageSortOriginalURL: ImageSortOriginalURL,
-}
-var ImageSortAPIValue = map[ImageSort]graphql_models.ImageSort{
-	ImageSortID:          graphql_models.ImageSortID,
-	ImageSortViews:       graphql_models.ImageSortViews,
-	ImageSortOriginalURL: graphql_models.ImageSortOriginalURL,
-}
-
-func NullDotStringToPointerImageSort(v null.String) *graphql_models.ImageSort {
-	s := StringToImageSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToImageSort(v null.String) graphql_models.ImageSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToImageSort(v.String)
-}
-
-func StringToImageSort(v string) graphql_models.ImageSort {
-	s := ImageSortAPIValue[ImageSort(v)]
-	return s
-}
-
-func StringToPointerImageSort(v string) *graphql_models.ImageSort {
-	s := StringToImageSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerImageSortToString(v *graphql_models.ImageSort) string {
-	if v == nil {
-		return ""
-	}
-	return ImageSortToString(*v)
-}
-
-func PointerImageSortToNullDotString(v *graphql_models.ImageSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return ImageSortToNullDotString(*v)
-}
-
-func ImageSortToNullDotString(v graphql_models.ImageSort) null.String {
-	s := ImageSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func ImageSortToString(v graphql_models.ImageSort) string {
-	s := ImageSortDBValue[v]
-	return string(s)
-}
-
-type UserSort string
-
-const (
-	UserSortID        UserSort = "id"
-	UserSortFirstName UserSort = "firstName"
-	UserSortLastName  UserSort = "lastName"
-	UserSortEmail     UserSort = "email"
-)
-
-var UserSortDBValue = map[graphql_models.UserSort]UserSort{
-	graphql_models.UserSortID:        UserSortID,
-	graphql_models.UserSortFirstName: UserSortFirstName,
-	graphql_models.UserSortLastName:  UserSortLastName,
-	graphql_models.UserSortEmail:     UserSortEmail,
-}
-var UserSortAPIValue = map[UserSort]graphql_models.UserSort{
-	UserSortID:        graphql_models.UserSortID,
-	UserSortFirstName: graphql_models.UserSortFirstName,
-	UserSortLastName:  graphql_models.UserSortLastName,
-	UserSortEmail:     graphql_models.UserSortEmail,
-}
-
-func NullDotStringToPointerUserSort(v null.String) *graphql_models.UserSort {
-	s := StringToUserSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToUserSort(v null.String) graphql_models.UserSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToUserSort(v.String)
-}
-
-func StringToUserSort(v string) graphql_models.UserSort {
-	s := UserSortAPIValue[UserSort(v)]
-	return s
-}
-
-func StringToPointerUserSort(v string) *graphql_models.UserSort {
-	s := StringToUserSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerUserSortToString(v *graphql_models.UserSort) string {
-	if v == nil {
-		return ""
-	}
-	return UserSortToString(*v)
-}
-
-func PointerUserSortToNullDotString(v *graphql_models.UserSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return UserSortToNullDotString(*v)
-}
-
-func UserSortToNullDotString(v graphql_models.UserSort) null.String {
-	s := UserSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func UserSortToString(v graphql_models.UserSort) string {
-	s := UserSortDBValue[v]
 	return string(s)
 }
 

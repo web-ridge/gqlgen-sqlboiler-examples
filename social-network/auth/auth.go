@@ -8,7 +8,7 @@ import (
 
 	"github.com/patrickmn/go-cache"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/models"
-	"github.com/web-ridge/utils-go/api"
+	"github.com/web-ridge/utils-go/api/v3"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -24,7 +24,6 @@ type contextKey struct {
 
 // Middleware decodes the share session cookie and packs the session into context
 func Middleware(db *sql.DB) func(http.Handler) http.Handler {
-
 	// We use a cache to prevent bcrypt using too much CPU
 	// also this is 60ms faster if the user is cached ;)
 	// Create a cache with a default expiration time of 5 minutes, and which

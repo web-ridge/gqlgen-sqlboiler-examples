@@ -7,7 +7,7 @@ import (
 	"io"
 	"strconv"
 
-	"github.com/web-ridge/utils-go/boilergql"
+	boilergql "github.com/web-ridge/utils-go/boilergql/v3"
 )
 
 type Node interface {
@@ -19,8 +19,8 @@ type Additive struct {
 	Name                string               `json:"name"`
 	Note                string               `json:"note"`
 	CreatedAt           int                  `json:"createdAt"`
-	UpdatedAt           int                  `json:"updatedAt"`
 	DeletedAt           *int                 `json:"deletedAt"`
+	UpdatedAt           int                  `json:"updatedAt"`
 	RecipeAdditive      *RecipeAdditive      `json:"recipeAdditive"`
 	RecipeBatchAdditive *RecipeBatchAdditive `json:"recipeBatchAdditive"`
 	AdditiveInventories []*AdditiveInventory `json:"additiveInventories"`
@@ -37,8 +37,8 @@ type AdditiveCreateInput struct {
 	Name      string `json:"name"`
 	Note      string `json:"note"`
 	CreatedAt int    `json:"createdAt"`
-	UpdatedAt int    `json:"updatedAt"`
 	DeletedAt *int   `json:"deletedAt"`
+	UpdatedAt int    `json:"updatedAt"`
 }
 
 type AdditiveDeletePayload struct {
@@ -71,9 +71,9 @@ type AdditiveInventory struct {
 	Weight       float64   `json:"weight"`
 	Additive     *Additive `json:"additive"`
 	Supplier     *Supplier `json:"supplier"`
-	CreatedAt    int       `json:"createdAt"`
-	DeletedAt    *int      `json:"deletedAt"`
 	UpdatedAt    int       `json:"updatedAt"`
+	DeletedAt    *int      `json:"deletedAt"`
+	CreatedAt    int       `json:"createdAt"`
 }
 
 func (AdditiveInventory) IsNode() {}
@@ -90,9 +90,9 @@ type AdditiveInventoryCreateInput struct {
 	Weight       float64 `json:"weight"`
 	AdditiveID   string  `json:"additiveId"`
 	SupplierID   string  `json:"supplierId"`
-	CreatedAt    int     `json:"createdAt"`
-	DeletedAt    *int    `json:"deletedAt"`
 	UpdatedAt    int     `json:"updatedAt"`
+	DeletedAt    *int    `json:"deletedAt"`
+	CreatedAt    int     `json:"createdAt"`
 }
 
 type AdditiveInventoryDeletePayload struct {
@@ -125,9 +125,9 @@ type AdditiveInventoryUpdateInput struct {
 	Weight       *float64 `json:"weight"`
 	AdditiveID   *string  `json:"additiveId"`
 	SupplierID   *string  `json:"supplierId"`
-	CreatedAt    *int     `json:"createdAt"`
-	DeletedAt    *int     `json:"deletedAt"`
 	UpdatedAt    *int     `json:"updatedAt"`
+	DeletedAt    *int     `json:"deletedAt"`
+	CreatedAt    *int     `json:"createdAt"`
 }
 
 type AdditiveInventoryWhere struct {
@@ -138,9 +138,9 @@ type AdditiveInventoryWhere struct {
 	Weight       *FloatFilter            `json:"weight"`
 	Additive     *AdditiveWhere          `json:"additive"`
 	Supplier     *SupplierWhere          `json:"supplier"`
-	CreatedAt    *IntFilter              `json:"createdAt"`
-	DeletedAt    *IntFilter              `json:"deletedAt"`
 	UpdatedAt    *IntFilter              `json:"updatedAt"`
+	DeletedAt    *IntFilter              `json:"deletedAt"`
+	CreatedAt    *IntFilter              `json:"createdAt"`
 	Or           *AdditiveInventoryWhere `json:"or"`
 	And          *AdditiveInventoryWhere `json:"and"`
 }
@@ -158,8 +158,8 @@ type AdditiveUpdateInput struct {
 	Name      *string `json:"name"`
 	Note      *string `json:"note"`
 	CreatedAt *int    `json:"createdAt"`
-	UpdatedAt *int    `json:"updatedAt"`
 	DeletedAt *int    `json:"deletedAt"`
+	UpdatedAt *int    `json:"updatedAt"`
 }
 
 type AdditiveWhere struct {
@@ -167,8 +167,8 @@ type AdditiveWhere struct {
 	Name                *StringFilter             `json:"name"`
 	Note                *StringFilter             `json:"note"`
 	CreatedAt           *IntFilter                `json:"createdAt"`
-	UpdatedAt           *IntFilter                `json:"updatedAt"`
 	DeletedAt           *IntFilter                `json:"deletedAt"`
+	UpdatedAt           *IntFilter                `json:"updatedAt"`
 	RecipeAdditive      *RecipeAdditiveWhere      `json:"recipeAdditive"`
 	RecipeBatchAdditive *RecipeBatchAdditiveWhere `json:"recipeBatchAdditive"`
 	AdditiveInventories *AdditiveInventoryWhere   `json:"additiveInventories"`
@@ -621,8 +621,8 @@ type Fragrance struct {
 	Name                 string                `json:"name"`
 	Note                 string                `json:"note"`
 	UpdatedAt            int                   `json:"updatedAt"`
-	CreatedAt            int                   `json:"createdAt"`
 	DeletedAt            *int                  `json:"deletedAt"`
+	CreatedAt            int                   `json:"createdAt"`
 	RecipeBatchFragrance *RecipeBatchFragrance `json:"recipeBatchFragrance"`
 	RecipeFragrance      *RecipeFragrance      `json:"recipeFragrance"`
 	FragranceInventories []*FragranceInventory `json:"fragranceInventories"`
@@ -639,8 +639,8 @@ type FragranceCreateInput struct {
 	Name      string `json:"name"`
 	Note      string `json:"note"`
 	UpdatedAt int    `json:"updatedAt"`
-	CreatedAt int    `json:"createdAt"`
 	DeletedAt *int   `json:"deletedAt"`
+	CreatedAt int    `json:"createdAt"`
 }
 
 type FragranceDeletePayload struct {
@@ -673,8 +673,8 @@ type FragranceInventory struct {
 	Weight       float64    `json:"weight"`
 	Fragrance    *Fragrance `json:"fragrance"`
 	Supplier     *Supplier  `json:"supplier"`
-	UpdatedAt    int        `json:"updatedAt"`
 	DeletedAt    *int       `json:"deletedAt"`
+	UpdatedAt    int        `json:"updatedAt"`
 	CreatedAt    int        `json:"createdAt"`
 }
 
@@ -692,8 +692,8 @@ type FragranceInventoryCreateInput struct {
 	Weight       float64 `json:"weight"`
 	FragranceID  string  `json:"fragranceId"`
 	SupplierID   string  `json:"supplierId"`
-	UpdatedAt    int     `json:"updatedAt"`
 	DeletedAt    *int    `json:"deletedAt"`
+	UpdatedAt    int     `json:"updatedAt"`
 	CreatedAt    int     `json:"createdAt"`
 }
 
@@ -727,8 +727,8 @@ type FragranceInventoryUpdateInput struct {
 	Weight       *float64 `json:"weight"`
 	FragranceID  *string  `json:"fragranceId"`
 	SupplierID   *string  `json:"supplierId"`
-	UpdatedAt    *int     `json:"updatedAt"`
 	DeletedAt    *int     `json:"deletedAt"`
+	UpdatedAt    *int     `json:"updatedAt"`
 	CreatedAt    *int     `json:"createdAt"`
 }
 
@@ -740,8 +740,8 @@ type FragranceInventoryWhere struct {
 	Weight       *FloatFilter             `json:"weight"`
 	Fragrance    *FragranceWhere          `json:"fragrance"`
 	Supplier     *SupplierWhere           `json:"supplier"`
-	UpdatedAt    *IntFilter               `json:"updatedAt"`
 	DeletedAt    *IntFilter               `json:"deletedAt"`
+	UpdatedAt    *IntFilter               `json:"updatedAt"`
 	CreatedAt    *IntFilter               `json:"createdAt"`
 	Or           *FragranceInventoryWhere `json:"or"`
 	And          *FragranceInventoryWhere `json:"and"`
@@ -760,8 +760,8 @@ type FragranceUpdateInput struct {
 	Name      *string `json:"name"`
 	Note      *string `json:"note"`
 	UpdatedAt *int    `json:"updatedAt"`
-	CreatedAt *int    `json:"createdAt"`
 	DeletedAt *int    `json:"deletedAt"`
+	CreatedAt *int    `json:"createdAt"`
 }
 
 type FragranceWhere struct {
@@ -769,8 +769,8 @@ type FragranceWhere struct {
 	Name                 *StringFilter              `json:"name"`
 	Note                 *StringFilter              `json:"note"`
 	UpdatedAt            *IntFilter                 `json:"updatedAt"`
-	CreatedAt            *IntFilter                 `json:"createdAt"`
 	DeletedAt            *IntFilter                 `json:"deletedAt"`
+	CreatedAt            *IntFilter                 `json:"createdAt"`
 	RecipeBatchFragrance *RecipeBatchFragranceWhere `json:"recipeBatchFragrance"`
 	RecipeFragrance      *RecipeFragranceWhere      `json:"recipeFragrance"`
 	FragranceInventories *FragranceInventoryWhere   `json:"fragranceInventories"`
@@ -825,9 +825,9 @@ type Lipid struct {
 	InciName         string            `json:"inciName"`
 	Family           string            `json:"family"`
 	Naoh             float64           `json:"naoh"`
+	DeletedAt        *int              `json:"deletedAt"`
 	UpdatedAt        int               `json:"updatedAt"`
 	CreatedAt        int               `json:"createdAt"`
-	DeletedAt        *int              `json:"deletedAt"`
 	RecipeBatchLipid *RecipeBatchLipid `json:"recipeBatchLipid"`
 	RecipeLipid      *RecipeLipid      `json:"recipeLipid"`
 	LipidInventories []*LipidInventory `json:"lipidInventories"`
@@ -860,9 +860,9 @@ type LipidCreateInput struct {
 	InciName     string  `json:"inciName"`
 	Family       string  `json:"family"`
 	Naoh         float64 `json:"naoh"`
+	DeletedAt    *int    `json:"deletedAt"`
 	UpdatedAt    int     `json:"updatedAt"`
 	CreatedAt    int     `json:"createdAt"`
-	DeletedAt    *int    `json:"deletedAt"`
 }
 
 type LipidDeletePayload struct {
@@ -899,9 +899,9 @@ type LipidInventory struct {
 	GramsPerLiter float64   `json:"gramsPerLiter"`
 	Lipid         *Lipid    `json:"lipid"`
 	Supplier      *Supplier `json:"supplier"`
-	DeletedAt     *int      `json:"deletedAt"`
 	UpdatedAt     int       `json:"updatedAt"`
 	CreatedAt     int       `json:"createdAt"`
+	DeletedAt     *int      `json:"deletedAt"`
 }
 
 func (LipidInventory) IsNode() {}
@@ -922,9 +922,9 @@ type LipidInventoryCreateInput struct {
 	GramsPerLiter float64 `json:"gramsPerLiter"`
 	LipidID       string  `json:"lipidId"`
 	SupplierID    string  `json:"supplierId"`
-	DeletedAt     *int    `json:"deletedAt"`
 	UpdatedAt     int     `json:"updatedAt"`
 	CreatedAt     int     `json:"createdAt"`
+	DeletedAt     *int    `json:"deletedAt"`
 }
 
 type LipidInventoryDeletePayload struct {
@@ -961,9 +961,9 @@ type LipidInventoryUpdateInput struct {
 	GramsPerLiter *float64 `json:"gramsPerLiter"`
 	LipidID       *string  `json:"lipidId"`
 	SupplierID    *string  `json:"supplierId"`
-	DeletedAt     *int     `json:"deletedAt"`
 	UpdatedAt     *int     `json:"updatedAt"`
 	CreatedAt     *int     `json:"createdAt"`
+	DeletedAt     *int     `json:"deletedAt"`
 }
 
 type LipidInventoryWhere struct {
@@ -978,9 +978,9 @@ type LipidInventoryWhere struct {
 	GramsPerLiter *FloatFilter         `json:"gramsPerLiter"`
 	Lipid         *LipidWhere          `json:"lipid"`
 	Supplier      *SupplierWhere       `json:"supplier"`
-	DeletedAt     *IntFilter           `json:"deletedAt"`
 	UpdatedAt     *IntFilter           `json:"updatedAt"`
 	CreatedAt     *IntFilter           `json:"createdAt"`
+	DeletedAt     *IntFilter           `json:"deletedAt"`
 	Or            *LipidInventoryWhere `json:"or"`
 	And           *LipidInventoryWhere `json:"and"`
 }
@@ -1014,9 +1014,9 @@ type LipidUpdateInput struct {
 	InciName     *string  `json:"inciName"`
 	Family       *string  `json:"family"`
 	Naoh         *float64 `json:"naoh"`
+	DeletedAt    *int     `json:"deletedAt"`
 	UpdatedAt    *int     `json:"updatedAt"`
 	CreatedAt    *int     `json:"createdAt"`
-	DeletedAt    *int     `json:"deletedAt"`
 }
 
 type LipidWhere struct {
@@ -1040,9 +1040,9 @@ type LipidWhere struct {
 	InciName         *StringFilter          `json:"inciName"`
 	Family           *StringFilter          `json:"family"`
 	Naoh             *FloatFilter           `json:"naoh"`
+	DeletedAt        *IntFilter             `json:"deletedAt"`
 	UpdatedAt        *IntFilter             `json:"updatedAt"`
 	CreatedAt        *IntFilter             `json:"createdAt"`
-	DeletedAt        *IntFilter             `json:"deletedAt"`
 	RecipeBatchLipid *RecipeBatchLipidWhere `json:"recipeBatchLipid"`
 	RecipeLipid      *RecipeLipidWhere      `json:"recipeLipid"`
 	LipidInventories *LipidInventoryWhere   `json:"lipidInventories"`
@@ -1063,9 +1063,9 @@ type Lye struct {
 	Kind           string          `json:"kind"`
 	Name           string          `json:"name"`
 	Note           string          `json:"note"`
-	DeletedAt      *int            `json:"deletedAt"`
-	CreatedAt      int             `json:"createdAt"`
 	UpdatedAt      int             `json:"updatedAt"`
+	CreatedAt      int             `json:"createdAt"`
+	DeletedAt      *int            `json:"deletedAt"`
 	RecipeBatchLye *RecipeBatchLye `json:"recipeBatchLye"`
 	LyeInventories []*LyeInventory `json:"lyeInventories"`
 }
@@ -1081,9 +1081,9 @@ type LyeCreateInput struct {
 	Kind      string `json:"kind"`
 	Name      string `json:"name"`
 	Note      string `json:"note"`
-	DeletedAt *int   `json:"deletedAt"`
-	CreatedAt int    `json:"createdAt"`
 	UpdatedAt int    `json:"updatedAt"`
+	CreatedAt int    `json:"createdAt"`
+	DeletedAt *int   `json:"deletedAt"`
 }
 
 type LyeDeletePayload struct {
@@ -1118,8 +1118,8 @@ type LyeInventory struct {
 	Lye           *Lye      `json:"lye"`
 	Supplier      *Supplier `json:"supplier"`
 	CreatedAt     int       `json:"createdAt"`
-	UpdatedAt     int       `json:"updatedAt"`
 	DeletedAt     *int      `json:"deletedAt"`
+	UpdatedAt     int       `json:"updatedAt"`
 }
 
 func (LyeInventory) IsNode() {}
@@ -1138,8 +1138,8 @@ type LyeInventoryCreateInput struct {
 	LyeID         string  `json:"lyeId"`
 	SupplierID    string  `json:"supplierId"`
 	CreatedAt     int     `json:"createdAt"`
-	UpdatedAt     int     `json:"updatedAt"`
 	DeletedAt     *int    `json:"deletedAt"`
+	UpdatedAt     int     `json:"updatedAt"`
 }
 
 type LyeInventoryDeletePayload struct {
@@ -1174,8 +1174,8 @@ type LyeInventoryUpdateInput struct {
 	LyeID         *string  `json:"lyeId"`
 	SupplierID    *string  `json:"supplierId"`
 	CreatedAt     *int     `json:"createdAt"`
-	UpdatedAt     *int     `json:"updatedAt"`
 	DeletedAt     *int     `json:"deletedAt"`
+	UpdatedAt     *int     `json:"updatedAt"`
 }
 
 type LyeInventoryWhere struct {
@@ -1188,8 +1188,8 @@ type LyeInventoryWhere struct {
 	Lye           *LyeWhere          `json:"lye"`
 	Supplier      *SupplierWhere     `json:"supplier"`
 	CreatedAt     *IntFilter         `json:"createdAt"`
-	UpdatedAt     *IntFilter         `json:"updatedAt"`
 	DeletedAt     *IntFilter         `json:"deletedAt"`
+	UpdatedAt     *IntFilter         `json:"updatedAt"`
 	Or            *LyeInventoryWhere `json:"or"`
 	And           *LyeInventoryWhere `json:"and"`
 }
@@ -1207,9 +1207,9 @@ type LyeUpdateInput struct {
 	Kind      *string `json:"kind"`
 	Name      *string `json:"name"`
 	Note      *string `json:"note"`
-	DeletedAt *int    `json:"deletedAt"`
-	CreatedAt *int    `json:"createdAt"`
 	UpdatedAt *int    `json:"updatedAt"`
+	CreatedAt *int    `json:"createdAt"`
+	DeletedAt *int    `json:"deletedAt"`
 }
 
 type LyeWhere struct {
@@ -1217,9 +1217,9 @@ type LyeWhere struct {
 	Kind           *StringFilter        `json:"kind"`
 	Name           *StringFilter        `json:"name"`
 	Note           *StringFilter        `json:"note"`
-	DeletedAt      *IntFilter           `json:"deletedAt"`
-	CreatedAt      *IntFilter           `json:"createdAt"`
 	UpdatedAt      *IntFilter           `json:"updatedAt"`
+	CreatedAt      *IntFilter           `json:"createdAt"`
+	DeletedAt      *IntFilter           `json:"deletedAt"`
 	RecipeBatchLye *RecipeBatchLyeWhere `json:"recipeBatchLye"`
 	LyeInventories *LyeInventoryWhere   `json:"lyeInventories"`
 	Or             *LyeWhere            `json:"or"`
@@ -1246,8 +1246,8 @@ type Recipe struct {
 	Name             string             `json:"name"`
 	Note             string             `json:"note"`
 	CreatedAt        int                `json:"createdAt"`
-	DeletedAt        *int               `json:"deletedAt"`
 	UpdatedAt        int                `json:"updatedAt"`
+	DeletedAt        *int               `json:"deletedAt"`
 	RecipeAdditives  []*RecipeAdditive  `json:"recipeAdditives"`
 	RecipeBatches    []*RecipeBatch     `json:"recipeBatches"`
 	RecipeFragrances []*RecipeFragrance `json:"recipeFragrances"`
@@ -1262,8 +1262,8 @@ type RecipeAdditive struct {
 	Percentage float64   `json:"percentage"`
 	Additive   *Additive `json:"additive"`
 	Recipe     *Recipe   `json:"recipe"`
-	UpdatedAt  int       `json:"updatedAt"`
 	DeletedAt  *int      `json:"deletedAt"`
+	UpdatedAt  int       `json:"updatedAt"`
 	CreatedAt  int       `json:"createdAt"`
 }
 
@@ -1278,8 +1278,8 @@ type RecipeAdditiveCreateInput struct {
 	Percentage float64 `json:"percentage"`
 	AdditiveID string  `json:"additiveId"`
 	RecipeID   string  `json:"recipeId"`
-	UpdatedAt  int     `json:"updatedAt"`
 	DeletedAt  *int    `json:"deletedAt"`
+	UpdatedAt  int     `json:"updatedAt"`
 	CreatedAt  int     `json:"createdAt"`
 }
 
@@ -1310,8 +1310,8 @@ type RecipeAdditiveUpdateInput struct {
 	Percentage *float64 `json:"percentage"`
 	AdditiveID *string  `json:"additiveId"`
 	RecipeID   *string  `json:"recipeId"`
-	UpdatedAt  *int     `json:"updatedAt"`
 	DeletedAt  *int     `json:"deletedAt"`
+	UpdatedAt  *int     `json:"updatedAt"`
 	CreatedAt  *int     `json:"createdAt"`
 }
 
@@ -1320,8 +1320,8 @@ type RecipeAdditiveWhere struct {
 	Percentage *FloatFilter         `json:"percentage"`
 	Additive   *AdditiveWhere       `json:"additive"`
 	Recipe     *RecipeWhere         `json:"recipe"`
-	UpdatedAt  *IntFilter           `json:"updatedAt"`
 	DeletedAt  *IntFilter           `json:"deletedAt"`
+	UpdatedAt  *IntFilter           `json:"updatedAt"`
 	CreatedAt  *IntFilter           `json:"createdAt"`
 	Or         *RecipeAdditiveWhere `json:"or"`
 	And        *RecipeAdditiveWhere `json:"and"`
@@ -1364,8 +1364,8 @@ type RecipeBatchAdditive struct {
 	Additive  *Additive    `json:"additive"`
 	Batch     *RecipeBatch `json:"batch"`
 	DeletedAt *int         `json:"deletedAt"`
-	CreatedAt int          `json:"createdAt"`
 	UpdatedAt int          `json:"updatedAt"`
+	CreatedAt int          `json:"createdAt"`
 }
 
 func (RecipeBatchAdditive) IsNode() {}
@@ -1381,8 +1381,8 @@ type RecipeBatchAdditiveCreateInput struct {
 	AdditiveID string  `json:"additiveId"`
 	BatchID    string  `json:"batchId"`
 	DeletedAt  *int    `json:"deletedAt"`
-	CreatedAt  int     `json:"createdAt"`
 	UpdatedAt  int     `json:"updatedAt"`
+	CreatedAt  int     `json:"createdAt"`
 }
 
 type RecipeBatchAdditiveDeletePayload struct {
@@ -1414,8 +1414,8 @@ type RecipeBatchAdditiveUpdateInput struct {
 	AdditiveID *string  `json:"additiveId"`
 	BatchID    *string  `json:"batchId"`
 	DeletedAt  *int     `json:"deletedAt"`
-	CreatedAt  *int     `json:"createdAt"`
 	UpdatedAt  *int     `json:"updatedAt"`
+	CreatedAt  *int     `json:"createdAt"`
 }
 
 type RecipeBatchAdditiveWhere struct {
@@ -1425,8 +1425,8 @@ type RecipeBatchAdditiveWhere struct {
 	Additive  *AdditiveWhere            `json:"additive"`
 	Batch     *RecipeBatchWhere         `json:"batch"`
 	DeletedAt *IntFilter                `json:"deletedAt"`
-	CreatedAt *IntFilter                `json:"createdAt"`
 	UpdatedAt *IntFilter                `json:"updatedAt"`
+	CreatedAt *IntFilter                `json:"createdAt"`
 	Or        *RecipeBatchAdditiveWhere `json:"or"`
 	And       *RecipeBatchAdditiveWhere `json:"and"`
 }
@@ -1478,8 +1478,8 @@ type RecipeBatchFragrance struct {
 	Cost      float64      `json:"cost"`
 	Fragrance *Fragrance   `json:"fragrance"`
 	Batch     *RecipeBatch `json:"batch"`
-	UpdatedAt int          `json:"updatedAt"`
 	DeletedAt *int         `json:"deletedAt"`
+	UpdatedAt int          `json:"updatedAt"`
 	CreatedAt int          `json:"createdAt"`
 }
 
@@ -1495,8 +1495,8 @@ type RecipeBatchFragranceCreateInput struct {
 	Cost        float64 `json:"cost"`
 	FragranceID string  `json:"fragranceId"`
 	BatchID     string  `json:"batchId"`
-	UpdatedAt   int     `json:"updatedAt"`
 	DeletedAt   *int    `json:"deletedAt"`
+	UpdatedAt   int     `json:"updatedAt"`
 	CreatedAt   int     `json:"createdAt"`
 }
 
@@ -1528,8 +1528,8 @@ type RecipeBatchFragranceUpdateInput struct {
 	Cost        *float64 `json:"cost"`
 	FragranceID *string  `json:"fragranceId"`
 	BatchID     *string  `json:"batchId"`
-	UpdatedAt   *int     `json:"updatedAt"`
 	DeletedAt   *int     `json:"deletedAt"`
+	UpdatedAt   *int     `json:"updatedAt"`
 	CreatedAt   *int     `json:"createdAt"`
 }
 
@@ -1539,8 +1539,8 @@ type RecipeBatchFragranceWhere struct {
 	Cost      *FloatFilter               `json:"cost"`
 	Fragrance *FragranceWhere            `json:"fragrance"`
 	Batch     *RecipeBatchWhere          `json:"batch"`
-	UpdatedAt *IntFilter                 `json:"updatedAt"`
 	DeletedAt *IntFilter                 `json:"deletedAt"`
+	UpdatedAt *IntFilter                 `json:"updatedAt"`
 	CreatedAt *IntFilter                 `json:"createdAt"`
 	Or        *RecipeBatchFragranceWhere `json:"or"`
 	And       *RecipeBatchFragranceWhere `json:"and"`
@@ -1643,9 +1643,9 @@ type RecipeBatchLye struct {
 	Cost      float64      `json:"cost"`
 	Lye       *Lye         `json:"lye"`
 	Batch     *RecipeBatch `json:"batch"`
-	CreatedAt int          `json:"createdAt"`
-	DeletedAt *int         `json:"deletedAt"`
 	UpdatedAt int          `json:"updatedAt"`
+	DeletedAt *int         `json:"deletedAt"`
+	CreatedAt int          `json:"createdAt"`
 }
 
 func (RecipeBatchLye) IsNode() {}
@@ -1661,9 +1661,9 @@ type RecipeBatchLyeCreateInput struct {
 	Cost      float64 `json:"cost"`
 	LyeID     string  `json:"lyeId"`
 	BatchID   string  `json:"batchId"`
-	CreatedAt int     `json:"createdAt"`
-	DeletedAt *int    `json:"deletedAt"`
 	UpdatedAt int     `json:"updatedAt"`
+	DeletedAt *int    `json:"deletedAt"`
+	CreatedAt int     `json:"createdAt"`
 }
 
 type RecipeBatchLyeDeletePayload struct {
@@ -1695,9 +1695,9 @@ type RecipeBatchLyeUpdateInput struct {
 	Cost      *float64 `json:"cost"`
 	LyeID     *string  `json:"lyeId"`
 	BatchID   *string  `json:"batchId"`
-	CreatedAt *int     `json:"createdAt"`
-	DeletedAt *int     `json:"deletedAt"`
 	UpdatedAt *int     `json:"updatedAt"`
+	DeletedAt *int     `json:"deletedAt"`
+	CreatedAt *int     `json:"createdAt"`
 }
 
 type RecipeBatchLyeWhere struct {
@@ -1707,9 +1707,9 @@ type RecipeBatchLyeWhere struct {
 	Cost      *FloatFilter         `json:"cost"`
 	Lye       *LyeWhere            `json:"lye"`
 	Batch     *RecipeBatchWhere    `json:"batch"`
-	CreatedAt *IntFilter           `json:"createdAt"`
-	DeletedAt *IntFilter           `json:"deletedAt"`
 	UpdatedAt *IntFilter           `json:"updatedAt"`
+	DeletedAt *IntFilter           `json:"deletedAt"`
+	CreatedAt *IntFilter           `json:"createdAt"`
 	Or        *RecipeBatchLyeWhere `json:"or"`
 	And       *RecipeBatchLyeWhere `json:"and"`
 }
@@ -1727,9 +1727,9 @@ type RecipeBatchNote struct {
 	Note      string       `json:"note"`
 	Link      string       `json:"link"`
 	Batch     *RecipeBatch `json:"batch"`
-	DeletedAt *int         `json:"deletedAt"`
-	CreatedAt int          `json:"createdAt"`
 	UpdatedAt int          `json:"updatedAt"`
+	CreatedAt int          `json:"createdAt"`
+	DeletedAt *int         `json:"deletedAt"`
 }
 
 func (RecipeBatchNote) IsNode() {}
@@ -1743,9 +1743,9 @@ type RecipeBatchNoteCreateInput struct {
 	Note      string `json:"note"`
 	Link      string `json:"link"`
 	BatchID   string `json:"batchId"`
-	DeletedAt *int   `json:"deletedAt"`
-	CreatedAt int    `json:"createdAt"`
 	UpdatedAt int    `json:"updatedAt"`
+	CreatedAt int    `json:"createdAt"`
+	DeletedAt *int   `json:"deletedAt"`
 }
 
 type RecipeBatchNoteDeletePayload struct {
@@ -1775,9 +1775,9 @@ type RecipeBatchNoteUpdateInput struct {
 	Note      *string `json:"note"`
 	Link      *string `json:"link"`
 	BatchID   *string `json:"batchId"`
-	DeletedAt *int    `json:"deletedAt"`
-	CreatedAt *int    `json:"createdAt"`
 	UpdatedAt *int    `json:"updatedAt"`
+	CreatedAt *int    `json:"createdAt"`
+	DeletedAt *int    `json:"deletedAt"`
 }
 
 type RecipeBatchNoteWhere struct {
@@ -1785,9 +1785,9 @@ type RecipeBatchNoteWhere struct {
 	Note      *StringFilter         `json:"note"`
 	Link      *StringFilter         `json:"link"`
 	Batch     *RecipeBatchWhere     `json:"batch"`
-	DeletedAt *IntFilter            `json:"deletedAt"`
-	CreatedAt *IntFilter            `json:"createdAt"`
 	UpdatedAt *IntFilter            `json:"updatedAt"`
+	CreatedAt *IntFilter            `json:"createdAt"`
+	DeletedAt *IntFilter            `json:"deletedAt"`
 	Or        *RecipeBatchNoteWhere `json:"or"`
 	And       *RecipeBatchNoteWhere `json:"and"`
 }
@@ -1862,8 +1862,8 @@ type RecipeCreateInput struct {
 	Name      string `json:"name"`
 	Note      string `json:"note"`
 	CreatedAt int    `json:"createdAt"`
-	DeletedAt *int   `json:"deletedAt"`
 	UpdatedAt int    `json:"updatedAt"`
+	DeletedAt *int   `json:"deletedAt"`
 }
 
 type RecipeDeletePayload struct {
@@ -1964,8 +1964,8 @@ type RecipeLipid struct {
 	Lipid      *Lipid  `json:"lipid"`
 	Recipe     *Recipe `json:"recipe"`
 	UpdatedAt  int     `json:"updatedAt"`
-	CreatedAt  int     `json:"createdAt"`
 	DeletedAt  *int    `json:"deletedAt"`
+	CreatedAt  int     `json:"createdAt"`
 }
 
 func (RecipeLipid) IsNode() {}
@@ -1980,8 +1980,8 @@ type RecipeLipidCreateInput struct {
 	LipidID    string  `json:"lipidId"`
 	RecipeID   string  `json:"recipeId"`
 	UpdatedAt  int     `json:"updatedAt"`
-	CreatedAt  int     `json:"createdAt"`
 	DeletedAt  *int    `json:"deletedAt"`
+	CreatedAt  int     `json:"createdAt"`
 }
 
 type RecipeLipidDeletePayload struct {
@@ -2012,8 +2012,8 @@ type RecipeLipidUpdateInput struct {
 	LipidID    *string  `json:"lipidId"`
 	RecipeID   *string  `json:"recipeId"`
 	UpdatedAt  *int     `json:"updatedAt"`
-	CreatedAt  *int     `json:"createdAt"`
 	DeletedAt  *int     `json:"deletedAt"`
+	CreatedAt  *int     `json:"createdAt"`
 }
 
 type RecipeLipidWhere struct {
@@ -2022,8 +2022,8 @@ type RecipeLipidWhere struct {
 	Lipid      *LipidWhere       `json:"lipid"`
 	Recipe     *RecipeWhere      `json:"recipe"`
 	UpdatedAt  *IntFilter        `json:"updatedAt"`
-	CreatedAt  *IntFilter        `json:"createdAt"`
 	DeletedAt  *IntFilter        `json:"deletedAt"`
+	CreatedAt  *IntFilter        `json:"createdAt"`
 	Or         *RecipeLipidWhere `json:"or"`
 	And        *RecipeLipidWhere `json:"and"`
 }
@@ -2050,9 +2050,9 @@ type RecipeStep struct {
 	Num       int     `json:"num"`
 	Note      string  `json:"note"`
 	Recipe    *Recipe `json:"recipe"`
-	DeletedAt *int    `json:"deletedAt"`
-	UpdatedAt int     `json:"updatedAt"`
 	CreatedAt int     `json:"createdAt"`
+	UpdatedAt int     `json:"updatedAt"`
+	DeletedAt *int    `json:"deletedAt"`
 }
 
 func (RecipeStep) IsNode() {}
@@ -2066,9 +2066,9 @@ type RecipeStepCreateInput struct {
 	Num       int    `json:"num"`
 	Note      string `json:"note"`
 	RecipeID  string `json:"recipeId"`
-	DeletedAt *int   `json:"deletedAt"`
-	UpdatedAt int    `json:"updatedAt"`
 	CreatedAt int    `json:"createdAt"`
+	UpdatedAt int    `json:"updatedAt"`
+	DeletedAt *int   `json:"deletedAt"`
 }
 
 type RecipeStepDeletePayload struct {
@@ -2098,9 +2098,9 @@ type RecipeStepUpdateInput struct {
 	Num       *int    `json:"num"`
 	Note      *string `json:"note"`
 	RecipeID  *string `json:"recipeId"`
-	DeletedAt *int    `json:"deletedAt"`
-	UpdatedAt *int    `json:"updatedAt"`
 	CreatedAt *int    `json:"createdAt"`
+	UpdatedAt *int    `json:"updatedAt"`
+	DeletedAt *int    `json:"deletedAt"`
 }
 
 type RecipeStepWhere struct {
@@ -2108,9 +2108,9 @@ type RecipeStepWhere struct {
 	Num       *IntFilter       `json:"num"`
 	Note      *StringFilter    `json:"note"`
 	Recipe    *RecipeWhere     `json:"recipe"`
-	DeletedAt *IntFilter       `json:"deletedAt"`
-	UpdatedAt *IntFilter       `json:"updatedAt"`
 	CreatedAt *IntFilter       `json:"createdAt"`
+	UpdatedAt *IntFilter       `json:"updatedAt"`
+	DeletedAt *IntFilter       `json:"deletedAt"`
 	Or        *RecipeStepWhere `json:"or"`
 	And       *RecipeStepWhere `json:"and"`
 }
@@ -2127,8 +2127,8 @@ type RecipeUpdateInput struct {
 	Name      *string `json:"name"`
 	Note      *string `json:"note"`
 	CreatedAt *int    `json:"createdAt"`
-	DeletedAt *int    `json:"deletedAt"`
 	UpdatedAt *int    `json:"updatedAt"`
+	DeletedAt *int    `json:"deletedAt"`
 }
 
 type RecipeWhere struct {
@@ -2136,8 +2136,8 @@ type RecipeWhere struct {
 	Name             *StringFilter         `json:"name"`
 	Note             *StringFilter         `json:"note"`
 	CreatedAt        *IntFilter            `json:"createdAt"`
-	DeletedAt        *IntFilter            `json:"deletedAt"`
 	UpdatedAt        *IntFilter            `json:"updatedAt"`
+	DeletedAt        *IntFilter            `json:"deletedAt"`
 	RecipeAdditives  *RecipeAdditiveWhere  `json:"recipeAdditives"`
 	RecipeBatches    *RecipeBatchWhere     `json:"recipeBatches"`
 	RecipeFragrances *RecipeFragranceWhere `json:"recipeFragrances"`
@@ -2180,8 +2180,8 @@ type Supplier struct {
 	Website              string                `json:"website"`
 	Note                 string                `json:"note"`
 	DeletedAt            *int                  `json:"deletedAt"`
-	UpdatedAt            int                   `json:"updatedAt"`
 	CreatedAt            int                   `json:"createdAt"`
+	UpdatedAt            int                   `json:"updatedAt"`
 	AdditiveInventories  []*AdditiveInventory  `json:"additiveInventories"`
 	FragranceInventories []*FragranceInventory `json:"fragranceInventories"`
 	LipidInventories     []*LipidInventory     `json:"lipidInventories"`
@@ -2200,8 +2200,8 @@ type SupplierCreateInput struct {
 	Website   string `json:"website"`
 	Note      string `json:"note"`
 	DeletedAt *int   `json:"deletedAt"`
-	UpdatedAt int    `json:"updatedAt"`
 	CreatedAt int    `json:"createdAt"`
+	UpdatedAt int    `json:"updatedAt"`
 }
 
 type SupplierDeletePayload struct {
@@ -2232,8 +2232,8 @@ type SupplierUpdateInput struct {
 	Website   *string `json:"website"`
 	Note      *string `json:"note"`
 	DeletedAt *int    `json:"deletedAt"`
-	UpdatedAt *int    `json:"updatedAt"`
 	CreatedAt *int    `json:"createdAt"`
+	UpdatedAt *int    `json:"updatedAt"`
 }
 
 type SupplierWhere struct {
@@ -2242,8 +2242,8 @@ type SupplierWhere struct {
 	Website              *StringFilter            `json:"website"`
 	Note                 *StringFilter            `json:"note"`
 	DeletedAt            *IntFilter               `json:"deletedAt"`
-	UpdatedAt            *IntFilter               `json:"updatedAt"`
 	CreatedAt            *IntFilter               `json:"createdAt"`
+	UpdatedAt            *IntFilter               `json:"updatedAt"`
 	AdditiveInventories  *AdditiveInventoryWhere  `json:"additiveInventories"`
 	FragranceInventories *FragranceInventoryWhere `json:"fragranceInventories"`
 	LipidInventories     *LipidInventoryWhere     `json:"lipidInventories"`
@@ -2268,9 +2268,9 @@ const (
 	AdditiveInventorySortExpiryDate   AdditiveInventorySort = "EXPIRY_DATE"
 	AdditiveInventorySortCost         AdditiveInventorySort = "COST"
 	AdditiveInventorySortWeight       AdditiveInventorySort = "WEIGHT"
-	AdditiveInventorySortCreatedAt    AdditiveInventorySort = "CREATED_AT"
-	AdditiveInventorySortDeletedAt    AdditiveInventorySort = "DELETED_AT"
 	AdditiveInventorySortUpdatedAt    AdditiveInventorySort = "UPDATED_AT"
+	AdditiveInventorySortDeletedAt    AdditiveInventorySort = "DELETED_AT"
+	AdditiveInventorySortCreatedAt    AdditiveInventorySort = "CREATED_AT"
 )
 
 var AllAdditiveInventorySort = []AdditiveInventorySort{
@@ -2279,14 +2279,14 @@ var AllAdditiveInventorySort = []AdditiveInventorySort{
 	AdditiveInventorySortExpiryDate,
 	AdditiveInventorySortCost,
 	AdditiveInventorySortWeight,
-	AdditiveInventorySortCreatedAt,
-	AdditiveInventorySortDeletedAt,
 	AdditiveInventorySortUpdatedAt,
+	AdditiveInventorySortDeletedAt,
+	AdditiveInventorySortCreatedAt,
 }
 
 func (e AdditiveInventorySort) IsValid() bool {
 	switch e {
-	case AdditiveInventorySortID, AdditiveInventorySortPurchaseDate, AdditiveInventorySortExpiryDate, AdditiveInventorySortCost, AdditiveInventorySortWeight, AdditiveInventorySortCreatedAt, AdditiveInventorySortDeletedAt, AdditiveInventorySortUpdatedAt:
+	case AdditiveInventorySortID, AdditiveInventorySortPurchaseDate, AdditiveInventorySortExpiryDate, AdditiveInventorySortCost, AdditiveInventorySortWeight, AdditiveInventorySortUpdatedAt, AdditiveInventorySortDeletedAt, AdditiveInventorySortCreatedAt:
 		return true
 	}
 	return false
@@ -2320,8 +2320,8 @@ const (
 	AdditiveSortName      AdditiveSort = "NAME"
 	AdditiveSortNote      AdditiveSort = "NOTE"
 	AdditiveSortCreatedAt AdditiveSort = "CREATED_AT"
-	AdditiveSortUpdatedAt AdditiveSort = "UPDATED_AT"
 	AdditiveSortDeletedAt AdditiveSort = "DELETED_AT"
+	AdditiveSortUpdatedAt AdditiveSort = "UPDATED_AT"
 )
 
 var AllAdditiveSort = []AdditiveSort{
@@ -2329,13 +2329,13 @@ var AllAdditiveSort = []AdditiveSort{
 	AdditiveSortName,
 	AdditiveSortNote,
 	AdditiveSortCreatedAt,
-	AdditiveSortUpdatedAt,
 	AdditiveSortDeletedAt,
+	AdditiveSortUpdatedAt,
 }
 
 func (e AdditiveSort) IsValid() bool {
 	switch e {
-	case AdditiveSortID, AdditiveSortName, AdditiveSortNote, AdditiveSortCreatedAt, AdditiveSortUpdatedAt, AdditiveSortDeletedAt:
+	case AdditiveSortID, AdditiveSortName, AdditiveSortNote, AdditiveSortCreatedAt, AdditiveSortDeletedAt, AdditiveSortUpdatedAt:
 		return true
 	}
 	return false
@@ -2630,8 +2630,8 @@ const (
 	FragranceInventorySortExpiryDate   FragranceInventorySort = "EXPIRY_DATE"
 	FragranceInventorySortCost         FragranceInventorySort = "COST"
 	FragranceInventorySortWeight       FragranceInventorySort = "WEIGHT"
-	FragranceInventorySortUpdatedAt    FragranceInventorySort = "UPDATED_AT"
 	FragranceInventorySortDeletedAt    FragranceInventorySort = "DELETED_AT"
+	FragranceInventorySortUpdatedAt    FragranceInventorySort = "UPDATED_AT"
 	FragranceInventorySortCreatedAt    FragranceInventorySort = "CREATED_AT"
 )
 
@@ -2641,14 +2641,14 @@ var AllFragranceInventorySort = []FragranceInventorySort{
 	FragranceInventorySortExpiryDate,
 	FragranceInventorySortCost,
 	FragranceInventorySortWeight,
-	FragranceInventorySortUpdatedAt,
 	FragranceInventorySortDeletedAt,
+	FragranceInventorySortUpdatedAt,
 	FragranceInventorySortCreatedAt,
 }
 
 func (e FragranceInventorySort) IsValid() bool {
 	switch e {
-	case FragranceInventorySortID, FragranceInventorySortPurchaseDate, FragranceInventorySortExpiryDate, FragranceInventorySortCost, FragranceInventorySortWeight, FragranceInventorySortUpdatedAt, FragranceInventorySortDeletedAt, FragranceInventorySortCreatedAt:
+	case FragranceInventorySortID, FragranceInventorySortPurchaseDate, FragranceInventorySortExpiryDate, FragranceInventorySortCost, FragranceInventorySortWeight, FragranceInventorySortDeletedAt, FragranceInventorySortUpdatedAt, FragranceInventorySortCreatedAt:
 		return true
 	}
 	return false
@@ -2682,8 +2682,8 @@ const (
 	FragranceSortName      FragranceSort = "NAME"
 	FragranceSortNote      FragranceSort = "NOTE"
 	FragranceSortUpdatedAt FragranceSort = "UPDATED_AT"
-	FragranceSortCreatedAt FragranceSort = "CREATED_AT"
 	FragranceSortDeletedAt FragranceSort = "DELETED_AT"
+	FragranceSortCreatedAt FragranceSort = "CREATED_AT"
 )
 
 var AllFragranceSort = []FragranceSort{
@@ -2691,13 +2691,13 @@ var AllFragranceSort = []FragranceSort{
 	FragranceSortName,
 	FragranceSortNote,
 	FragranceSortUpdatedAt,
-	FragranceSortCreatedAt,
 	FragranceSortDeletedAt,
+	FragranceSortCreatedAt,
 }
 
 func (e FragranceSort) IsValid() bool {
 	switch e {
-	case FragranceSortID, FragranceSortName, FragranceSortNote, FragranceSortUpdatedAt, FragranceSortCreatedAt, FragranceSortDeletedAt:
+	case FragranceSortID, FragranceSortName, FragranceSortNote, FragranceSortUpdatedAt, FragranceSortDeletedAt, FragranceSortCreatedAt:
 		return true
 	}
 	return false
@@ -2736,9 +2736,9 @@ const (
 	LipidInventorySortNaoh          LipidInventorySort = "NAOH"
 	LipidInventorySortKoh           LipidInventorySort = "KOH"
 	LipidInventorySortGramsPerLiter LipidInventorySort = "GRAMS_PER_LITER"
-	LipidInventorySortDeletedAt     LipidInventorySort = "DELETED_AT"
 	LipidInventorySortUpdatedAt     LipidInventorySort = "UPDATED_AT"
 	LipidInventorySortCreatedAt     LipidInventorySort = "CREATED_AT"
+	LipidInventorySortDeletedAt     LipidInventorySort = "DELETED_AT"
 )
 
 var AllLipidInventorySort = []LipidInventorySort{
@@ -2751,14 +2751,14 @@ var AllLipidInventorySort = []LipidInventorySort{
 	LipidInventorySortNaoh,
 	LipidInventorySortKoh,
 	LipidInventorySortGramsPerLiter,
-	LipidInventorySortDeletedAt,
 	LipidInventorySortUpdatedAt,
 	LipidInventorySortCreatedAt,
+	LipidInventorySortDeletedAt,
 }
 
 func (e LipidInventorySort) IsValid() bool {
 	switch e {
-	case LipidInventorySortID, LipidInventorySortPurchaseDate, LipidInventorySortExpiryDate, LipidInventorySortCost, LipidInventorySortWeight, LipidInventorySortSap, LipidInventorySortNaoh, LipidInventorySortKoh, LipidInventorySortGramsPerLiter, LipidInventorySortDeletedAt, LipidInventorySortUpdatedAt, LipidInventorySortCreatedAt:
+	case LipidInventorySortID, LipidInventorySortPurchaseDate, LipidInventorySortExpiryDate, LipidInventorySortCost, LipidInventorySortWeight, LipidInventorySortSap, LipidInventorySortNaoh, LipidInventorySortKoh, LipidInventorySortGramsPerLiter, LipidInventorySortUpdatedAt, LipidInventorySortCreatedAt, LipidInventorySortDeletedAt:
 		return true
 	}
 	return false
@@ -2808,9 +2808,9 @@ const (
 	LipidSortInciName     LipidSort = "INCI_NAME"
 	LipidSortFamily       LipidSort = "FAMILY"
 	LipidSortNaoh         LipidSort = "NAOH"
+	LipidSortDeletedAt    LipidSort = "DELETED_AT"
 	LipidSortUpdatedAt    LipidSort = "UPDATED_AT"
 	LipidSortCreatedAt    LipidSort = "CREATED_AT"
-	LipidSortDeletedAt    LipidSort = "DELETED_AT"
 )
 
 var AllLipidSort = []LipidSort{
@@ -2834,14 +2834,14 @@ var AllLipidSort = []LipidSort{
 	LipidSortInciName,
 	LipidSortFamily,
 	LipidSortNaoh,
+	LipidSortDeletedAt,
 	LipidSortUpdatedAt,
 	LipidSortCreatedAt,
-	LipidSortDeletedAt,
 }
 
 func (e LipidSort) IsValid() bool {
 	switch e {
-	case LipidSortID, LipidSortName, LipidSortLauric, LipidSortMyristic, LipidSortPalmitic, LipidSortStearic, LipidSortRicinoleic, LipidSortOleic, LipidSortLinoleic, LipidSortLinolenic, LipidSortHardness, LipidSortCleansing, LipidSortConditioning, LipidSortBubbly, LipidSortCreamy, LipidSortIodine, LipidSortIns, LipidSortInciName, LipidSortFamily, LipidSortNaoh, LipidSortUpdatedAt, LipidSortCreatedAt, LipidSortDeletedAt:
+	case LipidSortID, LipidSortName, LipidSortLauric, LipidSortMyristic, LipidSortPalmitic, LipidSortStearic, LipidSortRicinoleic, LipidSortOleic, LipidSortLinoleic, LipidSortLinolenic, LipidSortHardness, LipidSortCleansing, LipidSortConditioning, LipidSortBubbly, LipidSortCreamy, LipidSortIodine, LipidSortIns, LipidSortInciName, LipidSortFamily, LipidSortNaoh, LipidSortDeletedAt, LipidSortUpdatedAt, LipidSortCreatedAt:
 		return true
 	}
 	return false
@@ -2878,8 +2878,8 @@ const (
 	LyeInventorySortWeight        LyeInventorySort = "WEIGHT"
 	LyeInventorySortConcentration LyeInventorySort = "CONCENTRATION"
 	LyeInventorySortCreatedAt     LyeInventorySort = "CREATED_AT"
-	LyeInventorySortUpdatedAt     LyeInventorySort = "UPDATED_AT"
 	LyeInventorySortDeletedAt     LyeInventorySort = "DELETED_AT"
+	LyeInventorySortUpdatedAt     LyeInventorySort = "UPDATED_AT"
 )
 
 var AllLyeInventorySort = []LyeInventorySort{
@@ -2890,13 +2890,13 @@ var AllLyeInventorySort = []LyeInventorySort{
 	LyeInventorySortWeight,
 	LyeInventorySortConcentration,
 	LyeInventorySortCreatedAt,
-	LyeInventorySortUpdatedAt,
 	LyeInventorySortDeletedAt,
+	LyeInventorySortUpdatedAt,
 }
 
 func (e LyeInventorySort) IsValid() bool {
 	switch e {
-	case LyeInventorySortID, LyeInventorySortPurchaseDate, LyeInventorySortExpiryDate, LyeInventorySortCost, LyeInventorySortWeight, LyeInventorySortConcentration, LyeInventorySortCreatedAt, LyeInventorySortUpdatedAt, LyeInventorySortDeletedAt:
+	case LyeInventorySortID, LyeInventorySortPurchaseDate, LyeInventorySortExpiryDate, LyeInventorySortCost, LyeInventorySortWeight, LyeInventorySortConcentration, LyeInventorySortCreatedAt, LyeInventorySortDeletedAt, LyeInventorySortUpdatedAt:
 		return true
 	}
 	return false
@@ -2930,9 +2930,9 @@ const (
 	LyeSortKind      LyeSort = "KIND"
 	LyeSortName      LyeSort = "NAME"
 	LyeSortNote      LyeSort = "NOTE"
-	LyeSortDeletedAt LyeSort = "DELETED_AT"
-	LyeSortCreatedAt LyeSort = "CREATED_AT"
 	LyeSortUpdatedAt LyeSort = "UPDATED_AT"
+	LyeSortCreatedAt LyeSort = "CREATED_AT"
+	LyeSortDeletedAt LyeSort = "DELETED_AT"
 )
 
 var AllLyeSort = []LyeSort{
@@ -2940,14 +2940,14 @@ var AllLyeSort = []LyeSort{
 	LyeSortKind,
 	LyeSortName,
 	LyeSortNote,
-	LyeSortDeletedAt,
-	LyeSortCreatedAt,
 	LyeSortUpdatedAt,
+	LyeSortCreatedAt,
+	LyeSortDeletedAt,
 }
 
 func (e LyeSort) IsValid() bool {
 	switch e {
-	case LyeSortID, LyeSortKind, LyeSortName, LyeSortNote, LyeSortDeletedAt, LyeSortCreatedAt, LyeSortUpdatedAt:
+	case LyeSortID, LyeSortKind, LyeSortName, LyeSortNote, LyeSortUpdatedAt, LyeSortCreatedAt, LyeSortDeletedAt:
 		return true
 	}
 	return false
@@ -2979,22 +2979,22 @@ type RecipeAdditiveSort string
 const (
 	RecipeAdditiveSortID         RecipeAdditiveSort = "ID"
 	RecipeAdditiveSortPercentage RecipeAdditiveSort = "PERCENTAGE"
-	RecipeAdditiveSortUpdatedAt  RecipeAdditiveSort = "UPDATED_AT"
 	RecipeAdditiveSortDeletedAt  RecipeAdditiveSort = "DELETED_AT"
+	RecipeAdditiveSortUpdatedAt  RecipeAdditiveSort = "UPDATED_AT"
 	RecipeAdditiveSortCreatedAt  RecipeAdditiveSort = "CREATED_AT"
 )
 
 var AllRecipeAdditiveSort = []RecipeAdditiveSort{
 	RecipeAdditiveSortID,
 	RecipeAdditiveSortPercentage,
-	RecipeAdditiveSortUpdatedAt,
 	RecipeAdditiveSortDeletedAt,
+	RecipeAdditiveSortUpdatedAt,
 	RecipeAdditiveSortCreatedAt,
 }
 
 func (e RecipeAdditiveSort) IsValid() bool {
 	switch e {
-	case RecipeAdditiveSortID, RecipeAdditiveSortPercentage, RecipeAdditiveSortUpdatedAt, RecipeAdditiveSortDeletedAt, RecipeAdditiveSortCreatedAt:
+	case RecipeAdditiveSortID, RecipeAdditiveSortPercentage, RecipeAdditiveSortDeletedAt, RecipeAdditiveSortUpdatedAt, RecipeAdditiveSortCreatedAt:
 		return true
 	}
 	return false
@@ -3028,8 +3028,8 @@ const (
 	RecipeBatchAdditiveSortWeight    RecipeBatchAdditiveSort = "WEIGHT"
 	RecipeBatchAdditiveSortCost      RecipeBatchAdditiveSort = "COST"
 	RecipeBatchAdditiveSortDeletedAt RecipeBatchAdditiveSort = "DELETED_AT"
-	RecipeBatchAdditiveSortCreatedAt RecipeBatchAdditiveSort = "CREATED_AT"
 	RecipeBatchAdditiveSortUpdatedAt RecipeBatchAdditiveSort = "UPDATED_AT"
+	RecipeBatchAdditiveSortCreatedAt RecipeBatchAdditiveSort = "CREATED_AT"
 )
 
 var AllRecipeBatchAdditiveSort = []RecipeBatchAdditiveSort{
@@ -3037,13 +3037,13 @@ var AllRecipeBatchAdditiveSort = []RecipeBatchAdditiveSort{
 	RecipeBatchAdditiveSortWeight,
 	RecipeBatchAdditiveSortCost,
 	RecipeBatchAdditiveSortDeletedAt,
-	RecipeBatchAdditiveSortCreatedAt,
 	RecipeBatchAdditiveSortUpdatedAt,
+	RecipeBatchAdditiveSortCreatedAt,
 }
 
 func (e RecipeBatchAdditiveSort) IsValid() bool {
 	switch e {
-	case RecipeBatchAdditiveSortID, RecipeBatchAdditiveSortWeight, RecipeBatchAdditiveSortCost, RecipeBatchAdditiveSortDeletedAt, RecipeBatchAdditiveSortCreatedAt, RecipeBatchAdditiveSortUpdatedAt:
+	case RecipeBatchAdditiveSortID, RecipeBatchAdditiveSortWeight, RecipeBatchAdditiveSortCost, RecipeBatchAdditiveSortDeletedAt, RecipeBatchAdditiveSortUpdatedAt, RecipeBatchAdditiveSortCreatedAt:
 		return true
 	}
 	return false
@@ -3076,8 +3076,8 @@ const (
 	RecipeBatchFragranceSortID        RecipeBatchFragranceSort = "ID"
 	RecipeBatchFragranceSortWeight    RecipeBatchFragranceSort = "WEIGHT"
 	RecipeBatchFragranceSortCost      RecipeBatchFragranceSort = "COST"
-	RecipeBatchFragranceSortUpdatedAt RecipeBatchFragranceSort = "UPDATED_AT"
 	RecipeBatchFragranceSortDeletedAt RecipeBatchFragranceSort = "DELETED_AT"
+	RecipeBatchFragranceSortUpdatedAt RecipeBatchFragranceSort = "UPDATED_AT"
 	RecipeBatchFragranceSortCreatedAt RecipeBatchFragranceSort = "CREATED_AT"
 )
 
@@ -3085,14 +3085,14 @@ var AllRecipeBatchFragranceSort = []RecipeBatchFragranceSort{
 	RecipeBatchFragranceSortID,
 	RecipeBatchFragranceSortWeight,
 	RecipeBatchFragranceSortCost,
-	RecipeBatchFragranceSortUpdatedAt,
 	RecipeBatchFragranceSortDeletedAt,
+	RecipeBatchFragranceSortUpdatedAt,
 	RecipeBatchFragranceSortCreatedAt,
 }
 
 func (e RecipeBatchFragranceSort) IsValid() bool {
 	switch e {
-	case RecipeBatchFragranceSortID, RecipeBatchFragranceSortWeight, RecipeBatchFragranceSortCost, RecipeBatchFragranceSortUpdatedAt, RecipeBatchFragranceSortDeletedAt, RecipeBatchFragranceSortCreatedAt:
+	case RecipeBatchFragranceSortID, RecipeBatchFragranceSortWeight, RecipeBatchFragranceSortCost, RecipeBatchFragranceSortDeletedAt, RecipeBatchFragranceSortUpdatedAt, RecipeBatchFragranceSortCreatedAt:
 		return true
 	}
 	return false
@@ -3175,9 +3175,9 @@ const (
 	RecipeBatchLyeSortWeight    RecipeBatchLyeSort = "WEIGHT"
 	RecipeBatchLyeSortDiscount  RecipeBatchLyeSort = "DISCOUNT"
 	RecipeBatchLyeSortCost      RecipeBatchLyeSort = "COST"
-	RecipeBatchLyeSortCreatedAt RecipeBatchLyeSort = "CREATED_AT"
-	RecipeBatchLyeSortDeletedAt RecipeBatchLyeSort = "DELETED_AT"
 	RecipeBatchLyeSortUpdatedAt RecipeBatchLyeSort = "UPDATED_AT"
+	RecipeBatchLyeSortDeletedAt RecipeBatchLyeSort = "DELETED_AT"
+	RecipeBatchLyeSortCreatedAt RecipeBatchLyeSort = "CREATED_AT"
 )
 
 var AllRecipeBatchLyeSort = []RecipeBatchLyeSort{
@@ -3185,14 +3185,14 @@ var AllRecipeBatchLyeSort = []RecipeBatchLyeSort{
 	RecipeBatchLyeSortWeight,
 	RecipeBatchLyeSortDiscount,
 	RecipeBatchLyeSortCost,
-	RecipeBatchLyeSortCreatedAt,
-	RecipeBatchLyeSortDeletedAt,
 	RecipeBatchLyeSortUpdatedAt,
+	RecipeBatchLyeSortDeletedAt,
+	RecipeBatchLyeSortCreatedAt,
 }
 
 func (e RecipeBatchLyeSort) IsValid() bool {
 	switch e {
-	case RecipeBatchLyeSortID, RecipeBatchLyeSortWeight, RecipeBatchLyeSortDiscount, RecipeBatchLyeSortCost, RecipeBatchLyeSortCreatedAt, RecipeBatchLyeSortDeletedAt, RecipeBatchLyeSortUpdatedAt:
+	case RecipeBatchLyeSortID, RecipeBatchLyeSortWeight, RecipeBatchLyeSortDiscount, RecipeBatchLyeSortCost, RecipeBatchLyeSortUpdatedAt, RecipeBatchLyeSortDeletedAt, RecipeBatchLyeSortCreatedAt:
 		return true
 	}
 	return false
@@ -3225,23 +3225,23 @@ const (
 	RecipeBatchNoteSortID        RecipeBatchNoteSort = "ID"
 	RecipeBatchNoteSortNote      RecipeBatchNoteSort = "NOTE"
 	RecipeBatchNoteSortLink      RecipeBatchNoteSort = "LINK"
-	RecipeBatchNoteSortDeletedAt RecipeBatchNoteSort = "DELETED_AT"
-	RecipeBatchNoteSortCreatedAt RecipeBatchNoteSort = "CREATED_AT"
 	RecipeBatchNoteSortUpdatedAt RecipeBatchNoteSort = "UPDATED_AT"
+	RecipeBatchNoteSortCreatedAt RecipeBatchNoteSort = "CREATED_AT"
+	RecipeBatchNoteSortDeletedAt RecipeBatchNoteSort = "DELETED_AT"
 )
 
 var AllRecipeBatchNoteSort = []RecipeBatchNoteSort{
 	RecipeBatchNoteSortID,
 	RecipeBatchNoteSortNote,
 	RecipeBatchNoteSortLink,
-	RecipeBatchNoteSortDeletedAt,
-	RecipeBatchNoteSortCreatedAt,
 	RecipeBatchNoteSortUpdatedAt,
+	RecipeBatchNoteSortCreatedAt,
+	RecipeBatchNoteSortDeletedAt,
 }
 
 func (e RecipeBatchNoteSort) IsValid() bool {
 	switch e {
-	case RecipeBatchNoteSortID, RecipeBatchNoteSortNote, RecipeBatchNoteSortLink, RecipeBatchNoteSortDeletedAt, RecipeBatchNoteSortCreatedAt, RecipeBatchNoteSortUpdatedAt:
+	case RecipeBatchNoteSortID, RecipeBatchNoteSortNote, RecipeBatchNoteSortLink, RecipeBatchNoteSortUpdatedAt, RecipeBatchNoteSortCreatedAt, RecipeBatchNoteSortDeletedAt:
 		return true
 	}
 	return false
@@ -3380,21 +3380,21 @@ const (
 	RecipeLipidSortID         RecipeLipidSort = "ID"
 	RecipeLipidSortPercentage RecipeLipidSort = "PERCENTAGE"
 	RecipeLipidSortUpdatedAt  RecipeLipidSort = "UPDATED_AT"
-	RecipeLipidSortCreatedAt  RecipeLipidSort = "CREATED_AT"
 	RecipeLipidSortDeletedAt  RecipeLipidSort = "DELETED_AT"
+	RecipeLipidSortCreatedAt  RecipeLipidSort = "CREATED_AT"
 )
 
 var AllRecipeLipidSort = []RecipeLipidSort{
 	RecipeLipidSortID,
 	RecipeLipidSortPercentage,
 	RecipeLipidSortUpdatedAt,
-	RecipeLipidSortCreatedAt,
 	RecipeLipidSortDeletedAt,
+	RecipeLipidSortCreatedAt,
 }
 
 func (e RecipeLipidSort) IsValid() bool {
 	switch e {
-	case RecipeLipidSortID, RecipeLipidSortPercentage, RecipeLipidSortUpdatedAt, RecipeLipidSortCreatedAt, RecipeLipidSortDeletedAt:
+	case RecipeLipidSortID, RecipeLipidSortPercentage, RecipeLipidSortUpdatedAt, RecipeLipidSortDeletedAt, RecipeLipidSortCreatedAt:
 		return true
 	}
 	return false
@@ -3428,8 +3428,8 @@ const (
 	RecipeSortName      RecipeSort = "NAME"
 	RecipeSortNote      RecipeSort = "NOTE"
 	RecipeSortCreatedAt RecipeSort = "CREATED_AT"
-	RecipeSortDeletedAt RecipeSort = "DELETED_AT"
 	RecipeSortUpdatedAt RecipeSort = "UPDATED_AT"
+	RecipeSortDeletedAt RecipeSort = "DELETED_AT"
 )
 
 var AllRecipeSort = []RecipeSort{
@@ -3437,13 +3437,13 @@ var AllRecipeSort = []RecipeSort{
 	RecipeSortName,
 	RecipeSortNote,
 	RecipeSortCreatedAt,
-	RecipeSortDeletedAt,
 	RecipeSortUpdatedAt,
+	RecipeSortDeletedAt,
 }
 
 func (e RecipeSort) IsValid() bool {
 	switch e {
-	case RecipeSortID, RecipeSortName, RecipeSortNote, RecipeSortCreatedAt, RecipeSortDeletedAt, RecipeSortUpdatedAt:
+	case RecipeSortID, RecipeSortName, RecipeSortNote, RecipeSortCreatedAt, RecipeSortUpdatedAt, RecipeSortDeletedAt:
 		return true
 	}
 	return false
@@ -3476,23 +3476,23 @@ const (
 	RecipeStepSortID        RecipeStepSort = "ID"
 	RecipeStepSortNum       RecipeStepSort = "NUM"
 	RecipeStepSortNote      RecipeStepSort = "NOTE"
-	RecipeStepSortDeletedAt RecipeStepSort = "DELETED_AT"
-	RecipeStepSortUpdatedAt RecipeStepSort = "UPDATED_AT"
 	RecipeStepSortCreatedAt RecipeStepSort = "CREATED_AT"
+	RecipeStepSortUpdatedAt RecipeStepSort = "UPDATED_AT"
+	RecipeStepSortDeletedAt RecipeStepSort = "DELETED_AT"
 )
 
 var AllRecipeStepSort = []RecipeStepSort{
 	RecipeStepSortID,
 	RecipeStepSortNum,
 	RecipeStepSortNote,
-	RecipeStepSortDeletedAt,
-	RecipeStepSortUpdatedAt,
 	RecipeStepSortCreatedAt,
+	RecipeStepSortUpdatedAt,
+	RecipeStepSortDeletedAt,
 }
 
 func (e RecipeStepSort) IsValid() bool {
 	switch e {
-	case RecipeStepSortID, RecipeStepSortNum, RecipeStepSortNote, RecipeStepSortDeletedAt, RecipeStepSortUpdatedAt, RecipeStepSortCreatedAt:
+	case RecipeStepSortID, RecipeStepSortNum, RecipeStepSortNote, RecipeStepSortCreatedAt, RecipeStepSortUpdatedAt, RecipeStepSortDeletedAt:
 		return true
 	}
 	return false
@@ -3527,8 +3527,8 @@ const (
 	SupplierSortWebsite   SupplierSort = "WEBSITE"
 	SupplierSortNote      SupplierSort = "NOTE"
 	SupplierSortDeletedAt SupplierSort = "DELETED_AT"
-	SupplierSortUpdatedAt SupplierSort = "UPDATED_AT"
 	SupplierSortCreatedAt SupplierSort = "CREATED_AT"
+	SupplierSortUpdatedAt SupplierSort = "UPDATED_AT"
 )
 
 var AllSupplierSort = []SupplierSort{
@@ -3537,13 +3537,13 @@ var AllSupplierSort = []SupplierSort{
 	SupplierSortWebsite,
 	SupplierSortNote,
 	SupplierSortDeletedAt,
-	SupplierSortUpdatedAt,
 	SupplierSortCreatedAt,
+	SupplierSortUpdatedAt,
 }
 
 func (e SupplierSort) IsValid() bool {
 	switch e {
-	case SupplierSortID, SupplierSortName, SupplierSortWebsite, SupplierSortNote, SupplierSortDeletedAt, SupplierSortUpdatedAt, SupplierSortCreatedAt:
+	case SupplierSortID, SupplierSortName, SupplierSortWebsite, SupplierSortNote, SupplierSortDeletedAt, SupplierSortCreatedAt, SupplierSortUpdatedAt:
 		return true
 	}
 	return false

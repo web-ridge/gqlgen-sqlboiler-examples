@@ -11,7 +11,7 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/queries/qmhelper"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/models"
-	"github.com/web-ridge/utils-go/boilergql"
+	boilergql "github.com/web-ridge/utils-go/boilergql/v3"
 )
 
 // const regexSign = `'`

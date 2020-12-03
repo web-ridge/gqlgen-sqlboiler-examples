@@ -10,7 +10,7 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-38-plugin-panics/graphql_models"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-38-plugin-panics/models"
-	"github.com/web-ridge/utils-go/boilergql"
+	boilergql "github.com/web-ridge/utils-go/boilergql/v3"
 )
 
 var AdditiveInventorySortColumn = map[graphql_models.AdditiveInventorySort]string{
@@ -19,9 +19,9 @@ var AdditiveInventorySortColumn = map[graphql_models.AdditiveInventorySort]strin
 	graphql_models.AdditiveInventorySortExpiryDate:   models.AdditiveInventoryColumns.ExpiryDate,
 	graphql_models.AdditiveInventorySortCost:         models.AdditiveInventoryColumns.Cost,
 	graphql_models.AdditiveInventorySortWeight:       models.AdditiveInventoryColumns.Weight,
-	graphql_models.AdditiveInventorySortCreatedAt:    models.AdditiveInventoryColumns.CreatedAt,
-	graphql_models.AdditiveInventorySortDeletedAt:    models.AdditiveInventoryColumns.DeletedAt,
 	graphql_models.AdditiveInventorySortUpdatedAt:    models.AdditiveInventoryColumns.UpdatedAt,
+	graphql_models.AdditiveInventorySortDeletedAt:    models.AdditiveInventoryColumns.DeletedAt,
+	graphql_models.AdditiveInventorySortCreatedAt:    models.AdditiveInventoryColumns.CreatedAt,
 }
 
 func AdditiveInventorySortValueFromCursorValue(cursorValue string) (string, interface{}) {
@@ -47,12 +47,12 @@ func AdditiveInventorySortCursorValue(sort graphql_models.AdditiveInventorySort,
 		return m.Cost
 	case graphql_models.AdditiveInventorySortWeight:
 		return m.Weight
-	case graphql_models.AdditiveInventorySortCreatedAt:
-		return m.CreatedAt
-	case graphql_models.AdditiveInventorySortDeletedAt:
-		return m.DeletedAt
 	case graphql_models.AdditiveInventorySortUpdatedAt:
 		return m.UpdatedAt
+	case graphql_models.AdditiveInventorySortDeletedAt:
+		return m.DeletedAt
+	case graphql_models.AdditiveInventorySortCreatedAt:
+		return m.CreatedAt
 	}
 	return nil
 }
@@ -268,8 +268,8 @@ var AdditiveSortColumn = map[graphql_models.AdditiveSort]string{
 	graphql_models.AdditiveSortName:      models.AdditiveColumns.Name,
 	graphql_models.AdditiveSortNote:      models.AdditiveColumns.Note,
 	graphql_models.AdditiveSortCreatedAt: models.AdditiveColumns.CreatedAt,
-	graphql_models.AdditiveSortUpdatedAt: models.AdditiveColumns.UpdatedAt,
 	graphql_models.AdditiveSortDeletedAt: models.AdditiveColumns.DeletedAt,
+	graphql_models.AdditiveSortUpdatedAt: models.AdditiveColumns.UpdatedAt,
 }
 
 func AdditiveSortValueFromCursorValue(cursorValue string) (string, interface{}) {
@@ -293,10 +293,10 @@ func AdditiveSortCursorValue(sort graphql_models.AdditiveSort, m *graphql_models
 		return m.Note
 	case graphql_models.AdditiveSortCreatedAt:
 		return m.CreatedAt
-	case graphql_models.AdditiveSortUpdatedAt:
-		return m.UpdatedAt
 	case graphql_models.AdditiveSortDeletedAt:
 		return m.DeletedAt
+	case graphql_models.AdditiveSortUpdatedAt:
+		return m.UpdatedAt
 	}
 	return nil
 }
@@ -1923,8 +1923,8 @@ var FragranceInventorySortColumn = map[graphql_models.FragranceInventorySort]str
 	graphql_models.FragranceInventorySortExpiryDate:   models.FragranceInventoryColumns.ExpiryDate,
 	graphql_models.FragranceInventorySortCost:         models.FragranceInventoryColumns.Cost,
 	graphql_models.FragranceInventorySortWeight:       models.FragranceInventoryColumns.Weight,
-	graphql_models.FragranceInventorySortUpdatedAt:    models.FragranceInventoryColumns.UpdatedAt,
 	graphql_models.FragranceInventorySortDeletedAt:    models.FragranceInventoryColumns.DeletedAt,
+	graphql_models.FragranceInventorySortUpdatedAt:    models.FragranceInventoryColumns.UpdatedAt,
 	graphql_models.FragranceInventorySortCreatedAt:    models.FragranceInventoryColumns.CreatedAt,
 }
 
@@ -1951,10 +1951,10 @@ func FragranceInventorySortCursorValue(sort graphql_models.FragranceInventorySor
 		return m.Cost
 	case graphql_models.FragranceInventorySortWeight:
 		return m.Weight
-	case graphql_models.FragranceInventorySortUpdatedAt:
-		return m.UpdatedAt
 	case graphql_models.FragranceInventorySortDeletedAt:
 		return m.DeletedAt
+	case graphql_models.FragranceInventorySortUpdatedAt:
+		return m.UpdatedAt
 	case graphql_models.FragranceInventorySortCreatedAt:
 		return m.CreatedAt
 	}
@@ -2172,8 +2172,8 @@ var FragranceSortColumn = map[graphql_models.FragranceSort]string{
 	graphql_models.FragranceSortName:      models.FragranceColumns.Name,
 	graphql_models.FragranceSortNote:      models.FragranceColumns.Note,
 	graphql_models.FragranceSortUpdatedAt: models.FragranceColumns.UpdatedAt,
-	graphql_models.FragranceSortCreatedAt: models.FragranceColumns.CreatedAt,
 	graphql_models.FragranceSortDeletedAt: models.FragranceColumns.DeletedAt,
+	graphql_models.FragranceSortCreatedAt: models.FragranceColumns.CreatedAt,
 }
 
 func FragranceSortValueFromCursorValue(cursorValue string) (string, interface{}) {
@@ -2197,10 +2197,10 @@ func FragranceSortCursorValue(sort graphql_models.FragranceSort, m *graphql_mode
 		return m.Note
 	case graphql_models.FragranceSortUpdatedAt:
 		return m.UpdatedAt
-	case graphql_models.FragranceSortCreatedAt:
-		return m.CreatedAt
 	case graphql_models.FragranceSortDeletedAt:
 		return m.DeletedAt
+	case graphql_models.FragranceSortCreatedAt:
+		return m.CreatedAt
 	}
 	return nil
 }
@@ -2421,9 +2421,9 @@ var LipidInventorySortColumn = map[graphql_models.LipidInventorySort]string{
 	graphql_models.LipidInventorySortNaoh:          models.LipidInventoryColumns.Naoh,
 	graphql_models.LipidInventorySortKoh:           models.LipidInventoryColumns.Koh,
 	graphql_models.LipidInventorySortGramsPerLiter: models.LipidInventoryColumns.GramsPerLiter,
-	graphql_models.LipidInventorySortDeletedAt:     models.LipidInventoryColumns.DeletedAt,
 	graphql_models.LipidInventorySortUpdatedAt:     models.LipidInventoryColumns.UpdatedAt,
 	graphql_models.LipidInventorySortCreatedAt:     models.LipidInventoryColumns.CreatedAt,
+	graphql_models.LipidInventorySortDeletedAt:     models.LipidInventoryColumns.DeletedAt,
 }
 
 func LipidInventorySortValueFromCursorValue(cursorValue string) (string, interface{}) {
@@ -2457,12 +2457,12 @@ func LipidInventorySortCursorValue(sort graphql_models.LipidInventorySort, m *gr
 		return m.Koh
 	case graphql_models.LipidInventorySortGramsPerLiter:
 		return m.GramsPerLiter
-	case graphql_models.LipidInventorySortDeletedAt:
-		return m.DeletedAt
 	case graphql_models.LipidInventorySortUpdatedAt:
 		return m.UpdatedAt
 	case graphql_models.LipidInventorySortCreatedAt:
 		return m.CreatedAt
+	case graphql_models.LipidInventorySortDeletedAt:
+		return m.DeletedAt
 	}
 	return nil
 }
@@ -2694,9 +2694,9 @@ var LipidSortColumn = map[graphql_models.LipidSort]string{
 	graphql_models.LipidSortInciName:     models.LipidColumns.InciName,
 	graphql_models.LipidSortFamily:       models.LipidColumns.Family,
 	graphql_models.LipidSortNaoh:         models.LipidColumns.Naoh,
+	graphql_models.LipidSortDeletedAt:    models.LipidColumns.DeletedAt,
 	graphql_models.LipidSortUpdatedAt:    models.LipidColumns.UpdatedAt,
 	graphql_models.LipidSortCreatedAt:    models.LipidColumns.CreatedAt,
-	graphql_models.LipidSortDeletedAt:    models.LipidColumns.DeletedAt,
 }
 
 func LipidSortValueFromCursorValue(cursorValue string) (string, interface{}) {
@@ -2752,12 +2752,12 @@ func LipidSortCursorValue(sort graphql_models.LipidSort, m *graphql_models.Lipid
 		return m.Family
 	case graphql_models.LipidSortNaoh:
 		return m.Naoh
+	case graphql_models.LipidSortDeletedAt:
+		return m.DeletedAt
 	case graphql_models.LipidSortUpdatedAt:
 		return m.UpdatedAt
 	case graphql_models.LipidSortCreatedAt:
 		return m.CreatedAt
-	case graphql_models.LipidSortDeletedAt:
-		return m.DeletedAt
 	}
 	return nil
 }
@@ -2976,8 +2976,8 @@ var LyeInventorySortColumn = map[graphql_models.LyeInventorySort]string{
 	graphql_models.LyeInventorySortWeight:        models.LyeInventoryColumns.Weight,
 	graphql_models.LyeInventorySortConcentration: models.LyeInventoryColumns.Concentration,
 	graphql_models.LyeInventorySortCreatedAt:     models.LyeInventoryColumns.CreatedAt,
-	graphql_models.LyeInventorySortUpdatedAt:     models.LyeInventoryColumns.UpdatedAt,
 	graphql_models.LyeInventorySortDeletedAt:     models.LyeInventoryColumns.DeletedAt,
+	graphql_models.LyeInventorySortUpdatedAt:     models.LyeInventoryColumns.UpdatedAt,
 }
 
 func LyeInventorySortValueFromCursorValue(cursorValue string) (string, interface{}) {
@@ -3007,10 +3007,10 @@ func LyeInventorySortCursorValue(sort graphql_models.LyeInventorySort, m *graphq
 		return m.Concentration
 	case graphql_models.LyeInventorySortCreatedAt:
 		return m.CreatedAt
-	case graphql_models.LyeInventorySortUpdatedAt:
-		return m.UpdatedAt
 	case graphql_models.LyeInventorySortDeletedAt:
 		return m.DeletedAt
+	case graphql_models.LyeInventorySortUpdatedAt:
+		return m.UpdatedAt
 	}
 	return nil
 }
@@ -3226,9 +3226,9 @@ var LyeSortColumn = map[graphql_models.LyeSort]string{
 	graphql_models.LyeSortKind:      models.LyeColumns.Kind,
 	graphql_models.LyeSortName:      models.LyeColumns.Name,
 	graphql_models.LyeSortNote:      models.LyeColumns.Note,
-	graphql_models.LyeSortDeletedAt: models.LyeColumns.DeletedAt,
-	graphql_models.LyeSortCreatedAt: models.LyeColumns.CreatedAt,
 	graphql_models.LyeSortUpdatedAt: models.LyeColumns.UpdatedAt,
+	graphql_models.LyeSortCreatedAt: models.LyeColumns.CreatedAt,
+	graphql_models.LyeSortDeletedAt: models.LyeColumns.DeletedAt,
 }
 
 func LyeSortValueFromCursorValue(cursorValue string) (string, interface{}) {
@@ -3252,12 +3252,12 @@ func LyeSortCursorValue(sort graphql_models.LyeSort, m *graphql_models.Lye) inte
 		return m.Name
 	case graphql_models.LyeSortNote:
 		return m.Note
-	case graphql_models.LyeSortDeletedAt:
-		return m.DeletedAt
-	case graphql_models.LyeSortCreatedAt:
-		return m.CreatedAt
 	case graphql_models.LyeSortUpdatedAt:
 		return m.UpdatedAt
+	case graphql_models.LyeSortCreatedAt:
+		return m.CreatedAt
+	case graphql_models.LyeSortDeletedAt:
+		return m.DeletedAt
 	}
 	return nil
 }
@@ -3471,8 +3471,8 @@ func LyeConnection(
 var RecipeAdditiveSortColumn = map[graphql_models.RecipeAdditiveSort]string{
 	graphql_models.RecipeAdditiveSortID:         models.RecipeAdditiveColumns.ID,
 	graphql_models.RecipeAdditiveSortPercentage: models.RecipeAdditiveColumns.Percentage,
-	graphql_models.RecipeAdditiveSortUpdatedAt:  models.RecipeAdditiveColumns.UpdatedAt,
 	graphql_models.RecipeAdditiveSortDeletedAt:  models.RecipeAdditiveColumns.DeletedAt,
+	graphql_models.RecipeAdditiveSortUpdatedAt:  models.RecipeAdditiveColumns.UpdatedAt,
 	graphql_models.RecipeAdditiveSortCreatedAt:  models.RecipeAdditiveColumns.CreatedAt,
 }
 
@@ -3493,10 +3493,10 @@ func RecipeAdditiveSortCursorValue(sort graphql_models.RecipeAdditiveSort, m *gr
 		return m.ID
 	case graphql_models.RecipeAdditiveSortPercentage:
 		return m.Percentage
-	case graphql_models.RecipeAdditiveSortUpdatedAt:
-		return m.UpdatedAt
 	case graphql_models.RecipeAdditiveSortDeletedAt:
 		return m.DeletedAt
+	case graphql_models.RecipeAdditiveSortUpdatedAt:
+		return m.UpdatedAt
 	case graphql_models.RecipeAdditiveSortCreatedAt:
 		return m.CreatedAt
 	}
@@ -3714,8 +3714,8 @@ var RecipeBatchAdditiveSortColumn = map[graphql_models.RecipeBatchAdditiveSort]s
 	graphql_models.RecipeBatchAdditiveSortWeight:    models.RecipeBatchAdditiveColumns.Weight,
 	graphql_models.RecipeBatchAdditiveSortCost:      models.RecipeBatchAdditiveColumns.Cost,
 	graphql_models.RecipeBatchAdditiveSortDeletedAt: models.RecipeBatchAdditiveColumns.DeletedAt,
-	graphql_models.RecipeBatchAdditiveSortCreatedAt: models.RecipeBatchAdditiveColumns.CreatedAt,
 	graphql_models.RecipeBatchAdditiveSortUpdatedAt: models.RecipeBatchAdditiveColumns.UpdatedAt,
+	graphql_models.RecipeBatchAdditiveSortCreatedAt: models.RecipeBatchAdditiveColumns.CreatedAt,
 }
 
 func RecipeBatchAdditiveSortValueFromCursorValue(cursorValue string) (string, interface{}) {
@@ -3739,10 +3739,10 @@ func RecipeBatchAdditiveSortCursorValue(sort graphql_models.RecipeBatchAdditiveS
 		return m.Cost
 	case graphql_models.RecipeBatchAdditiveSortDeletedAt:
 		return m.DeletedAt
-	case graphql_models.RecipeBatchAdditiveSortCreatedAt:
-		return m.CreatedAt
 	case graphql_models.RecipeBatchAdditiveSortUpdatedAt:
 		return m.UpdatedAt
+	case graphql_models.RecipeBatchAdditiveSortCreatedAt:
+		return m.CreatedAt
 	}
 	return nil
 }
@@ -3957,8 +3957,8 @@ var RecipeBatchFragranceSortColumn = map[graphql_models.RecipeBatchFragranceSort
 	graphql_models.RecipeBatchFragranceSortID:        models.RecipeBatchFragranceColumns.ID,
 	graphql_models.RecipeBatchFragranceSortWeight:    models.RecipeBatchFragranceColumns.Weight,
 	graphql_models.RecipeBatchFragranceSortCost:      models.RecipeBatchFragranceColumns.Cost,
-	graphql_models.RecipeBatchFragranceSortUpdatedAt: models.RecipeBatchFragranceColumns.UpdatedAt,
 	graphql_models.RecipeBatchFragranceSortDeletedAt: models.RecipeBatchFragranceColumns.DeletedAt,
+	graphql_models.RecipeBatchFragranceSortUpdatedAt: models.RecipeBatchFragranceColumns.UpdatedAt,
 	graphql_models.RecipeBatchFragranceSortCreatedAt: models.RecipeBatchFragranceColumns.CreatedAt,
 }
 
@@ -3981,10 +3981,10 @@ func RecipeBatchFragranceSortCursorValue(sort graphql_models.RecipeBatchFragranc
 		return m.Weight
 	case graphql_models.RecipeBatchFragranceSortCost:
 		return m.Cost
-	case graphql_models.RecipeBatchFragranceSortUpdatedAt:
-		return m.UpdatedAt
 	case graphql_models.RecipeBatchFragranceSortDeletedAt:
 		return m.DeletedAt
+	case graphql_models.RecipeBatchFragranceSortUpdatedAt:
+		return m.UpdatedAt
 	case graphql_models.RecipeBatchFragranceSortCreatedAt:
 		return m.CreatedAt
 	}
@@ -4446,9 +4446,9 @@ var RecipeBatchLyeSortColumn = map[graphql_models.RecipeBatchLyeSort]string{
 	graphql_models.RecipeBatchLyeSortWeight:    models.RecipeBatchLyeColumns.Weight,
 	graphql_models.RecipeBatchLyeSortDiscount:  models.RecipeBatchLyeColumns.Discount,
 	graphql_models.RecipeBatchLyeSortCost:      models.RecipeBatchLyeColumns.Cost,
-	graphql_models.RecipeBatchLyeSortCreatedAt: models.RecipeBatchLyeColumns.CreatedAt,
-	graphql_models.RecipeBatchLyeSortDeletedAt: models.RecipeBatchLyeColumns.DeletedAt,
 	graphql_models.RecipeBatchLyeSortUpdatedAt: models.RecipeBatchLyeColumns.UpdatedAt,
+	graphql_models.RecipeBatchLyeSortDeletedAt: models.RecipeBatchLyeColumns.DeletedAt,
+	graphql_models.RecipeBatchLyeSortCreatedAt: models.RecipeBatchLyeColumns.CreatedAt,
 }
 
 func RecipeBatchLyeSortValueFromCursorValue(cursorValue string) (string, interface{}) {
@@ -4472,12 +4472,12 @@ func RecipeBatchLyeSortCursorValue(sort graphql_models.RecipeBatchLyeSort, m *gr
 		return m.Discount
 	case graphql_models.RecipeBatchLyeSortCost:
 		return m.Cost
-	case graphql_models.RecipeBatchLyeSortCreatedAt:
-		return m.CreatedAt
-	case graphql_models.RecipeBatchLyeSortDeletedAt:
-		return m.DeletedAt
 	case graphql_models.RecipeBatchLyeSortUpdatedAt:
 		return m.UpdatedAt
+	case graphql_models.RecipeBatchLyeSortDeletedAt:
+		return m.DeletedAt
+	case graphql_models.RecipeBatchLyeSortCreatedAt:
+		return m.CreatedAt
 	}
 	return nil
 }
@@ -4692,9 +4692,9 @@ var RecipeBatchNoteSortColumn = map[graphql_models.RecipeBatchNoteSort]string{
 	graphql_models.RecipeBatchNoteSortID:        models.RecipeBatchNoteColumns.ID,
 	graphql_models.RecipeBatchNoteSortNote:      models.RecipeBatchNoteColumns.Note,
 	graphql_models.RecipeBatchNoteSortLink:      models.RecipeBatchNoteColumns.Link,
-	graphql_models.RecipeBatchNoteSortDeletedAt: models.RecipeBatchNoteColumns.DeletedAt,
-	graphql_models.RecipeBatchNoteSortCreatedAt: models.RecipeBatchNoteColumns.CreatedAt,
 	graphql_models.RecipeBatchNoteSortUpdatedAt: models.RecipeBatchNoteColumns.UpdatedAt,
+	graphql_models.RecipeBatchNoteSortCreatedAt: models.RecipeBatchNoteColumns.CreatedAt,
+	graphql_models.RecipeBatchNoteSortDeletedAt: models.RecipeBatchNoteColumns.DeletedAt,
 }
 
 func RecipeBatchNoteSortValueFromCursorValue(cursorValue string) (string, interface{}) {
@@ -4716,12 +4716,12 @@ func RecipeBatchNoteSortCursorValue(sort graphql_models.RecipeBatchNoteSort, m *
 		return m.Note
 	case graphql_models.RecipeBatchNoteSortLink:
 		return m.Link
-	case graphql_models.RecipeBatchNoteSortDeletedAt:
-		return m.DeletedAt
-	case graphql_models.RecipeBatchNoteSortCreatedAt:
-		return m.CreatedAt
 	case graphql_models.RecipeBatchNoteSortUpdatedAt:
 		return m.UpdatedAt
+	case graphql_models.RecipeBatchNoteSortCreatedAt:
+		return m.CreatedAt
+	case graphql_models.RecipeBatchNoteSortDeletedAt:
+		return m.DeletedAt
 	}
 	return nil
 }
@@ -5436,8 +5436,8 @@ var RecipeLipidSortColumn = map[graphql_models.RecipeLipidSort]string{
 	graphql_models.RecipeLipidSortID:         models.RecipeLipidColumns.ID,
 	graphql_models.RecipeLipidSortPercentage: models.RecipeLipidColumns.Percentage,
 	graphql_models.RecipeLipidSortUpdatedAt:  models.RecipeLipidColumns.UpdatedAt,
-	graphql_models.RecipeLipidSortCreatedAt:  models.RecipeLipidColumns.CreatedAt,
 	graphql_models.RecipeLipidSortDeletedAt:  models.RecipeLipidColumns.DeletedAt,
+	graphql_models.RecipeLipidSortCreatedAt:  models.RecipeLipidColumns.CreatedAt,
 }
 
 func RecipeLipidSortValueFromCursorValue(cursorValue string) (string, interface{}) {
@@ -5459,10 +5459,10 @@ func RecipeLipidSortCursorValue(sort graphql_models.RecipeLipidSort, m *graphql_
 		return m.Percentage
 	case graphql_models.RecipeLipidSortUpdatedAt:
 		return m.UpdatedAt
-	case graphql_models.RecipeLipidSortCreatedAt:
-		return m.CreatedAt
 	case graphql_models.RecipeLipidSortDeletedAt:
 		return m.DeletedAt
+	case graphql_models.RecipeLipidSortCreatedAt:
+		return m.CreatedAt
 	}
 	return nil
 }
@@ -5678,8 +5678,8 @@ var RecipeSortColumn = map[graphql_models.RecipeSort]string{
 	graphql_models.RecipeSortName:      models.RecipeColumns.Name,
 	graphql_models.RecipeSortNote:      models.RecipeColumns.Note,
 	graphql_models.RecipeSortCreatedAt: models.RecipeColumns.CreatedAt,
-	graphql_models.RecipeSortDeletedAt: models.RecipeColumns.DeletedAt,
 	graphql_models.RecipeSortUpdatedAt: models.RecipeColumns.UpdatedAt,
+	graphql_models.RecipeSortDeletedAt: models.RecipeColumns.DeletedAt,
 }
 
 func RecipeSortValueFromCursorValue(cursorValue string) (string, interface{}) {
@@ -5703,10 +5703,10 @@ func RecipeSortCursorValue(sort graphql_models.RecipeSort, m *graphql_models.Rec
 		return m.Note
 	case graphql_models.RecipeSortCreatedAt:
 		return m.CreatedAt
-	case graphql_models.RecipeSortDeletedAt:
-		return m.DeletedAt
 	case graphql_models.RecipeSortUpdatedAt:
 		return m.UpdatedAt
+	case graphql_models.RecipeSortDeletedAt:
+		return m.DeletedAt
 	}
 	return nil
 }
@@ -5921,9 +5921,9 @@ var RecipeStepSortColumn = map[graphql_models.RecipeStepSort]string{
 	graphql_models.RecipeStepSortID:        models.RecipeStepColumns.ID,
 	graphql_models.RecipeStepSortNum:       models.RecipeStepColumns.Num,
 	graphql_models.RecipeStepSortNote:      models.RecipeStepColumns.Note,
-	graphql_models.RecipeStepSortDeletedAt: models.RecipeStepColumns.DeletedAt,
-	graphql_models.RecipeStepSortUpdatedAt: models.RecipeStepColumns.UpdatedAt,
 	graphql_models.RecipeStepSortCreatedAt: models.RecipeStepColumns.CreatedAt,
+	graphql_models.RecipeStepSortUpdatedAt: models.RecipeStepColumns.UpdatedAt,
+	graphql_models.RecipeStepSortDeletedAt: models.RecipeStepColumns.DeletedAt,
 }
 
 func RecipeStepSortValueFromCursorValue(cursorValue string) (string, interface{}) {
@@ -5945,12 +5945,12 @@ func RecipeStepSortCursorValue(sort graphql_models.RecipeStepSort, m *graphql_mo
 		return m.Num
 	case graphql_models.RecipeStepSortNote:
 		return m.Note
-	case graphql_models.RecipeStepSortDeletedAt:
-		return m.DeletedAt
-	case graphql_models.RecipeStepSortUpdatedAt:
-		return m.UpdatedAt
 	case graphql_models.RecipeStepSortCreatedAt:
 		return m.CreatedAt
+	case graphql_models.RecipeStepSortUpdatedAt:
+		return m.UpdatedAt
+	case graphql_models.RecipeStepSortDeletedAt:
+		return m.DeletedAt
 	}
 	return nil
 }
@@ -6167,8 +6167,8 @@ var SupplierSortColumn = map[graphql_models.SupplierSort]string{
 	graphql_models.SupplierSortWebsite:   models.SupplierColumns.Website,
 	graphql_models.SupplierSortNote:      models.SupplierColumns.Note,
 	graphql_models.SupplierSortDeletedAt: models.SupplierColumns.DeletedAt,
-	graphql_models.SupplierSortUpdatedAt: models.SupplierColumns.UpdatedAt,
 	graphql_models.SupplierSortCreatedAt: models.SupplierColumns.CreatedAt,
+	graphql_models.SupplierSortUpdatedAt: models.SupplierColumns.UpdatedAt,
 }
 
 func SupplierSortValueFromCursorValue(cursorValue string) (string, interface{}) {
@@ -6194,10 +6194,10 @@ func SupplierSortCursorValue(sort graphql_models.SupplierSort, m *graphql_models
 		return m.Note
 	case graphql_models.SupplierSortDeletedAt:
 		return m.DeletedAt
-	case graphql_models.SupplierSortUpdatedAt:
-		return m.UpdatedAt
 	case graphql_models.SupplierSortCreatedAt:
 		return m.CreatedAt
+	case graphql_models.SupplierSortUpdatedAt:
+		return m.UpdatedAt
 	}
 	return nil
 }

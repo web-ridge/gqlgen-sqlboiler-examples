@@ -6,171 +6,8 @@ import (
 	null "github.com/volatiletech/null/v8"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-38-plugin-panics/graphql_models"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-38-plugin-panics/models"
-	"github.com/web-ridge/utils-go/boilergql"
+	boilergql "github.com/web-ridge/utils-go/boilergql/v3"
 )
-
-type RecipeFragranceSort string
-
-const (
-	RecipeFragranceSortID         RecipeFragranceSort = "id"
-	RecipeFragranceSortPercentage RecipeFragranceSort = "percentage"
-	RecipeFragranceSortUpdatedAt  RecipeFragranceSort = "updatedAt"
-	RecipeFragranceSortCreatedAt  RecipeFragranceSort = "createdAt"
-	RecipeFragranceSortDeletedAt  RecipeFragranceSort = "deletedAt"
-)
-
-var RecipeFragranceSortDBValue = map[graphql_models.RecipeFragranceSort]RecipeFragranceSort{
-	graphql_models.RecipeFragranceSortID:         RecipeFragranceSortID,
-	graphql_models.RecipeFragranceSortPercentage: RecipeFragranceSortPercentage,
-	graphql_models.RecipeFragranceSortUpdatedAt:  RecipeFragranceSortUpdatedAt,
-	graphql_models.RecipeFragranceSortCreatedAt:  RecipeFragranceSortCreatedAt,
-	graphql_models.RecipeFragranceSortDeletedAt:  RecipeFragranceSortDeletedAt,
-}
-var RecipeFragranceSortAPIValue = map[RecipeFragranceSort]graphql_models.RecipeFragranceSort{
-	RecipeFragranceSortID:         graphql_models.RecipeFragranceSortID,
-	RecipeFragranceSortPercentage: graphql_models.RecipeFragranceSortPercentage,
-	RecipeFragranceSortUpdatedAt:  graphql_models.RecipeFragranceSortUpdatedAt,
-	RecipeFragranceSortCreatedAt:  graphql_models.RecipeFragranceSortCreatedAt,
-	RecipeFragranceSortDeletedAt:  graphql_models.RecipeFragranceSortDeletedAt,
-}
-
-func NullDotStringToPointerRecipeFragranceSort(v null.String) *graphql_models.RecipeFragranceSort {
-	s := StringToRecipeFragranceSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToRecipeFragranceSort(v null.String) graphql_models.RecipeFragranceSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToRecipeFragranceSort(v.String)
-}
-
-func StringToRecipeFragranceSort(v string) graphql_models.RecipeFragranceSort {
-	s := RecipeFragranceSortAPIValue[RecipeFragranceSort(v)]
-	return s
-}
-
-func StringToPointerRecipeFragranceSort(v string) *graphql_models.RecipeFragranceSort {
-	s := StringToRecipeFragranceSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerRecipeFragranceSortToString(v *graphql_models.RecipeFragranceSort) string {
-	if v == nil {
-		return ""
-	}
-	return RecipeFragranceSortToString(*v)
-}
-
-func PointerRecipeFragranceSortToNullDotString(v *graphql_models.RecipeFragranceSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return RecipeFragranceSortToNullDotString(*v)
-}
-
-func RecipeFragranceSortToNullDotString(v graphql_models.RecipeFragranceSort) null.String {
-	s := RecipeFragranceSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func RecipeFragranceSortToString(v graphql_models.RecipeFragranceSort) string {
-	s := RecipeFragranceSortDBValue[v]
-	return string(s)
-}
-
-type AdditiveInventorySort string
-
-const (
-	AdditiveInventorySortID           AdditiveInventorySort = "id"
-	AdditiveInventorySortPurchaseDate AdditiveInventorySort = "purchaseDate"
-	AdditiveInventorySortExpiryDate   AdditiveInventorySort = "expiryDate"
-	AdditiveInventorySortCost         AdditiveInventorySort = "cost"
-	AdditiveInventorySortWeight       AdditiveInventorySort = "weight"
-	AdditiveInventorySortCreatedAt    AdditiveInventorySort = "createdAt"
-	AdditiveInventorySortDeletedAt    AdditiveInventorySort = "deletedAt"
-	AdditiveInventorySortUpdatedAt    AdditiveInventorySort = "updatedAt"
-)
-
-var AdditiveInventorySortDBValue = map[graphql_models.AdditiveInventorySort]AdditiveInventorySort{
-	graphql_models.AdditiveInventorySortID:           AdditiveInventorySortID,
-	graphql_models.AdditiveInventorySortPurchaseDate: AdditiveInventorySortPurchaseDate,
-	graphql_models.AdditiveInventorySortExpiryDate:   AdditiveInventorySortExpiryDate,
-	graphql_models.AdditiveInventorySortCost:         AdditiveInventorySortCost,
-	graphql_models.AdditiveInventorySortWeight:       AdditiveInventorySortWeight,
-	graphql_models.AdditiveInventorySortCreatedAt:    AdditiveInventorySortCreatedAt,
-	graphql_models.AdditiveInventorySortDeletedAt:    AdditiveInventorySortDeletedAt,
-	graphql_models.AdditiveInventorySortUpdatedAt:    AdditiveInventorySortUpdatedAt,
-}
-var AdditiveInventorySortAPIValue = map[AdditiveInventorySort]graphql_models.AdditiveInventorySort{
-	AdditiveInventorySortID:           graphql_models.AdditiveInventorySortID,
-	AdditiveInventorySortPurchaseDate: graphql_models.AdditiveInventorySortPurchaseDate,
-	AdditiveInventorySortExpiryDate:   graphql_models.AdditiveInventorySortExpiryDate,
-	AdditiveInventorySortCost:         graphql_models.AdditiveInventorySortCost,
-	AdditiveInventorySortWeight:       graphql_models.AdditiveInventorySortWeight,
-	AdditiveInventorySortCreatedAt:    graphql_models.AdditiveInventorySortCreatedAt,
-	AdditiveInventorySortDeletedAt:    graphql_models.AdditiveInventorySortDeletedAt,
-	AdditiveInventorySortUpdatedAt:    graphql_models.AdditiveInventorySortUpdatedAt,
-}
-
-func NullDotStringToPointerAdditiveInventorySort(v null.String) *graphql_models.AdditiveInventorySort {
-	s := StringToAdditiveInventorySort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToAdditiveInventorySort(v null.String) graphql_models.AdditiveInventorySort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToAdditiveInventorySort(v.String)
-}
-
-func StringToAdditiveInventorySort(v string) graphql_models.AdditiveInventorySort {
-	s := AdditiveInventorySortAPIValue[AdditiveInventorySort(v)]
-	return s
-}
-
-func StringToPointerAdditiveInventorySort(v string) *graphql_models.AdditiveInventorySort {
-	s := StringToAdditiveInventorySort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerAdditiveInventorySortToString(v *graphql_models.AdditiveInventorySort) string {
-	if v == nil {
-		return ""
-	}
-	return AdditiveInventorySortToString(*v)
-}
-
-func PointerAdditiveInventorySortToNullDotString(v *graphql_models.AdditiveInventorySort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return AdditiveInventorySortToNullDotString(*v)
-}
-
-func AdditiveInventorySortToNullDotString(v graphql_models.AdditiveInventorySort) null.String {
-	s := AdditiveInventorySortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func AdditiveInventorySortToString(v graphql_models.AdditiveInventorySort) string {
-	s := AdditiveInventorySortDBValue[v]
-	return string(s)
-}
 
 type RecipeBatchLyeSort string
 
@@ -179,9 +16,9 @@ const (
 	RecipeBatchLyeSortWeight    RecipeBatchLyeSort = "weight"
 	RecipeBatchLyeSortDiscount  RecipeBatchLyeSort = "discount"
 	RecipeBatchLyeSortCost      RecipeBatchLyeSort = "cost"
-	RecipeBatchLyeSortCreatedAt RecipeBatchLyeSort = "createdAt"
-	RecipeBatchLyeSortDeletedAt RecipeBatchLyeSort = "deletedAt"
 	RecipeBatchLyeSortUpdatedAt RecipeBatchLyeSort = "updatedAt"
+	RecipeBatchLyeSortDeletedAt RecipeBatchLyeSort = "deletedAt"
+	RecipeBatchLyeSortCreatedAt RecipeBatchLyeSort = "createdAt"
 )
 
 var RecipeBatchLyeSortDBValue = map[graphql_models.RecipeBatchLyeSort]RecipeBatchLyeSort{
@@ -189,18 +26,18 @@ var RecipeBatchLyeSortDBValue = map[graphql_models.RecipeBatchLyeSort]RecipeBatc
 	graphql_models.RecipeBatchLyeSortWeight:    RecipeBatchLyeSortWeight,
 	graphql_models.RecipeBatchLyeSortDiscount:  RecipeBatchLyeSortDiscount,
 	graphql_models.RecipeBatchLyeSortCost:      RecipeBatchLyeSortCost,
-	graphql_models.RecipeBatchLyeSortCreatedAt: RecipeBatchLyeSortCreatedAt,
-	graphql_models.RecipeBatchLyeSortDeletedAt: RecipeBatchLyeSortDeletedAt,
 	graphql_models.RecipeBatchLyeSortUpdatedAt: RecipeBatchLyeSortUpdatedAt,
+	graphql_models.RecipeBatchLyeSortDeletedAt: RecipeBatchLyeSortDeletedAt,
+	graphql_models.RecipeBatchLyeSortCreatedAt: RecipeBatchLyeSortCreatedAt,
 }
 var RecipeBatchLyeSortAPIValue = map[RecipeBatchLyeSort]graphql_models.RecipeBatchLyeSort{
 	RecipeBatchLyeSortID:        graphql_models.RecipeBatchLyeSortID,
 	RecipeBatchLyeSortWeight:    graphql_models.RecipeBatchLyeSortWeight,
 	RecipeBatchLyeSortDiscount:  graphql_models.RecipeBatchLyeSortDiscount,
 	RecipeBatchLyeSortCost:      graphql_models.RecipeBatchLyeSortCost,
-	RecipeBatchLyeSortCreatedAt: graphql_models.RecipeBatchLyeSortCreatedAt,
-	RecipeBatchLyeSortDeletedAt: graphql_models.RecipeBatchLyeSortDeletedAt,
 	RecipeBatchLyeSortUpdatedAt: graphql_models.RecipeBatchLyeSortUpdatedAt,
+	RecipeBatchLyeSortDeletedAt: graphql_models.RecipeBatchLyeSortDeletedAt,
+	RecipeBatchLyeSortCreatedAt: graphql_models.RecipeBatchLyeSortCreatedAt,
 }
 
 func NullDotStringToPointerRecipeBatchLyeSort(v null.String) *graphql_models.RecipeBatchLyeSort {
@@ -255,68 +92,83 @@ func RecipeBatchLyeSortToString(v graphql_models.RecipeBatchLyeSort) string {
 	return string(s)
 }
 
-type AuthUserGroupSort string
+type RecipeBatchNoteSort string
 
 const (
-	AuthUserGroupSortID AuthUserGroupSort = "id"
+	RecipeBatchNoteSortID        RecipeBatchNoteSort = "id"
+	RecipeBatchNoteSortNote      RecipeBatchNoteSort = "note"
+	RecipeBatchNoteSortLink      RecipeBatchNoteSort = "link"
+	RecipeBatchNoteSortUpdatedAt RecipeBatchNoteSort = "updatedAt"
+	RecipeBatchNoteSortCreatedAt RecipeBatchNoteSort = "createdAt"
+	RecipeBatchNoteSortDeletedAt RecipeBatchNoteSort = "deletedAt"
 )
 
-var AuthUserGroupSortDBValue = map[graphql_models.AuthUserGroupSort]AuthUserGroupSort{
-	graphql_models.AuthUserGroupSortID: AuthUserGroupSortID,
+var RecipeBatchNoteSortDBValue = map[graphql_models.RecipeBatchNoteSort]RecipeBatchNoteSort{
+	graphql_models.RecipeBatchNoteSortID:        RecipeBatchNoteSortID,
+	graphql_models.RecipeBatchNoteSortNote:      RecipeBatchNoteSortNote,
+	graphql_models.RecipeBatchNoteSortLink:      RecipeBatchNoteSortLink,
+	graphql_models.RecipeBatchNoteSortUpdatedAt: RecipeBatchNoteSortUpdatedAt,
+	graphql_models.RecipeBatchNoteSortCreatedAt: RecipeBatchNoteSortCreatedAt,
+	graphql_models.RecipeBatchNoteSortDeletedAt: RecipeBatchNoteSortDeletedAt,
 }
-var AuthUserGroupSortAPIValue = map[AuthUserGroupSort]graphql_models.AuthUserGroupSort{
-	AuthUserGroupSortID: graphql_models.AuthUserGroupSortID,
+var RecipeBatchNoteSortAPIValue = map[RecipeBatchNoteSort]graphql_models.RecipeBatchNoteSort{
+	RecipeBatchNoteSortID:        graphql_models.RecipeBatchNoteSortID,
+	RecipeBatchNoteSortNote:      graphql_models.RecipeBatchNoteSortNote,
+	RecipeBatchNoteSortLink:      graphql_models.RecipeBatchNoteSortLink,
+	RecipeBatchNoteSortUpdatedAt: graphql_models.RecipeBatchNoteSortUpdatedAt,
+	RecipeBatchNoteSortCreatedAt: graphql_models.RecipeBatchNoteSortCreatedAt,
+	RecipeBatchNoteSortDeletedAt: graphql_models.RecipeBatchNoteSortDeletedAt,
 }
 
-func NullDotStringToPointerAuthUserGroupSort(v null.String) *graphql_models.AuthUserGroupSort {
-	s := StringToAuthUserGroupSort(v.String)
+func NullDotStringToPointerRecipeBatchNoteSort(v null.String) *graphql_models.RecipeBatchNoteSort {
+	s := StringToRecipeBatchNoteSort(v.String)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func NullDotStringToAuthUserGroupSort(v null.String) graphql_models.AuthUserGroupSort {
+func NullDotStringToRecipeBatchNoteSort(v null.String) graphql_models.RecipeBatchNoteSort {
 	if !v.Valid {
 		return ""
 	}
-	return StringToAuthUserGroupSort(v.String)
+	return StringToRecipeBatchNoteSort(v.String)
 }
 
-func StringToAuthUserGroupSort(v string) graphql_models.AuthUserGroupSort {
-	s := AuthUserGroupSortAPIValue[AuthUserGroupSort(v)]
+func StringToRecipeBatchNoteSort(v string) graphql_models.RecipeBatchNoteSort {
+	s := RecipeBatchNoteSortAPIValue[RecipeBatchNoteSort(v)]
 	return s
 }
 
-func StringToPointerAuthUserGroupSort(v string) *graphql_models.AuthUserGroupSort {
-	s := StringToAuthUserGroupSort(v)
+func StringToPointerRecipeBatchNoteSort(v string) *graphql_models.RecipeBatchNoteSort {
+	s := StringToRecipeBatchNoteSort(v)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func PointerAuthUserGroupSortToString(v *graphql_models.AuthUserGroupSort) string {
+func PointerRecipeBatchNoteSortToString(v *graphql_models.RecipeBatchNoteSort) string {
 	if v == nil {
 		return ""
 	}
-	return AuthUserGroupSortToString(*v)
+	return RecipeBatchNoteSortToString(*v)
 }
 
-func PointerAuthUserGroupSortToNullDotString(v *graphql_models.AuthUserGroupSort) null.String {
+func PointerRecipeBatchNoteSortToNullDotString(v *graphql_models.RecipeBatchNoteSort) null.String {
 	if v == nil {
 		return null.NewString("", false)
 	}
-	return AuthUserGroupSortToNullDotString(*v)
+	return RecipeBatchNoteSortToNullDotString(*v)
 }
 
-func AuthUserGroupSortToNullDotString(v graphql_models.AuthUserGroupSort) null.String {
-	s := AuthUserGroupSortToString(v)
+func RecipeBatchNoteSortToNullDotString(v graphql_models.RecipeBatchNoteSort) null.String {
+	s := RecipeBatchNoteSortToString(v)
 	return null.NewString(s, s != "")
 }
 
-func AuthUserGroupSortToString(v graphql_models.AuthUserGroupSort) string {
-	s := AuthUserGroupSortDBValue[v]
+func RecipeBatchNoteSortToString(v graphql_models.RecipeBatchNoteSort) string {
+	s := RecipeBatchNoteSortDBValue[v]
 	return string(s)
 }
 
@@ -400,1016 +252,181 @@ func RecipeBatchLipidSortToString(v graphql_models.RecipeBatchLipidSort) string 
 	return string(s)
 }
 
-type RecipeSort string
+type LipidInventorySort string
 
 const (
-	RecipeSortID        RecipeSort = "id"
-	RecipeSortName      RecipeSort = "name"
-	RecipeSortNote      RecipeSort = "note"
-	RecipeSortCreatedAt RecipeSort = "createdAt"
-	RecipeSortDeletedAt RecipeSort = "deletedAt"
-	RecipeSortUpdatedAt RecipeSort = "updatedAt"
+	LipidInventorySortID            LipidInventorySort = "id"
+	LipidInventorySortPurchaseDate  LipidInventorySort = "purchaseDate"
+	LipidInventorySortExpiryDate    LipidInventorySort = "expiryDate"
+	LipidInventorySortCost          LipidInventorySort = "cost"
+	LipidInventorySortWeight        LipidInventorySort = "weight"
+	LipidInventorySortSap           LipidInventorySort = "sap"
+	LipidInventorySortNaoh          LipidInventorySort = "naoh"
+	LipidInventorySortKoh           LipidInventorySort = "koh"
+	LipidInventorySortGramsPerLiter LipidInventorySort = "gramsPerLiter"
+	LipidInventorySortUpdatedAt     LipidInventorySort = "updatedAt"
+	LipidInventorySortCreatedAt     LipidInventorySort = "createdAt"
+	LipidInventorySortDeletedAt     LipidInventorySort = "deletedAt"
 )
 
-var RecipeSortDBValue = map[graphql_models.RecipeSort]RecipeSort{
-	graphql_models.RecipeSortID:        RecipeSortID,
-	graphql_models.RecipeSortName:      RecipeSortName,
-	graphql_models.RecipeSortNote:      RecipeSortNote,
-	graphql_models.RecipeSortCreatedAt: RecipeSortCreatedAt,
-	graphql_models.RecipeSortDeletedAt: RecipeSortDeletedAt,
-	graphql_models.RecipeSortUpdatedAt: RecipeSortUpdatedAt,
+var LipidInventorySortDBValue = map[graphql_models.LipidInventorySort]LipidInventorySort{
+	graphql_models.LipidInventorySortID:            LipidInventorySortID,
+	graphql_models.LipidInventorySortPurchaseDate:  LipidInventorySortPurchaseDate,
+	graphql_models.LipidInventorySortExpiryDate:    LipidInventorySortExpiryDate,
+	graphql_models.LipidInventorySortCost:          LipidInventorySortCost,
+	graphql_models.LipidInventorySortWeight:        LipidInventorySortWeight,
+	graphql_models.LipidInventorySortSap:           LipidInventorySortSap,
+	graphql_models.LipidInventorySortNaoh:          LipidInventorySortNaoh,
+	graphql_models.LipidInventorySortKoh:           LipidInventorySortKoh,
+	graphql_models.LipidInventorySortGramsPerLiter: LipidInventorySortGramsPerLiter,
+	graphql_models.LipidInventorySortUpdatedAt:     LipidInventorySortUpdatedAt,
+	graphql_models.LipidInventorySortCreatedAt:     LipidInventorySortCreatedAt,
+	graphql_models.LipidInventorySortDeletedAt:     LipidInventorySortDeletedAt,
 }
-var RecipeSortAPIValue = map[RecipeSort]graphql_models.RecipeSort{
-	RecipeSortID:        graphql_models.RecipeSortID,
-	RecipeSortName:      graphql_models.RecipeSortName,
-	RecipeSortNote:      graphql_models.RecipeSortNote,
-	RecipeSortCreatedAt: graphql_models.RecipeSortCreatedAt,
-	RecipeSortDeletedAt: graphql_models.RecipeSortDeletedAt,
-	RecipeSortUpdatedAt: graphql_models.RecipeSortUpdatedAt,
+var LipidInventorySortAPIValue = map[LipidInventorySort]graphql_models.LipidInventorySort{
+	LipidInventorySortID:            graphql_models.LipidInventorySortID,
+	LipidInventorySortPurchaseDate:  graphql_models.LipidInventorySortPurchaseDate,
+	LipidInventorySortExpiryDate:    graphql_models.LipidInventorySortExpiryDate,
+	LipidInventorySortCost:          graphql_models.LipidInventorySortCost,
+	LipidInventorySortWeight:        graphql_models.LipidInventorySortWeight,
+	LipidInventorySortSap:           graphql_models.LipidInventorySortSap,
+	LipidInventorySortNaoh:          graphql_models.LipidInventorySortNaoh,
+	LipidInventorySortKoh:           graphql_models.LipidInventorySortKoh,
+	LipidInventorySortGramsPerLiter: graphql_models.LipidInventorySortGramsPerLiter,
+	LipidInventorySortUpdatedAt:     graphql_models.LipidInventorySortUpdatedAt,
+	LipidInventorySortCreatedAt:     graphql_models.LipidInventorySortCreatedAt,
+	LipidInventorySortDeletedAt:     graphql_models.LipidInventorySortDeletedAt,
 }
 
-func NullDotStringToPointerRecipeSort(v null.String) *graphql_models.RecipeSort {
-	s := StringToRecipeSort(v.String)
+func NullDotStringToPointerLipidInventorySort(v null.String) *graphql_models.LipidInventorySort {
+	s := StringToLipidInventorySort(v.String)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func NullDotStringToRecipeSort(v null.String) graphql_models.RecipeSort {
+func NullDotStringToLipidInventorySort(v null.String) graphql_models.LipidInventorySort {
 	if !v.Valid {
 		return ""
 	}
-	return StringToRecipeSort(v.String)
+	return StringToLipidInventorySort(v.String)
 }
 
-func StringToRecipeSort(v string) graphql_models.RecipeSort {
-	s := RecipeSortAPIValue[RecipeSort(v)]
+func StringToLipidInventorySort(v string) graphql_models.LipidInventorySort {
+	s := LipidInventorySortAPIValue[LipidInventorySort(v)]
 	return s
 }
 
-func StringToPointerRecipeSort(v string) *graphql_models.RecipeSort {
-	s := StringToRecipeSort(v)
+func StringToPointerLipidInventorySort(v string) *graphql_models.LipidInventorySort {
+	s := StringToLipidInventorySort(v)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func PointerRecipeSortToString(v *graphql_models.RecipeSort) string {
+func PointerLipidInventorySortToString(v *graphql_models.LipidInventorySort) string {
 	if v == nil {
 		return ""
 	}
-	return RecipeSortToString(*v)
+	return LipidInventorySortToString(*v)
 }
 
-func PointerRecipeSortToNullDotString(v *graphql_models.RecipeSort) null.String {
+func PointerLipidInventorySortToNullDotString(v *graphql_models.LipidInventorySort) null.String {
 	if v == nil {
 		return null.NewString("", false)
 	}
-	return RecipeSortToNullDotString(*v)
+	return LipidInventorySortToNullDotString(*v)
 }
 
-func RecipeSortToNullDotString(v graphql_models.RecipeSort) null.String {
-	s := RecipeSortToString(v)
+func LipidInventorySortToNullDotString(v graphql_models.LipidInventorySort) null.String {
+	s := LipidInventorySortToString(v)
 	return null.NewString(s, s != "")
 }
 
-func RecipeSortToString(v graphql_models.RecipeSort) string {
-	s := RecipeSortDBValue[v]
+func LipidInventorySortToString(v graphql_models.LipidInventorySort) string {
+	s := LipidInventorySortDBValue[v]
 	return string(s)
 }
 
-type RecipeAdditiveSort string
+type FragranceSort string
 
 const (
-	RecipeAdditiveSortID         RecipeAdditiveSort = "id"
-	RecipeAdditiveSortPercentage RecipeAdditiveSort = "percentage"
-	RecipeAdditiveSortUpdatedAt  RecipeAdditiveSort = "updatedAt"
-	RecipeAdditiveSortDeletedAt  RecipeAdditiveSort = "deletedAt"
-	RecipeAdditiveSortCreatedAt  RecipeAdditiveSort = "createdAt"
+	FragranceSortID        FragranceSort = "id"
+	FragranceSortName      FragranceSort = "name"
+	FragranceSortNote      FragranceSort = "note"
+	FragranceSortUpdatedAt FragranceSort = "updatedAt"
+	FragranceSortDeletedAt FragranceSort = "deletedAt"
+	FragranceSortCreatedAt FragranceSort = "createdAt"
 )
 
-var RecipeAdditiveSortDBValue = map[graphql_models.RecipeAdditiveSort]RecipeAdditiveSort{
-	graphql_models.RecipeAdditiveSortID:         RecipeAdditiveSortID,
-	graphql_models.RecipeAdditiveSortPercentage: RecipeAdditiveSortPercentage,
-	graphql_models.RecipeAdditiveSortUpdatedAt:  RecipeAdditiveSortUpdatedAt,
-	graphql_models.RecipeAdditiveSortDeletedAt:  RecipeAdditiveSortDeletedAt,
-	graphql_models.RecipeAdditiveSortCreatedAt:  RecipeAdditiveSortCreatedAt,
+var FragranceSortDBValue = map[graphql_models.FragranceSort]FragranceSort{
+	graphql_models.FragranceSortID:        FragranceSortID,
+	graphql_models.FragranceSortName:      FragranceSortName,
+	graphql_models.FragranceSortNote:      FragranceSortNote,
+	graphql_models.FragranceSortUpdatedAt: FragranceSortUpdatedAt,
+	graphql_models.FragranceSortDeletedAt: FragranceSortDeletedAt,
+	graphql_models.FragranceSortCreatedAt: FragranceSortCreatedAt,
 }
-var RecipeAdditiveSortAPIValue = map[RecipeAdditiveSort]graphql_models.RecipeAdditiveSort{
-	RecipeAdditiveSortID:         graphql_models.RecipeAdditiveSortID,
-	RecipeAdditiveSortPercentage: graphql_models.RecipeAdditiveSortPercentage,
-	RecipeAdditiveSortUpdatedAt:  graphql_models.RecipeAdditiveSortUpdatedAt,
-	RecipeAdditiveSortDeletedAt:  graphql_models.RecipeAdditiveSortDeletedAt,
-	RecipeAdditiveSortCreatedAt:  graphql_models.RecipeAdditiveSortCreatedAt,
+var FragranceSortAPIValue = map[FragranceSort]graphql_models.FragranceSort{
+	FragranceSortID:        graphql_models.FragranceSortID,
+	FragranceSortName:      graphql_models.FragranceSortName,
+	FragranceSortNote:      graphql_models.FragranceSortNote,
+	FragranceSortUpdatedAt: graphql_models.FragranceSortUpdatedAt,
+	FragranceSortDeletedAt: graphql_models.FragranceSortDeletedAt,
+	FragranceSortCreatedAt: graphql_models.FragranceSortCreatedAt,
 }
 
-func NullDotStringToPointerRecipeAdditiveSort(v null.String) *graphql_models.RecipeAdditiveSort {
-	s := StringToRecipeAdditiveSort(v.String)
+func NullDotStringToPointerFragranceSort(v null.String) *graphql_models.FragranceSort {
+	s := StringToFragranceSort(v.String)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func NullDotStringToRecipeAdditiveSort(v null.String) graphql_models.RecipeAdditiveSort {
+func NullDotStringToFragranceSort(v null.String) graphql_models.FragranceSort {
 	if !v.Valid {
 		return ""
 	}
-	return StringToRecipeAdditiveSort(v.String)
+	return StringToFragranceSort(v.String)
 }
 
-func StringToRecipeAdditiveSort(v string) graphql_models.RecipeAdditiveSort {
-	s := RecipeAdditiveSortAPIValue[RecipeAdditiveSort(v)]
+func StringToFragranceSort(v string) graphql_models.FragranceSort {
+	s := FragranceSortAPIValue[FragranceSort(v)]
 	return s
 }
 
-func StringToPointerRecipeAdditiveSort(v string) *graphql_models.RecipeAdditiveSort {
-	s := StringToRecipeAdditiveSort(v)
+func StringToPointerFragranceSort(v string) *graphql_models.FragranceSort {
+	s := StringToFragranceSort(v)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func PointerRecipeAdditiveSortToString(v *graphql_models.RecipeAdditiveSort) string {
+func PointerFragranceSortToString(v *graphql_models.FragranceSort) string {
 	if v == nil {
 		return ""
 	}
-	return RecipeAdditiveSortToString(*v)
+	return FragranceSortToString(*v)
 }
 
-func PointerRecipeAdditiveSortToNullDotString(v *graphql_models.RecipeAdditiveSort) null.String {
+func PointerFragranceSortToNullDotString(v *graphql_models.FragranceSort) null.String {
 	if v == nil {
 		return null.NewString("", false)
 	}
-	return RecipeAdditiveSortToNullDotString(*v)
+	return FragranceSortToNullDotString(*v)
 }
 
-func RecipeAdditiveSortToNullDotString(v graphql_models.RecipeAdditiveSort) null.String {
-	s := RecipeAdditiveSortToString(v)
+func FragranceSortToNullDotString(v graphql_models.FragranceSort) null.String {
+	s := FragranceSortToString(v)
 	return null.NewString(s, s != "")
 }
 
-func RecipeAdditiveSortToString(v graphql_models.RecipeAdditiveSort) string {
-	s := RecipeAdditiveSortDBValue[v]
-	return string(s)
-}
-
-type LyeSort string
-
-const (
-	LyeSortID        LyeSort = "id"
-	LyeSortKind      LyeSort = "kind"
-	LyeSortName      LyeSort = "name"
-	LyeSortNote      LyeSort = "note"
-	LyeSortDeletedAt LyeSort = "deletedAt"
-	LyeSortCreatedAt LyeSort = "createdAt"
-	LyeSortUpdatedAt LyeSort = "updatedAt"
-)
-
-var LyeSortDBValue = map[graphql_models.LyeSort]LyeSort{
-	graphql_models.LyeSortID:        LyeSortID,
-	graphql_models.LyeSortKind:      LyeSortKind,
-	graphql_models.LyeSortName:      LyeSortName,
-	graphql_models.LyeSortNote:      LyeSortNote,
-	graphql_models.LyeSortDeletedAt: LyeSortDeletedAt,
-	graphql_models.LyeSortCreatedAt: LyeSortCreatedAt,
-	graphql_models.LyeSortUpdatedAt: LyeSortUpdatedAt,
-}
-var LyeSortAPIValue = map[LyeSort]graphql_models.LyeSort{
-	LyeSortID:        graphql_models.LyeSortID,
-	LyeSortKind:      graphql_models.LyeSortKind,
-	LyeSortName:      graphql_models.LyeSortName,
-	LyeSortNote:      graphql_models.LyeSortNote,
-	LyeSortDeletedAt: graphql_models.LyeSortDeletedAt,
-	LyeSortCreatedAt: graphql_models.LyeSortCreatedAt,
-	LyeSortUpdatedAt: graphql_models.LyeSortUpdatedAt,
-}
-
-func NullDotStringToPointerLyeSort(v null.String) *graphql_models.LyeSort {
-	s := StringToLyeSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToLyeSort(v null.String) graphql_models.LyeSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToLyeSort(v.String)
-}
-
-func StringToLyeSort(v string) graphql_models.LyeSort {
-	s := LyeSortAPIValue[LyeSort(v)]
-	return s
-}
-
-func StringToPointerLyeSort(v string) *graphql_models.LyeSort {
-	s := StringToLyeSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerLyeSortToString(v *graphql_models.LyeSort) string {
-	if v == nil {
-		return ""
-	}
-	return LyeSortToString(*v)
-}
-
-func PointerLyeSortToNullDotString(v *graphql_models.LyeSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return LyeSortToNullDotString(*v)
-}
-
-func LyeSortToNullDotString(v graphql_models.LyeSort) null.String {
-	s := LyeSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func LyeSortToString(v graphql_models.LyeSort) string {
-	s := LyeSortDBValue[v]
-	return string(s)
-}
-
-type LyeInventorySort string
-
-const (
-	LyeInventorySortID            LyeInventorySort = "id"
-	LyeInventorySortPurchaseDate  LyeInventorySort = "purchaseDate"
-	LyeInventorySortExpiryDate    LyeInventorySort = "expiryDate"
-	LyeInventorySortCost          LyeInventorySort = "cost"
-	LyeInventorySortWeight        LyeInventorySort = "weight"
-	LyeInventorySortConcentration LyeInventorySort = "concentration"
-	LyeInventorySortCreatedAt     LyeInventorySort = "createdAt"
-	LyeInventorySortUpdatedAt     LyeInventorySort = "updatedAt"
-	LyeInventorySortDeletedAt     LyeInventorySort = "deletedAt"
-)
-
-var LyeInventorySortDBValue = map[graphql_models.LyeInventorySort]LyeInventorySort{
-	graphql_models.LyeInventorySortID:            LyeInventorySortID,
-	graphql_models.LyeInventorySortPurchaseDate:  LyeInventorySortPurchaseDate,
-	graphql_models.LyeInventorySortExpiryDate:    LyeInventorySortExpiryDate,
-	graphql_models.LyeInventorySortCost:          LyeInventorySortCost,
-	graphql_models.LyeInventorySortWeight:        LyeInventorySortWeight,
-	graphql_models.LyeInventorySortConcentration: LyeInventorySortConcentration,
-	graphql_models.LyeInventorySortCreatedAt:     LyeInventorySortCreatedAt,
-	graphql_models.LyeInventorySortUpdatedAt:     LyeInventorySortUpdatedAt,
-	graphql_models.LyeInventorySortDeletedAt:     LyeInventorySortDeletedAt,
-}
-var LyeInventorySortAPIValue = map[LyeInventorySort]graphql_models.LyeInventorySort{
-	LyeInventorySortID:            graphql_models.LyeInventorySortID,
-	LyeInventorySortPurchaseDate:  graphql_models.LyeInventorySortPurchaseDate,
-	LyeInventorySortExpiryDate:    graphql_models.LyeInventorySortExpiryDate,
-	LyeInventorySortCost:          graphql_models.LyeInventorySortCost,
-	LyeInventorySortWeight:        graphql_models.LyeInventorySortWeight,
-	LyeInventorySortConcentration: graphql_models.LyeInventorySortConcentration,
-	LyeInventorySortCreatedAt:     graphql_models.LyeInventorySortCreatedAt,
-	LyeInventorySortUpdatedAt:     graphql_models.LyeInventorySortUpdatedAt,
-	LyeInventorySortDeletedAt:     graphql_models.LyeInventorySortDeletedAt,
-}
-
-func NullDotStringToPointerLyeInventorySort(v null.String) *graphql_models.LyeInventorySort {
-	s := StringToLyeInventorySort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToLyeInventorySort(v null.String) graphql_models.LyeInventorySort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToLyeInventorySort(v.String)
-}
-
-func StringToLyeInventorySort(v string) graphql_models.LyeInventorySort {
-	s := LyeInventorySortAPIValue[LyeInventorySort(v)]
-	return s
-}
-
-func StringToPointerLyeInventorySort(v string) *graphql_models.LyeInventorySort {
-	s := StringToLyeInventorySort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerLyeInventorySortToString(v *graphql_models.LyeInventorySort) string {
-	if v == nil {
-		return ""
-	}
-	return LyeInventorySortToString(*v)
-}
-
-func PointerLyeInventorySortToNullDotString(v *graphql_models.LyeInventorySort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return LyeInventorySortToNullDotString(*v)
-}
-
-func LyeInventorySortToNullDotString(v graphql_models.LyeInventorySort) null.String {
-	s := LyeInventorySortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func LyeInventorySortToString(v graphql_models.LyeInventorySort) string {
-	s := LyeInventorySortDBValue[v]
-	return string(s)
-}
-
-type RecipeBatchFragranceSort string
-
-const (
-	RecipeBatchFragranceSortID        RecipeBatchFragranceSort = "id"
-	RecipeBatchFragranceSortWeight    RecipeBatchFragranceSort = "weight"
-	RecipeBatchFragranceSortCost      RecipeBatchFragranceSort = "cost"
-	RecipeBatchFragranceSortUpdatedAt RecipeBatchFragranceSort = "updatedAt"
-	RecipeBatchFragranceSortDeletedAt RecipeBatchFragranceSort = "deletedAt"
-	RecipeBatchFragranceSortCreatedAt RecipeBatchFragranceSort = "createdAt"
-)
-
-var RecipeBatchFragranceSortDBValue = map[graphql_models.RecipeBatchFragranceSort]RecipeBatchFragranceSort{
-	graphql_models.RecipeBatchFragranceSortID:        RecipeBatchFragranceSortID,
-	graphql_models.RecipeBatchFragranceSortWeight:    RecipeBatchFragranceSortWeight,
-	graphql_models.RecipeBatchFragranceSortCost:      RecipeBatchFragranceSortCost,
-	graphql_models.RecipeBatchFragranceSortUpdatedAt: RecipeBatchFragranceSortUpdatedAt,
-	graphql_models.RecipeBatchFragranceSortDeletedAt: RecipeBatchFragranceSortDeletedAt,
-	graphql_models.RecipeBatchFragranceSortCreatedAt: RecipeBatchFragranceSortCreatedAt,
-}
-var RecipeBatchFragranceSortAPIValue = map[RecipeBatchFragranceSort]graphql_models.RecipeBatchFragranceSort{
-	RecipeBatchFragranceSortID:        graphql_models.RecipeBatchFragranceSortID,
-	RecipeBatchFragranceSortWeight:    graphql_models.RecipeBatchFragranceSortWeight,
-	RecipeBatchFragranceSortCost:      graphql_models.RecipeBatchFragranceSortCost,
-	RecipeBatchFragranceSortUpdatedAt: graphql_models.RecipeBatchFragranceSortUpdatedAt,
-	RecipeBatchFragranceSortDeletedAt: graphql_models.RecipeBatchFragranceSortDeletedAt,
-	RecipeBatchFragranceSortCreatedAt: graphql_models.RecipeBatchFragranceSortCreatedAt,
-}
-
-func NullDotStringToPointerRecipeBatchFragranceSort(v null.String) *graphql_models.RecipeBatchFragranceSort {
-	s := StringToRecipeBatchFragranceSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToRecipeBatchFragranceSort(v null.String) graphql_models.RecipeBatchFragranceSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToRecipeBatchFragranceSort(v.String)
-}
-
-func StringToRecipeBatchFragranceSort(v string) graphql_models.RecipeBatchFragranceSort {
-	s := RecipeBatchFragranceSortAPIValue[RecipeBatchFragranceSort(v)]
-	return s
-}
-
-func StringToPointerRecipeBatchFragranceSort(v string) *graphql_models.RecipeBatchFragranceSort {
-	s := StringToRecipeBatchFragranceSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerRecipeBatchFragranceSortToString(v *graphql_models.RecipeBatchFragranceSort) string {
-	if v == nil {
-		return ""
-	}
-	return RecipeBatchFragranceSortToString(*v)
-}
-
-func PointerRecipeBatchFragranceSortToNullDotString(v *graphql_models.RecipeBatchFragranceSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return RecipeBatchFragranceSortToNullDotString(*v)
-}
-
-func RecipeBatchFragranceSortToNullDotString(v graphql_models.RecipeBatchFragranceSort) null.String {
-	s := RecipeBatchFragranceSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func RecipeBatchFragranceSortToString(v graphql_models.RecipeBatchFragranceSort) string {
-	s := RecipeBatchFragranceSortDBValue[v]
-	return string(s)
-}
-
-type SupplierSort string
-
-const (
-	SupplierSortID        SupplierSort = "id"
-	SupplierSortName      SupplierSort = "name"
-	SupplierSortWebsite   SupplierSort = "website"
-	SupplierSortNote      SupplierSort = "note"
-	SupplierSortDeletedAt SupplierSort = "deletedAt"
-	SupplierSortUpdatedAt SupplierSort = "updatedAt"
-	SupplierSortCreatedAt SupplierSort = "createdAt"
-)
-
-var SupplierSortDBValue = map[graphql_models.SupplierSort]SupplierSort{
-	graphql_models.SupplierSortID:        SupplierSortID,
-	graphql_models.SupplierSortName:      SupplierSortName,
-	graphql_models.SupplierSortWebsite:   SupplierSortWebsite,
-	graphql_models.SupplierSortNote:      SupplierSortNote,
-	graphql_models.SupplierSortDeletedAt: SupplierSortDeletedAt,
-	graphql_models.SupplierSortUpdatedAt: SupplierSortUpdatedAt,
-	graphql_models.SupplierSortCreatedAt: SupplierSortCreatedAt,
-}
-var SupplierSortAPIValue = map[SupplierSort]graphql_models.SupplierSort{
-	SupplierSortID:        graphql_models.SupplierSortID,
-	SupplierSortName:      graphql_models.SupplierSortName,
-	SupplierSortWebsite:   graphql_models.SupplierSortWebsite,
-	SupplierSortNote:      graphql_models.SupplierSortNote,
-	SupplierSortDeletedAt: graphql_models.SupplierSortDeletedAt,
-	SupplierSortUpdatedAt: graphql_models.SupplierSortUpdatedAt,
-	SupplierSortCreatedAt: graphql_models.SupplierSortCreatedAt,
-}
-
-func NullDotStringToPointerSupplierSort(v null.String) *graphql_models.SupplierSort {
-	s := StringToSupplierSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToSupplierSort(v null.String) graphql_models.SupplierSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToSupplierSort(v.String)
-}
-
-func StringToSupplierSort(v string) graphql_models.SupplierSort {
-	s := SupplierSortAPIValue[SupplierSort(v)]
-	return s
-}
-
-func StringToPointerSupplierSort(v string) *graphql_models.SupplierSort {
-	s := StringToSupplierSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerSupplierSortToString(v *graphql_models.SupplierSort) string {
-	if v == nil {
-		return ""
-	}
-	return SupplierSortToString(*v)
-}
-
-func PointerSupplierSortToNullDotString(v *graphql_models.SupplierSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return SupplierSortToNullDotString(*v)
-}
-
-func SupplierSortToNullDotString(v graphql_models.SupplierSort) null.String {
-	s := SupplierSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func SupplierSortToString(v graphql_models.SupplierSort) string {
-	s := SupplierSortDBValue[v]
-	return string(s)
-}
-
-type RecipeStepSort string
-
-const (
-	RecipeStepSortID        RecipeStepSort = "id"
-	RecipeStepSortNum       RecipeStepSort = "num"
-	RecipeStepSortNote      RecipeStepSort = "note"
-	RecipeStepSortDeletedAt RecipeStepSort = "deletedAt"
-	RecipeStepSortUpdatedAt RecipeStepSort = "updatedAt"
-	RecipeStepSortCreatedAt RecipeStepSort = "createdAt"
-)
-
-var RecipeStepSortDBValue = map[graphql_models.RecipeStepSort]RecipeStepSort{
-	graphql_models.RecipeStepSortID:        RecipeStepSortID,
-	graphql_models.RecipeStepSortNum:       RecipeStepSortNum,
-	graphql_models.RecipeStepSortNote:      RecipeStepSortNote,
-	graphql_models.RecipeStepSortDeletedAt: RecipeStepSortDeletedAt,
-	graphql_models.RecipeStepSortUpdatedAt: RecipeStepSortUpdatedAt,
-	graphql_models.RecipeStepSortCreatedAt: RecipeStepSortCreatedAt,
-}
-var RecipeStepSortAPIValue = map[RecipeStepSort]graphql_models.RecipeStepSort{
-	RecipeStepSortID:        graphql_models.RecipeStepSortID,
-	RecipeStepSortNum:       graphql_models.RecipeStepSortNum,
-	RecipeStepSortNote:      graphql_models.RecipeStepSortNote,
-	RecipeStepSortDeletedAt: graphql_models.RecipeStepSortDeletedAt,
-	RecipeStepSortUpdatedAt: graphql_models.RecipeStepSortUpdatedAt,
-	RecipeStepSortCreatedAt: graphql_models.RecipeStepSortCreatedAt,
-}
-
-func NullDotStringToPointerRecipeStepSort(v null.String) *graphql_models.RecipeStepSort {
-	s := StringToRecipeStepSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToRecipeStepSort(v null.String) graphql_models.RecipeStepSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToRecipeStepSort(v.String)
-}
-
-func StringToRecipeStepSort(v string) graphql_models.RecipeStepSort {
-	s := RecipeStepSortAPIValue[RecipeStepSort(v)]
-	return s
-}
-
-func StringToPointerRecipeStepSort(v string) *graphql_models.RecipeStepSort {
-	s := StringToRecipeStepSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerRecipeStepSortToString(v *graphql_models.RecipeStepSort) string {
-	if v == nil {
-		return ""
-	}
-	return RecipeStepSortToString(*v)
-}
-
-func PointerRecipeStepSortToNullDotString(v *graphql_models.RecipeStepSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return RecipeStepSortToNullDotString(*v)
-}
-
-func RecipeStepSortToNullDotString(v graphql_models.RecipeStepSort) null.String {
-	s := RecipeStepSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func RecipeStepSortToString(v graphql_models.RecipeStepSort) string {
-	s := RecipeStepSortDBValue[v]
-	return string(s)
-}
-
-type AuthGroupPermissionSort string
-
-const (
-	AuthGroupPermissionSortID AuthGroupPermissionSort = "id"
-)
-
-var AuthGroupPermissionSortDBValue = map[graphql_models.AuthGroupPermissionSort]AuthGroupPermissionSort{
-	graphql_models.AuthGroupPermissionSortID: AuthGroupPermissionSortID,
-}
-var AuthGroupPermissionSortAPIValue = map[AuthGroupPermissionSort]graphql_models.AuthGroupPermissionSort{
-	AuthGroupPermissionSortID: graphql_models.AuthGroupPermissionSortID,
-}
-
-func NullDotStringToPointerAuthGroupPermissionSort(v null.String) *graphql_models.AuthGroupPermissionSort {
-	s := StringToAuthGroupPermissionSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToAuthGroupPermissionSort(v null.String) graphql_models.AuthGroupPermissionSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToAuthGroupPermissionSort(v.String)
-}
-
-func StringToAuthGroupPermissionSort(v string) graphql_models.AuthGroupPermissionSort {
-	s := AuthGroupPermissionSortAPIValue[AuthGroupPermissionSort(v)]
-	return s
-}
-
-func StringToPointerAuthGroupPermissionSort(v string) *graphql_models.AuthGroupPermissionSort {
-	s := StringToAuthGroupPermissionSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerAuthGroupPermissionSortToString(v *graphql_models.AuthGroupPermissionSort) string {
-	if v == nil {
-		return ""
-	}
-	return AuthGroupPermissionSortToString(*v)
-}
-
-func PointerAuthGroupPermissionSortToNullDotString(v *graphql_models.AuthGroupPermissionSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return AuthGroupPermissionSortToNullDotString(*v)
-}
-
-func AuthGroupPermissionSortToNullDotString(v graphql_models.AuthGroupPermissionSort) null.String {
-	s := AuthGroupPermissionSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func AuthGroupPermissionSortToString(v graphql_models.AuthGroupPermissionSort) string {
-	s := AuthGroupPermissionSortDBValue[v]
-	return string(s)
-}
-
-type RecipeBatchAdditiveSort string
-
-const (
-	RecipeBatchAdditiveSortID        RecipeBatchAdditiveSort = "id"
-	RecipeBatchAdditiveSortWeight    RecipeBatchAdditiveSort = "weight"
-	RecipeBatchAdditiveSortCost      RecipeBatchAdditiveSort = "cost"
-	RecipeBatchAdditiveSortDeletedAt RecipeBatchAdditiveSort = "deletedAt"
-	RecipeBatchAdditiveSortCreatedAt RecipeBatchAdditiveSort = "createdAt"
-	RecipeBatchAdditiveSortUpdatedAt RecipeBatchAdditiveSort = "updatedAt"
-)
-
-var RecipeBatchAdditiveSortDBValue = map[graphql_models.RecipeBatchAdditiveSort]RecipeBatchAdditiveSort{
-	graphql_models.RecipeBatchAdditiveSortID:        RecipeBatchAdditiveSortID,
-	graphql_models.RecipeBatchAdditiveSortWeight:    RecipeBatchAdditiveSortWeight,
-	graphql_models.RecipeBatchAdditiveSortCost:      RecipeBatchAdditiveSortCost,
-	graphql_models.RecipeBatchAdditiveSortDeletedAt: RecipeBatchAdditiveSortDeletedAt,
-	graphql_models.RecipeBatchAdditiveSortCreatedAt: RecipeBatchAdditiveSortCreatedAt,
-	graphql_models.RecipeBatchAdditiveSortUpdatedAt: RecipeBatchAdditiveSortUpdatedAt,
-}
-var RecipeBatchAdditiveSortAPIValue = map[RecipeBatchAdditiveSort]graphql_models.RecipeBatchAdditiveSort{
-	RecipeBatchAdditiveSortID:        graphql_models.RecipeBatchAdditiveSortID,
-	RecipeBatchAdditiveSortWeight:    graphql_models.RecipeBatchAdditiveSortWeight,
-	RecipeBatchAdditiveSortCost:      graphql_models.RecipeBatchAdditiveSortCost,
-	RecipeBatchAdditiveSortDeletedAt: graphql_models.RecipeBatchAdditiveSortDeletedAt,
-	RecipeBatchAdditiveSortCreatedAt: graphql_models.RecipeBatchAdditiveSortCreatedAt,
-	RecipeBatchAdditiveSortUpdatedAt: graphql_models.RecipeBatchAdditiveSortUpdatedAt,
-}
-
-func NullDotStringToPointerRecipeBatchAdditiveSort(v null.String) *graphql_models.RecipeBatchAdditiveSort {
-	s := StringToRecipeBatchAdditiveSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToRecipeBatchAdditiveSort(v null.String) graphql_models.RecipeBatchAdditiveSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToRecipeBatchAdditiveSort(v.String)
-}
-
-func StringToRecipeBatchAdditiveSort(v string) graphql_models.RecipeBatchAdditiveSort {
-	s := RecipeBatchAdditiveSortAPIValue[RecipeBatchAdditiveSort(v)]
-	return s
-}
-
-func StringToPointerRecipeBatchAdditiveSort(v string) *graphql_models.RecipeBatchAdditiveSort {
-	s := StringToRecipeBatchAdditiveSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerRecipeBatchAdditiveSortToString(v *graphql_models.RecipeBatchAdditiveSort) string {
-	if v == nil {
-		return ""
-	}
-	return RecipeBatchAdditiveSortToString(*v)
-}
-
-func PointerRecipeBatchAdditiveSortToNullDotString(v *graphql_models.RecipeBatchAdditiveSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return RecipeBatchAdditiveSortToNullDotString(*v)
-}
-
-func RecipeBatchAdditiveSortToNullDotString(v graphql_models.RecipeBatchAdditiveSort) null.String {
-	s := RecipeBatchAdditiveSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func RecipeBatchAdditiveSortToString(v graphql_models.RecipeBatchAdditiveSort) string {
-	s := RecipeBatchAdditiveSortDBValue[v]
-	return string(s)
-}
-
-type RecipeBatchNoteSort string
-
-const (
-	RecipeBatchNoteSortID        RecipeBatchNoteSort = "id"
-	RecipeBatchNoteSortNote      RecipeBatchNoteSort = "note"
-	RecipeBatchNoteSortLink      RecipeBatchNoteSort = "link"
-	RecipeBatchNoteSortDeletedAt RecipeBatchNoteSort = "deletedAt"
-	RecipeBatchNoteSortCreatedAt RecipeBatchNoteSort = "createdAt"
-	RecipeBatchNoteSortUpdatedAt RecipeBatchNoteSort = "updatedAt"
-)
-
-var RecipeBatchNoteSortDBValue = map[graphql_models.RecipeBatchNoteSort]RecipeBatchNoteSort{
-	graphql_models.RecipeBatchNoteSortID:        RecipeBatchNoteSortID,
-	graphql_models.RecipeBatchNoteSortNote:      RecipeBatchNoteSortNote,
-	graphql_models.RecipeBatchNoteSortLink:      RecipeBatchNoteSortLink,
-	graphql_models.RecipeBatchNoteSortDeletedAt: RecipeBatchNoteSortDeletedAt,
-	graphql_models.RecipeBatchNoteSortCreatedAt: RecipeBatchNoteSortCreatedAt,
-	graphql_models.RecipeBatchNoteSortUpdatedAt: RecipeBatchNoteSortUpdatedAt,
-}
-var RecipeBatchNoteSortAPIValue = map[RecipeBatchNoteSort]graphql_models.RecipeBatchNoteSort{
-	RecipeBatchNoteSortID:        graphql_models.RecipeBatchNoteSortID,
-	RecipeBatchNoteSortNote:      graphql_models.RecipeBatchNoteSortNote,
-	RecipeBatchNoteSortLink:      graphql_models.RecipeBatchNoteSortLink,
-	RecipeBatchNoteSortDeletedAt: graphql_models.RecipeBatchNoteSortDeletedAt,
-	RecipeBatchNoteSortCreatedAt: graphql_models.RecipeBatchNoteSortCreatedAt,
-	RecipeBatchNoteSortUpdatedAt: graphql_models.RecipeBatchNoteSortUpdatedAt,
-}
-
-func NullDotStringToPointerRecipeBatchNoteSort(v null.String) *graphql_models.RecipeBatchNoteSort {
-	s := StringToRecipeBatchNoteSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToRecipeBatchNoteSort(v null.String) graphql_models.RecipeBatchNoteSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToRecipeBatchNoteSort(v.String)
-}
-
-func StringToRecipeBatchNoteSort(v string) graphql_models.RecipeBatchNoteSort {
-	s := RecipeBatchNoteSortAPIValue[RecipeBatchNoteSort(v)]
-	return s
-}
-
-func StringToPointerRecipeBatchNoteSort(v string) *graphql_models.RecipeBatchNoteSort {
-	s := StringToRecipeBatchNoteSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerRecipeBatchNoteSortToString(v *graphql_models.RecipeBatchNoteSort) string {
-	if v == nil {
-		return ""
-	}
-	return RecipeBatchNoteSortToString(*v)
-}
-
-func PointerRecipeBatchNoteSortToNullDotString(v *graphql_models.RecipeBatchNoteSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return RecipeBatchNoteSortToNullDotString(*v)
-}
-
-func RecipeBatchNoteSortToNullDotString(v graphql_models.RecipeBatchNoteSort) null.String {
-	s := RecipeBatchNoteSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func RecipeBatchNoteSortToString(v graphql_models.RecipeBatchNoteSort) string {
-	s := RecipeBatchNoteSortDBValue[v]
-	return string(s)
-}
-
-type AuthUserUserPermissionSort string
-
-const (
-	AuthUserUserPermissionSortID AuthUserUserPermissionSort = "id"
-)
-
-var AuthUserUserPermissionSortDBValue = map[graphql_models.AuthUserUserPermissionSort]AuthUserUserPermissionSort{
-	graphql_models.AuthUserUserPermissionSortID: AuthUserUserPermissionSortID,
-}
-var AuthUserUserPermissionSortAPIValue = map[AuthUserUserPermissionSort]graphql_models.AuthUserUserPermissionSort{
-	AuthUserUserPermissionSortID: graphql_models.AuthUserUserPermissionSortID,
-}
-
-func NullDotStringToPointerAuthUserUserPermissionSort(v null.String) *graphql_models.AuthUserUserPermissionSort {
-	s := StringToAuthUserUserPermissionSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToAuthUserUserPermissionSort(v null.String) graphql_models.AuthUserUserPermissionSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToAuthUserUserPermissionSort(v.String)
-}
-
-func StringToAuthUserUserPermissionSort(v string) graphql_models.AuthUserUserPermissionSort {
-	s := AuthUserUserPermissionSortAPIValue[AuthUserUserPermissionSort(v)]
-	return s
-}
-
-func StringToPointerAuthUserUserPermissionSort(v string) *graphql_models.AuthUserUserPermissionSort {
-	s := StringToAuthUserUserPermissionSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerAuthUserUserPermissionSortToString(v *graphql_models.AuthUserUserPermissionSort) string {
-	if v == nil {
-		return ""
-	}
-	return AuthUserUserPermissionSortToString(*v)
-}
-
-func PointerAuthUserUserPermissionSortToNullDotString(v *graphql_models.AuthUserUserPermissionSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return AuthUserUserPermissionSortToNullDotString(*v)
-}
-
-func AuthUserUserPermissionSortToNullDotString(v graphql_models.AuthUserUserPermissionSort) null.String {
-	s := AuthUserUserPermissionSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func AuthUserUserPermissionSortToString(v graphql_models.AuthUserUserPermissionSort) string {
-	s := AuthUserUserPermissionSortDBValue[v]
-	return string(s)
-}
-
-type AuthPermissionSort string
-
-const (
-	AuthPermissionSortID       AuthPermissionSort = "id"
-	AuthPermissionSortName     AuthPermissionSort = "name"
-	AuthPermissionSortCodename AuthPermissionSort = "codename"
-)
-
-var AuthPermissionSortDBValue = map[graphql_models.AuthPermissionSort]AuthPermissionSort{
-	graphql_models.AuthPermissionSortID:       AuthPermissionSortID,
-	graphql_models.AuthPermissionSortName:     AuthPermissionSortName,
-	graphql_models.AuthPermissionSortCodename: AuthPermissionSortCodename,
-}
-var AuthPermissionSortAPIValue = map[AuthPermissionSort]graphql_models.AuthPermissionSort{
-	AuthPermissionSortID:       graphql_models.AuthPermissionSortID,
-	AuthPermissionSortName:     graphql_models.AuthPermissionSortName,
-	AuthPermissionSortCodename: graphql_models.AuthPermissionSortCodename,
-}
-
-func NullDotStringToPointerAuthPermissionSort(v null.String) *graphql_models.AuthPermissionSort {
-	s := StringToAuthPermissionSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToAuthPermissionSort(v null.String) graphql_models.AuthPermissionSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToAuthPermissionSort(v.String)
-}
-
-func StringToAuthPermissionSort(v string) graphql_models.AuthPermissionSort {
-	s := AuthPermissionSortAPIValue[AuthPermissionSort(v)]
-	return s
-}
-
-func StringToPointerAuthPermissionSort(v string) *graphql_models.AuthPermissionSort {
-	s := StringToAuthPermissionSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerAuthPermissionSortToString(v *graphql_models.AuthPermissionSort) string {
-	if v == nil {
-		return ""
-	}
-	return AuthPermissionSortToString(*v)
-}
-
-func PointerAuthPermissionSortToNullDotString(v *graphql_models.AuthPermissionSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return AuthPermissionSortToNullDotString(*v)
-}
-
-func AuthPermissionSortToNullDotString(v graphql_models.AuthPermissionSort) null.String {
-	s := AuthPermissionSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func AuthPermissionSortToString(v graphql_models.AuthPermissionSort) string {
-	s := AuthPermissionSortDBValue[v]
-	return string(s)
-}
-
-type AdditiveSort string
-
-const (
-	AdditiveSortID        AdditiveSort = "id"
-	AdditiveSortName      AdditiveSort = "name"
-	AdditiveSortNote      AdditiveSort = "note"
-	AdditiveSortCreatedAt AdditiveSort = "createdAt"
-	AdditiveSortUpdatedAt AdditiveSort = "updatedAt"
-	AdditiveSortDeletedAt AdditiveSort = "deletedAt"
-)
-
-var AdditiveSortDBValue = map[graphql_models.AdditiveSort]AdditiveSort{
-	graphql_models.AdditiveSortID:        AdditiveSortID,
-	graphql_models.AdditiveSortName:      AdditiveSortName,
-	graphql_models.AdditiveSortNote:      AdditiveSortNote,
-	graphql_models.AdditiveSortCreatedAt: AdditiveSortCreatedAt,
-	graphql_models.AdditiveSortUpdatedAt: AdditiveSortUpdatedAt,
-	graphql_models.AdditiveSortDeletedAt: AdditiveSortDeletedAt,
-}
-var AdditiveSortAPIValue = map[AdditiveSort]graphql_models.AdditiveSort{
-	AdditiveSortID:        graphql_models.AdditiveSortID,
-	AdditiveSortName:      graphql_models.AdditiveSortName,
-	AdditiveSortNote:      graphql_models.AdditiveSortNote,
-	AdditiveSortCreatedAt: graphql_models.AdditiveSortCreatedAt,
-	AdditiveSortUpdatedAt: graphql_models.AdditiveSortUpdatedAt,
-	AdditiveSortDeletedAt: graphql_models.AdditiveSortDeletedAt,
-}
-
-func NullDotStringToPointerAdditiveSort(v null.String) *graphql_models.AdditiveSort {
-	s := StringToAdditiveSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToAdditiveSort(v null.String) graphql_models.AdditiveSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToAdditiveSort(v.String)
-}
-
-func StringToAdditiveSort(v string) graphql_models.AdditiveSort {
-	s := AdditiveSortAPIValue[AdditiveSort(v)]
-	return s
-}
-
-func StringToPointerAdditiveSort(v string) *graphql_models.AdditiveSort {
-	s := StringToAdditiveSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerAdditiveSortToString(v *graphql_models.AdditiveSort) string {
-	if v == nil {
-		return ""
-	}
-	return AdditiveSortToString(*v)
-}
-
-func PointerAdditiveSortToNullDotString(v *graphql_models.AdditiveSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return AdditiveSortToNullDotString(*v)
-}
-
-func AdditiveSortToNullDotString(v graphql_models.AdditiveSort) null.String {
-	s := AdditiveSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func AdditiveSortToString(v graphql_models.AdditiveSort) string {
-	s := AdditiveSortDBValue[v]
+func FragranceSortToString(v graphql_models.FragranceSort) string {
+	s := FragranceSortDBValue[v]
 	return string(s)
 }
 
@@ -1508,29 +525,844 @@ func RecipeBatchSortToString(v graphql_models.RecipeBatchSort) string {
 	return string(s)
 }
 
+type FragranceInventorySort string
+
+const (
+	FragranceInventorySortID           FragranceInventorySort = "id"
+	FragranceInventorySortPurchaseDate FragranceInventorySort = "purchaseDate"
+	FragranceInventorySortExpiryDate   FragranceInventorySort = "expiryDate"
+	FragranceInventorySortCost         FragranceInventorySort = "cost"
+	FragranceInventorySortWeight       FragranceInventorySort = "weight"
+	FragranceInventorySortDeletedAt    FragranceInventorySort = "deletedAt"
+	FragranceInventorySortUpdatedAt    FragranceInventorySort = "updatedAt"
+	FragranceInventorySortCreatedAt    FragranceInventorySort = "createdAt"
+)
+
+var FragranceInventorySortDBValue = map[graphql_models.FragranceInventorySort]FragranceInventorySort{
+	graphql_models.FragranceInventorySortID:           FragranceInventorySortID,
+	graphql_models.FragranceInventorySortPurchaseDate: FragranceInventorySortPurchaseDate,
+	graphql_models.FragranceInventorySortExpiryDate:   FragranceInventorySortExpiryDate,
+	graphql_models.FragranceInventorySortCost:         FragranceInventorySortCost,
+	graphql_models.FragranceInventorySortWeight:       FragranceInventorySortWeight,
+	graphql_models.FragranceInventorySortDeletedAt:    FragranceInventorySortDeletedAt,
+	graphql_models.FragranceInventorySortUpdatedAt:    FragranceInventorySortUpdatedAt,
+	graphql_models.FragranceInventorySortCreatedAt:    FragranceInventorySortCreatedAt,
+}
+var FragranceInventorySortAPIValue = map[FragranceInventorySort]graphql_models.FragranceInventorySort{
+	FragranceInventorySortID:           graphql_models.FragranceInventorySortID,
+	FragranceInventorySortPurchaseDate: graphql_models.FragranceInventorySortPurchaseDate,
+	FragranceInventorySortExpiryDate:   graphql_models.FragranceInventorySortExpiryDate,
+	FragranceInventorySortCost:         graphql_models.FragranceInventorySortCost,
+	FragranceInventorySortWeight:       graphql_models.FragranceInventorySortWeight,
+	FragranceInventorySortDeletedAt:    graphql_models.FragranceInventorySortDeletedAt,
+	FragranceInventorySortUpdatedAt:    graphql_models.FragranceInventorySortUpdatedAt,
+	FragranceInventorySortCreatedAt:    graphql_models.FragranceInventorySortCreatedAt,
+}
+
+func NullDotStringToPointerFragranceInventorySort(v null.String) *graphql_models.FragranceInventorySort {
+	s := StringToFragranceInventorySort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToFragranceInventorySort(v null.String) graphql_models.FragranceInventorySort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToFragranceInventorySort(v.String)
+}
+
+func StringToFragranceInventorySort(v string) graphql_models.FragranceInventorySort {
+	s := FragranceInventorySortAPIValue[FragranceInventorySort(v)]
+	return s
+}
+
+func StringToPointerFragranceInventorySort(v string) *graphql_models.FragranceInventorySort {
+	s := StringToFragranceInventorySort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerFragranceInventorySortToString(v *graphql_models.FragranceInventorySort) string {
+	if v == nil {
+		return ""
+	}
+	return FragranceInventorySortToString(*v)
+}
+
+func PointerFragranceInventorySortToNullDotString(v *graphql_models.FragranceInventorySort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return FragranceInventorySortToNullDotString(*v)
+}
+
+func FragranceInventorySortToNullDotString(v graphql_models.FragranceInventorySort) null.String {
+	s := FragranceInventorySortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func FragranceInventorySortToString(v graphql_models.FragranceInventorySort) string {
+	s := FragranceInventorySortDBValue[v]
+	return string(s)
+}
+
+type AuthUserGroupSort string
+
+const (
+	AuthUserGroupSortID AuthUserGroupSort = "id"
+)
+
+var AuthUserGroupSortDBValue = map[graphql_models.AuthUserGroupSort]AuthUserGroupSort{
+	graphql_models.AuthUserGroupSortID: AuthUserGroupSortID,
+}
+var AuthUserGroupSortAPIValue = map[AuthUserGroupSort]graphql_models.AuthUserGroupSort{
+	AuthUserGroupSortID: graphql_models.AuthUserGroupSortID,
+}
+
+func NullDotStringToPointerAuthUserGroupSort(v null.String) *graphql_models.AuthUserGroupSort {
+	s := StringToAuthUserGroupSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToAuthUserGroupSort(v null.String) graphql_models.AuthUserGroupSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToAuthUserGroupSort(v.String)
+}
+
+func StringToAuthUserGroupSort(v string) graphql_models.AuthUserGroupSort {
+	s := AuthUserGroupSortAPIValue[AuthUserGroupSort(v)]
+	return s
+}
+
+func StringToPointerAuthUserGroupSort(v string) *graphql_models.AuthUserGroupSort {
+	s := StringToAuthUserGroupSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerAuthUserGroupSortToString(v *graphql_models.AuthUserGroupSort) string {
+	if v == nil {
+		return ""
+	}
+	return AuthUserGroupSortToString(*v)
+}
+
+func PointerAuthUserGroupSortToNullDotString(v *graphql_models.AuthUserGroupSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return AuthUserGroupSortToNullDotString(*v)
+}
+
+func AuthUserGroupSortToNullDotString(v graphql_models.AuthUserGroupSort) null.String {
+	s := AuthUserGroupSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func AuthUserGroupSortToString(v graphql_models.AuthUserGroupSort) string {
+	s := AuthUserGroupSortDBValue[v]
+	return string(s)
+}
+
+type AdditiveSort string
+
+const (
+	AdditiveSortID        AdditiveSort = "id"
+	AdditiveSortName      AdditiveSort = "name"
+	AdditiveSortNote      AdditiveSort = "note"
+	AdditiveSortCreatedAt AdditiveSort = "createdAt"
+	AdditiveSortDeletedAt AdditiveSort = "deletedAt"
+	AdditiveSortUpdatedAt AdditiveSort = "updatedAt"
+)
+
+var AdditiveSortDBValue = map[graphql_models.AdditiveSort]AdditiveSort{
+	graphql_models.AdditiveSortID:        AdditiveSortID,
+	graphql_models.AdditiveSortName:      AdditiveSortName,
+	graphql_models.AdditiveSortNote:      AdditiveSortNote,
+	graphql_models.AdditiveSortCreatedAt: AdditiveSortCreatedAt,
+	graphql_models.AdditiveSortDeletedAt: AdditiveSortDeletedAt,
+	graphql_models.AdditiveSortUpdatedAt: AdditiveSortUpdatedAt,
+}
+var AdditiveSortAPIValue = map[AdditiveSort]graphql_models.AdditiveSort{
+	AdditiveSortID:        graphql_models.AdditiveSortID,
+	AdditiveSortName:      graphql_models.AdditiveSortName,
+	AdditiveSortNote:      graphql_models.AdditiveSortNote,
+	AdditiveSortCreatedAt: graphql_models.AdditiveSortCreatedAt,
+	AdditiveSortDeletedAt: graphql_models.AdditiveSortDeletedAt,
+	AdditiveSortUpdatedAt: graphql_models.AdditiveSortUpdatedAt,
+}
+
+func NullDotStringToPointerAdditiveSort(v null.String) *graphql_models.AdditiveSort {
+	s := StringToAdditiveSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToAdditiveSort(v null.String) graphql_models.AdditiveSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToAdditiveSort(v.String)
+}
+
+func StringToAdditiveSort(v string) graphql_models.AdditiveSort {
+	s := AdditiveSortAPIValue[AdditiveSort(v)]
+	return s
+}
+
+func StringToPointerAdditiveSort(v string) *graphql_models.AdditiveSort {
+	s := StringToAdditiveSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerAdditiveSortToString(v *graphql_models.AdditiveSort) string {
+	if v == nil {
+		return ""
+	}
+	return AdditiveSortToString(*v)
+}
+
+func PointerAdditiveSortToNullDotString(v *graphql_models.AdditiveSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return AdditiveSortToNullDotString(*v)
+}
+
+func AdditiveSortToNullDotString(v graphql_models.AdditiveSort) null.String {
+	s := AdditiveSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func AdditiveSortToString(v graphql_models.AdditiveSort) string {
+	s := AdditiveSortDBValue[v]
+	return string(s)
+}
+
+type AuthPermissionSort string
+
+const (
+	AuthPermissionSortID       AuthPermissionSort = "id"
+	AuthPermissionSortName     AuthPermissionSort = "name"
+	AuthPermissionSortCodename AuthPermissionSort = "codename"
+)
+
+var AuthPermissionSortDBValue = map[graphql_models.AuthPermissionSort]AuthPermissionSort{
+	graphql_models.AuthPermissionSortID:       AuthPermissionSortID,
+	graphql_models.AuthPermissionSortName:     AuthPermissionSortName,
+	graphql_models.AuthPermissionSortCodename: AuthPermissionSortCodename,
+}
+var AuthPermissionSortAPIValue = map[AuthPermissionSort]graphql_models.AuthPermissionSort{
+	AuthPermissionSortID:       graphql_models.AuthPermissionSortID,
+	AuthPermissionSortName:     graphql_models.AuthPermissionSortName,
+	AuthPermissionSortCodename: graphql_models.AuthPermissionSortCodename,
+}
+
+func NullDotStringToPointerAuthPermissionSort(v null.String) *graphql_models.AuthPermissionSort {
+	s := StringToAuthPermissionSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToAuthPermissionSort(v null.String) graphql_models.AuthPermissionSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToAuthPermissionSort(v.String)
+}
+
+func StringToAuthPermissionSort(v string) graphql_models.AuthPermissionSort {
+	s := AuthPermissionSortAPIValue[AuthPermissionSort(v)]
+	return s
+}
+
+func StringToPointerAuthPermissionSort(v string) *graphql_models.AuthPermissionSort {
+	s := StringToAuthPermissionSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerAuthPermissionSortToString(v *graphql_models.AuthPermissionSort) string {
+	if v == nil {
+		return ""
+	}
+	return AuthPermissionSortToString(*v)
+}
+
+func PointerAuthPermissionSortToNullDotString(v *graphql_models.AuthPermissionSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return AuthPermissionSortToNullDotString(*v)
+}
+
+func AuthPermissionSortToNullDotString(v graphql_models.AuthPermissionSort) null.String {
+	s := AuthPermissionSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func AuthPermissionSortToString(v graphql_models.AuthPermissionSort) string {
+	s := AuthPermissionSortDBValue[v]
+	return string(s)
+}
+
+type AuthGroupPermissionSort string
+
+const (
+	AuthGroupPermissionSortID AuthGroupPermissionSort = "id"
+)
+
+var AuthGroupPermissionSortDBValue = map[graphql_models.AuthGroupPermissionSort]AuthGroupPermissionSort{
+	graphql_models.AuthGroupPermissionSortID: AuthGroupPermissionSortID,
+}
+var AuthGroupPermissionSortAPIValue = map[AuthGroupPermissionSort]graphql_models.AuthGroupPermissionSort{
+	AuthGroupPermissionSortID: graphql_models.AuthGroupPermissionSortID,
+}
+
+func NullDotStringToPointerAuthGroupPermissionSort(v null.String) *graphql_models.AuthGroupPermissionSort {
+	s := StringToAuthGroupPermissionSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToAuthGroupPermissionSort(v null.String) graphql_models.AuthGroupPermissionSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToAuthGroupPermissionSort(v.String)
+}
+
+func StringToAuthGroupPermissionSort(v string) graphql_models.AuthGroupPermissionSort {
+	s := AuthGroupPermissionSortAPIValue[AuthGroupPermissionSort(v)]
+	return s
+}
+
+func StringToPointerAuthGroupPermissionSort(v string) *graphql_models.AuthGroupPermissionSort {
+	s := StringToAuthGroupPermissionSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerAuthGroupPermissionSortToString(v *graphql_models.AuthGroupPermissionSort) string {
+	if v == nil {
+		return ""
+	}
+	return AuthGroupPermissionSortToString(*v)
+}
+
+func PointerAuthGroupPermissionSortToNullDotString(v *graphql_models.AuthGroupPermissionSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return AuthGroupPermissionSortToNullDotString(*v)
+}
+
+func AuthGroupPermissionSortToNullDotString(v graphql_models.AuthGroupPermissionSort) null.String {
+	s := AuthGroupPermissionSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func AuthGroupPermissionSortToString(v graphql_models.AuthGroupPermissionSort) string {
+	s := AuthGroupPermissionSortDBValue[v]
+	return string(s)
+}
+
+type LipidSort string
+
+const (
+	LipidSortID           LipidSort = "id"
+	LipidSortName         LipidSort = "name"
+	LipidSortLauric       LipidSort = "lauric"
+	LipidSortMyristic     LipidSort = "myristic"
+	LipidSortPalmitic     LipidSort = "palmitic"
+	LipidSortStearic      LipidSort = "stearic"
+	LipidSortRicinoleic   LipidSort = "ricinoleic"
+	LipidSortOleic        LipidSort = "oleic"
+	LipidSortLinoleic     LipidSort = "linoleic"
+	LipidSortLinolenic    LipidSort = "linolenic"
+	LipidSortHardness     LipidSort = "hardness"
+	LipidSortCleansing    LipidSort = "cleansing"
+	LipidSortConditioning LipidSort = "conditioning"
+	LipidSortBubbly       LipidSort = "bubbly"
+	LipidSortCreamy       LipidSort = "creamy"
+	LipidSortIodine       LipidSort = "iodine"
+	LipidSortIns          LipidSort = "ins"
+	LipidSortInciName     LipidSort = "inciName"
+	LipidSortFamily       LipidSort = "family"
+	LipidSortNaoh         LipidSort = "naoh"
+	LipidSortDeletedAt    LipidSort = "deletedAt"
+	LipidSortUpdatedAt    LipidSort = "updatedAt"
+	LipidSortCreatedAt    LipidSort = "createdAt"
+)
+
+var LipidSortDBValue = map[graphql_models.LipidSort]LipidSort{
+	graphql_models.LipidSortID:           LipidSortID,
+	graphql_models.LipidSortName:         LipidSortName,
+	graphql_models.LipidSortLauric:       LipidSortLauric,
+	graphql_models.LipidSortMyristic:     LipidSortMyristic,
+	graphql_models.LipidSortPalmitic:     LipidSortPalmitic,
+	graphql_models.LipidSortStearic:      LipidSortStearic,
+	graphql_models.LipidSortRicinoleic:   LipidSortRicinoleic,
+	graphql_models.LipidSortOleic:        LipidSortOleic,
+	graphql_models.LipidSortLinoleic:     LipidSortLinoleic,
+	graphql_models.LipidSortLinolenic:    LipidSortLinolenic,
+	graphql_models.LipidSortHardness:     LipidSortHardness,
+	graphql_models.LipidSortCleansing:    LipidSortCleansing,
+	graphql_models.LipidSortConditioning: LipidSortConditioning,
+	graphql_models.LipidSortBubbly:       LipidSortBubbly,
+	graphql_models.LipidSortCreamy:       LipidSortCreamy,
+	graphql_models.LipidSortIodine:       LipidSortIodine,
+	graphql_models.LipidSortIns:          LipidSortIns,
+	graphql_models.LipidSortInciName:     LipidSortInciName,
+	graphql_models.LipidSortFamily:       LipidSortFamily,
+	graphql_models.LipidSortNaoh:         LipidSortNaoh,
+	graphql_models.LipidSortDeletedAt:    LipidSortDeletedAt,
+	graphql_models.LipidSortUpdatedAt:    LipidSortUpdatedAt,
+	graphql_models.LipidSortCreatedAt:    LipidSortCreatedAt,
+}
+var LipidSortAPIValue = map[LipidSort]graphql_models.LipidSort{
+	LipidSortID:           graphql_models.LipidSortID,
+	LipidSortName:         graphql_models.LipidSortName,
+	LipidSortLauric:       graphql_models.LipidSortLauric,
+	LipidSortMyristic:     graphql_models.LipidSortMyristic,
+	LipidSortPalmitic:     graphql_models.LipidSortPalmitic,
+	LipidSortStearic:      graphql_models.LipidSortStearic,
+	LipidSortRicinoleic:   graphql_models.LipidSortRicinoleic,
+	LipidSortOleic:        graphql_models.LipidSortOleic,
+	LipidSortLinoleic:     graphql_models.LipidSortLinoleic,
+	LipidSortLinolenic:    graphql_models.LipidSortLinolenic,
+	LipidSortHardness:     graphql_models.LipidSortHardness,
+	LipidSortCleansing:    graphql_models.LipidSortCleansing,
+	LipidSortConditioning: graphql_models.LipidSortConditioning,
+	LipidSortBubbly:       graphql_models.LipidSortBubbly,
+	LipidSortCreamy:       graphql_models.LipidSortCreamy,
+	LipidSortIodine:       graphql_models.LipidSortIodine,
+	LipidSortIns:          graphql_models.LipidSortIns,
+	LipidSortInciName:     graphql_models.LipidSortInciName,
+	LipidSortFamily:       graphql_models.LipidSortFamily,
+	LipidSortNaoh:         graphql_models.LipidSortNaoh,
+	LipidSortDeletedAt:    graphql_models.LipidSortDeletedAt,
+	LipidSortUpdatedAt:    graphql_models.LipidSortUpdatedAt,
+	LipidSortCreatedAt:    graphql_models.LipidSortCreatedAt,
+}
+
+func NullDotStringToPointerLipidSort(v null.String) *graphql_models.LipidSort {
+	s := StringToLipidSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToLipidSort(v null.String) graphql_models.LipidSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToLipidSort(v.String)
+}
+
+func StringToLipidSort(v string) graphql_models.LipidSort {
+	s := LipidSortAPIValue[LipidSort(v)]
+	return s
+}
+
+func StringToPointerLipidSort(v string) *graphql_models.LipidSort {
+	s := StringToLipidSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerLipidSortToString(v *graphql_models.LipidSort) string {
+	if v == nil {
+		return ""
+	}
+	return LipidSortToString(*v)
+}
+
+func PointerLipidSortToNullDotString(v *graphql_models.LipidSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return LipidSortToNullDotString(*v)
+}
+
+func LipidSortToNullDotString(v graphql_models.LipidSort) null.String {
+	s := LipidSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func LipidSortToString(v graphql_models.LipidSort) string {
+	s := LipidSortDBValue[v]
+	return string(s)
+}
+
+type RecipeSort string
+
+const (
+	RecipeSortID        RecipeSort = "id"
+	RecipeSortName      RecipeSort = "name"
+	RecipeSortNote      RecipeSort = "note"
+	RecipeSortCreatedAt RecipeSort = "createdAt"
+	RecipeSortUpdatedAt RecipeSort = "updatedAt"
+	RecipeSortDeletedAt RecipeSort = "deletedAt"
+)
+
+var RecipeSortDBValue = map[graphql_models.RecipeSort]RecipeSort{
+	graphql_models.RecipeSortID:        RecipeSortID,
+	graphql_models.RecipeSortName:      RecipeSortName,
+	graphql_models.RecipeSortNote:      RecipeSortNote,
+	graphql_models.RecipeSortCreatedAt: RecipeSortCreatedAt,
+	graphql_models.RecipeSortUpdatedAt: RecipeSortUpdatedAt,
+	graphql_models.RecipeSortDeletedAt: RecipeSortDeletedAt,
+}
+var RecipeSortAPIValue = map[RecipeSort]graphql_models.RecipeSort{
+	RecipeSortID:        graphql_models.RecipeSortID,
+	RecipeSortName:      graphql_models.RecipeSortName,
+	RecipeSortNote:      graphql_models.RecipeSortNote,
+	RecipeSortCreatedAt: graphql_models.RecipeSortCreatedAt,
+	RecipeSortUpdatedAt: graphql_models.RecipeSortUpdatedAt,
+	RecipeSortDeletedAt: graphql_models.RecipeSortDeletedAt,
+}
+
+func NullDotStringToPointerRecipeSort(v null.String) *graphql_models.RecipeSort {
+	s := StringToRecipeSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToRecipeSort(v null.String) graphql_models.RecipeSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToRecipeSort(v.String)
+}
+
+func StringToRecipeSort(v string) graphql_models.RecipeSort {
+	s := RecipeSortAPIValue[RecipeSort(v)]
+	return s
+}
+
+func StringToPointerRecipeSort(v string) *graphql_models.RecipeSort {
+	s := StringToRecipeSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerRecipeSortToString(v *graphql_models.RecipeSort) string {
+	if v == nil {
+		return ""
+	}
+	return RecipeSortToString(*v)
+}
+
+func PointerRecipeSortToNullDotString(v *graphql_models.RecipeSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return RecipeSortToNullDotString(*v)
+}
+
+func RecipeSortToNullDotString(v graphql_models.RecipeSort) null.String {
+	s := RecipeSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func RecipeSortToString(v graphql_models.RecipeSort) string {
+	s := RecipeSortDBValue[v]
+	return string(s)
+}
+
+type RecipeFragranceSort string
+
+const (
+	RecipeFragranceSortID         RecipeFragranceSort = "id"
+	RecipeFragranceSortPercentage RecipeFragranceSort = "percentage"
+	RecipeFragranceSortUpdatedAt  RecipeFragranceSort = "updatedAt"
+	RecipeFragranceSortCreatedAt  RecipeFragranceSort = "createdAt"
+	RecipeFragranceSortDeletedAt  RecipeFragranceSort = "deletedAt"
+)
+
+var RecipeFragranceSortDBValue = map[graphql_models.RecipeFragranceSort]RecipeFragranceSort{
+	graphql_models.RecipeFragranceSortID:         RecipeFragranceSortID,
+	graphql_models.RecipeFragranceSortPercentage: RecipeFragranceSortPercentage,
+	graphql_models.RecipeFragranceSortUpdatedAt:  RecipeFragranceSortUpdatedAt,
+	graphql_models.RecipeFragranceSortCreatedAt:  RecipeFragranceSortCreatedAt,
+	graphql_models.RecipeFragranceSortDeletedAt:  RecipeFragranceSortDeletedAt,
+}
+var RecipeFragranceSortAPIValue = map[RecipeFragranceSort]graphql_models.RecipeFragranceSort{
+	RecipeFragranceSortID:         graphql_models.RecipeFragranceSortID,
+	RecipeFragranceSortPercentage: graphql_models.RecipeFragranceSortPercentage,
+	RecipeFragranceSortUpdatedAt:  graphql_models.RecipeFragranceSortUpdatedAt,
+	RecipeFragranceSortCreatedAt:  graphql_models.RecipeFragranceSortCreatedAt,
+	RecipeFragranceSortDeletedAt:  graphql_models.RecipeFragranceSortDeletedAt,
+}
+
+func NullDotStringToPointerRecipeFragranceSort(v null.String) *graphql_models.RecipeFragranceSort {
+	s := StringToRecipeFragranceSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToRecipeFragranceSort(v null.String) graphql_models.RecipeFragranceSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToRecipeFragranceSort(v.String)
+}
+
+func StringToRecipeFragranceSort(v string) graphql_models.RecipeFragranceSort {
+	s := RecipeFragranceSortAPIValue[RecipeFragranceSort(v)]
+	return s
+}
+
+func StringToPointerRecipeFragranceSort(v string) *graphql_models.RecipeFragranceSort {
+	s := StringToRecipeFragranceSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerRecipeFragranceSortToString(v *graphql_models.RecipeFragranceSort) string {
+	if v == nil {
+		return ""
+	}
+	return RecipeFragranceSortToString(*v)
+}
+
+func PointerRecipeFragranceSortToNullDotString(v *graphql_models.RecipeFragranceSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return RecipeFragranceSortToNullDotString(*v)
+}
+
+func RecipeFragranceSortToNullDotString(v graphql_models.RecipeFragranceSort) null.String {
+	s := RecipeFragranceSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func RecipeFragranceSortToString(v graphql_models.RecipeFragranceSort) string {
+	s := RecipeFragranceSortDBValue[v]
+	return string(s)
+}
+
+type RecipeStepSort string
+
+const (
+	RecipeStepSortID        RecipeStepSort = "id"
+	RecipeStepSortNum       RecipeStepSort = "num"
+	RecipeStepSortNote      RecipeStepSort = "note"
+	RecipeStepSortCreatedAt RecipeStepSort = "createdAt"
+	RecipeStepSortUpdatedAt RecipeStepSort = "updatedAt"
+	RecipeStepSortDeletedAt RecipeStepSort = "deletedAt"
+)
+
+var RecipeStepSortDBValue = map[graphql_models.RecipeStepSort]RecipeStepSort{
+	graphql_models.RecipeStepSortID:        RecipeStepSortID,
+	graphql_models.RecipeStepSortNum:       RecipeStepSortNum,
+	graphql_models.RecipeStepSortNote:      RecipeStepSortNote,
+	graphql_models.RecipeStepSortCreatedAt: RecipeStepSortCreatedAt,
+	graphql_models.RecipeStepSortUpdatedAt: RecipeStepSortUpdatedAt,
+	graphql_models.RecipeStepSortDeletedAt: RecipeStepSortDeletedAt,
+}
+var RecipeStepSortAPIValue = map[RecipeStepSort]graphql_models.RecipeStepSort{
+	RecipeStepSortID:        graphql_models.RecipeStepSortID,
+	RecipeStepSortNum:       graphql_models.RecipeStepSortNum,
+	RecipeStepSortNote:      graphql_models.RecipeStepSortNote,
+	RecipeStepSortCreatedAt: graphql_models.RecipeStepSortCreatedAt,
+	RecipeStepSortUpdatedAt: graphql_models.RecipeStepSortUpdatedAt,
+	RecipeStepSortDeletedAt: graphql_models.RecipeStepSortDeletedAt,
+}
+
+func NullDotStringToPointerRecipeStepSort(v null.String) *graphql_models.RecipeStepSort {
+	s := StringToRecipeStepSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToRecipeStepSort(v null.String) graphql_models.RecipeStepSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToRecipeStepSort(v.String)
+}
+
+func StringToRecipeStepSort(v string) graphql_models.RecipeStepSort {
+	s := RecipeStepSortAPIValue[RecipeStepSort(v)]
+	return s
+}
+
+func StringToPointerRecipeStepSort(v string) *graphql_models.RecipeStepSort {
+	s := StringToRecipeStepSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerRecipeStepSortToString(v *graphql_models.RecipeStepSort) string {
+	if v == nil {
+		return ""
+	}
+	return RecipeStepSortToString(*v)
+}
+
+func PointerRecipeStepSortToNullDotString(v *graphql_models.RecipeStepSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return RecipeStepSortToNullDotString(*v)
+}
+
+func RecipeStepSortToNullDotString(v graphql_models.RecipeStepSort) null.String {
+	s := RecipeStepSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func RecipeStepSortToString(v graphql_models.RecipeStepSort) string {
+	s := RecipeStepSortDBValue[v]
+	return string(s)
+}
+
+type RecipeBatchFragranceSort string
+
+const (
+	RecipeBatchFragranceSortID        RecipeBatchFragranceSort = "id"
+	RecipeBatchFragranceSortWeight    RecipeBatchFragranceSort = "weight"
+	RecipeBatchFragranceSortCost      RecipeBatchFragranceSort = "cost"
+	RecipeBatchFragranceSortDeletedAt RecipeBatchFragranceSort = "deletedAt"
+	RecipeBatchFragranceSortUpdatedAt RecipeBatchFragranceSort = "updatedAt"
+	RecipeBatchFragranceSortCreatedAt RecipeBatchFragranceSort = "createdAt"
+)
+
+var RecipeBatchFragranceSortDBValue = map[graphql_models.RecipeBatchFragranceSort]RecipeBatchFragranceSort{
+	graphql_models.RecipeBatchFragranceSortID:        RecipeBatchFragranceSortID,
+	graphql_models.RecipeBatchFragranceSortWeight:    RecipeBatchFragranceSortWeight,
+	graphql_models.RecipeBatchFragranceSortCost:      RecipeBatchFragranceSortCost,
+	graphql_models.RecipeBatchFragranceSortDeletedAt: RecipeBatchFragranceSortDeletedAt,
+	graphql_models.RecipeBatchFragranceSortUpdatedAt: RecipeBatchFragranceSortUpdatedAt,
+	graphql_models.RecipeBatchFragranceSortCreatedAt: RecipeBatchFragranceSortCreatedAt,
+}
+var RecipeBatchFragranceSortAPIValue = map[RecipeBatchFragranceSort]graphql_models.RecipeBatchFragranceSort{
+	RecipeBatchFragranceSortID:        graphql_models.RecipeBatchFragranceSortID,
+	RecipeBatchFragranceSortWeight:    graphql_models.RecipeBatchFragranceSortWeight,
+	RecipeBatchFragranceSortCost:      graphql_models.RecipeBatchFragranceSortCost,
+	RecipeBatchFragranceSortDeletedAt: graphql_models.RecipeBatchFragranceSortDeletedAt,
+	RecipeBatchFragranceSortUpdatedAt: graphql_models.RecipeBatchFragranceSortUpdatedAt,
+	RecipeBatchFragranceSortCreatedAt: graphql_models.RecipeBatchFragranceSortCreatedAt,
+}
+
+func NullDotStringToPointerRecipeBatchFragranceSort(v null.String) *graphql_models.RecipeBatchFragranceSort {
+	s := StringToRecipeBatchFragranceSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToRecipeBatchFragranceSort(v null.String) graphql_models.RecipeBatchFragranceSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToRecipeBatchFragranceSort(v.String)
+}
+
+func StringToRecipeBatchFragranceSort(v string) graphql_models.RecipeBatchFragranceSort {
+	s := RecipeBatchFragranceSortAPIValue[RecipeBatchFragranceSort(v)]
+	return s
+}
+
+func StringToPointerRecipeBatchFragranceSort(v string) *graphql_models.RecipeBatchFragranceSort {
+	s := StringToRecipeBatchFragranceSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerRecipeBatchFragranceSortToString(v *graphql_models.RecipeBatchFragranceSort) string {
+	if v == nil {
+		return ""
+	}
+	return RecipeBatchFragranceSortToString(*v)
+}
+
+func PointerRecipeBatchFragranceSortToNullDotString(v *graphql_models.RecipeBatchFragranceSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return RecipeBatchFragranceSortToNullDotString(*v)
+}
+
+func RecipeBatchFragranceSortToNullDotString(v graphql_models.RecipeBatchFragranceSort) null.String {
+	s := RecipeBatchFragranceSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func RecipeBatchFragranceSortToString(v graphql_models.RecipeBatchFragranceSort) string {
+	s := RecipeBatchFragranceSortDBValue[v]
+	return string(s)
+}
+
 type RecipeLipidSort string
 
 const (
 	RecipeLipidSortID         RecipeLipidSort = "id"
 	RecipeLipidSortPercentage RecipeLipidSort = "percentage"
 	RecipeLipidSortUpdatedAt  RecipeLipidSort = "updatedAt"
-	RecipeLipidSortCreatedAt  RecipeLipidSort = "createdAt"
 	RecipeLipidSortDeletedAt  RecipeLipidSort = "deletedAt"
+	RecipeLipidSortCreatedAt  RecipeLipidSort = "createdAt"
 )
 
 var RecipeLipidSortDBValue = map[graphql_models.RecipeLipidSort]RecipeLipidSort{
 	graphql_models.RecipeLipidSortID:         RecipeLipidSortID,
 	graphql_models.RecipeLipidSortPercentage: RecipeLipidSortPercentage,
 	graphql_models.RecipeLipidSortUpdatedAt:  RecipeLipidSortUpdatedAt,
-	graphql_models.RecipeLipidSortCreatedAt:  RecipeLipidSortCreatedAt,
 	graphql_models.RecipeLipidSortDeletedAt:  RecipeLipidSortDeletedAt,
+	graphql_models.RecipeLipidSortCreatedAt:  RecipeLipidSortCreatedAt,
 }
 var RecipeLipidSortAPIValue = map[RecipeLipidSort]graphql_models.RecipeLipidSort{
 	RecipeLipidSortID:         graphql_models.RecipeLipidSortID,
 	RecipeLipidSortPercentage: graphql_models.RecipeLipidSortPercentage,
 	RecipeLipidSortUpdatedAt:  graphql_models.RecipeLipidSortUpdatedAt,
-	RecipeLipidSortCreatedAt:  graphql_models.RecipeLipidSortCreatedAt,
 	RecipeLipidSortDeletedAt:  graphql_models.RecipeLipidSortDeletedAt,
+	RecipeLipidSortCreatedAt:  graphql_models.RecipeLipidSortCreatedAt,
 }
 
 func NullDotStringToPointerRecipeLipidSort(v null.String) *graphql_models.RecipeLipidSort {
@@ -1582,6 +1414,172 @@ func RecipeLipidSortToNullDotString(v graphql_models.RecipeLipidSort) null.Strin
 
 func RecipeLipidSortToString(v graphql_models.RecipeLipidSort) string {
 	s := RecipeLipidSortDBValue[v]
+	return string(s)
+}
+
+type AdditiveInventorySort string
+
+const (
+	AdditiveInventorySortID           AdditiveInventorySort = "id"
+	AdditiveInventorySortPurchaseDate AdditiveInventorySort = "purchaseDate"
+	AdditiveInventorySortExpiryDate   AdditiveInventorySort = "expiryDate"
+	AdditiveInventorySortCost         AdditiveInventorySort = "cost"
+	AdditiveInventorySortWeight       AdditiveInventorySort = "weight"
+	AdditiveInventorySortUpdatedAt    AdditiveInventorySort = "updatedAt"
+	AdditiveInventorySortDeletedAt    AdditiveInventorySort = "deletedAt"
+	AdditiveInventorySortCreatedAt    AdditiveInventorySort = "createdAt"
+)
+
+var AdditiveInventorySortDBValue = map[graphql_models.AdditiveInventorySort]AdditiveInventorySort{
+	graphql_models.AdditiveInventorySortID:           AdditiveInventorySortID,
+	graphql_models.AdditiveInventorySortPurchaseDate: AdditiveInventorySortPurchaseDate,
+	graphql_models.AdditiveInventorySortExpiryDate:   AdditiveInventorySortExpiryDate,
+	graphql_models.AdditiveInventorySortCost:         AdditiveInventorySortCost,
+	graphql_models.AdditiveInventorySortWeight:       AdditiveInventorySortWeight,
+	graphql_models.AdditiveInventorySortUpdatedAt:    AdditiveInventorySortUpdatedAt,
+	graphql_models.AdditiveInventorySortDeletedAt:    AdditiveInventorySortDeletedAt,
+	graphql_models.AdditiveInventorySortCreatedAt:    AdditiveInventorySortCreatedAt,
+}
+var AdditiveInventorySortAPIValue = map[AdditiveInventorySort]graphql_models.AdditiveInventorySort{
+	AdditiveInventorySortID:           graphql_models.AdditiveInventorySortID,
+	AdditiveInventorySortPurchaseDate: graphql_models.AdditiveInventorySortPurchaseDate,
+	AdditiveInventorySortExpiryDate:   graphql_models.AdditiveInventorySortExpiryDate,
+	AdditiveInventorySortCost:         graphql_models.AdditiveInventorySortCost,
+	AdditiveInventorySortWeight:       graphql_models.AdditiveInventorySortWeight,
+	AdditiveInventorySortUpdatedAt:    graphql_models.AdditiveInventorySortUpdatedAt,
+	AdditiveInventorySortDeletedAt:    graphql_models.AdditiveInventorySortDeletedAt,
+	AdditiveInventorySortCreatedAt:    graphql_models.AdditiveInventorySortCreatedAt,
+}
+
+func NullDotStringToPointerAdditiveInventorySort(v null.String) *graphql_models.AdditiveInventorySort {
+	s := StringToAdditiveInventorySort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToAdditiveInventorySort(v null.String) graphql_models.AdditiveInventorySort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToAdditiveInventorySort(v.String)
+}
+
+func StringToAdditiveInventorySort(v string) graphql_models.AdditiveInventorySort {
+	s := AdditiveInventorySortAPIValue[AdditiveInventorySort(v)]
+	return s
+}
+
+func StringToPointerAdditiveInventorySort(v string) *graphql_models.AdditiveInventorySort {
+	s := StringToAdditiveInventorySort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerAdditiveInventorySortToString(v *graphql_models.AdditiveInventorySort) string {
+	if v == nil {
+		return ""
+	}
+	return AdditiveInventorySortToString(*v)
+}
+
+func PointerAdditiveInventorySortToNullDotString(v *graphql_models.AdditiveInventorySort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return AdditiveInventorySortToNullDotString(*v)
+}
+
+func AdditiveInventorySortToNullDotString(v graphql_models.AdditiveInventorySort) null.String {
+	s := AdditiveInventorySortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func AdditiveInventorySortToString(v graphql_models.AdditiveInventorySort) string {
+	s := AdditiveInventorySortDBValue[v]
+	return string(s)
+}
+
+type RecipeBatchAdditiveSort string
+
+const (
+	RecipeBatchAdditiveSortID        RecipeBatchAdditiveSort = "id"
+	RecipeBatchAdditiveSortWeight    RecipeBatchAdditiveSort = "weight"
+	RecipeBatchAdditiveSortCost      RecipeBatchAdditiveSort = "cost"
+	RecipeBatchAdditiveSortDeletedAt RecipeBatchAdditiveSort = "deletedAt"
+	RecipeBatchAdditiveSortUpdatedAt RecipeBatchAdditiveSort = "updatedAt"
+	RecipeBatchAdditiveSortCreatedAt RecipeBatchAdditiveSort = "createdAt"
+)
+
+var RecipeBatchAdditiveSortDBValue = map[graphql_models.RecipeBatchAdditiveSort]RecipeBatchAdditiveSort{
+	graphql_models.RecipeBatchAdditiveSortID:        RecipeBatchAdditiveSortID,
+	graphql_models.RecipeBatchAdditiveSortWeight:    RecipeBatchAdditiveSortWeight,
+	graphql_models.RecipeBatchAdditiveSortCost:      RecipeBatchAdditiveSortCost,
+	graphql_models.RecipeBatchAdditiveSortDeletedAt: RecipeBatchAdditiveSortDeletedAt,
+	graphql_models.RecipeBatchAdditiveSortUpdatedAt: RecipeBatchAdditiveSortUpdatedAt,
+	graphql_models.RecipeBatchAdditiveSortCreatedAt: RecipeBatchAdditiveSortCreatedAt,
+}
+var RecipeBatchAdditiveSortAPIValue = map[RecipeBatchAdditiveSort]graphql_models.RecipeBatchAdditiveSort{
+	RecipeBatchAdditiveSortID:        graphql_models.RecipeBatchAdditiveSortID,
+	RecipeBatchAdditiveSortWeight:    graphql_models.RecipeBatchAdditiveSortWeight,
+	RecipeBatchAdditiveSortCost:      graphql_models.RecipeBatchAdditiveSortCost,
+	RecipeBatchAdditiveSortDeletedAt: graphql_models.RecipeBatchAdditiveSortDeletedAt,
+	RecipeBatchAdditiveSortUpdatedAt: graphql_models.RecipeBatchAdditiveSortUpdatedAt,
+	RecipeBatchAdditiveSortCreatedAt: graphql_models.RecipeBatchAdditiveSortCreatedAt,
+}
+
+func NullDotStringToPointerRecipeBatchAdditiveSort(v null.String) *graphql_models.RecipeBatchAdditiveSort {
+	s := StringToRecipeBatchAdditiveSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToRecipeBatchAdditiveSort(v null.String) graphql_models.RecipeBatchAdditiveSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToRecipeBatchAdditiveSort(v.String)
+}
+
+func StringToRecipeBatchAdditiveSort(v string) graphql_models.RecipeBatchAdditiveSort {
+	s := RecipeBatchAdditiveSortAPIValue[RecipeBatchAdditiveSort(v)]
+	return s
+}
+
+func StringToPointerRecipeBatchAdditiveSort(v string) *graphql_models.RecipeBatchAdditiveSort {
+	s := StringToRecipeBatchAdditiveSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerRecipeBatchAdditiveSortToString(v *graphql_models.RecipeBatchAdditiveSort) string {
+	if v == nil {
+		return ""
+	}
+	return RecipeBatchAdditiveSortToString(*v)
+}
+
+func PointerRecipeBatchAdditiveSortToNullDotString(v *graphql_models.RecipeBatchAdditiveSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return RecipeBatchAdditiveSortToNullDotString(*v)
+}
+
+func RecipeBatchAdditiveSortToNullDotString(v graphql_models.RecipeBatchAdditiveSort) null.String {
+	s := RecipeBatchAdditiveSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func RecipeBatchAdditiveSortToString(v graphql_models.RecipeBatchAdditiveSort) string {
+	s := RecipeBatchAdditiveSortDBValue[v]
 	return string(s)
 }
 
@@ -1680,315 +1678,6 @@ func AuthUserSortToString(v graphql_models.AuthUserSort) string {
 	return string(s)
 }
 
-type FragranceSort string
-
-const (
-	FragranceSortID        FragranceSort = "id"
-	FragranceSortName      FragranceSort = "name"
-	FragranceSortNote      FragranceSort = "note"
-	FragranceSortUpdatedAt FragranceSort = "updatedAt"
-	FragranceSortCreatedAt FragranceSort = "createdAt"
-	FragranceSortDeletedAt FragranceSort = "deletedAt"
-)
-
-var FragranceSortDBValue = map[graphql_models.FragranceSort]FragranceSort{
-	graphql_models.FragranceSortID:        FragranceSortID,
-	graphql_models.FragranceSortName:      FragranceSortName,
-	graphql_models.FragranceSortNote:      FragranceSortNote,
-	graphql_models.FragranceSortUpdatedAt: FragranceSortUpdatedAt,
-	graphql_models.FragranceSortCreatedAt: FragranceSortCreatedAt,
-	graphql_models.FragranceSortDeletedAt: FragranceSortDeletedAt,
-}
-var FragranceSortAPIValue = map[FragranceSort]graphql_models.FragranceSort{
-	FragranceSortID:        graphql_models.FragranceSortID,
-	FragranceSortName:      graphql_models.FragranceSortName,
-	FragranceSortNote:      graphql_models.FragranceSortNote,
-	FragranceSortUpdatedAt: graphql_models.FragranceSortUpdatedAt,
-	FragranceSortCreatedAt: graphql_models.FragranceSortCreatedAt,
-	FragranceSortDeletedAt: graphql_models.FragranceSortDeletedAt,
-}
-
-func NullDotStringToPointerFragranceSort(v null.String) *graphql_models.FragranceSort {
-	s := StringToFragranceSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToFragranceSort(v null.String) graphql_models.FragranceSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToFragranceSort(v.String)
-}
-
-func StringToFragranceSort(v string) graphql_models.FragranceSort {
-	s := FragranceSortAPIValue[FragranceSort(v)]
-	return s
-}
-
-func StringToPointerFragranceSort(v string) *graphql_models.FragranceSort {
-	s := StringToFragranceSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerFragranceSortToString(v *graphql_models.FragranceSort) string {
-	if v == nil {
-		return ""
-	}
-	return FragranceSortToString(*v)
-}
-
-func PointerFragranceSortToNullDotString(v *graphql_models.FragranceSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return FragranceSortToNullDotString(*v)
-}
-
-func FragranceSortToNullDotString(v graphql_models.FragranceSort) null.String {
-	s := FragranceSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func FragranceSortToString(v graphql_models.FragranceSort) string {
-	s := FragranceSortDBValue[v]
-	return string(s)
-}
-
-type LipidSort string
-
-const (
-	LipidSortID           LipidSort = "id"
-	LipidSortName         LipidSort = "name"
-	LipidSortLauric       LipidSort = "lauric"
-	LipidSortMyristic     LipidSort = "myristic"
-	LipidSortPalmitic     LipidSort = "palmitic"
-	LipidSortStearic      LipidSort = "stearic"
-	LipidSortRicinoleic   LipidSort = "ricinoleic"
-	LipidSortOleic        LipidSort = "oleic"
-	LipidSortLinoleic     LipidSort = "linoleic"
-	LipidSortLinolenic    LipidSort = "linolenic"
-	LipidSortHardness     LipidSort = "hardness"
-	LipidSortCleansing    LipidSort = "cleansing"
-	LipidSortConditioning LipidSort = "conditioning"
-	LipidSortBubbly       LipidSort = "bubbly"
-	LipidSortCreamy       LipidSort = "creamy"
-	LipidSortIodine       LipidSort = "iodine"
-	LipidSortIns          LipidSort = "ins"
-	LipidSortInciName     LipidSort = "inciName"
-	LipidSortFamily       LipidSort = "family"
-	LipidSortNaoh         LipidSort = "naoh"
-	LipidSortUpdatedAt    LipidSort = "updatedAt"
-	LipidSortCreatedAt    LipidSort = "createdAt"
-	LipidSortDeletedAt    LipidSort = "deletedAt"
-)
-
-var LipidSortDBValue = map[graphql_models.LipidSort]LipidSort{
-	graphql_models.LipidSortID:           LipidSortID,
-	graphql_models.LipidSortName:         LipidSortName,
-	graphql_models.LipidSortLauric:       LipidSortLauric,
-	graphql_models.LipidSortMyristic:     LipidSortMyristic,
-	graphql_models.LipidSortPalmitic:     LipidSortPalmitic,
-	graphql_models.LipidSortStearic:      LipidSortStearic,
-	graphql_models.LipidSortRicinoleic:   LipidSortRicinoleic,
-	graphql_models.LipidSortOleic:        LipidSortOleic,
-	graphql_models.LipidSortLinoleic:     LipidSortLinoleic,
-	graphql_models.LipidSortLinolenic:    LipidSortLinolenic,
-	graphql_models.LipidSortHardness:     LipidSortHardness,
-	graphql_models.LipidSortCleansing:    LipidSortCleansing,
-	graphql_models.LipidSortConditioning: LipidSortConditioning,
-	graphql_models.LipidSortBubbly:       LipidSortBubbly,
-	graphql_models.LipidSortCreamy:       LipidSortCreamy,
-	graphql_models.LipidSortIodine:       LipidSortIodine,
-	graphql_models.LipidSortIns:          LipidSortIns,
-	graphql_models.LipidSortInciName:     LipidSortInciName,
-	graphql_models.LipidSortFamily:       LipidSortFamily,
-	graphql_models.LipidSortNaoh:         LipidSortNaoh,
-	graphql_models.LipidSortUpdatedAt:    LipidSortUpdatedAt,
-	graphql_models.LipidSortCreatedAt:    LipidSortCreatedAt,
-	graphql_models.LipidSortDeletedAt:    LipidSortDeletedAt,
-}
-var LipidSortAPIValue = map[LipidSort]graphql_models.LipidSort{
-	LipidSortID:           graphql_models.LipidSortID,
-	LipidSortName:         graphql_models.LipidSortName,
-	LipidSortLauric:       graphql_models.LipidSortLauric,
-	LipidSortMyristic:     graphql_models.LipidSortMyristic,
-	LipidSortPalmitic:     graphql_models.LipidSortPalmitic,
-	LipidSortStearic:      graphql_models.LipidSortStearic,
-	LipidSortRicinoleic:   graphql_models.LipidSortRicinoleic,
-	LipidSortOleic:        graphql_models.LipidSortOleic,
-	LipidSortLinoleic:     graphql_models.LipidSortLinoleic,
-	LipidSortLinolenic:    graphql_models.LipidSortLinolenic,
-	LipidSortHardness:     graphql_models.LipidSortHardness,
-	LipidSortCleansing:    graphql_models.LipidSortCleansing,
-	LipidSortConditioning: graphql_models.LipidSortConditioning,
-	LipidSortBubbly:       graphql_models.LipidSortBubbly,
-	LipidSortCreamy:       graphql_models.LipidSortCreamy,
-	LipidSortIodine:       graphql_models.LipidSortIodine,
-	LipidSortIns:          graphql_models.LipidSortIns,
-	LipidSortInciName:     graphql_models.LipidSortInciName,
-	LipidSortFamily:       graphql_models.LipidSortFamily,
-	LipidSortNaoh:         graphql_models.LipidSortNaoh,
-	LipidSortUpdatedAt:    graphql_models.LipidSortUpdatedAt,
-	LipidSortCreatedAt:    graphql_models.LipidSortCreatedAt,
-	LipidSortDeletedAt:    graphql_models.LipidSortDeletedAt,
-}
-
-func NullDotStringToPointerLipidSort(v null.String) *graphql_models.LipidSort {
-	s := StringToLipidSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToLipidSort(v null.String) graphql_models.LipidSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToLipidSort(v.String)
-}
-
-func StringToLipidSort(v string) graphql_models.LipidSort {
-	s := LipidSortAPIValue[LipidSort(v)]
-	return s
-}
-
-func StringToPointerLipidSort(v string) *graphql_models.LipidSort {
-	s := StringToLipidSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerLipidSortToString(v *graphql_models.LipidSort) string {
-	if v == nil {
-		return ""
-	}
-	return LipidSortToString(*v)
-}
-
-func PointerLipidSortToNullDotString(v *graphql_models.LipidSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return LipidSortToNullDotString(*v)
-}
-
-func LipidSortToNullDotString(v graphql_models.LipidSort) null.String {
-	s := LipidSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func LipidSortToString(v graphql_models.LipidSort) string {
-	s := LipidSortDBValue[v]
-	return string(s)
-}
-
-type LipidInventorySort string
-
-const (
-	LipidInventorySortID            LipidInventorySort = "id"
-	LipidInventorySortPurchaseDate  LipidInventorySort = "purchaseDate"
-	LipidInventorySortExpiryDate    LipidInventorySort = "expiryDate"
-	LipidInventorySortCost          LipidInventorySort = "cost"
-	LipidInventorySortWeight        LipidInventorySort = "weight"
-	LipidInventorySortSap           LipidInventorySort = "sap"
-	LipidInventorySortNaoh          LipidInventorySort = "naoh"
-	LipidInventorySortKoh           LipidInventorySort = "koh"
-	LipidInventorySortGramsPerLiter LipidInventorySort = "gramsPerLiter"
-	LipidInventorySortDeletedAt     LipidInventorySort = "deletedAt"
-	LipidInventorySortUpdatedAt     LipidInventorySort = "updatedAt"
-	LipidInventorySortCreatedAt     LipidInventorySort = "createdAt"
-)
-
-var LipidInventorySortDBValue = map[graphql_models.LipidInventorySort]LipidInventorySort{
-	graphql_models.LipidInventorySortID:            LipidInventorySortID,
-	graphql_models.LipidInventorySortPurchaseDate:  LipidInventorySortPurchaseDate,
-	graphql_models.LipidInventorySortExpiryDate:    LipidInventorySortExpiryDate,
-	graphql_models.LipidInventorySortCost:          LipidInventorySortCost,
-	graphql_models.LipidInventorySortWeight:        LipidInventorySortWeight,
-	graphql_models.LipidInventorySortSap:           LipidInventorySortSap,
-	graphql_models.LipidInventorySortNaoh:          LipidInventorySortNaoh,
-	graphql_models.LipidInventorySortKoh:           LipidInventorySortKoh,
-	graphql_models.LipidInventorySortGramsPerLiter: LipidInventorySortGramsPerLiter,
-	graphql_models.LipidInventorySortDeletedAt:     LipidInventorySortDeletedAt,
-	graphql_models.LipidInventorySortUpdatedAt:     LipidInventorySortUpdatedAt,
-	graphql_models.LipidInventorySortCreatedAt:     LipidInventorySortCreatedAt,
-}
-var LipidInventorySortAPIValue = map[LipidInventorySort]graphql_models.LipidInventorySort{
-	LipidInventorySortID:            graphql_models.LipidInventorySortID,
-	LipidInventorySortPurchaseDate:  graphql_models.LipidInventorySortPurchaseDate,
-	LipidInventorySortExpiryDate:    graphql_models.LipidInventorySortExpiryDate,
-	LipidInventorySortCost:          graphql_models.LipidInventorySortCost,
-	LipidInventorySortWeight:        graphql_models.LipidInventorySortWeight,
-	LipidInventorySortSap:           graphql_models.LipidInventorySortSap,
-	LipidInventorySortNaoh:          graphql_models.LipidInventorySortNaoh,
-	LipidInventorySortKoh:           graphql_models.LipidInventorySortKoh,
-	LipidInventorySortGramsPerLiter: graphql_models.LipidInventorySortGramsPerLiter,
-	LipidInventorySortDeletedAt:     graphql_models.LipidInventorySortDeletedAt,
-	LipidInventorySortUpdatedAt:     graphql_models.LipidInventorySortUpdatedAt,
-	LipidInventorySortCreatedAt:     graphql_models.LipidInventorySortCreatedAt,
-}
-
-func NullDotStringToPointerLipidInventorySort(v null.String) *graphql_models.LipidInventorySort {
-	s := StringToLipidInventorySort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToLipidInventorySort(v null.String) graphql_models.LipidInventorySort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToLipidInventorySort(v.String)
-}
-
-func StringToLipidInventorySort(v string) graphql_models.LipidInventorySort {
-	s := LipidInventorySortAPIValue[LipidInventorySort(v)]
-	return s
-}
-
-func StringToPointerLipidInventorySort(v string) *graphql_models.LipidInventorySort {
-	s := StringToLipidInventorySort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerLipidInventorySortToString(v *graphql_models.LipidInventorySort) string {
-	if v == nil {
-		return ""
-	}
-	return LipidInventorySortToString(*v)
-}
-
-func PointerLipidInventorySortToNullDotString(v *graphql_models.LipidInventorySort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return LipidInventorySortToNullDotString(*v)
-}
-
-func LipidInventorySortToNullDotString(v graphql_models.LipidInventorySort) null.String {
-	s := LipidInventorySortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func LipidInventorySortToString(v graphql_models.LipidInventorySort) string {
-	s := LipidInventorySortDBValue[v]
-	return string(s)
-}
-
 type AuthGroupSort string
 
 const (
@@ -2057,89 +1746,400 @@ func AuthGroupSortToString(v graphql_models.AuthGroupSort) string {
 	return string(s)
 }
 
-type FragranceInventorySort string
+type LyeInventorySort string
 
 const (
-	FragranceInventorySortID           FragranceInventorySort = "id"
-	FragranceInventorySortPurchaseDate FragranceInventorySort = "purchaseDate"
-	FragranceInventorySortExpiryDate   FragranceInventorySort = "expiryDate"
-	FragranceInventorySortCost         FragranceInventorySort = "cost"
-	FragranceInventorySortWeight       FragranceInventorySort = "weight"
-	FragranceInventorySortUpdatedAt    FragranceInventorySort = "updatedAt"
-	FragranceInventorySortDeletedAt    FragranceInventorySort = "deletedAt"
-	FragranceInventorySortCreatedAt    FragranceInventorySort = "createdAt"
+	LyeInventorySortID            LyeInventorySort = "id"
+	LyeInventorySortPurchaseDate  LyeInventorySort = "purchaseDate"
+	LyeInventorySortExpiryDate    LyeInventorySort = "expiryDate"
+	LyeInventorySortCost          LyeInventorySort = "cost"
+	LyeInventorySortWeight        LyeInventorySort = "weight"
+	LyeInventorySortConcentration LyeInventorySort = "concentration"
+	LyeInventorySortCreatedAt     LyeInventorySort = "createdAt"
+	LyeInventorySortDeletedAt     LyeInventorySort = "deletedAt"
+	LyeInventorySortUpdatedAt     LyeInventorySort = "updatedAt"
 )
 
-var FragranceInventorySortDBValue = map[graphql_models.FragranceInventorySort]FragranceInventorySort{
-	graphql_models.FragranceInventorySortID:           FragranceInventorySortID,
-	graphql_models.FragranceInventorySortPurchaseDate: FragranceInventorySortPurchaseDate,
-	graphql_models.FragranceInventorySortExpiryDate:   FragranceInventorySortExpiryDate,
-	graphql_models.FragranceInventorySortCost:         FragranceInventorySortCost,
-	graphql_models.FragranceInventorySortWeight:       FragranceInventorySortWeight,
-	graphql_models.FragranceInventorySortUpdatedAt:    FragranceInventorySortUpdatedAt,
-	graphql_models.FragranceInventorySortDeletedAt:    FragranceInventorySortDeletedAt,
-	graphql_models.FragranceInventorySortCreatedAt:    FragranceInventorySortCreatedAt,
+var LyeInventorySortDBValue = map[graphql_models.LyeInventorySort]LyeInventorySort{
+	graphql_models.LyeInventorySortID:            LyeInventorySortID,
+	graphql_models.LyeInventorySortPurchaseDate:  LyeInventorySortPurchaseDate,
+	graphql_models.LyeInventorySortExpiryDate:    LyeInventorySortExpiryDate,
+	graphql_models.LyeInventorySortCost:          LyeInventorySortCost,
+	graphql_models.LyeInventorySortWeight:        LyeInventorySortWeight,
+	graphql_models.LyeInventorySortConcentration: LyeInventorySortConcentration,
+	graphql_models.LyeInventorySortCreatedAt:     LyeInventorySortCreatedAt,
+	graphql_models.LyeInventorySortDeletedAt:     LyeInventorySortDeletedAt,
+	graphql_models.LyeInventorySortUpdatedAt:     LyeInventorySortUpdatedAt,
 }
-var FragranceInventorySortAPIValue = map[FragranceInventorySort]graphql_models.FragranceInventorySort{
-	FragranceInventorySortID:           graphql_models.FragranceInventorySortID,
-	FragranceInventorySortPurchaseDate: graphql_models.FragranceInventorySortPurchaseDate,
-	FragranceInventorySortExpiryDate:   graphql_models.FragranceInventorySortExpiryDate,
-	FragranceInventorySortCost:         graphql_models.FragranceInventorySortCost,
-	FragranceInventorySortWeight:       graphql_models.FragranceInventorySortWeight,
-	FragranceInventorySortUpdatedAt:    graphql_models.FragranceInventorySortUpdatedAt,
-	FragranceInventorySortDeletedAt:    graphql_models.FragranceInventorySortDeletedAt,
-	FragranceInventorySortCreatedAt:    graphql_models.FragranceInventorySortCreatedAt,
+var LyeInventorySortAPIValue = map[LyeInventorySort]graphql_models.LyeInventorySort{
+	LyeInventorySortID:            graphql_models.LyeInventorySortID,
+	LyeInventorySortPurchaseDate:  graphql_models.LyeInventorySortPurchaseDate,
+	LyeInventorySortExpiryDate:    graphql_models.LyeInventorySortExpiryDate,
+	LyeInventorySortCost:          graphql_models.LyeInventorySortCost,
+	LyeInventorySortWeight:        graphql_models.LyeInventorySortWeight,
+	LyeInventorySortConcentration: graphql_models.LyeInventorySortConcentration,
+	LyeInventorySortCreatedAt:     graphql_models.LyeInventorySortCreatedAt,
+	LyeInventorySortDeletedAt:     graphql_models.LyeInventorySortDeletedAt,
+	LyeInventorySortUpdatedAt:     graphql_models.LyeInventorySortUpdatedAt,
 }
 
-func NullDotStringToPointerFragranceInventorySort(v null.String) *graphql_models.FragranceInventorySort {
-	s := StringToFragranceInventorySort(v.String)
+func NullDotStringToPointerLyeInventorySort(v null.String) *graphql_models.LyeInventorySort {
+	s := StringToLyeInventorySort(v.String)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func NullDotStringToFragranceInventorySort(v null.String) graphql_models.FragranceInventorySort {
+func NullDotStringToLyeInventorySort(v null.String) graphql_models.LyeInventorySort {
 	if !v.Valid {
 		return ""
 	}
-	return StringToFragranceInventorySort(v.String)
+	return StringToLyeInventorySort(v.String)
 }
 
-func StringToFragranceInventorySort(v string) graphql_models.FragranceInventorySort {
-	s := FragranceInventorySortAPIValue[FragranceInventorySort(v)]
+func StringToLyeInventorySort(v string) graphql_models.LyeInventorySort {
+	s := LyeInventorySortAPIValue[LyeInventorySort(v)]
 	return s
 }
 
-func StringToPointerFragranceInventorySort(v string) *graphql_models.FragranceInventorySort {
-	s := StringToFragranceInventorySort(v)
+func StringToPointerLyeInventorySort(v string) *graphql_models.LyeInventorySort {
+	s := StringToLyeInventorySort(v)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func PointerFragranceInventorySortToString(v *graphql_models.FragranceInventorySort) string {
+func PointerLyeInventorySortToString(v *graphql_models.LyeInventorySort) string {
 	if v == nil {
 		return ""
 	}
-	return FragranceInventorySortToString(*v)
+	return LyeInventorySortToString(*v)
 }
 
-func PointerFragranceInventorySortToNullDotString(v *graphql_models.FragranceInventorySort) null.String {
+func PointerLyeInventorySortToNullDotString(v *graphql_models.LyeInventorySort) null.String {
 	if v == nil {
 		return null.NewString("", false)
 	}
-	return FragranceInventorySortToNullDotString(*v)
+	return LyeInventorySortToNullDotString(*v)
 }
 
-func FragranceInventorySortToNullDotString(v graphql_models.FragranceInventorySort) null.String {
-	s := FragranceInventorySortToString(v)
+func LyeInventorySortToNullDotString(v graphql_models.LyeInventorySort) null.String {
+	s := LyeInventorySortToString(v)
 	return null.NewString(s, s != "")
 }
 
-func FragranceInventorySortToString(v graphql_models.FragranceInventorySort) string {
-	s := FragranceInventorySortDBValue[v]
+func LyeInventorySortToString(v graphql_models.LyeInventorySort) string {
+	s := LyeInventorySortDBValue[v]
+	return string(s)
+}
+
+type RecipeAdditiveSort string
+
+const (
+	RecipeAdditiveSortID         RecipeAdditiveSort = "id"
+	RecipeAdditiveSortPercentage RecipeAdditiveSort = "percentage"
+	RecipeAdditiveSortDeletedAt  RecipeAdditiveSort = "deletedAt"
+	RecipeAdditiveSortUpdatedAt  RecipeAdditiveSort = "updatedAt"
+	RecipeAdditiveSortCreatedAt  RecipeAdditiveSort = "createdAt"
+)
+
+var RecipeAdditiveSortDBValue = map[graphql_models.RecipeAdditiveSort]RecipeAdditiveSort{
+	graphql_models.RecipeAdditiveSortID:         RecipeAdditiveSortID,
+	graphql_models.RecipeAdditiveSortPercentage: RecipeAdditiveSortPercentage,
+	graphql_models.RecipeAdditiveSortDeletedAt:  RecipeAdditiveSortDeletedAt,
+	graphql_models.RecipeAdditiveSortUpdatedAt:  RecipeAdditiveSortUpdatedAt,
+	graphql_models.RecipeAdditiveSortCreatedAt:  RecipeAdditiveSortCreatedAt,
+}
+var RecipeAdditiveSortAPIValue = map[RecipeAdditiveSort]graphql_models.RecipeAdditiveSort{
+	RecipeAdditiveSortID:         graphql_models.RecipeAdditiveSortID,
+	RecipeAdditiveSortPercentage: graphql_models.RecipeAdditiveSortPercentage,
+	RecipeAdditiveSortDeletedAt:  graphql_models.RecipeAdditiveSortDeletedAt,
+	RecipeAdditiveSortUpdatedAt:  graphql_models.RecipeAdditiveSortUpdatedAt,
+	RecipeAdditiveSortCreatedAt:  graphql_models.RecipeAdditiveSortCreatedAt,
+}
+
+func NullDotStringToPointerRecipeAdditiveSort(v null.String) *graphql_models.RecipeAdditiveSort {
+	s := StringToRecipeAdditiveSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToRecipeAdditiveSort(v null.String) graphql_models.RecipeAdditiveSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToRecipeAdditiveSort(v.String)
+}
+
+func StringToRecipeAdditiveSort(v string) graphql_models.RecipeAdditiveSort {
+	s := RecipeAdditiveSortAPIValue[RecipeAdditiveSort(v)]
+	return s
+}
+
+func StringToPointerRecipeAdditiveSort(v string) *graphql_models.RecipeAdditiveSort {
+	s := StringToRecipeAdditiveSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerRecipeAdditiveSortToString(v *graphql_models.RecipeAdditiveSort) string {
+	if v == nil {
+		return ""
+	}
+	return RecipeAdditiveSortToString(*v)
+}
+
+func PointerRecipeAdditiveSortToNullDotString(v *graphql_models.RecipeAdditiveSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return RecipeAdditiveSortToNullDotString(*v)
+}
+
+func RecipeAdditiveSortToNullDotString(v graphql_models.RecipeAdditiveSort) null.String {
+	s := RecipeAdditiveSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func RecipeAdditiveSortToString(v graphql_models.RecipeAdditiveSort) string {
+	s := RecipeAdditiveSortDBValue[v]
+	return string(s)
+}
+
+type SupplierSort string
+
+const (
+	SupplierSortID        SupplierSort = "id"
+	SupplierSortName      SupplierSort = "name"
+	SupplierSortWebsite   SupplierSort = "website"
+	SupplierSortNote      SupplierSort = "note"
+	SupplierSortDeletedAt SupplierSort = "deletedAt"
+	SupplierSortCreatedAt SupplierSort = "createdAt"
+	SupplierSortUpdatedAt SupplierSort = "updatedAt"
+)
+
+var SupplierSortDBValue = map[graphql_models.SupplierSort]SupplierSort{
+	graphql_models.SupplierSortID:        SupplierSortID,
+	graphql_models.SupplierSortName:      SupplierSortName,
+	graphql_models.SupplierSortWebsite:   SupplierSortWebsite,
+	graphql_models.SupplierSortNote:      SupplierSortNote,
+	graphql_models.SupplierSortDeletedAt: SupplierSortDeletedAt,
+	graphql_models.SupplierSortCreatedAt: SupplierSortCreatedAt,
+	graphql_models.SupplierSortUpdatedAt: SupplierSortUpdatedAt,
+}
+var SupplierSortAPIValue = map[SupplierSort]graphql_models.SupplierSort{
+	SupplierSortID:        graphql_models.SupplierSortID,
+	SupplierSortName:      graphql_models.SupplierSortName,
+	SupplierSortWebsite:   graphql_models.SupplierSortWebsite,
+	SupplierSortNote:      graphql_models.SupplierSortNote,
+	SupplierSortDeletedAt: graphql_models.SupplierSortDeletedAt,
+	SupplierSortCreatedAt: graphql_models.SupplierSortCreatedAt,
+	SupplierSortUpdatedAt: graphql_models.SupplierSortUpdatedAt,
+}
+
+func NullDotStringToPointerSupplierSort(v null.String) *graphql_models.SupplierSort {
+	s := StringToSupplierSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToSupplierSort(v null.String) graphql_models.SupplierSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToSupplierSort(v.String)
+}
+
+func StringToSupplierSort(v string) graphql_models.SupplierSort {
+	s := SupplierSortAPIValue[SupplierSort(v)]
+	return s
+}
+
+func StringToPointerSupplierSort(v string) *graphql_models.SupplierSort {
+	s := StringToSupplierSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerSupplierSortToString(v *graphql_models.SupplierSort) string {
+	if v == nil {
+		return ""
+	}
+	return SupplierSortToString(*v)
+}
+
+func PointerSupplierSortToNullDotString(v *graphql_models.SupplierSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return SupplierSortToNullDotString(*v)
+}
+
+func SupplierSortToNullDotString(v graphql_models.SupplierSort) null.String {
+	s := SupplierSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func SupplierSortToString(v graphql_models.SupplierSort) string {
+	s := SupplierSortDBValue[v]
+	return string(s)
+}
+
+type AuthUserUserPermissionSort string
+
+const (
+	AuthUserUserPermissionSortID AuthUserUserPermissionSort = "id"
+)
+
+var AuthUserUserPermissionSortDBValue = map[graphql_models.AuthUserUserPermissionSort]AuthUserUserPermissionSort{
+	graphql_models.AuthUserUserPermissionSortID: AuthUserUserPermissionSortID,
+}
+var AuthUserUserPermissionSortAPIValue = map[AuthUserUserPermissionSort]graphql_models.AuthUserUserPermissionSort{
+	AuthUserUserPermissionSortID: graphql_models.AuthUserUserPermissionSortID,
+}
+
+func NullDotStringToPointerAuthUserUserPermissionSort(v null.String) *graphql_models.AuthUserUserPermissionSort {
+	s := StringToAuthUserUserPermissionSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToAuthUserUserPermissionSort(v null.String) graphql_models.AuthUserUserPermissionSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToAuthUserUserPermissionSort(v.String)
+}
+
+func StringToAuthUserUserPermissionSort(v string) graphql_models.AuthUserUserPermissionSort {
+	s := AuthUserUserPermissionSortAPIValue[AuthUserUserPermissionSort(v)]
+	return s
+}
+
+func StringToPointerAuthUserUserPermissionSort(v string) *graphql_models.AuthUserUserPermissionSort {
+	s := StringToAuthUserUserPermissionSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerAuthUserUserPermissionSortToString(v *graphql_models.AuthUserUserPermissionSort) string {
+	if v == nil {
+		return ""
+	}
+	return AuthUserUserPermissionSortToString(*v)
+}
+
+func PointerAuthUserUserPermissionSortToNullDotString(v *graphql_models.AuthUserUserPermissionSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return AuthUserUserPermissionSortToNullDotString(*v)
+}
+
+func AuthUserUserPermissionSortToNullDotString(v graphql_models.AuthUserUserPermissionSort) null.String {
+	s := AuthUserUserPermissionSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func AuthUserUserPermissionSortToString(v graphql_models.AuthUserUserPermissionSort) string {
+	s := AuthUserUserPermissionSortDBValue[v]
+	return string(s)
+}
+
+type LyeSort string
+
+const (
+	LyeSortID        LyeSort = "id"
+	LyeSortKind      LyeSort = "kind"
+	LyeSortName      LyeSort = "name"
+	LyeSortNote      LyeSort = "note"
+	LyeSortUpdatedAt LyeSort = "updatedAt"
+	LyeSortCreatedAt LyeSort = "createdAt"
+	LyeSortDeletedAt LyeSort = "deletedAt"
+)
+
+var LyeSortDBValue = map[graphql_models.LyeSort]LyeSort{
+	graphql_models.LyeSortID:        LyeSortID,
+	graphql_models.LyeSortKind:      LyeSortKind,
+	graphql_models.LyeSortName:      LyeSortName,
+	graphql_models.LyeSortNote:      LyeSortNote,
+	graphql_models.LyeSortUpdatedAt: LyeSortUpdatedAt,
+	graphql_models.LyeSortCreatedAt: LyeSortCreatedAt,
+	graphql_models.LyeSortDeletedAt: LyeSortDeletedAt,
+}
+var LyeSortAPIValue = map[LyeSort]graphql_models.LyeSort{
+	LyeSortID:        graphql_models.LyeSortID,
+	LyeSortKind:      graphql_models.LyeSortKind,
+	LyeSortName:      graphql_models.LyeSortName,
+	LyeSortNote:      graphql_models.LyeSortNote,
+	LyeSortUpdatedAt: graphql_models.LyeSortUpdatedAt,
+	LyeSortCreatedAt: graphql_models.LyeSortCreatedAt,
+	LyeSortDeletedAt: graphql_models.LyeSortDeletedAt,
+}
+
+func NullDotStringToPointerLyeSort(v null.String) *graphql_models.LyeSort {
+	s := StringToLyeSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToLyeSort(v null.String) graphql_models.LyeSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToLyeSort(v.String)
+}
+
+func StringToLyeSort(v string) graphql_models.LyeSort {
+	s := LyeSortAPIValue[LyeSort(v)]
+	return s
+}
+
+func StringToPointerLyeSort(v string) *graphql_models.LyeSort {
+	s := StringToLyeSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerLyeSortToString(v *graphql_models.LyeSort) string {
+	if v == nil {
+		return ""
+	}
+	return LyeSortToString(*v)
+}
+
+func PointerLyeSortToNullDotString(v *graphql_models.LyeSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return LyeSortToNullDotString(*v)
+}
+
+func LyeSortToNullDotString(v graphql_models.LyeSort) null.String {
+	s := LyeSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func LyeSortToString(v graphql_models.LyeSort) string {
+	s := LyeSortDBValue[v]
 	return string(s)
 }
 
@@ -2183,8 +2183,8 @@ func AdditiveToGraphQL(m *models.Additive) *graphql_models.Additive {
 		Name:      m.Name,
 		Note:      m.Note,
 		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
-		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
 		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
+		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
 	}
 
 	if m.R != nil && m.R.RecipeAdditive != nil {
@@ -2250,9 +2250,9 @@ func AdditiveInventoryToGraphQL(m *models.AdditiveInventory) *graphql_models.Add
 		Cost:         m.Cost,
 		Weight:       m.Weight,
 
-		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
-		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
 		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
+		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
+		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
 	}
 
 	if boilergql.IntIsFilled(m.AdditiveID) {
@@ -2701,8 +2701,8 @@ func FragranceToGraphQL(m *models.Fragrance) *graphql_models.Fragrance {
 		Name:      m.Name,
 		Note:      m.Note,
 		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
-		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
 		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
+		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
 	}
 
 	if m.R != nil && m.R.RecipeBatchFragrance != nil {
@@ -2768,8 +2768,8 @@ func FragranceInventoryToGraphQL(m *models.FragranceInventory) *graphql_models.F
 		Cost:         m.Cost,
 		Weight:       m.Weight,
 
-		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
 		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
+		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
 		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
 	}
 
@@ -2855,9 +2855,9 @@ func LipidToGraphQL(m *models.Lipid) *graphql_models.Lipid {
 		InciName:     m.InciName,
 		Family:       m.Family,
 		Naoh:         m.Naoh,
+		DeletedAt:    boilergql.NullDotTimeToPointerInt(m.DeletedAt),
 		UpdatedAt:    boilergql.TimeDotTimeToInt(m.UpdatedAt),
 		CreatedAt:    boilergql.TimeDotTimeToInt(m.CreatedAt),
-		DeletedAt:    boilergql.NullDotTimeToPointerInt(m.DeletedAt),
 	}
 
 	if m.R != nil && m.R.RecipeBatchLipid != nil {
@@ -2927,9 +2927,9 @@ func LipidInventoryToGraphQL(m *models.LipidInventory) *graphql_models.LipidInve
 		Koh:           m.Koh,
 		GramsPerLiter: m.GramsPerLiter,
 
-		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
 		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
 		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
+		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
 	}
 
 	if boilergql.IntIsFilled(m.LipidID) {
@@ -2998,9 +2998,9 @@ func LyeToGraphQL(m *models.Lye) *graphql_models.Lye {
 		Kind:      m.Kind,
 		Name:      m.Name,
 		Note:      m.Note,
-		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
-		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
 		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
+		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
+		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
 	}
 
 	if m.R != nil && m.R.RecipeBatchLye != nil {
@@ -3065,8 +3065,8 @@ func LyeInventoryToGraphQL(m *models.LyeInventory) *graphql_models.LyeInventory 
 		Concentration: m.Concentration,
 
 		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
-		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
 		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
+		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
 	}
 
 	if boilergql.IntIsFilled(m.LyeID) {
@@ -3135,8 +3135,8 @@ func RecipeToGraphQL(m *models.Recipe) *graphql_models.Recipe {
 		Name:      m.Name,
 		Note:      m.Note,
 		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
-		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
 		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
+		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
 	}
 
 	if m.R != nil && m.R.RecipeAdditives != nil {
@@ -3205,8 +3205,8 @@ func RecipeAdditiveToGraphQL(m *models.RecipeAdditive) *graphql_models.RecipeAdd
 		ID:         RecipeAdditiveIDToGraphQL(uint(m.ID)),
 		Percentage: m.Percentage,
 
-		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
 		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
+		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
 		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
 	}
 
@@ -3361,8 +3361,8 @@ func RecipeBatchAdditiveToGraphQL(m *models.RecipeBatchAdditive) *graphql_models
 		Cost:   m.Cost,
 
 		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
-		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
 		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
+		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
 	}
 
 	if boilergql.IntIsFilled(m.AdditiveID) {
@@ -3431,8 +3431,8 @@ func RecipeBatchFragranceToGraphQL(m *models.RecipeBatchFragrance) *graphql_mode
 		Weight: m.Weight,
 		Cost:   m.Cost,
 
-		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
 		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
+		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
 		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
 	}
 
@@ -3574,9 +3574,9 @@ func RecipeBatchLyeToGraphQL(m *models.RecipeBatchLye) *graphql_models.RecipeBat
 		Discount: m.Discount,
 		Cost:     m.Cost,
 
-		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
-		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
 		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
+		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
+		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
 	}
 
 	if boilergql.IntIsFilled(m.LyeID) {
@@ -3645,9 +3645,9 @@ func RecipeBatchNoteToGraphQL(m *models.RecipeBatchNote) *graphql_models.RecipeB
 		Note: m.Note,
 		Link: m.Link,
 
-		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
-		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
 		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
+		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
+		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
 	}
 
 	if boilergql.IntIsFilled(m.BatchID) {
@@ -3779,8 +3779,8 @@ func RecipeLipidToGraphQL(m *models.RecipeLipid) *graphql_models.RecipeLipid {
 		Percentage: m.Percentage,
 
 		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
-		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
 		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
+		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
 	}
 
 	if boilergql.IntIsFilled(m.LipidID) {
@@ -3849,9 +3849,9 @@ func RecipeStepToGraphQL(m *models.RecipeStep) *graphql_models.RecipeStep {
 		Num:  m.Num,
 		Note: m.Note,
 
-		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
-		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
 		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
+		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
+		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
 	}
 
 	if boilergql.IntIsFilled(m.RecipeID) {
@@ -3914,8 +3914,8 @@ func SupplierToGraphQL(m *models.Supplier) *graphql_models.Supplier {
 		Website:   m.Website,
 		Note:      m.Note,
 		DeletedAt: boilergql.NullDotTimeToPointerInt(m.DeletedAt),
-		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
 		CreatedAt: boilergql.TimeDotTimeToInt(m.CreatedAt),
+		UpdatedAt: boilergql.TimeDotTimeToInt(m.UpdatedAt),
 	}
 
 	if m.R != nil && m.R.AdditiveInventories != nil {

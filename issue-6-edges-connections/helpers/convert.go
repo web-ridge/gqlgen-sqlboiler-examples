@@ -6,7 +6,7 @@ import (
 	null "github.com/volatiletech/null/v8"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/graphql_models"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/models"
-	"github.com/web-ridge/utils-go/boilergql"
+	boilergql "github.com/web-ridge/utils-go/boilergql/v3"
 )
 
 type UserSort string

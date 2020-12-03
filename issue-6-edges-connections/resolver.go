@@ -11,7 +11,7 @@ import (
 	fm "github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/graphql_models"
 	. "github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/helpers"
 	dm "github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/models"
-	"github.com/web-ridge/utils-go/boilergql"
+	boilergql "github.com/web-ridge/utils-go/boilergql/v3"
 )
 
 type Resolver struct {

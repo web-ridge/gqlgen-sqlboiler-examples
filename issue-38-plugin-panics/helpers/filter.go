@@ -14,7 +14,7 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/queries/qmhelper"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-38-plugin-panics/graphql_models"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-38-plugin-panics/models"
-	"github.com/web-ridge/utils-go/boilergql"
+	boilergql "github.com/web-ridge/utils-go/boilergql/v3"
 )
 
 // const regexSign = `'`
@@ -261,9 +261,9 @@ func AdditiveInventoryWhereToMods(m *graphql_models.AdditiveInventoryWhere, with
 	queryMods = append(queryMods, FloatFilterToMods(m.Weight, models.AdditiveInventoryColumns.Weight)...)
 	queryMods = append(queryMods, AdditiveWhereSubqueryToMods(m.Additive, models.AdditiveInventoryColumns.AdditiveID, models.TableNames.AdditiveInventory)...)
 	queryMods = append(queryMods, SupplierWhereSubqueryToMods(m.Supplier, models.AdditiveInventoryColumns.SupplierID, models.TableNames.AdditiveInventory)...)
-	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.AdditiveInventoryColumns.CreatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.AdditiveInventoryColumns.DeletedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.AdditiveInventoryColumns.UpdatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.AdditiveInventoryColumns.DeletedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.AdditiveInventoryColumns.CreatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(AdditiveInventoryWhereToMods(m.Or, true, "")...)))
 	}
@@ -316,8 +316,8 @@ func AdditiveWhereToMods(m *graphql_models.AdditiveWhere, withPrimaryID bool, pa
 	queryMods = append(queryMods, StringFilterToMods(m.Name, models.AdditiveColumns.Name)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Note, models.AdditiveColumns.Note)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.AdditiveColumns.CreatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.AdditiveColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.AdditiveColumns.DeletedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.AdditiveColumns.UpdatedAt)...)
 	queryMods = append(queryMods, RecipeAdditiveWhereSubqueryToMods(m.RecipeAdditive, "", models.TableNames.Additive)...)
 	queryMods = append(queryMods, RecipeBatchAdditiveWhereSubqueryToMods(m.RecipeBatchAdditive, "", models.TableNames.Additive)...)
 	queryMods = append(queryMods, AdditiveInventoryWhereSubqueryToMods(m.AdditiveInventories, "", models.TableNames.Additive)...)
@@ -848,8 +848,8 @@ func FragranceInventoryWhereToMods(m *graphql_models.FragranceInventoryWhere, wi
 	queryMods = append(queryMods, FloatFilterToMods(m.Weight, models.FragranceInventoryColumns.Weight)...)
 	queryMods = append(queryMods, FragranceWhereSubqueryToMods(m.Fragrance, models.FragranceInventoryColumns.FragranceID, models.TableNames.FragranceInventory)...)
 	queryMods = append(queryMods, SupplierWhereSubqueryToMods(m.Supplier, models.FragranceInventoryColumns.SupplierID, models.TableNames.FragranceInventory)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.FragranceInventoryColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.FragranceInventoryColumns.DeletedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.FragranceInventoryColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.FragranceInventoryColumns.CreatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(FragranceInventoryWhereToMods(m.Or, true, "")...)))
@@ -903,8 +903,8 @@ func FragranceWhereToMods(m *graphql_models.FragranceWhere, withPrimaryID bool, 
 	queryMods = append(queryMods, StringFilterToMods(m.Name, models.FragranceColumns.Name)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Note, models.FragranceColumns.Note)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.FragranceColumns.UpdatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.FragranceColumns.CreatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.FragranceColumns.DeletedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.FragranceColumns.CreatedAt)...)
 	queryMods = append(queryMods, RecipeBatchFragranceWhereSubqueryToMods(m.RecipeBatchFragrance, "", models.TableNames.Fragrance)...)
 	queryMods = append(queryMods, RecipeFragranceWhereSubqueryToMods(m.RecipeFragrance, "", models.TableNames.Fragrance)...)
 	queryMods = append(queryMods, FragranceInventoryWhereSubqueryToMods(m.FragranceInventories, "", models.TableNames.Fragrance)...)
@@ -1011,9 +1011,9 @@ func LipidInventoryWhereToMods(m *graphql_models.LipidInventoryWhere, withPrimar
 	queryMods = append(queryMods, FloatFilterToMods(m.GramsPerLiter, models.LipidInventoryColumns.GramsPerLiter)...)
 	queryMods = append(queryMods, LipidWhereSubqueryToMods(m.Lipid, models.LipidInventoryColumns.LipidID, models.TableNames.LipidInventory)...)
 	queryMods = append(queryMods, SupplierWhereSubqueryToMods(m.Supplier, models.LipidInventoryColumns.SupplierID, models.TableNames.LipidInventory)...)
-	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.LipidInventoryColumns.DeletedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.LipidInventoryColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.LipidInventoryColumns.CreatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.LipidInventoryColumns.DeletedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(LipidInventoryWhereToMods(m.Or, true, "")...)))
 	}
@@ -1082,9 +1082,9 @@ func LipidWhereToMods(m *graphql_models.LipidWhere, withPrimaryID bool, parentTa
 	queryMods = append(queryMods, StringFilterToMods(m.InciName, models.LipidColumns.InciName)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Family, models.LipidColumns.Family)...)
 	queryMods = append(queryMods, FloatFilterToMods(m.Naoh, models.LipidColumns.Naoh)...)
+	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.LipidColumns.DeletedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.LipidColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.LipidColumns.CreatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.LipidColumns.DeletedAt)...)
 	queryMods = append(queryMods, RecipeBatchLipidWhereSubqueryToMods(m.RecipeBatchLipid, "", models.TableNames.Lipid)...)
 	queryMods = append(queryMods, RecipeLipidWhereSubqueryToMods(m.RecipeLipid, "", models.TableNames.Lipid)...)
 	queryMods = append(queryMods, LipidInventoryWhereSubqueryToMods(m.LipidInventories, "", models.TableNames.Lipid)...)
@@ -1189,8 +1189,8 @@ func LyeInventoryWhereToMods(m *graphql_models.LyeInventoryWhere, withPrimaryID 
 	queryMods = append(queryMods, LyeWhereSubqueryToMods(m.Lye, models.LyeInventoryColumns.LyeID, models.TableNames.LyeInventory)...)
 	queryMods = append(queryMods, SupplierWhereSubqueryToMods(m.Supplier, models.LyeInventoryColumns.SupplierID, models.TableNames.LyeInventory)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.LyeInventoryColumns.CreatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.LyeInventoryColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.LyeInventoryColumns.DeletedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.LyeInventoryColumns.UpdatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(LyeInventoryWhereToMods(m.Or, true, "")...)))
 	}
@@ -1243,9 +1243,9 @@ func LyeWhereToMods(m *graphql_models.LyeWhere, withPrimaryID bool, parentTable 
 	queryMods = append(queryMods, StringFilterToMods(m.Kind, models.LyeColumns.Kind)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Name, models.LyeColumns.Name)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Note, models.LyeColumns.Note)...)
-	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.LyeColumns.DeletedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.LyeColumns.CreatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.LyeColumns.UpdatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.LyeColumns.CreatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.LyeColumns.DeletedAt)...)
 	queryMods = append(queryMods, RecipeBatchLyeWhereSubqueryToMods(m.RecipeBatchLye, "", models.TableNames.Lye)...)
 	queryMods = append(queryMods, LyeInventoryWhereSubqueryToMods(m.LyeInventories, "", models.TableNames.Lye)...)
 	if m.Or != nil {
@@ -1319,8 +1319,8 @@ func RecipeAdditiveWhereToMods(m *graphql_models.RecipeAdditiveWhere, withPrimar
 	queryMods = append(queryMods, FloatFilterToMods(m.Percentage, models.RecipeAdditiveColumns.Percentage)...)
 	queryMods = append(queryMods, AdditiveWhereSubqueryToMods(m.Additive, models.RecipeAdditiveColumns.AdditiveID, models.TableNames.RecipeAdditive)...)
 	queryMods = append(queryMods, RecipeWhereSubqueryToMods(m.Recipe, models.RecipeAdditiveColumns.RecipeID, models.TableNames.RecipeAdditive)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeAdditiveColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeAdditiveColumns.DeletedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeAdditiveColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeAdditiveColumns.CreatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeAdditiveWhereToMods(m.Or, true, "")...)))
@@ -1397,8 +1397,8 @@ func RecipeBatchAdditiveWhereToMods(m *graphql_models.RecipeBatchAdditiveWhere, 
 	queryMods = append(queryMods, AdditiveWhereSubqueryToMods(m.Additive, models.RecipeBatchAdditiveColumns.AdditiveID, models.TableNames.RecipeBatchAdditive)...)
 	queryMods = append(queryMods, RecipeBatchWhereSubqueryToMods(m.Batch, models.RecipeBatchAdditiveColumns.BatchID, models.TableNames.RecipeBatchAdditive)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeBatchAdditiveColumns.DeletedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeBatchAdditiveColumns.CreatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeBatchAdditiveColumns.UpdatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeBatchAdditiveColumns.CreatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeBatchAdditiveWhereToMods(m.Or, true, "")...)))
 	}
@@ -1494,8 +1494,8 @@ func RecipeBatchFragranceWhereToMods(m *graphql_models.RecipeBatchFragranceWhere
 	queryMods = append(queryMods, FloatFilterToMods(m.Cost, models.RecipeBatchFragranceColumns.Cost)...)
 	queryMods = append(queryMods, FragranceWhereSubqueryToMods(m.Fragrance, models.RecipeBatchFragranceColumns.FragranceID, models.TableNames.RecipeBatchFragrance)...)
 	queryMods = append(queryMods, RecipeBatchWhereSubqueryToMods(m.Batch, models.RecipeBatchFragranceColumns.BatchID, models.TableNames.RecipeBatchFragrance)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeBatchFragranceColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeBatchFragranceColumns.DeletedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeBatchFragranceColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeBatchFragranceColumns.CreatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeBatchFragranceWhereToMods(m.Or, true, "")...)))
@@ -1649,9 +1649,9 @@ func RecipeBatchLyeWhereToMods(m *graphql_models.RecipeBatchLyeWhere, withPrimar
 	queryMods = append(queryMods, FloatFilterToMods(m.Cost, models.RecipeBatchLyeColumns.Cost)...)
 	queryMods = append(queryMods, LyeWhereSubqueryToMods(m.Lye, models.RecipeBatchLyeColumns.LyeID, models.TableNames.RecipeBatchLye)...)
 	queryMods = append(queryMods, RecipeBatchWhereSubqueryToMods(m.Batch, models.RecipeBatchLyeColumns.BatchID, models.TableNames.RecipeBatchLye)...)
-	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeBatchLyeColumns.CreatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeBatchLyeColumns.DeletedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeBatchLyeColumns.UpdatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeBatchLyeColumns.DeletedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeBatchLyeColumns.CreatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeBatchLyeWhereToMods(m.Or, true, "")...)))
 	}
@@ -1725,9 +1725,9 @@ func RecipeBatchNoteWhereToMods(m *graphql_models.RecipeBatchNoteWhere, withPrim
 	queryMods = append(queryMods, StringFilterToMods(m.Note, models.RecipeBatchNoteColumns.Note)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Link, models.RecipeBatchNoteColumns.Link)...)
 	queryMods = append(queryMods, RecipeBatchWhereSubqueryToMods(m.Batch, models.RecipeBatchNoteColumns.BatchID, models.TableNames.RecipeBatchNote)...)
-	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeBatchNoteColumns.DeletedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeBatchNoteColumns.CreatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeBatchNoteColumns.UpdatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeBatchNoteColumns.CreatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeBatchNoteColumns.DeletedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeBatchNoteWhereToMods(m.Or, true, "")...)))
 	}
@@ -1958,8 +1958,8 @@ func RecipeLipidWhereToMods(m *graphql_models.RecipeLipidWhere, withPrimaryID bo
 	queryMods = append(queryMods, LipidWhereSubqueryToMods(m.Lipid, models.RecipeLipidColumns.LipidID, models.TableNames.RecipeLipid)...)
 	queryMods = append(queryMods, RecipeWhereSubqueryToMods(m.Recipe, models.RecipeLipidColumns.RecipeID, models.TableNames.RecipeLipid)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeLipidColumns.UpdatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeLipidColumns.CreatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeLipidColumns.DeletedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeLipidColumns.CreatedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeLipidWhereToMods(m.Or, true, "")...)))
 	}
@@ -2033,9 +2033,9 @@ func RecipeStepWhereToMods(m *graphql_models.RecipeStepWhere, withPrimaryID bool
 	queryMods = append(queryMods, IntFilterToMods(m.Num, models.RecipeStepColumns.Num)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Note, models.RecipeStepColumns.Note)...)
 	queryMods = append(queryMods, RecipeWhereSubqueryToMods(m.Recipe, models.RecipeStepColumns.RecipeID, models.TableNames.RecipeStep)...)
-	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeStepColumns.DeletedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeStepColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeStepColumns.CreatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeStepColumns.UpdatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeStepColumns.DeletedAt)...)
 	if m.Or != nil {
 		queryMods = append(queryMods, qm.Or2(qm.Expr(RecipeStepWhereToMods(m.Or, true, "")...)))
 	}
@@ -2085,8 +2085,8 @@ func RecipeWhereToMods(m *graphql_models.RecipeWhere, withPrimaryID bool, parent
 	queryMods = append(queryMods, StringFilterToMods(m.Name, models.RecipeColumns.Name)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Note, models.RecipeColumns.Note)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.RecipeColumns.CreatedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeColumns.DeletedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.RecipeColumns.UpdatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.RecipeColumns.DeletedAt)...)
 	queryMods = append(queryMods, RecipeAdditiveWhereSubqueryToMods(m.RecipeAdditives, "", models.TableNames.Recipe)...)
 	queryMods = append(queryMods, RecipeBatchWhereSubqueryToMods(m.RecipeBatches, "", models.TableNames.Recipe)...)
 	queryMods = append(queryMods, RecipeFragranceWhereSubqueryToMods(m.RecipeFragrances, "", models.TableNames.Recipe)...)
@@ -2160,8 +2160,8 @@ func SupplierWhereToMods(m *graphql_models.SupplierWhere, withPrimaryID bool, pa
 	queryMods = append(queryMods, StringFilterToMods(m.Website, models.SupplierColumns.Website)...)
 	queryMods = append(queryMods, StringFilterToMods(m.Note, models.SupplierColumns.Note)...)
 	queryMods = append(queryMods, IntFilterToMods(m.DeletedAt, models.SupplierColumns.DeletedAt)...)
-	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.SupplierColumns.UpdatedAt)...)
 	queryMods = append(queryMods, IntFilterToMods(m.CreatedAt, models.SupplierColumns.CreatedAt)...)
+	queryMods = append(queryMods, IntFilterToMods(m.UpdatedAt, models.SupplierColumns.UpdatedAt)...)
 	queryMods = append(queryMods, AdditiveInventoryWhereSubqueryToMods(m.AdditiveInventories, "", models.TableNames.Supplier)...)
 	queryMods = append(queryMods, FragranceInventoryWhereSubqueryToMods(m.FragranceInventories, "", models.TableNames.Supplier)...)
 	queryMods = append(queryMods, LipidInventoryWhereSubqueryToMods(m.LipidInventories, "", models.TableNames.Supplier)...)

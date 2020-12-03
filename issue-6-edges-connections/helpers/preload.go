@@ -7,7 +7,7 @@ import (
 
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/models"
-	"github.com/web-ridge/utils-go/boilergql"
+	boilergql "github.com/web-ridge/utils-go/boilergql/v3"
 )
 
 var TablePreloadMap = map[string]map[string]boilergql.ColumnSetting{

@@ -17,7 +17,7 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/graphql_models"
-	"github.com/web-ridge/utils-go/api"
+	"github.com/web-ridge/utils-go/api/v3"
 )
 
 func main() {

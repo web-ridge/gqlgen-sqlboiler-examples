@@ -10,7 +10,7 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/models"
-	"github.com/web-ridge/utils-go/boilergql"
+	boilergql "github.com/web-ridge/utils-go/boilergql/v3"
 )
 
 var CommentLikeSortColumn = map[graphql_models.CommentLikeSort]string{

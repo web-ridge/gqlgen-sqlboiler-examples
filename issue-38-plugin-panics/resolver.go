@@ -12,7 +12,7 @@ import (
 	fm "github.com/web-ridge/gqlgen-sqlboiler-examples/issue-38-plugin-panics/graphql_models"
 	. "github.com/web-ridge/gqlgen-sqlboiler-examples/issue-38-plugin-panics/helpers"
 	dm "github.com/web-ridge/gqlgen-sqlboiler-examples/issue-38-plugin-panics/models"
-	"github.com/web-ridge/utils-go/boilergql"
+	boilergql "github.com/web-ridge/utils-go/boilergql/v3"
 )
 
 type Resolver struct {
@@ -131,6 +131,7 @@ func (r *mutationResolver) DeleteAdditives(ctx context.Context, filter *fm.Addit
 		log.Error().Err(err).Msg(publicAdditiveBatchDeleteError)
 		return nil, errors.New(publicAdditiveBatchDeleteError)
 	}
+
 	return &fm.AdditivesDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.Additive),
 	}, nil
@@ -246,6 +247,7 @@ func (r *mutationResolver) DeleteAdditiveInventories(ctx context.Context, filter
 		log.Error().Err(err).Msg(publicAdditiveInventoryBatchDeleteError)
 		return nil, errors.New(publicAdditiveInventoryBatchDeleteError)
 	}
+
 	return &fm.AdditiveInventoriesDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.AdditiveInventory),
 	}, nil
@@ -361,6 +363,7 @@ func (r *mutationResolver) DeleteAuthGroups(ctx context.Context, filter *fm.Auth
 		log.Error().Err(err).Msg(publicAuthGroupBatchDeleteError)
 		return nil, errors.New(publicAuthGroupBatchDeleteError)
 	}
+
 	return &fm.AuthGroupsDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.AuthGroup),
 	}, nil
@@ -476,6 +479,7 @@ func (r *mutationResolver) DeleteAuthGroupPermissions(ctx context.Context, filte
 		log.Error().Err(err).Msg(publicAuthGroupPermissionBatchDeleteError)
 		return nil, errors.New(publicAuthGroupPermissionBatchDeleteError)
 	}
+
 	return &fm.AuthGroupPermissionsDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.AuthGroupPermissions),
 	}, nil
@@ -591,6 +595,7 @@ func (r *mutationResolver) DeleteAuthPermissions(ctx context.Context, filter *fm
 		log.Error().Err(err).Msg(publicAuthPermissionBatchDeleteError)
 		return nil, errors.New(publicAuthPermissionBatchDeleteError)
 	}
+
 	return &fm.AuthPermissionsDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.AuthPermission),
 	}, nil
@@ -706,6 +711,7 @@ func (r *mutationResolver) DeleteAuthUsers(ctx context.Context, filter *fm.AuthU
 		log.Error().Err(err).Msg(publicAuthUserBatchDeleteError)
 		return nil, errors.New(publicAuthUserBatchDeleteError)
 	}
+
 	return &fm.AuthUsersDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.AuthUser),
 	}, nil
@@ -821,6 +827,7 @@ func (r *mutationResolver) DeleteAuthUserGroups(ctx context.Context, filter *fm.
 		log.Error().Err(err).Msg(publicAuthUserGroupBatchDeleteError)
 		return nil, errors.New(publicAuthUserGroupBatchDeleteError)
 	}
+
 	return &fm.AuthUserGroupsDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.AuthUserGroups),
 	}, nil
@@ -936,6 +943,7 @@ func (r *mutationResolver) DeleteAuthUserUserPermissions(ctx context.Context, fi
 		log.Error().Err(err).Msg(publicAuthUserUserPermissionBatchDeleteError)
 		return nil, errors.New(publicAuthUserUserPermissionBatchDeleteError)
 	}
+
 	return &fm.AuthUserUserPermissionsDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.AuthUserUserPermissions),
 	}, nil
@@ -1051,6 +1059,7 @@ func (r *mutationResolver) DeleteFragrances(ctx context.Context, filter *fm.Frag
 		log.Error().Err(err).Msg(publicFragranceBatchDeleteError)
 		return nil, errors.New(publicFragranceBatchDeleteError)
 	}
+
 	return &fm.FragrancesDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.Fragrance),
 	}, nil
@@ -1166,6 +1175,7 @@ func (r *mutationResolver) DeleteFragranceInventories(ctx context.Context, filte
 		log.Error().Err(err).Msg(publicFragranceInventoryBatchDeleteError)
 		return nil, errors.New(publicFragranceInventoryBatchDeleteError)
 	}
+
 	return &fm.FragranceInventoriesDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.FragranceInventory),
 	}, nil
@@ -1281,6 +1291,7 @@ func (r *mutationResolver) DeleteLipids(ctx context.Context, filter *fm.LipidFil
 		log.Error().Err(err).Msg(publicLipidBatchDeleteError)
 		return nil, errors.New(publicLipidBatchDeleteError)
 	}
+
 	return &fm.LipidsDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.Lipid),
 	}, nil
@@ -1396,6 +1407,7 @@ func (r *mutationResolver) DeleteLipidInventories(ctx context.Context, filter *f
 		log.Error().Err(err).Msg(publicLipidInventoryBatchDeleteError)
 		return nil, errors.New(publicLipidInventoryBatchDeleteError)
 	}
+
 	return &fm.LipidInventoriesDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.LipidInventory),
 	}, nil
@@ -1511,6 +1523,7 @@ func (r *mutationResolver) DeleteLyes(ctx context.Context, filter *fm.LyeFilter)
 		log.Error().Err(err).Msg(publicLyeBatchDeleteError)
 		return nil, errors.New(publicLyeBatchDeleteError)
 	}
+
 	return &fm.LyesDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.Lye),
 	}, nil
@@ -1626,6 +1639,7 @@ func (r *mutationResolver) DeleteLyeInventories(ctx context.Context, filter *fm.
 		log.Error().Err(err).Msg(publicLyeInventoryBatchDeleteError)
 		return nil, errors.New(publicLyeInventoryBatchDeleteError)
 	}
+
 	return &fm.LyeInventoriesDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.LyeInventory),
 	}, nil
@@ -1741,6 +1755,7 @@ func (r *mutationResolver) DeleteRecipes(ctx context.Context, filter *fm.RecipeF
 		log.Error().Err(err).Msg(publicRecipeBatchDeleteError)
 		return nil, errors.New(publicRecipeBatchDeleteError)
 	}
+
 	return &fm.RecipesDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.Recipe),
 	}, nil
@@ -1856,6 +1871,7 @@ func (r *mutationResolver) DeleteRecipeAdditives(ctx context.Context, filter *fm
 		log.Error().Err(err).Msg(publicRecipeAdditiveBatchDeleteError)
 		return nil, errors.New(publicRecipeAdditiveBatchDeleteError)
 	}
+
 	return &fm.RecipeAdditivesDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.RecipeAdditive),
 	}, nil
@@ -1971,6 +1987,7 @@ func (r *mutationResolver) DeleteRecipeBatches(ctx context.Context, filter *fm.R
 		log.Error().Err(err).Msg(publicRecipeBatchBatchDeleteError)
 		return nil, errors.New(publicRecipeBatchBatchDeleteError)
 	}
+
 	return &fm.RecipeBatchesDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.RecipeBatch),
 	}, nil
@@ -2086,6 +2103,7 @@ func (r *mutationResolver) DeleteRecipeBatchAdditives(ctx context.Context, filte
 		log.Error().Err(err).Msg(publicRecipeBatchAdditiveBatchDeleteError)
 		return nil, errors.New(publicRecipeBatchAdditiveBatchDeleteError)
 	}
+
 	return &fm.RecipeBatchAdditivesDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.RecipeBatchAdditive),
 	}, nil
@@ -2201,6 +2219,7 @@ func (r *mutationResolver) DeleteRecipeBatchFragrances(ctx context.Context, filt
 		log.Error().Err(err).Msg(publicRecipeBatchFragranceBatchDeleteError)
 		return nil, errors.New(publicRecipeBatchFragranceBatchDeleteError)
 	}
+
 	return &fm.RecipeBatchFragrancesDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.RecipeBatchFragrance),
 	}, nil
@@ -2316,6 +2335,7 @@ func (r *mutationResolver) DeleteRecipeBatchLipids(ctx context.Context, filter *
 		log.Error().Err(err).Msg(publicRecipeBatchLipidBatchDeleteError)
 		return nil, errors.New(publicRecipeBatchLipidBatchDeleteError)
 	}
+
 	return &fm.RecipeBatchLipidsDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.RecipeBatchLipid),
 	}, nil
@@ -2431,6 +2451,7 @@ func (r *mutationResolver) DeleteRecipeBatchLyes(ctx context.Context, filter *fm
 		log.Error().Err(err).Msg(publicRecipeBatchLyeBatchDeleteError)
 		return nil, errors.New(publicRecipeBatchLyeBatchDeleteError)
 	}
+
 	return &fm.RecipeBatchLyesDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.RecipeBatchLye),
 	}, nil
@@ -2546,6 +2567,7 @@ func (r *mutationResolver) DeleteRecipeBatchNotes(ctx context.Context, filter *f
 		log.Error().Err(err).Msg(publicRecipeBatchNoteBatchDeleteError)
 		return nil, errors.New(publicRecipeBatchNoteBatchDeleteError)
 	}
+
 	return &fm.RecipeBatchNotesDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.RecipeBatchNote),
 	}, nil
@@ -2661,6 +2683,7 @@ func (r *mutationResolver) DeleteRecipeFragrances(ctx context.Context, filter *f
 		log.Error().Err(err).Msg(publicRecipeFragranceBatchDeleteError)
 		return nil, errors.New(publicRecipeFragranceBatchDeleteError)
 	}
+
 	return &fm.RecipeFragrancesDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.RecipeFragrance),
 	}, nil
@@ -2776,6 +2799,7 @@ func (r *mutationResolver) DeleteRecipeLipids(ctx context.Context, filter *fm.Re
 		log.Error().Err(err).Msg(publicRecipeLipidBatchDeleteError)
 		return nil, errors.New(publicRecipeLipidBatchDeleteError)
 	}
+
 	return &fm.RecipeLipidsDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.RecipeLipid),
 	}, nil
@@ -2891,6 +2915,7 @@ func (r *mutationResolver) DeleteRecipeSteps(ctx context.Context, filter *fm.Rec
 		log.Error().Err(err).Msg(publicRecipeStepBatchDeleteError)
 		return nil, errors.New(publicRecipeStepBatchDeleteError)
 	}
+
 	return &fm.RecipeStepsDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.RecipeStep),
 	}, nil
@@ -3006,6 +3031,7 @@ func (r *mutationResolver) DeleteSuppliers(ctx context.Context, filter *fm.Suppl
 		log.Error().Err(err).Msg(publicSupplierBatchDeleteError)
 		return nil, errors.New(publicSupplierBatchDeleteError)
 	}
+
 	return &fm.SuppliersDeletePayload{
 		Ids: boilergql.IntIDsToGraphQL(boilerIDs, dm.TableNames.Supplier),
 	}, nil

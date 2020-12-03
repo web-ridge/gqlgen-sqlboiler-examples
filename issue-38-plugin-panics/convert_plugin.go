@@ -9,7 +9,7 @@ import (
 	"github.com/99designs/gqlgen/api"
 	"github.com/99designs/gqlgen/codegen/config"
 
-	gbgen "github.com/web-ridge/gqlgen-sqlboiler/v2"
+	gbgen "github.com/web-ridge/gqlgen-sqlboiler/v3"
 )
 
 func main() {
@@ -32,7 +32,7 @@ func main() {
 		PackageName: "graphql_models",
 	}
 
-	err = gbgen.SchemaWrite(gbgen.SchemaConfig{
+	if err = gbgen.SchemaWrite(gbgen.SchemaConfig{
 		BoilerModelDirectory: backend,
 		Directives:           []string{"IsAuthenticated"},
 		GenerateBatchCreate:  false,
@@ -41,14 +41,13 @@ func main() {
 		GenerateBatchUpdate:  true,
 	}, "schema.graphql", gbgen.SchemaGenerateConfig{
 		MergeSchema: false,
-	})
-
-	if err != nil {
-		fmt.Println("error while trying to gbgen.SchemaWrite")
+	}); err != nil {
+		fmt.Println("error while trying to generate schema.graphql")
 		fmt.Fprintln(os.Stderr, err.Error())
 		os.Exit(3)
 	}
-	err = api.Generate(cfg,
+
+	if err = api.Generate(cfg,
 		api.AddPlugin(gbgen.NewConvertPlugin(
 			output,   // directory where convert.go, convert_input.go and preload.go should live
 			backend,  // directory where sqlboiler files are put
@@ -63,9 +62,8 @@ func main() {
 			frontend,
 			"", // leave empty if you don't have auth
 		)),
-	)
-	if err != nil {
-		fmt.Println("error!!")
+	); err != nil {
+		fmt.Println("error while trying generate resolver and converts")
 		fmt.Fprintln(os.Stderr, err.Error())
 		os.Exit(3)
 	}

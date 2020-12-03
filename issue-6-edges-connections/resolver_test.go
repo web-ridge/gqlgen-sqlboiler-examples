@@ -12,7 +12,7 @@ import (
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/stretchr/testify/assert"
 	"github.com/volatiletech/sqlboiler/v4/boil"
-	"github.com/web-ridge/utils-go/boilergql"
+	"github.com/web-ridge/utils-go/boilergql/v3"
 
 	//"github.com/stretchr/testify/assert"
 

@@ -10,7 +10,7 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/graphql_models"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/models"
-	"github.com/web-ridge/utils-go/boilergql"
+	boilergql "github.com/web-ridge/utils-go/boilergql/v3"
 )
 
 var UserSortColumn = map[graphql_models.UserSort]string{
@@ -24,9 +24,11 @@ var UserSortColumn = map[graphql_models.UserSort]string{
 func UserSortValueFromCursorValue(cursorValue string) (string, interface{}) {
 	key, value := boilergql.FromCursorValue(cursorValue)
 	column := UserSortColumn[graphql_models.UserSort(key)]
+
 	if graphql_models.UserSort(key) == graphql_models.UserSortID {
 		return column, boilergql.GetIDFromCursor(value)
 	}
+
 	return column, boilergql.StringToInterface(value)
 }
 
@@ -54,8 +56,6 @@ func UserSortDirection(ordering []*graphql_models.UserOrdering) boilergql.SortDi
 }
 
 func FromUserCursor(cursor string, comparisonSign boilergql.ComparisonSign) []qm.QueryMod {
-	// b, _ := base64.StdEncoding.DecodeString(cursor)
-
 	var columns []string
 	var values []interface{}
 

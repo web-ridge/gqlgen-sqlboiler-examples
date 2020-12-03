@@ -20,7 +20,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/auth"
 	"github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models"
-	"github.com/web-ridge/utils-go/api"
+	"github.com/web-ridge/utils-go/api/v3"
 )
 
 func main() {

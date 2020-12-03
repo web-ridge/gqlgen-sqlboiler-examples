@@ -7,7 +7,7 @@ import (
 	"io"
 	"strconv"
 
-	"github.com/web-ridge/utils-go/boilergql"
+	boilergql "github.com/web-ridge/utils-go/boilergql/v3"
 )
 
 type Node interface {
