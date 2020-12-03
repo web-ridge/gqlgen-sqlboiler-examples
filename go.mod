@@ -2,6 +2,9 @@ module github.com/web-ridge/gqlgen-sqlboiler-examples
 
 go 1.14
 
+//replace github.com/web-ridge/utils-go/boilergql/v3 => ../utils-go/boilergql
+replace github.com/web-ridge/gqlgen-sqlboiler/v3 => ../gqlgen-sqlboiler
+
 require (
 	github.com/99designs/gqlgen v0.11.3
 	github.com/didip/tollbooth v4.0.2+incompatible

@@ -74,74 +74,139 @@ func ImageVariationSortToString(v graphql_models.ImageVariationSort) string {
 	return string(s)
 }
 
-type LikeSort string
+type PostSort string
 
 const (
-	LikeSortID        LikeSort = "id"
-	LikeSortLikeType  LikeSort = "likeType"
-	LikeSortCreatedAt LikeSort = "createdAt"
+	PostSortID      PostSort = "id"
+	PostSortContent PostSort = "content"
 )
 
-var LikeSortDBValue = map[graphql_models.LikeSort]LikeSort{
-	graphql_models.LikeSortID:        LikeSortID,
-	graphql_models.LikeSortLikeType:  LikeSortLikeType,
-	graphql_models.LikeSortCreatedAt: LikeSortCreatedAt,
+var PostSortDBValue = map[graphql_models.PostSort]PostSort{
+	graphql_models.PostSortID:      PostSortID,
+	graphql_models.PostSortContent: PostSortContent,
 }
-var LikeSortAPIValue = map[LikeSort]graphql_models.LikeSort{
-	LikeSortID:        graphql_models.LikeSortID,
-	LikeSortLikeType:  graphql_models.LikeSortLikeType,
-	LikeSortCreatedAt: graphql_models.LikeSortCreatedAt,
+var PostSortAPIValue = map[PostSort]graphql_models.PostSort{
+	PostSortID:      graphql_models.PostSortID,
+	PostSortContent: graphql_models.PostSortContent,
 }
 
-func NullDotStringToPointerLikeSort(v null.String) *graphql_models.LikeSort {
-	s := StringToLikeSort(v.String)
+func NullDotStringToPointerPostSort(v null.String) *graphql_models.PostSort {
+	s := StringToPostSort(v.String)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func NullDotStringToLikeSort(v null.String) graphql_models.LikeSort {
+func NullDotStringToPostSort(v null.String) graphql_models.PostSort {
 	if !v.Valid {
 		return ""
 	}
-	return StringToLikeSort(v.String)
+	return StringToPostSort(v.String)
 }
 
-func StringToLikeSort(v string) graphql_models.LikeSort {
-	s := LikeSortAPIValue[LikeSort(v)]
+func StringToPostSort(v string) graphql_models.PostSort {
+	s := PostSortAPIValue[PostSort(v)]
 	return s
 }
 
-func StringToPointerLikeSort(v string) *graphql_models.LikeSort {
-	s := StringToLikeSort(v)
+func StringToPointerPostSort(v string) *graphql_models.PostSort {
+	s := StringToPostSort(v)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func PointerLikeSortToString(v *graphql_models.LikeSort) string {
+func PointerPostSortToString(v *graphql_models.PostSort) string {
 	if v == nil {
 		return ""
 	}
-	return LikeSortToString(*v)
+	return PostSortToString(*v)
 }
 
-func PointerLikeSortToNullDotString(v *graphql_models.LikeSort) null.String {
+func PointerPostSortToNullDotString(v *graphql_models.PostSort) null.String {
 	if v == nil {
 		return null.NewString("", false)
 	}
-	return LikeSortToNullDotString(*v)
+	return PostSortToNullDotString(*v)
 }
 
-func LikeSortToNullDotString(v graphql_models.LikeSort) null.String {
-	s := LikeSortToString(v)
+func PostSortToNullDotString(v graphql_models.PostSort) null.String {
+	s := PostSortToString(v)
 	return null.NewString(s, s != "")
 }
 
-func LikeSortToString(v graphql_models.LikeSort) string {
-	s := LikeSortDBValue[v]
+func PostSortToString(v graphql_models.PostSort) string {
+	s := PostSortDBValue[v]
+	return string(s)
+}
+
+type CommentSort string
+
+const (
+	CommentSortID      CommentSort = "id"
+	CommentSortContent CommentSort = "content"
+)
+
+var CommentSortDBValue = map[graphql_models.CommentSort]CommentSort{
+	graphql_models.CommentSortID:      CommentSortID,
+	graphql_models.CommentSortContent: CommentSortContent,
+}
+var CommentSortAPIValue = map[CommentSort]graphql_models.CommentSort{
+	CommentSortID:      graphql_models.CommentSortID,
+	CommentSortContent: graphql_models.CommentSortContent,
+}
+
+func NullDotStringToPointerCommentSort(v null.String) *graphql_models.CommentSort {
+	s := StringToCommentSort(v.String)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func NullDotStringToCommentSort(v null.String) graphql_models.CommentSort {
+	if !v.Valid {
+		return ""
+	}
+	return StringToCommentSort(v.String)
+}
+
+func StringToCommentSort(v string) graphql_models.CommentSort {
+	s := CommentSortAPIValue[CommentSort(v)]
+	return s
+}
+
+func StringToPointerCommentSort(v string) *graphql_models.CommentSort {
+	s := StringToCommentSort(v)
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
+func PointerCommentSortToString(v *graphql_models.CommentSort) string {
+	if v == nil {
+		return ""
+	}
+	return CommentSortToString(*v)
+}
+
+func PointerCommentSortToNullDotString(v *graphql_models.CommentSort) null.String {
+	if v == nil {
+		return null.NewString("", false)
+	}
+	return CommentSortToNullDotString(*v)
+}
+
+func CommentSortToNullDotString(v graphql_models.CommentSort) null.String {
+	s := CommentSortToString(v)
+	return null.NewString(s, s != "")
+}
+
+func CommentSortToString(v graphql_models.CommentSort) string {
+	s := CommentSortDBValue[v]
 	return string(s)
 }
 
@@ -219,71 +284,74 @@ func UserSortToString(v graphql_models.UserSort) string {
 	return string(s)
 }
 
-type FriendshipSort string
+type CommentLikeSort string
 
 const (
-	FriendshipSortID        FriendshipSort = "id"
-	FriendshipSortCreatedAt FriendshipSort = "createdAt"
+	CommentLikeSortID        CommentLikeSort = "id"
+	CommentLikeSortLikeType  CommentLikeSort = "likeType"
+	CommentLikeSortCreatedAt CommentLikeSort = "createdAt"
 )
 
-var FriendshipSortDBValue = map[graphql_models.FriendshipSort]FriendshipSort{
-	graphql_models.FriendshipSortID:        FriendshipSortID,
-	graphql_models.FriendshipSortCreatedAt: FriendshipSortCreatedAt,
+var CommentLikeSortDBValue = map[graphql_models.CommentLikeSort]CommentLikeSort{
+	graphql_models.CommentLikeSortID:        CommentLikeSortID,
+	graphql_models.CommentLikeSortLikeType:  CommentLikeSortLikeType,
+	graphql_models.CommentLikeSortCreatedAt: CommentLikeSortCreatedAt,
 }
-var FriendshipSortAPIValue = map[FriendshipSort]graphql_models.FriendshipSort{
-	FriendshipSortID:        graphql_models.FriendshipSortID,
-	FriendshipSortCreatedAt: graphql_models.FriendshipSortCreatedAt,
+var CommentLikeSortAPIValue = map[CommentLikeSort]graphql_models.CommentLikeSort{
+	CommentLikeSortID:        graphql_models.CommentLikeSortID,
+	CommentLikeSortLikeType:  graphql_models.CommentLikeSortLikeType,
+	CommentLikeSortCreatedAt: graphql_models.CommentLikeSortCreatedAt,
 }
 
-func NullDotStringToPointerFriendshipSort(v null.String) *graphql_models.FriendshipSort {
-	s := StringToFriendshipSort(v.String)
+func NullDotStringToPointerCommentLikeSort(v null.String) *graphql_models.CommentLikeSort {
+	s := StringToCommentLikeSort(v.String)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func NullDotStringToFriendshipSort(v null.String) graphql_models.FriendshipSort {
+func NullDotStringToCommentLikeSort(v null.String) graphql_models.CommentLikeSort {
 	if !v.Valid {
 		return ""
 	}
-	return StringToFriendshipSort(v.String)
+	return StringToCommentLikeSort(v.String)
 }
 
-func StringToFriendshipSort(v string) graphql_models.FriendshipSort {
-	s := FriendshipSortAPIValue[FriendshipSort(v)]
+func StringToCommentLikeSort(v string) graphql_models.CommentLikeSort {
+	s := CommentLikeSortAPIValue[CommentLikeSort(v)]
 	return s
 }
 
-func StringToPointerFriendshipSort(v string) *graphql_models.FriendshipSort {
-	s := StringToFriendshipSort(v)
+func StringToPointerCommentLikeSort(v string) *graphql_models.CommentLikeSort {
+	s := StringToCommentLikeSort(v)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func PointerFriendshipSortToString(v *graphql_models.FriendshipSort) string {
+func PointerCommentLikeSortToString(v *graphql_models.CommentLikeSort) string {
 	if v == nil {
 		return ""
 	}
-	return FriendshipSortToString(*v)
+	return CommentLikeSortToString(*v)
 }
 
-func PointerFriendshipSortToNullDotString(v *graphql_models.FriendshipSort) null.String {
+func PointerCommentLikeSortToNullDotString(v *graphql_models.CommentLikeSort) null.String {
 	if v == nil {
 		return null.NewString("", false)
 	}
-	return FriendshipSortToNullDotString(*v)
+	return CommentLikeSortToNullDotString(*v)
 }
 
-func FriendshipSortToNullDotString(v graphql_models.FriendshipSort) null.String {
-	s := FriendshipSortToString(v)
+func CommentLikeSortToNullDotString(v graphql_models.CommentLikeSort) null.String {
+	s := CommentLikeSortToString(v)
 	return null.NewString(s, s != "")
 }
 
-func FriendshipSortToString(v graphql_models.FriendshipSort) string {
-	s := FriendshipSortDBValue[v]
+func CommentLikeSortToString(v graphql_models.CommentLikeSort) string {
+	s := CommentLikeSortDBValue[v]
 	return string(s)
 }
 
@@ -358,210 +426,142 @@ func ImageSortToString(v graphql_models.ImageSort) string {
 	return string(s)
 }
 
-type PostSort string
+type FriendshipSort string
 
 const (
-	PostSortID      PostSort = "id"
-	PostSortContent PostSort = "content"
+	FriendshipSortID        FriendshipSort = "id"
+	FriendshipSortCreatedAt FriendshipSort = "createdAt"
 )
 
-var PostSortDBValue = map[graphql_models.PostSort]PostSort{
-	graphql_models.PostSortID:      PostSortID,
-	graphql_models.PostSortContent: PostSortContent,
+var FriendshipSortDBValue = map[graphql_models.FriendshipSort]FriendshipSort{
+	graphql_models.FriendshipSortID:        FriendshipSortID,
+	graphql_models.FriendshipSortCreatedAt: FriendshipSortCreatedAt,
 }
-var PostSortAPIValue = map[PostSort]graphql_models.PostSort{
-	PostSortID:      graphql_models.PostSortID,
-	PostSortContent: graphql_models.PostSortContent,
+var FriendshipSortAPIValue = map[FriendshipSort]graphql_models.FriendshipSort{
+	FriendshipSortID:        graphql_models.FriendshipSortID,
+	FriendshipSortCreatedAt: graphql_models.FriendshipSortCreatedAt,
 }
 
-func NullDotStringToPointerPostSort(v null.String) *graphql_models.PostSort {
-	s := StringToPostSort(v.String)
+func NullDotStringToPointerFriendshipSort(v null.String) *graphql_models.FriendshipSort {
+	s := StringToFriendshipSort(v.String)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func NullDotStringToPostSort(v null.String) graphql_models.PostSort {
+func NullDotStringToFriendshipSort(v null.String) graphql_models.FriendshipSort {
 	if !v.Valid {
 		return ""
 	}
-	return StringToPostSort(v.String)
+	return StringToFriendshipSort(v.String)
 }
 
-func StringToPostSort(v string) graphql_models.PostSort {
-	s := PostSortAPIValue[PostSort(v)]
+func StringToFriendshipSort(v string) graphql_models.FriendshipSort {
+	s := FriendshipSortAPIValue[FriendshipSort(v)]
 	return s
 }
 
-func StringToPointerPostSort(v string) *graphql_models.PostSort {
-	s := StringToPostSort(v)
+func StringToPointerFriendshipSort(v string) *graphql_models.FriendshipSort {
+	s := StringToFriendshipSort(v)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func PointerPostSortToString(v *graphql_models.PostSort) string {
+func PointerFriendshipSortToString(v *graphql_models.FriendshipSort) string {
 	if v == nil {
 		return ""
 	}
-	return PostSortToString(*v)
+	return FriendshipSortToString(*v)
 }
 
-func PointerPostSortToNullDotString(v *graphql_models.PostSort) null.String {
+func PointerFriendshipSortToNullDotString(v *graphql_models.FriendshipSort) null.String {
 	if v == nil {
 		return null.NewString("", false)
 	}
-	return PostSortToNullDotString(*v)
+	return FriendshipSortToNullDotString(*v)
 }
 
-func PostSortToNullDotString(v graphql_models.PostSort) null.String {
-	s := PostSortToString(v)
+func FriendshipSortToNullDotString(v graphql_models.FriendshipSort) null.String {
+	s := FriendshipSortToString(v)
 	return null.NewString(s, s != "")
 }
 
-func PostSortToString(v graphql_models.PostSort) string {
-	s := PostSortDBValue[v]
+func FriendshipSortToString(v graphql_models.FriendshipSort) string {
+	s := FriendshipSortDBValue[v]
 	return string(s)
 }
 
-type CommentLikeSort string
+type LikeSort string
 
 const (
-	CommentLikeSortID        CommentLikeSort = "id"
-	CommentLikeSortLikeType  CommentLikeSort = "likeType"
-	CommentLikeSortCreatedAt CommentLikeSort = "createdAt"
+	LikeSortID        LikeSort = "id"
+	LikeSortLikeType  LikeSort = "likeType"
+	LikeSortCreatedAt LikeSort = "createdAt"
 )
 
-var CommentLikeSortDBValue = map[graphql_models.CommentLikeSort]CommentLikeSort{
-	graphql_models.CommentLikeSortID:        CommentLikeSortID,
-	graphql_models.CommentLikeSortLikeType:  CommentLikeSortLikeType,
-	graphql_models.CommentLikeSortCreatedAt: CommentLikeSortCreatedAt,
+var LikeSortDBValue = map[graphql_models.LikeSort]LikeSort{
+	graphql_models.LikeSortID:        LikeSortID,
+	graphql_models.LikeSortLikeType:  LikeSortLikeType,
+	graphql_models.LikeSortCreatedAt: LikeSortCreatedAt,
 }
-var CommentLikeSortAPIValue = map[CommentLikeSort]graphql_models.CommentLikeSort{
-	CommentLikeSortID:        graphql_models.CommentLikeSortID,
-	CommentLikeSortLikeType:  graphql_models.CommentLikeSortLikeType,
-	CommentLikeSortCreatedAt: graphql_models.CommentLikeSortCreatedAt,
+var LikeSortAPIValue = map[LikeSort]graphql_models.LikeSort{
+	LikeSortID:        graphql_models.LikeSortID,
+	LikeSortLikeType:  graphql_models.LikeSortLikeType,
+	LikeSortCreatedAt: graphql_models.LikeSortCreatedAt,
 }
 
-func NullDotStringToPointerCommentLikeSort(v null.String) *graphql_models.CommentLikeSort {
-	s := StringToCommentLikeSort(v.String)
+func NullDotStringToPointerLikeSort(v null.String) *graphql_models.LikeSort {
+	s := StringToLikeSort(v.String)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func NullDotStringToCommentLikeSort(v null.String) graphql_models.CommentLikeSort {
+func NullDotStringToLikeSort(v null.String) graphql_models.LikeSort {
 	if !v.Valid {
 		return ""
 	}
-	return StringToCommentLikeSort(v.String)
+	return StringToLikeSort(v.String)
 }
 
-func StringToCommentLikeSort(v string) graphql_models.CommentLikeSort {
-	s := CommentLikeSortAPIValue[CommentLikeSort(v)]
+func StringToLikeSort(v string) graphql_models.LikeSort {
+	s := LikeSortAPIValue[LikeSort(v)]
 	return s
 }
 
-func StringToPointerCommentLikeSort(v string) *graphql_models.CommentLikeSort {
-	s := StringToCommentLikeSort(v)
+func StringToPointerLikeSort(v string) *graphql_models.LikeSort {
+	s := StringToLikeSort(v)
 	if s == "" {
 		return nil
 	}
 	return &s
 }
 
-func PointerCommentLikeSortToString(v *graphql_models.CommentLikeSort) string {
+func PointerLikeSortToString(v *graphql_models.LikeSort) string {
 	if v == nil {
 		return ""
 	}
-	return CommentLikeSortToString(*v)
+	return LikeSortToString(*v)
 }
 
-func PointerCommentLikeSortToNullDotString(v *graphql_models.CommentLikeSort) null.String {
+func PointerLikeSortToNullDotString(v *graphql_models.LikeSort) null.String {
 	if v == nil {
 		return null.NewString("", false)
 	}
-	return CommentLikeSortToNullDotString(*v)
+	return LikeSortToNullDotString(*v)
 }
 
-func CommentLikeSortToNullDotString(v graphql_models.CommentLikeSort) null.String {
-	s := CommentLikeSortToString(v)
+func LikeSortToNullDotString(v graphql_models.LikeSort) null.String {
+	s := LikeSortToString(v)
 	return null.NewString(s, s != "")
 }
 
-func CommentLikeSortToString(v graphql_models.CommentLikeSort) string {
-	s := CommentLikeSortDBValue[v]
-	return string(s)
-}
-
-type CommentSort string
-
-const (
-	CommentSortID      CommentSort = "id"
-	CommentSortContent CommentSort = "content"
-)
-
-var CommentSortDBValue = map[graphql_models.CommentSort]CommentSort{
-	graphql_models.CommentSortID:      CommentSortID,
-	graphql_models.CommentSortContent: CommentSortContent,
-}
-var CommentSortAPIValue = map[CommentSort]graphql_models.CommentSort{
-	CommentSortID:      graphql_models.CommentSortID,
-	CommentSortContent: graphql_models.CommentSortContent,
-}
-
-func NullDotStringToPointerCommentSort(v null.String) *graphql_models.CommentSort {
-	s := StringToCommentSort(v.String)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func NullDotStringToCommentSort(v null.String) graphql_models.CommentSort {
-	if !v.Valid {
-		return ""
-	}
-	return StringToCommentSort(v.String)
-}
-
-func StringToCommentSort(v string) graphql_models.CommentSort {
-	s := CommentSortAPIValue[CommentSort(v)]
-	return s
-}
-
-func StringToPointerCommentSort(v string) *graphql_models.CommentSort {
-	s := StringToCommentSort(v)
-	if s == "" {
-		return nil
-	}
-	return &s
-}
-
-func PointerCommentSortToString(v *graphql_models.CommentSort) string {
-	if v == nil {
-		return ""
-	}
-	return CommentSortToString(*v)
-}
-
-func PointerCommentSortToNullDotString(v *graphql_models.CommentSort) null.String {
-	if v == nil {
-		return null.NewString("", false)
-	}
-	return CommentSortToNullDotString(*v)
-}
-
-func CommentSortToNullDotString(v graphql_models.CommentSort) null.String {
-	s := CommentSortToString(v)
-	return null.NewString(s, s != "")
-}
-
-func CommentSortToString(v graphql_models.CommentSort) string {
-	s := CommentSortDBValue[v]
+func LikeSortToString(v graphql_models.LikeSort) string {
+	s := LikeSortDBValue[v]
 	return string(s)
 }
 

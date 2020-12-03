@@ -41,34 +41,13 @@ const publicUserListError = "could not list users"
 func (r *queryResolver) Users(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.UserOrdering, filter *fm.UserFilter) (*fm.UserConnection, error) {
 	mods := GetUserPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return UsersToGraphQL(a), nil
-
 	mods = append(mods, UserFilterToMods(filter)...)
-
-	a, err := dm.Users(mods...).All(ctx, r.db)
+	connection, err := UserConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicUserListError)
 		return nil, errors.New(publicUserListError)
 	}
-
-	edges := make([]*fm.UserEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.UserEdge{
-			Cursor: "",
-			Node:   UserToGraphQL(row),
-		}
-	}
-
-	return &fm.UserConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 func (r *queryResolver) Node(ctx context.Context, globalGraphID string) (fm.Node, error) {

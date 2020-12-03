@@ -3058,34 +3058,13 @@ const publicAdditiveListError = "could not list additives"
 func (r *queryResolver) Additives(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AdditiveOrdering, filter *fm.AdditiveFilter) (*fm.AdditiveConnection, error) {
 	mods := GetAdditivePreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return AdditivesToGraphQL(a), nil
-
 	mods = append(mods, AdditiveFilterToMods(filter)...)
-
-	a, err := dm.Additives(mods...).All(ctx, r.db)
+	connection, err := AdditiveConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAdditiveListError)
 		return nil, errors.New(publicAdditiveListError)
 	}
-
-	edges := make([]*fm.AdditiveEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.AdditiveEdge{
-			Cursor: "",
-			Node:   AdditiveToGraphQL(row),
-		}
-	}
-
-	return &fm.AdditiveConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicAdditiveInventorySingleError = "could not get additiveInventory"
@@ -3109,34 +3088,13 @@ const publicAdditiveInventoryListError = "could not list additiveInventories"
 func (r *queryResolver) AdditiveInventories(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AdditiveInventoryOrdering, filter *fm.AdditiveInventoryFilter) (*fm.AdditiveInventoryConnection, error) {
 	mods := GetAdditiveInventoryPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return AdditiveInventoriesToGraphQL(a), nil
-
 	mods = append(mods, AdditiveInventoryFilterToMods(filter)...)
-
-	a, err := dm.AdditiveInventories(mods...).All(ctx, r.db)
+	connection, err := AdditiveInventoryConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAdditiveInventoryListError)
 		return nil, errors.New(publicAdditiveInventoryListError)
 	}
-
-	edges := make([]*fm.AdditiveInventoryEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.AdditiveInventoryEdge{
-			Cursor: "",
-			Node:   AdditiveInventoryToGraphQL(row),
-		}
-	}
-
-	return &fm.AdditiveInventoryConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicAuthGroupSingleError = "could not get authGroup"
@@ -3160,34 +3118,13 @@ const publicAuthGroupListError = "could not list authGroups"
 func (r *queryResolver) AuthGroups(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AuthGroupOrdering, filter *fm.AuthGroupFilter) (*fm.AuthGroupConnection, error) {
 	mods := GetAuthGroupPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return AuthGroupsToGraphQL(a), nil
-
 	mods = append(mods, AuthGroupFilterToMods(filter)...)
-
-	a, err := dm.AuthGroups(mods...).All(ctx, r.db)
+	connection, err := AuthGroupConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAuthGroupListError)
 		return nil, errors.New(publicAuthGroupListError)
 	}
-
-	edges := make([]*fm.AuthGroupEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.AuthGroupEdge{
-			Cursor: "",
-			Node:   AuthGroupToGraphQL(row),
-		}
-	}
-
-	return &fm.AuthGroupConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicAuthGroupPermissionSingleError = "could not get authGroupPermission"
@@ -3211,34 +3148,13 @@ const publicAuthGroupPermissionListError = "could not list authGroupPermissions"
 func (r *queryResolver) AuthGroupPermissions(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AuthGroupPermissionOrdering, filter *fm.AuthGroupPermissionFilter) (*fm.AuthGroupPermissionConnection, error) {
 	mods := GetAuthGroupPermissionPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return AuthGroupPermissionsToGraphQL(a), nil
-
 	mods = append(mods, AuthGroupPermissionFilterToMods(filter)...)
-
-	a, err := dm.AuthGroupPermissions(mods...).All(ctx, r.db)
+	connection, err := AuthGroupPermissionConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAuthGroupPermissionListError)
 		return nil, errors.New(publicAuthGroupPermissionListError)
 	}
-
-	edges := make([]*fm.AuthGroupPermissionEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.AuthGroupPermissionEdge{
-			Cursor: "",
-			Node:   AuthGroupPermissionToGraphQL(row),
-		}
-	}
-
-	return &fm.AuthGroupPermissionConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicAuthPermissionSingleError = "could not get authPermission"
@@ -3262,34 +3178,13 @@ const publicAuthPermissionListError = "could not list authPermissions"
 func (r *queryResolver) AuthPermissions(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AuthPermissionOrdering, filter *fm.AuthPermissionFilter) (*fm.AuthPermissionConnection, error) {
 	mods := GetAuthPermissionPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return AuthPermissionsToGraphQL(a), nil
-
 	mods = append(mods, AuthPermissionFilterToMods(filter)...)
-
-	a, err := dm.AuthPermissions(mods...).All(ctx, r.db)
+	connection, err := AuthPermissionConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAuthPermissionListError)
 		return nil, errors.New(publicAuthPermissionListError)
 	}
-
-	edges := make([]*fm.AuthPermissionEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.AuthPermissionEdge{
-			Cursor: "",
-			Node:   AuthPermissionToGraphQL(row),
-		}
-	}
-
-	return &fm.AuthPermissionConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicAuthUserSingleError = "could not get authUser"
@@ -3313,34 +3208,13 @@ const publicAuthUserListError = "could not list authUsers"
 func (r *queryResolver) AuthUsers(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AuthUserOrdering, filter *fm.AuthUserFilter) (*fm.AuthUserConnection, error) {
 	mods := GetAuthUserPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return AuthUsersToGraphQL(a), nil
-
 	mods = append(mods, AuthUserFilterToMods(filter)...)
-
-	a, err := dm.AuthUsers(mods...).All(ctx, r.db)
+	connection, err := AuthUserConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAuthUserListError)
 		return nil, errors.New(publicAuthUserListError)
 	}
-
-	edges := make([]*fm.AuthUserEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.AuthUserEdge{
-			Cursor: "",
-			Node:   AuthUserToGraphQL(row),
-		}
-	}
-
-	return &fm.AuthUserConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicAuthUserGroupSingleError = "could not get authUserGroup"
@@ -3364,34 +3238,13 @@ const publicAuthUserGroupListError = "could not list authUserGroups"
 func (r *queryResolver) AuthUserGroups(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AuthUserGroupOrdering, filter *fm.AuthUserGroupFilter) (*fm.AuthUserGroupConnection, error) {
 	mods := GetAuthUserGroupPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return AuthUserGroupsToGraphQL(a), nil
-
 	mods = append(mods, AuthUserGroupFilterToMods(filter)...)
-
-	a, err := dm.AuthUserGroups(mods...).All(ctx, r.db)
+	connection, err := AuthUserGroupConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAuthUserGroupListError)
 		return nil, errors.New(publicAuthUserGroupListError)
 	}
-
-	edges := make([]*fm.AuthUserGroupEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.AuthUserGroupEdge{
-			Cursor: "",
-			Node:   AuthUserGroupToGraphQL(row),
-		}
-	}
-
-	return &fm.AuthUserGroupConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicAuthUserUserPermissionSingleError = "could not get authUserUserPermission"
@@ -3415,34 +3268,13 @@ const publicAuthUserUserPermissionListError = "could not list authUserUserPermis
 func (r *queryResolver) AuthUserUserPermissions(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AuthUserUserPermissionOrdering, filter *fm.AuthUserUserPermissionFilter) (*fm.AuthUserUserPermissionConnection, error) {
 	mods := GetAuthUserUserPermissionPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return AuthUserUserPermissionsToGraphQL(a), nil
-
 	mods = append(mods, AuthUserUserPermissionFilterToMods(filter)...)
-
-	a, err := dm.AuthUserUserPermissions(mods...).All(ctx, r.db)
+	connection, err := AuthUserUserPermissionConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAuthUserUserPermissionListError)
 		return nil, errors.New(publicAuthUserUserPermissionListError)
 	}
-
-	edges := make([]*fm.AuthUserUserPermissionEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.AuthUserUserPermissionEdge{
-			Cursor: "",
-			Node:   AuthUserUserPermissionToGraphQL(row),
-		}
-	}
-
-	return &fm.AuthUserUserPermissionConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicFragranceSingleError = "could not get fragrance"
@@ -3466,34 +3298,13 @@ const publicFragranceListError = "could not list fragrances"
 func (r *queryResolver) Fragrances(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.FragranceOrdering, filter *fm.FragranceFilter) (*fm.FragranceConnection, error) {
 	mods := GetFragrancePreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return FragrancesToGraphQL(a), nil
-
 	mods = append(mods, FragranceFilterToMods(filter)...)
-
-	a, err := dm.Fragrances(mods...).All(ctx, r.db)
+	connection, err := FragranceConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicFragranceListError)
 		return nil, errors.New(publicFragranceListError)
 	}
-
-	edges := make([]*fm.FragranceEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.FragranceEdge{
-			Cursor: "",
-			Node:   FragranceToGraphQL(row),
-		}
-	}
-
-	return &fm.FragranceConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicFragranceInventorySingleError = "could not get fragranceInventory"
@@ -3517,34 +3328,13 @@ const publicFragranceInventoryListError = "could not list fragranceInventories"
 func (r *queryResolver) FragranceInventories(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.FragranceInventoryOrdering, filter *fm.FragranceInventoryFilter) (*fm.FragranceInventoryConnection, error) {
 	mods := GetFragranceInventoryPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return FragranceInventoriesToGraphQL(a), nil
-
 	mods = append(mods, FragranceInventoryFilterToMods(filter)...)
-
-	a, err := dm.FragranceInventories(mods...).All(ctx, r.db)
+	connection, err := FragranceInventoryConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicFragranceInventoryListError)
 		return nil, errors.New(publicFragranceInventoryListError)
 	}
-
-	edges := make([]*fm.FragranceInventoryEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.FragranceInventoryEdge{
-			Cursor: "",
-			Node:   FragranceInventoryToGraphQL(row),
-		}
-	}
-
-	return &fm.FragranceInventoryConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicLipidSingleError = "could not get lipid"
@@ -3568,34 +3358,13 @@ const publicLipidListError = "could not list lipids"
 func (r *queryResolver) Lipids(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.LipidOrdering, filter *fm.LipidFilter) (*fm.LipidConnection, error) {
 	mods := GetLipidPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return LipidsToGraphQL(a), nil
-
 	mods = append(mods, LipidFilterToMods(filter)...)
-
-	a, err := dm.Lipids(mods...).All(ctx, r.db)
+	connection, err := LipidConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicLipidListError)
 		return nil, errors.New(publicLipidListError)
 	}
-
-	edges := make([]*fm.LipidEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.LipidEdge{
-			Cursor: "",
-			Node:   LipidToGraphQL(row),
-		}
-	}
-
-	return &fm.LipidConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicLipidInventorySingleError = "could not get lipidInventory"
@@ -3619,34 +3388,13 @@ const publicLipidInventoryListError = "could not list lipidInventories"
 func (r *queryResolver) LipidInventories(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.LipidInventoryOrdering, filter *fm.LipidInventoryFilter) (*fm.LipidInventoryConnection, error) {
 	mods := GetLipidInventoryPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return LipidInventoriesToGraphQL(a), nil
-
 	mods = append(mods, LipidInventoryFilterToMods(filter)...)
-
-	a, err := dm.LipidInventories(mods...).All(ctx, r.db)
+	connection, err := LipidInventoryConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicLipidInventoryListError)
 		return nil, errors.New(publicLipidInventoryListError)
 	}
-
-	edges := make([]*fm.LipidInventoryEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.LipidInventoryEdge{
-			Cursor: "",
-			Node:   LipidInventoryToGraphQL(row),
-		}
-	}
-
-	return &fm.LipidInventoryConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicLyeSingleError = "could not get lye"
@@ -3670,34 +3418,13 @@ const publicLyeListError = "could not list lyes"
 func (r *queryResolver) Lyes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.LyeOrdering, filter *fm.LyeFilter) (*fm.LyeConnection, error) {
 	mods := GetLyePreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return LyesToGraphQL(a), nil
-
 	mods = append(mods, LyeFilterToMods(filter)...)
-
-	a, err := dm.Lyes(mods...).All(ctx, r.db)
+	connection, err := LyeConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicLyeListError)
 		return nil, errors.New(publicLyeListError)
 	}
-
-	edges := make([]*fm.LyeEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.LyeEdge{
-			Cursor: "",
-			Node:   LyeToGraphQL(row),
-		}
-	}
-
-	return &fm.LyeConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicLyeInventorySingleError = "could not get lyeInventory"
@@ -3721,34 +3448,13 @@ const publicLyeInventoryListError = "could not list lyeInventories"
 func (r *queryResolver) LyeInventories(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.LyeInventoryOrdering, filter *fm.LyeInventoryFilter) (*fm.LyeInventoryConnection, error) {
 	mods := GetLyeInventoryPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return LyeInventoriesToGraphQL(a), nil
-
 	mods = append(mods, LyeInventoryFilterToMods(filter)...)
-
-	a, err := dm.LyeInventories(mods...).All(ctx, r.db)
+	connection, err := LyeInventoryConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicLyeInventoryListError)
 		return nil, errors.New(publicLyeInventoryListError)
 	}
-
-	edges := make([]*fm.LyeInventoryEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.LyeInventoryEdge{
-			Cursor: "",
-			Node:   LyeInventoryToGraphQL(row),
-		}
-	}
-
-	return &fm.LyeInventoryConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicRecipeSingleError = "could not get recipe"
@@ -3772,34 +3478,13 @@ const publicRecipeListError = "could not list recipes"
 func (r *queryResolver) Recipes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeOrdering, filter *fm.RecipeFilter) (*fm.RecipeConnection, error) {
 	mods := GetRecipePreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return RecipesToGraphQL(a), nil
-
 	mods = append(mods, RecipeFilterToMods(filter)...)
-
-	a, err := dm.Recipes(mods...).All(ctx, r.db)
+	connection, err := RecipeConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeListError)
 		return nil, errors.New(publicRecipeListError)
 	}
-
-	edges := make([]*fm.RecipeEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.RecipeEdge{
-			Cursor: "",
-			Node:   RecipeToGraphQL(row),
-		}
-	}
-
-	return &fm.RecipeConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicRecipeAdditiveSingleError = "could not get recipeAdditive"
@@ -3823,34 +3508,13 @@ const publicRecipeAdditiveListError = "could not list recipeAdditives"
 func (r *queryResolver) RecipeAdditives(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeAdditiveOrdering, filter *fm.RecipeAdditiveFilter) (*fm.RecipeAdditiveConnection, error) {
 	mods := GetRecipeAdditivePreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return RecipeAdditivesToGraphQL(a), nil
-
 	mods = append(mods, RecipeAdditiveFilterToMods(filter)...)
-
-	a, err := dm.RecipeAdditives(mods...).All(ctx, r.db)
+	connection, err := RecipeAdditiveConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeAdditiveListError)
 		return nil, errors.New(publicRecipeAdditiveListError)
 	}
-
-	edges := make([]*fm.RecipeAdditiveEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.RecipeAdditiveEdge{
-			Cursor: "",
-			Node:   RecipeAdditiveToGraphQL(row),
-		}
-	}
-
-	return &fm.RecipeAdditiveConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicRecipeBatchSingleError = "could not get recipeBatch"
@@ -3874,34 +3538,13 @@ const publicRecipeBatchListError = "could not list recipeBatches"
 func (r *queryResolver) RecipeBatches(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeBatchOrdering, filter *fm.RecipeBatchFilter) (*fm.RecipeBatchConnection, error) {
 	mods := GetRecipeBatchPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return RecipeBatchesToGraphQL(a), nil
-
 	mods = append(mods, RecipeBatchFilterToMods(filter)...)
-
-	a, err := dm.RecipeBatches(mods...).All(ctx, r.db)
+	connection, err := RecipeBatchConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeBatchListError)
 		return nil, errors.New(publicRecipeBatchListError)
 	}
-
-	edges := make([]*fm.RecipeBatchEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.RecipeBatchEdge{
-			Cursor: "",
-			Node:   RecipeBatchToGraphQL(row),
-		}
-	}
-
-	return &fm.RecipeBatchConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicRecipeBatchAdditiveSingleError = "could not get recipeBatchAdditive"
@@ -3925,34 +3568,13 @@ const publicRecipeBatchAdditiveListError = "could not list recipeBatchAdditives"
 func (r *queryResolver) RecipeBatchAdditives(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeBatchAdditiveOrdering, filter *fm.RecipeBatchAdditiveFilter) (*fm.RecipeBatchAdditiveConnection, error) {
 	mods := GetRecipeBatchAdditivePreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return RecipeBatchAdditivesToGraphQL(a), nil
-
 	mods = append(mods, RecipeBatchAdditiveFilterToMods(filter)...)
-
-	a, err := dm.RecipeBatchAdditives(mods...).All(ctx, r.db)
+	connection, err := RecipeBatchAdditiveConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeBatchAdditiveListError)
 		return nil, errors.New(publicRecipeBatchAdditiveListError)
 	}
-
-	edges := make([]*fm.RecipeBatchAdditiveEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.RecipeBatchAdditiveEdge{
-			Cursor: "",
-			Node:   RecipeBatchAdditiveToGraphQL(row),
-		}
-	}
-
-	return &fm.RecipeBatchAdditiveConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicRecipeBatchFragranceSingleError = "could not get recipeBatchFragrance"
@@ -3976,34 +3598,13 @@ const publicRecipeBatchFragranceListError = "could not list recipeBatchFragrance
 func (r *queryResolver) RecipeBatchFragrances(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeBatchFragranceOrdering, filter *fm.RecipeBatchFragranceFilter) (*fm.RecipeBatchFragranceConnection, error) {
 	mods := GetRecipeBatchFragrancePreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return RecipeBatchFragrancesToGraphQL(a), nil
-
 	mods = append(mods, RecipeBatchFragranceFilterToMods(filter)...)
-
-	a, err := dm.RecipeBatchFragrances(mods...).All(ctx, r.db)
+	connection, err := RecipeBatchFragranceConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeBatchFragranceListError)
 		return nil, errors.New(publicRecipeBatchFragranceListError)
 	}
-
-	edges := make([]*fm.RecipeBatchFragranceEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.RecipeBatchFragranceEdge{
-			Cursor: "",
-			Node:   RecipeBatchFragranceToGraphQL(row),
-		}
-	}
-
-	return &fm.RecipeBatchFragranceConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicRecipeBatchLipidSingleError = "could not get recipeBatchLipid"
@@ -4027,34 +3628,13 @@ const publicRecipeBatchLipidListError = "could not list recipeBatchLipids"
 func (r *queryResolver) RecipeBatchLipids(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeBatchLipidOrdering, filter *fm.RecipeBatchLipidFilter) (*fm.RecipeBatchLipidConnection, error) {
 	mods := GetRecipeBatchLipidPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return RecipeBatchLipidsToGraphQL(a), nil
-
 	mods = append(mods, RecipeBatchLipidFilterToMods(filter)...)
-
-	a, err := dm.RecipeBatchLipids(mods...).All(ctx, r.db)
+	connection, err := RecipeBatchLipidConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeBatchLipidListError)
 		return nil, errors.New(publicRecipeBatchLipidListError)
 	}
-
-	edges := make([]*fm.RecipeBatchLipidEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.RecipeBatchLipidEdge{
-			Cursor: "",
-			Node:   RecipeBatchLipidToGraphQL(row),
-		}
-	}
-
-	return &fm.RecipeBatchLipidConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicRecipeBatchLyeSingleError = "could not get recipeBatchLye"
@@ -4078,34 +3658,13 @@ const publicRecipeBatchLyeListError = "could not list recipeBatchLyes"
 func (r *queryResolver) RecipeBatchLyes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeBatchLyeOrdering, filter *fm.RecipeBatchLyeFilter) (*fm.RecipeBatchLyeConnection, error) {
 	mods := GetRecipeBatchLyePreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return RecipeBatchLyesToGraphQL(a), nil
-
 	mods = append(mods, RecipeBatchLyeFilterToMods(filter)...)
-
-	a, err := dm.RecipeBatchLyes(mods...).All(ctx, r.db)
+	connection, err := RecipeBatchLyeConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeBatchLyeListError)
 		return nil, errors.New(publicRecipeBatchLyeListError)
 	}
-
-	edges := make([]*fm.RecipeBatchLyeEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.RecipeBatchLyeEdge{
-			Cursor: "",
-			Node:   RecipeBatchLyeToGraphQL(row),
-		}
-	}
-
-	return &fm.RecipeBatchLyeConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicRecipeBatchNoteSingleError = "could not get recipeBatchNote"
@@ -4129,34 +3688,13 @@ const publicRecipeBatchNoteListError = "could not list recipeBatchNotes"
 func (r *queryResolver) RecipeBatchNotes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeBatchNoteOrdering, filter *fm.RecipeBatchNoteFilter) (*fm.RecipeBatchNoteConnection, error) {
 	mods := GetRecipeBatchNotePreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return RecipeBatchNotesToGraphQL(a), nil
-
 	mods = append(mods, RecipeBatchNoteFilterToMods(filter)...)
-
-	a, err := dm.RecipeBatchNotes(mods...).All(ctx, r.db)
+	connection, err := RecipeBatchNoteConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeBatchNoteListError)
 		return nil, errors.New(publicRecipeBatchNoteListError)
 	}
-
-	edges := make([]*fm.RecipeBatchNoteEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.RecipeBatchNoteEdge{
-			Cursor: "",
-			Node:   RecipeBatchNoteToGraphQL(row),
-		}
-	}
-
-	return &fm.RecipeBatchNoteConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicRecipeFragranceSingleError = "could not get recipeFragrance"
@@ -4180,34 +3718,13 @@ const publicRecipeFragranceListError = "could not list recipeFragrances"
 func (r *queryResolver) RecipeFragrances(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeFragranceOrdering, filter *fm.RecipeFragranceFilter) (*fm.RecipeFragranceConnection, error) {
 	mods := GetRecipeFragrancePreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return RecipeFragrancesToGraphQL(a), nil
-
 	mods = append(mods, RecipeFragranceFilterToMods(filter)...)
-
-	a, err := dm.RecipeFragrances(mods...).All(ctx, r.db)
+	connection, err := RecipeFragranceConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeFragranceListError)
 		return nil, errors.New(publicRecipeFragranceListError)
 	}
-
-	edges := make([]*fm.RecipeFragranceEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.RecipeFragranceEdge{
-			Cursor: "",
-			Node:   RecipeFragranceToGraphQL(row),
-		}
-	}
-
-	return &fm.RecipeFragranceConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicRecipeLipidSingleError = "could not get recipeLipid"
@@ -4231,34 +3748,13 @@ const publicRecipeLipidListError = "could not list recipeLipids"
 func (r *queryResolver) RecipeLipids(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeLipidOrdering, filter *fm.RecipeLipidFilter) (*fm.RecipeLipidConnection, error) {
 	mods := GetRecipeLipidPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return RecipeLipidsToGraphQL(a), nil
-
 	mods = append(mods, RecipeLipidFilterToMods(filter)...)
-
-	a, err := dm.RecipeLipids(mods...).All(ctx, r.db)
+	connection, err := RecipeLipidConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeLipidListError)
 		return nil, errors.New(publicRecipeLipidListError)
 	}
-
-	edges := make([]*fm.RecipeLipidEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.RecipeLipidEdge{
-			Cursor: "",
-			Node:   RecipeLipidToGraphQL(row),
-		}
-	}
-
-	return &fm.RecipeLipidConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicRecipeStepSingleError = "could not get recipeStep"
@@ -4282,34 +3778,13 @@ const publicRecipeStepListError = "could not list recipeSteps"
 func (r *queryResolver) RecipeSteps(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeStepOrdering, filter *fm.RecipeStepFilter) (*fm.RecipeStepConnection, error) {
 	mods := GetRecipeStepPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return RecipeStepsToGraphQL(a), nil
-
 	mods = append(mods, RecipeStepFilterToMods(filter)...)
-
-	a, err := dm.RecipeSteps(mods...).All(ctx, r.db)
+	connection, err := RecipeStepConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeStepListError)
 		return nil, errors.New(publicRecipeStepListError)
 	}
-
-	edges := make([]*fm.RecipeStepEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.RecipeStepEdge{
-			Cursor: "",
-			Node:   RecipeStepToGraphQL(row),
-		}
-	}
-
-	return &fm.RecipeStepConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicSupplierSingleError = "could not get supplier"
@@ -4333,34 +3808,13 @@ const publicSupplierListError = "could not list suppliers"
 func (r *queryResolver) Suppliers(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.SupplierOrdering, filter *fm.SupplierFilter) (*fm.SupplierConnection, error) {
 	mods := GetSupplierPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return SuppliersToGraphQL(a), nil
-
 	mods = append(mods, SupplierFilterToMods(filter)...)
-
-	a, err := dm.Suppliers(mods...).All(ctx, r.db)
+	connection, err := SupplierConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicSupplierListError)
 		return nil, errors.New(publicSupplierListError)
 	}
-
-	edges := make([]*fm.SupplierEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.SupplierEdge{
-			Cursor: "",
-			Node:   SupplierToGraphQL(row),
-		}
-	}
-
-	return &fm.SupplierConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 func (r *queryResolver) Node(ctx context.Context, globalGraphID string) (fm.Node, error) {

@@ -1107,34 +1107,13 @@ func (r *queryResolver) Comments(ctx context.Context, pagination boilergql.Conne
 		auth.UserIDFromContext(ctx),
 	))
 
-	// TODO: use these if no connection is used
-	// return CommentsToGraphQL(a), nil
-
 	mods = append(mods, CommentFilterToMods(filter)...)
-
-	a, err := dm.Comments(mods...).All(ctx, r.db)
+	connection, err := CommentConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicCommentListError)
 		return nil, errors.New(publicCommentListError)
 	}
-
-	edges := make([]*fm.CommentEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.CommentEdge{
-			Cursor: "",
-			Node:   CommentToGraphQL(row),
-		}
-	}
-
-	return &fm.CommentConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicCommentLikeSingleError = "could not get commentLike"
@@ -1166,34 +1145,13 @@ func (r *queryResolver) CommentLikes(ctx context.Context, pagination boilergql.C
 		auth.UserIDFromContext(ctx),
 	))
 
-	// TODO: use these if no connection is used
-	// return CommentLikesToGraphQL(a), nil
-
 	mods = append(mods, CommentLikeFilterToMods(filter)...)
-
-	a, err := dm.CommentLikes(mods...).All(ctx, r.db)
+	connection, err := CommentLikeConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicCommentLikeListError)
 		return nil, errors.New(publicCommentLikeListError)
 	}
-
-	edges := make([]*fm.CommentLikeEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.CommentLikeEdge{
-			Cursor: "",
-			Node:   CommentLikeToGraphQL(row),
-		}
-	}
-
-	return &fm.CommentLikeConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicFriendshipSingleError = "could not get friendship"
@@ -1217,34 +1175,13 @@ const publicFriendshipListError = "could not list friendships"
 func (r *queryResolver) Friendships(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.FriendshipOrdering, filter *fm.FriendshipFilter) (*fm.FriendshipConnection, error) {
 	mods := GetFriendshipPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return FriendshipsToGraphQL(a), nil
-
 	mods = append(mods, FriendshipFilterToMods(filter)...)
-
-	a, err := dm.Friendships(mods...).All(ctx, r.db)
+	connection, err := FriendshipConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicFriendshipListError)
 		return nil, errors.New(publicFriendshipListError)
 	}
-
-	edges := make([]*fm.FriendshipEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.FriendshipEdge{
-			Cursor: "",
-			Node:   FriendshipToGraphQL(row),
-		}
-	}
-
-	return &fm.FriendshipConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicImageSingleError = "could not get image"
@@ -1268,34 +1205,13 @@ const publicImageListError = "could not list images"
 func (r *queryResolver) Images(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.ImageOrdering, filter *fm.ImageFilter) (*fm.ImageConnection, error) {
 	mods := GetImagePreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return ImagesToGraphQL(a), nil
-
 	mods = append(mods, ImageFilterToMods(filter)...)
-
-	a, err := dm.Images(mods...).All(ctx, r.db)
+	connection, err := ImageConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicImageListError)
 		return nil, errors.New(publicImageListError)
 	}
-
-	edges := make([]*fm.ImageEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.ImageEdge{
-			Cursor: "",
-			Node:   ImageToGraphQL(row),
-		}
-	}
-
-	return &fm.ImageConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicImageVariationSingleError = "could not get imageVariation"
@@ -1319,34 +1235,13 @@ const publicImageVariationListError = "could not list imageVariations"
 func (r *queryResolver) ImageVariations(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.ImageVariationOrdering, filter *fm.ImageVariationFilter) (*fm.ImageVariationConnection, error) {
 	mods := GetImageVariationPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return ImageVariationsToGraphQL(a), nil
-
 	mods = append(mods, ImageVariationFilterToMods(filter)...)
-
-	a, err := dm.ImageVariations(mods...).All(ctx, r.db)
+	connection, err := ImageVariationConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicImageVariationListError)
 		return nil, errors.New(publicImageVariationListError)
 	}
-
-	edges := make([]*fm.ImageVariationEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.ImageVariationEdge{
-			Cursor: "",
-			Node:   ImageVariationToGraphQL(row),
-		}
-	}
-
-	return &fm.ImageVariationConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicLikeSingleError = "could not get like"
@@ -1378,34 +1273,13 @@ func (r *queryResolver) Likes(ctx context.Context, pagination boilergql.Connecti
 		auth.UserIDFromContext(ctx),
 	))
 
-	// TODO: use these if no connection is used
-	// return LikesToGraphQL(a), nil
-
 	mods = append(mods, LikeFilterToMods(filter)...)
-
-	a, err := dm.Likes(mods...).All(ctx, r.db)
+	connection, err := LikeConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicLikeListError)
 		return nil, errors.New(publicLikeListError)
 	}
-
-	edges := make([]*fm.LikeEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.LikeEdge{
-			Cursor: "",
-			Node:   LikeToGraphQL(row),
-		}
-	}
-
-	return &fm.LikeConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicPostSingleError = "could not get post"
@@ -1437,34 +1311,13 @@ func (r *queryResolver) Posts(ctx context.Context, pagination boilergql.Connecti
 		auth.UserIDFromContext(ctx),
 	))
 
-	// TODO: use these if no connection is used
-	// return PostsToGraphQL(a), nil
-
 	mods = append(mods, PostFilterToMods(filter)...)
-
-	a, err := dm.Posts(mods...).All(ctx, r.db)
+	connection, err := PostConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicPostListError)
 		return nil, errors.New(publicPostListError)
 	}
-
-	edges := make([]*fm.PostEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.PostEdge{
-			Cursor: "",
-			Node:   PostToGraphQL(row),
-		}
-	}
-
-	return &fm.PostConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 const publicUserSingleError = "could not get user"
@@ -1488,34 +1341,13 @@ const publicUserListError = "could not list users"
 func (r *queryResolver) Users(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.UserOrdering, filter *fm.UserFilter) (*fm.UserConnection, error) {
 	mods := GetUserPreloadMods(ctx)
 
-	// TODO: use these if no connection is used
-	// return UsersToGraphQL(a), nil
-
 	mods = append(mods, UserFilterToMods(filter)...)
-
-	a, err := dm.Users(mods...).All(ctx, r.db)
+	connection, err := UserConnection(ctx, r.db, mods, pagination, ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicUserListError)
 		return nil, errors.New(publicUserListError)
 	}
-
-	edges := make([]*fm.UserEdge, len(a))
-	for i, row := range a {
-		edges[i] = &fm.UserEdge{
-			Cursor: "",
-			Node:   UserToGraphQL(row),
-		}
-	}
-
-	return &fm.UserConnection{
-		Edges: edges,
-		PageInfo: &fm.PageInfo{
-			HasNextPage:     false,
-			HasPreviousPage: false,
-			StartCursor:     nil,
-			EndCursor:       nil,
-		},
-	}, nil
+	return connection, nil
 }
 
 func (r *queryResolver) Node(ctx context.Context, globalGraphID string) (fm.Node, error) {
