@@ -1,6 +1,121 @@
-directive @isAuthenticated on FIELD_DEFINITION
+directive @IsAuthenticated on FIELD_DEFINITION
 
-type Comment {
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+input ConnectionForwardPagination {
+  first: Int!
+  after: ID
+}
+
+input ConnectionBackwardPagination {
+  last: Int!
+  before: ID
+}
+
+input ConnectionPagination {
+  forward: ConnectionForwardPagination
+  backward: ConnectionBackwardPagination
+}
+
+enum SortDirection {
+  ASC
+  DESC
+}
+
+enum CommentSort {
+  ID
+  CONTENT
+}
+
+input CommentOrdering {
+  sort: CommentSort!
+  direction: SortDirection! = ASC
+}
+
+enum CommentLikeSort {
+  ID
+  LIKE_TYPE
+  CREATED_AT
+}
+
+input CommentLikeOrdering {
+  sort: CommentLikeSort!
+  direction: SortDirection! = ASC
+}
+
+enum FriendshipSort {
+  ID
+  CREATED_AT
+}
+
+input FriendshipOrdering {
+  sort: FriendshipSort!
+  direction: SortDirection! = ASC
+}
+
+enum ImageSort {
+  ID
+  VIEWS
+  ORIGINAL_URL
+}
+
+input ImageOrdering {
+  sort: ImageSort!
+  direction: SortDirection! = ASC
+}
+
+enum ImageVariationSort {
+  ID
+}
+
+input ImageVariationOrdering {
+  sort: ImageVariationSort!
+  direction: SortDirection! = ASC
+}
+
+enum LikeSort {
+  ID
+  LIKE_TYPE
+  CREATED_AT
+}
+
+input LikeOrdering {
+  sort: LikeSort!
+  direction: SortDirection! = ASC
+}
+
+enum PostSort {
+  ID
+  CONTENT
+}
+
+input PostOrdering {
+  sort: PostSort!
+  direction: SortDirection! = ASC
+}
+
+enum UserSort {
+  ID
+  FIRST_NAME
+  LAST_NAME
+  EMAIL
+}
+
+input UserOrdering {
+  sort: UserSort!
+  direction: SortDirection! = ASC
+}
+
+type Comment implements Node {
   id: ID!
   content: String!
   post: Post
@@ -8,7 +123,7 @@ type Comment {
   commentLikes: [CommentLike]
 }
 
-type CommentLike {
+type CommentLike implements Node {
   id: ID!
   comment: Comment!
   user: User!
@@ -16,13 +131,13 @@ type CommentLike {
   createdAt: Int
 }
 
-type Friendship {
+type Friendship implements Node {
   id: ID!
   createdAt: Int
   users: [User]
 }
 
-type Image {
+type Image implements Node {
   id: ID!
   post: Post!
   views: Int
@@ -30,12 +145,12 @@ type Image {
   imageVariations: [ImageVariation]
 }
 
-type ImageVariation {
+type ImageVariation implements Node {
   id: ID!
   image: Image!
 }
 
-type Like {
+type Like implements Node {
   id: ID!
   post: Post!
   user: User!
@@ -43,7 +158,7 @@ type Like {
   createdAt: Int
 }
 
-type Post {
+type Post implements Node {
   id: ID!
   content: String!
   user: User!
@@ -52,7 +167,7 @@ type Post {
   likes: [Like]
 }
 
-type User {
+type User implements Node {
   id: ID!
   firstName: String!
   lastName: String!
@@ -62,6 +177,86 @@ type User {
   likes: [Like]
   posts: [Post]
   friendships: [Friendship]
+}
+
+type CommentEdge {
+  cursor: String!
+  node: Comment
+}
+
+type CommentLikeEdge {
+  cursor: String!
+  node: CommentLike
+}
+
+type FriendshipEdge {
+  cursor: String!
+  node: Friendship
+}
+
+type ImageEdge {
+  cursor: String!
+  node: Image
+}
+
+type ImageVariationEdge {
+  cursor: String!
+  node: ImageVariation
+}
+
+type LikeEdge {
+  cursor: String!
+  node: Like
+}
+
+type PostEdge {
+  cursor: String!
+  node: Post
+}
+
+type UserEdge {
+  cursor: String!
+  node: User
+}
+
+type CommentConnection {
+  edges: [CommentEdge]
+  pageInfo: PageInfo!
+}
+
+type CommentLikeConnection {
+  edges: [CommentLikeEdge]
+  pageInfo: PageInfo!
+}
+
+type FriendshipConnection {
+  edges: [FriendshipEdge]
+  pageInfo: PageInfo!
+}
+
+type ImageConnection {
+  edges: [ImageEdge]
+  pageInfo: PageInfo!
+}
+
+type ImageVariationConnection {
+  edges: [ImageVariationEdge]
+  pageInfo: PageInfo!
+}
+
+type LikeConnection {
+  edges: [LikeEdge]
+  pageInfo: PageInfo!
+}
+
+type PostConnection {
+  edges: [PostEdge]
+  pageInfo: PageInfo!
+}
+
+type UserConnection {
+  edges: [UserEdge]
+  pageInfo: PageInfo!
 }
 
 input IDFilter {
@@ -243,37 +438,67 @@ input UserWhere {
 }
 
 type Query {
-  comment(id: ID!): Comment! @isAuthenticated
-  comments(filter: CommentFilter): [Comment!]! @isAuthenticated
-  commentLike(id: ID!): CommentLike! @isAuthenticated
-  commentLikes(filter: CommentLikeFilter): [CommentLike!]! @isAuthenticated
-  friendship(id: ID!): Friendship! @isAuthenticated
-  friendships(filter: FriendshipFilter): [Friendship!]! @isAuthenticated
-  image(id: ID!): Image! @isAuthenticated
-  images(filter: ImageFilter): [Image!]! @isAuthenticated
-  imageVariation(id: ID!): ImageVariation! @isAuthenticated
-  imageVariations(filter: ImageVariationFilter): [ImageVariation!]!
-    @isAuthenticated
-  like(id: ID!): Like! @isAuthenticated
-  likes(filter: LikeFilter): [Like!]! @isAuthenticated
-  post(id: ID!): Post! @isAuthenticated
-  posts(filter: PostFilter): [Post!]! @isAuthenticated
-  user(id: ID!): User! @isAuthenticated
-  users(filter: UserFilter): [User!]! @isAuthenticated
+  node(id: ID!): Node
+  comment(id: ID!): Comment! @IsAuthenticated
+  comments(
+    pagination: ConnectionPagination!
+    ordering: [CommentOrdering!]
+    filter: CommentFilter
+  ): CommentConnection! @IsAuthenticated
+  commentLike(id: ID!): CommentLike! @IsAuthenticated
+  commentLikes(
+    pagination: ConnectionPagination!
+    ordering: [CommentLikeOrdering!]
+    filter: CommentLikeFilter
+  ): CommentLikeConnection! @IsAuthenticated
+  friendship(id: ID!): Friendship! @IsAuthenticated
+  friendships(
+    pagination: ConnectionPagination!
+    ordering: [FriendshipOrdering!]
+    filter: FriendshipFilter
+  ): FriendshipConnection! @IsAuthenticated
+  image(id: ID!): Image! @IsAuthenticated
+  images(
+    pagination: ConnectionPagination!
+    ordering: [ImageOrdering!]
+    filter: ImageFilter
+  ): ImageConnection! @IsAuthenticated
+  imageVariation(id: ID!): ImageVariation! @IsAuthenticated
+  imageVariations(
+    pagination: ConnectionPagination!
+    ordering: [ImageVariationOrdering!]
+    filter: ImageVariationFilter
+  ): ImageVariationConnection! @IsAuthenticated
+  like(id: ID!): Like! @IsAuthenticated
+  likes(
+    pagination: ConnectionPagination!
+    ordering: [LikeOrdering!]
+    filter: LikeFilter
+  ): LikeConnection! @IsAuthenticated
+  post(id: ID!): Post! @IsAuthenticated
+  posts(
+    pagination: ConnectionPagination!
+    ordering: [PostOrdering!]
+    filter: PostFilter
+  ): PostConnection! @IsAuthenticated
+  user(id: ID!): User! @IsAuthenticated
+  users(
+    pagination: ConnectionPagination!
+    ordering: [UserOrdering!]
+    filter: UserFilter
+  ): UserConnection! @IsAuthenticated
 }
 
 input CommentCreateInput {
   content: String!
   postId: ID
+  userId: ID!
 }
 
 input CommentUpdateInput {
   content: String
   postId: ID
-}
-
-input CommentsCreateInput {
-  comments: [CommentCreateInput!]!
+  userId: ID
 }
 
 type CommentPayload {
@@ -282,10 +507,6 @@ type CommentPayload {
 
 type CommentDeletePayload {
   id: ID!
-}
-
-type CommentsPayload {
-  comments: [Comment!]!
 }
 
 type CommentsDeletePayload {
@@ -298,18 +519,16 @@ type CommentsUpdatePayload {
 
 input CommentLikeCreateInput {
   commentId: ID!
+  userId: ID!
   likeType: String!
   createdAt: Int
 }
 
 input CommentLikeUpdateInput {
   commentId: ID
+  userId: ID
   likeType: String
   createdAt: Int
-}
-
-input CommentLikesCreateInput {
-  commentLikes: [CommentLikeCreateInput!]!
 }
 
 type CommentLikePayload {
@@ -318,10 +537,6 @@ type CommentLikePayload {
 
 type CommentLikeDeletePayload {
   id: ID!
-}
-
-type CommentLikesPayload {
-  commentLikes: [CommentLike!]!
 }
 
 type CommentLikesDeletePayload {
@@ -340,20 +555,12 @@ input FriendshipUpdateInput {
   createdAt: Int
 }
 
-input FriendshipsCreateInput {
-  friendships: [FriendshipCreateInput!]!
-}
-
 type FriendshipPayload {
   friendship: Friendship!
 }
 
 type FriendshipDeletePayload {
   id: ID!
-}
-
-type FriendshipsPayload {
-  friendships: [Friendship!]!
 }
 
 type FriendshipsDeletePayload {
@@ -376,20 +583,12 @@ input ImageUpdateInput {
   originalUrl: String
 }
 
-input ImagesCreateInput {
-  images: [ImageCreateInput!]!
-}
-
 type ImagePayload {
   image: Image!
 }
 
 type ImageDeletePayload {
   id: ID!
-}
-
-type ImagesPayload {
-  images: [Image!]!
 }
 
 type ImagesDeletePayload {
@@ -408,20 +607,12 @@ input ImageVariationUpdateInput {
   imageId: ID
 }
 
-input ImageVariationsCreateInput {
-  imageVariations: [ImageVariationCreateInput!]!
-}
-
 type ImageVariationPayload {
   imageVariation: ImageVariation!
 }
 
 type ImageVariationDeletePayload {
   id: ID!
-}
-
-type ImageVariationsPayload {
-  imageVariations: [ImageVariation!]!
 }
 
 type ImageVariationsDeletePayload {
@@ -434,18 +625,16 @@ type ImageVariationsUpdatePayload {
 
 input LikeCreateInput {
   postId: ID!
+  userId: ID!
   likeType: String!
   createdAt: Int
 }
 
 input LikeUpdateInput {
   postId: ID
+  userId: ID
   likeType: String
   createdAt: Int
-}
-
-input LikesCreateInput {
-  likes: [LikeCreateInput!]!
 }
 
 type LikePayload {
@@ -454,10 +643,6 @@ type LikePayload {
 
 type LikeDeletePayload {
   id: ID!
-}
-
-type LikesPayload {
-  likes: [Like!]!
 }
 
 type LikesDeletePayload {
@@ -470,14 +655,12 @@ type LikesUpdatePayload {
 
 input PostCreateInput {
   content: String!
+  userId: ID!
 }
 
 input PostUpdateInput {
   content: String
-}
-
-input PostsCreateInput {
-  posts: [PostCreateInput!]!
+  userId: ID
 }
 
 type PostPayload {
@@ -486,10 +669,6 @@ type PostPayload {
 
 type PostDeletePayload {
   id: ID!
-}
-
-type PostsPayload {
-  posts: [Post!]!
 }
 
 type PostsDeletePayload {
@@ -512,20 +691,12 @@ input UserUpdateInput {
   email: String
 }
 
-input UsersCreateInput {
-  users: [UserCreateInput!]!
-}
-
 type UserPayload {
   user: User!
 }
 
 type UserDeletePayload {
   id: ID!
-}
-
-type UsersPayload {
-  users: [User!]!
 }
 
 type UsersDeletePayload {
@@ -537,90 +708,78 @@ type UsersUpdatePayload {
 }
 
 type Mutation {
-  createComment(input: CommentCreateInput!): CommentPayload! @isAuthenticated
-  createComments(input: CommentsCreateInput!): CommentsPayload! @isAuthenticated
+  createComment(input: CommentCreateInput!): CommentPayload! @IsAuthenticated
   updateComment(id: ID!, input: CommentUpdateInput!): CommentPayload!
-    @isAuthenticated
+    @IsAuthenticated
   updateComments(
     filter: CommentFilter
     input: CommentUpdateInput!
-  ): CommentsUpdatePayload! @isAuthenticated
-  deleteComment(id: ID!): CommentDeletePayload! @isAuthenticated
-  deleteComments(filter: CommentFilter): CommentsDeletePayload! @isAuthenticated
+  ): CommentsUpdatePayload! @IsAuthenticated
+  deleteComment(id: ID!): CommentDeletePayload! @IsAuthenticated
+  deleteComments(filter: CommentFilter): CommentsDeletePayload! @IsAuthenticated
   createCommentLike(input: CommentLikeCreateInput!): CommentLikePayload!
-    @isAuthenticated
-  createCommentLikes(input: CommentLikesCreateInput!): CommentLikesPayload!
-    @isAuthenticated
+    @IsAuthenticated
   updateCommentLike(
     id: ID!
     input: CommentLikeUpdateInput!
-  ): CommentLikePayload! @isAuthenticated
+  ): CommentLikePayload! @IsAuthenticated
   updateCommentLikes(
     filter: CommentLikeFilter
     input: CommentLikeUpdateInput!
-  ): CommentLikesUpdatePayload! @isAuthenticated
-  deleteCommentLike(id: ID!): CommentLikeDeletePayload! @isAuthenticated
+  ): CommentLikesUpdatePayload! @IsAuthenticated
+  deleteCommentLike(id: ID!): CommentLikeDeletePayload! @IsAuthenticated
   deleteCommentLikes(filter: CommentLikeFilter): CommentLikesDeletePayload!
-    @isAuthenticated
+    @IsAuthenticated
   createFriendship(input: FriendshipCreateInput!): FriendshipPayload!
-    @isAuthenticated
-  createFriendships(input: FriendshipsCreateInput!): FriendshipsPayload!
-    @isAuthenticated
+    @IsAuthenticated
   updateFriendship(id: ID!, input: FriendshipUpdateInput!): FriendshipPayload!
-    @isAuthenticated
+    @IsAuthenticated
   updateFriendships(
     filter: FriendshipFilter
     input: FriendshipUpdateInput!
-  ): FriendshipsUpdatePayload! @isAuthenticated
-  deleteFriendship(id: ID!): FriendshipDeletePayload! @isAuthenticated
+  ): FriendshipsUpdatePayload! @IsAuthenticated
+  deleteFriendship(id: ID!): FriendshipDeletePayload! @IsAuthenticated
   deleteFriendships(filter: FriendshipFilter): FriendshipsDeletePayload!
-    @isAuthenticated
-  createImage(input: ImageCreateInput!): ImagePayload! @isAuthenticated
-  createImages(input: ImagesCreateInput!): ImagesPayload! @isAuthenticated
-  updateImage(id: ID!, input: ImageUpdateInput!): ImagePayload! @isAuthenticated
+    @IsAuthenticated
+  createImage(input: ImageCreateInput!): ImagePayload! @IsAuthenticated
+  updateImage(id: ID!, input: ImageUpdateInput!): ImagePayload! @IsAuthenticated
   updateImages(
     filter: ImageFilter
     input: ImageUpdateInput!
-  ): ImagesUpdatePayload! @isAuthenticated
-  deleteImage(id: ID!): ImageDeletePayload! @isAuthenticated
-  deleteImages(filter: ImageFilter): ImagesDeletePayload! @isAuthenticated
+  ): ImagesUpdatePayload! @IsAuthenticated
+  deleteImage(id: ID!): ImageDeletePayload! @IsAuthenticated
+  deleteImages(filter: ImageFilter): ImagesDeletePayload! @IsAuthenticated
   createImageVariation(
     input: ImageVariationCreateInput!
-  ): ImageVariationPayload! @isAuthenticated
-  createImageVariations(
-    input: ImageVariationsCreateInput!
-  ): ImageVariationsPayload! @isAuthenticated
+  ): ImageVariationPayload! @IsAuthenticated
   updateImageVariation(
     id: ID!
     input: ImageVariationUpdateInput!
-  ): ImageVariationPayload! @isAuthenticated
+  ): ImageVariationPayload! @IsAuthenticated
   updateImageVariations(
     filter: ImageVariationFilter
     input: ImageVariationUpdateInput!
-  ): ImageVariationsUpdatePayload! @isAuthenticated
-  deleteImageVariation(id: ID!): ImageVariationDeletePayload! @isAuthenticated
+  ): ImageVariationsUpdatePayload! @IsAuthenticated
+  deleteImageVariation(id: ID!): ImageVariationDeletePayload! @IsAuthenticated
   deleteImageVariations(
     filter: ImageVariationFilter
-  ): ImageVariationsDeletePayload! @isAuthenticated
-  createLike(input: LikeCreateInput!): LikePayload! @isAuthenticated
-  createLikes(input: LikesCreateInput!): LikesPayload! @isAuthenticated
-  updateLike(id: ID!, input: LikeUpdateInput!): LikePayload! @isAuthenticated
+  ): ImageVariationsDeletePayload! @IsAuthenticated
+  createLike(input: LikeCreateInput!): LikePayload! @IsAuthenticated
+  updateLike(id: ID!, input: LikeUpdateInput!): LikePayload! @IsAuthenticated
   updateLikes(filter: LikeFilter, input: LikeUpdateInput!): LikesUpdatePayload!
-    @isAuthenticated
-  deleteLike(id: ID!): LikeDeletePayload! @isAuthenticated
-  deleteLikes(filter: LikeFilter): LikesDeletePayload! @isAuthenticated
-  createPost(input: PostCreateInput!): PostPayload! @isAuthenticated
-  createPosts(input: PostsCreateInput!): PostsPayload! @isAuthenticated
-  updatePost(id: ID!, input: PostUpdateInput!): PostPayload! @isAuthenticated
+    @IsAuthenticated
+  deleteLike(id: ID!): LikeDeletePayload! @IsAuthenticated
+  deleteLikes(filter: LikeFilter): LikesDeletePayload! @IsAuthenticated
+  createPost(input: PostCreateInput!): PostPayload! @IsAuthenticated
+  updatePost(id: ID!, input: PostUpdateInput!): PostPayload! @IsAuthenticated
   updatePosts(filter: PostFilter, input: PostUpdateInput!): PostsUpdatePayload!
-    @isAuthenticated
-  deletePost(id: ID!): PostDeletePayload! @isAuthenticated
-  deletePosts(filter: PostFilter): PostsDeletePayload! @isAuthenticated
-  createUser(input: UserCreateInput!): UserPayload! @isAuthenticated
-  createUsers(input: UsersCreateInput!): UsersPayload! @isAuthenticated
-  updateUser(id: ID!, input: UserUpdateInput!): UserPayload! @isAuthenticated
+    @IsAuthenticated
+  deletePost(id: ID!): PostDeletePayload! @IsAuthenticated
+  deletePosts(filter: PostFilter): PostsDeletePayload! @IsAuthenticated
+  createUser(input: UserCreateInput!): UserPayload! @IsAuthenticated
+  updateUser(id: ID!, input: UserUpdateInput!): UserPayload! @IsAuthenticated
   updateUsers(filter: UserFilter, input: UserUpdateInput!): UsersUpdatePayload!
-    @isAuthenticated
-  deleteUser(id: ID!): UserDeletePayload! @isAuthenticated
-  deleteUsers(filter: UserFilter): UsersDeletePayload! @isAuthenticated
+    @IsAuthenticated
+  deleteUser(id: ID!): UserDeletePayload! @IsAuthenticated
+  deleteUsers(filter: UserFilter): UsersDeletePayload! @IsAuthenticated
 }

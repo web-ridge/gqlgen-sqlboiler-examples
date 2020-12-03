@@ -9,7 +9,6 @@ import (
 	"github.com/99designs/gqlgen/api"
 	"github.com/99designs/gqlgen/codegen/config"
 
-	// gbgen "github.com/web-ridge/gqlgen-sqlboiler" // only when removed go.mod
 	gbgen "github.com/web-ridge/gqlgen-sqlboiler/v2"
 )
 
@@ -34,13 +33,14 @@ func main() {
 	}
 
 	err = gbgen.SchemaWrite(gbgen.SchemaConfig{
-		ModelDirectory:      "models",
-		Pagination:          gbgen.Paginations.Connections,
-		GenerateBatchCreate: false,
-		GenerateMutations:   false,
-		GenerateBatchDelete: false,
-		GenerateBatchUpdate: false,
-	}, "schema.graphql", false)
+		BoilerModelDirectory: backend,
+		GenerateBatchCreate:  false,
+		GenerateMutations:    false,
+		GenerateBatchDelete:  false,
+		GenerateBatchUpdate:  false,
+	}, "schema.graphql", gbgen.SchemaGenerateConfig{
+		MergeSchema: false,
+	})
 
 	if err != nil {
 		fmt.Println("error while trying to gbgen.SchemaWrite")
@@ -54,12 +54,12 @@ func main() {
 			frontend, // directory where gqlgen models live
 			gbgen.ConvertPluginConfig{},
 		)),
-		//api.AddPlugin(gbgen.NewResolverPlugin(
-		//	output,
-		//	backend,
-		//	frontend,
-		//	"", // leave empty if you don't have auth
-		//)),
+		api.AddPlugin(gbgen.NewResolverPlugin(
+			output,
+			backend,
+			frontend,
+			"", // leave empty if you don't have auth
+		)),
 	)
 	if err != nil {
 		fmt.Println("error!!")

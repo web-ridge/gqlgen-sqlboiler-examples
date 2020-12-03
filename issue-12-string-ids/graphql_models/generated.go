@@ -15,6 +15,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/introspection"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
+	"github.com/web-ridge/utils-go/boilergql"
 )
 
 // region    ************************** generated!.gotpl **************************
@@ -52,8 +53,18 @@ type ComplexityRoot struct {
 		User         func(childComplexity int) int
 	}
 
+	CommentConnection struct {
+		Edges    func(childComplexity int) int
+		PageInfo func(childComplexity int) int
+	}
+
 	CommentDeletePayload struct {
 		ID func(childComplexity int) int
+	}
+
+	CommentEdge struct {
+		Cursor func(childComplexity int) int
+		Node   func(childComplexity int) int
 	}
 
 	CommentLike struct {
@@ -64,8 +75,18 @@ type ComplexityRoot struct {
 		User      func(childComplexity int) int
 	}
 
+	CommentLikeConnection struct {
+		Edges    func(childComplexity int) int
+		PageInfo func(childComplexity int) int
+	}
+
 	CommentLikeDeletePayload struct {
 		ID func(childComplexity int) int
+	}
+
+	CommentLikeEdge struct {
+		Cursor func(childComplexity int) int
+		Node   func(childComplexity int) int
 	}
 
 	CommentLikePayload struct {
@@ -74,10 +95,6 @@ type ComplexityRoot struct {
 
 	CommentLikesDeletePayload struct {
 		Ids func(childComplexity int) int
-	}
-
-	CommentLikesPayload struct {
-		CommentLikes func(childComplexity int) int
 	}
 
 	CommentLikesUpdatePayload struct {
@@ -92,10 +109,6 @@ type ComplexityRoot struct {
 		Ids func(childComplexity int) int
 	}
 
-	CommentsPayload struct {
-		Comments func(childComplexity int) int
-	}
-
 	CommentsUpdatePayload struct {
 		Ok func(childComplexity int) int
 	}
@@ -106,8 +119,18 @@ type ComplexityRoot struct {
 		Users     func(childComplexity int) int
 	}
 
+	FriendshipConnection struct {
+		Edges    func(childComplexity int) int
+		PageInfo func(childComplexity int) int
+	}
+
 	FriendshipDeletePayload struct {
 		ID func(childComplexity int) int
+	}
+
+	FriendshipEdge struct {
+		Cursor func(childComplexity int) int
+		Node   func(childComplexity int) int
 	}
 
 	FriendshipPayload struct {
@@ -116,10 +139,6 @@ type ComplexityRoot struct {
 
 	FriendshipsDeletePayload struct {
 		Ids func(childComplexity int) int
-	}
-
-	FriendshipsPayload struct {
-		Friendships func(childComplexity int) int
 	}
 
 	FriendshipsUpdatePayload struct {
@@ -134,8 +153,18 @@ type ComplexityRoot struct {
 		Views           func(childComplexity int) int
 	}
 
+	ImageConnection struct {
+		Edges    func(childComplexity int) int
+		PageInfo func(childComplexity int) int
+	}
+
 	ImageDeletePayload struct {
 		ID func(childComplexity int) int
+	}
+
+	ImageEdge struct {
+		Cursor func(childComplexity int) int
+		Node   func(childComplexity int) int
 	}
 
 	ImagePayload struct {
@@ -147,8 +176,18 @@ type ComplexityRoot struct {
 		Image func(childComplexity int) int
 	}
 
+	ImageVariationConnection struct {
+		Edges    func(childComplexity int) int
+		PageInfo func(childComplexity int) int
+	}
+
 	ImageVariationDeletePayload struct {
 		ID func(childComplexity int) int
+	}
+
+	ImageVariationEdge struct {
+		Cursor func(childComplexity int) int
+		Node   func(childComplexity int) int
 	}
 
 	ImageVariationPayload struct {
@@ -159,20 +198,12 @@ type ComplexityRoot struct {
 		Ids func(childComplexity int) int
 	}
 
-	ImageVariationsPayload struct {
-		ImageVariations func(childComplexity int) int
-	}
-
 	ImageVariationsUpdatePayload struct {
 		Ok func(childComplexity int) int
 	}
 
 	ImagesDeletePayload struct {
 		Ids func(childComplexity int) int
-	}
-
-	ImagesPayload struct {
-		Images func(childComplexity int) int
 	}
 
 	ImagesUpdatePayload struct {
@@ -187,8 +218,18 @@ type ComplexityRoot struct {
 		User      func(childComplexity int) int
 	}
 
+	LikeConnection struct {
+		Edges    func(childComplexity int) int
+		PageInfo func(childComplexity int) int
+	}
+
 	LikeDeletePayload struct {
 		ID func(childComplexity int) int
+	}
+
+	LikeEdge struct {
+		Cursor func(childComplexity int) int
+		Node   func(childComplexity int) int
 	}
 
 	LikePayload struct {
@@ -199,10 +240,6 @@ type ComplexityRoot struct {
 		Ids func(childComplexity int) int
 	}
 
-	LikesPayload struct {
-		Likes func(childComplexity int) int
-	}
-
 	LikesUpdatePayload struct {
 		Ok func(childComplexity int) int
 	}
@@ -210,20 +247,12 @@ type ComplexityRoot struct {
 	Mutation struct {
 		CreateComment         func(childComplexity int, input CommentCreateInput) int
 		CreateCommentLike     func(childComplexity int, input CommentLikeCreateInput) int
-		CreateCommentLikes    func(childComplexity int, input CommentLikesCreateInput) int
-		CreateComments        func(childComplexity int, input CommentsCreateInput) int
 		CreateFriendship      func(childComplexity int, input FriendshipCreateInput) int
-		CreateFriendships     func(childComplexity int, input FriendshipsCreateInput) int
 		CreateImage           func(childComplexity int, input ImageCreateInput) int
 		CreateImageVariation  func(childComplexity int, input ImageVariationCreateInput) int
-		CreateImageVariations func(childComplexity int, input ImageVariationsCreateInput) int
-		CreateImages          func(childComplexity int, input ImagesCreateInput) int
 		CreateLike            func(childComplexity int, input LikeCreateInput) int
-		CreateLikes           func(childComplexity int, input LikesCreateInput) int
 		CreatePost            func(childComplexity int, input PostCreateInput) int
-		CreatePosts           func(childComplexity int, input PostsCreateInput) int
 		CreateUser            func(childComplexity int, input UserCreateInput) int
-		CreateUsers           func(childComplexity int, input UsersCreateInput) int
 		DeleteComment         func(childComplexity int, id string) int
 		DeleteCommentLike     func(childComplexity int, id string) int
 		DeleteCommentLikes    func(childComplexity int, filter *CommentLikeFilter) int
@@ -258,6 +287,13 @@ type ComplexityRoot struct {
 		UpdateUsers           func(childComplexity int, filter *UserFilter, input UserUpdateInput) int
 	}
 
+	PageInfo struct {
+		EndCursor       func(childComplexity int) int
+		HasNextPage     func(childComplexity int) int
+		HasPreviousPage func(childComplexity int) int
+		StartCursor     func(childComplexity int) int
+	}
+
 	Post struct {
 		Comments func(childComplexity int) int
 		Content  func(childComplexity int) int
@@ -267,8 +303,18 @@ type ComplexityRoot struct {
 		User     func(childComplexity int) int
 	}
 
+	PostConnection struct {
+		Edges    func(childComplexity int) int
+		PageInfo func(childComplexity int) int
+	}
+
 	PostDeletePayload struct {
 		ID func(childComplexity int) int
+	}
+
+	PostEdge struct {
+		Cursor func(childComplexity int) int
+		Node   func(childComplexity int) int
 	}
 
 	PostPayload struct {
@@ -279,10 +325,6 @@ type ComplexityRoot struct {
 		Ids func(childComplexity int) int
 	}
 
-	PostsPayload struct {
-		Posts func(childComplexity int) int
-	}
-
 	PostsUpdatePayload struct {
 		Ok func(childComplexity int) int
 	}
@@ -290,20 +332,21 @@ type ComplexityRoot struct {
 	Query struct {
 		Comment         func(childComplexity int, id string) int
 		CommentLike     func(childComplexity int, id string) int
-		CommentLikes    func(childComplexity int, filter *CommentLikeFilter) int
-		Comments        func(childComplexity int, filter *CommentFilter) int
+		CommentLikes    func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*CommentLikeOrdering, filter *CommentLikeFilter) int
+		Comments        func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*CommentOrdering, filter *CommentFilter) int
 		Friendship      func(childComplexity int, id string) int
-		Friendships     func(childComplexity int, filter *FriendshipFilter) int
+		Friendships     func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*FriendshipOrdering, filter *FriendshipFilter) int
 		Image           func(childComplexity int, id string) int
 		ImageVariation  func(childComplexity int, id string) int
-		ImageVariations func(childComplexity int, filter *ImageVariationFilter) int
-		Images          func(childComplexity int, filter *ImageFilter) int
+		ImageVariations func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*ImageVariationOrdering, filter *ImageVariationFilter) int
+		Images          func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*ImageOrdering, filter *ImageFilter) int
 		Like            func(childComplexity int, id string) int
-		Likes           func(childComplexity int, filter *LikeFilter) int
+		Likes           func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*LikeOrdering, filter *LikeFilter) int
+		Node            func(childComplexity int, id string) int
 		Post            func(childComplexity int, id string) int
-		Posts           func(childComplexity int, filter *PostFilter) int
+		Posts           func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*PostOrdering, filter *PostFilter) int
 		User            func(childComplexity int, id string) int
-		Users           func(childComplexity int, filter *UserFilter) int
+		Users           func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*UserOrdering, filter *UserFilter) int
 	}
 
 	User struct {
@@ -318,8 +361,18 @@ type ComplexityRoot struct {
 		Posts        func(childComplexity int) int
 	}
 
+	UserConnection struct {
+		Edges    func(childComplexity int) int
+		PageInfo func(childComplexity int) int
+	}
+
 	UserDeletePayload struct {
 		ID func(childComplexity int) int
+	}
+
+	UserEdge struct {
+		Cursor func(childComplexity int) int
+		Node   func(childComplexity int) int
 	}
 
 	UserPayload struct {
@@ -330,10 +383,6 @@ type ComplexityRoot struct {
 		Ids func(childComplexity int) int
 	}
 
-	UsersPayload struct {
-		Users func(childComplexity int) int
-	}
-
 	UsersUpdatePayload struct {
 		Ok func(childComplexity int) int
 	}
@@ -341,71 +390,64 @@ type ComplexityRoot struct {
 
 type MutationResolver interface {
 	CreateComment(ctx context.Context, input CommentCreateInput) (*CommentPayload, error)
-	CreateComments(ctx context.Context, input CommentsCreateInput) (*CommentsPayload, error)
 	UpdateComment(ctx context.Context, id string, input CommentUpdateInput) (*CommentPayload, error)
 	UpdateComments(ctx context.Context, filter *CommentFilter, input CommentUpdateInput) (*CommentsUpdatePayload, error)
 	DeleteComment(ctx context.Context, id string) (*CommentDeletePayload, error)
 	DeleteComments(ctx context.Context, filter *CommentFilter) (*CommentsDeletePayload, error)
 	CreateCommentLike(ctx context.Context, input CommentLikeCreateInput) (*CommentLikePayload, error)
-	CreateCommentLikes(ctx context.Context, input CommentLikesCreateInput) (*CommentLikesPayload, error)
 	UpdateCommentLike(ctx context.Context, id string, input CommentLikeUpdateInput) (*CommentLikePayload, error)
 	UpdateCommentLikes(ctx context.Context, filter *CommentLikeFilter, input CommentLikeUpdateInput) (*CommentLikesUpdatePayload, error)
 	DeleteCommentLike(ctx context.Context, id string) (*CommentLikeDeletePayload, error)
 	DeleteCommentLikes(ctx context.Context, filter *CommentLikeFilter) (*CommentLikesDeletePayload, error)
 	CreateFriendship(ctx context.Context, input FriendshipCreateInput) (*FriendshipPayload, error)
-	CreateFriendships(ctx context.Context, input FriendshipsCreateInput) (*FriendshipsPayload, error)
 	UpdateFriendship(ctx context.Context, id string, input FriendshipUpdateInput) (*FriendshipPayload, error)
 	UpdateFriendships(ctx context.Context, filter *FriendshipFilter, input FriendshipUpdateInput) (*FriendshipsUpdatePayload, error)
 	DeleteFriendship(ctx context.Context, id string) (*FriendshipDeletePayload, error)
 	DeleteFriendships(ctx context.Context, filter *FriendshipFilter) (*FriendshipsDeletePayload, error)
 	CreateImage(ctx context.Context, input ImageCreateInput) (*ImagePayload, error)
-	CreateImages(ctx context.Context, input ImagesCreateInput) (*ImagesPayload, error)
 	UpdateImage(ctx context.Context, id string, input ImageUpdateInput) (*ImagePayload, error)
 	UpdateImages(ctx context.Context, filter *ImageFilter, input ImageUpdateInput) (*ImagesUpdatePayload, error)
 	DeleteImage(ctx context.Context, id string) (*ImageDeletePayload, error)
 	DeleteImages(ctx context.Context, filter *ImageFilter) (*ImagesDeletePayload, error)
 	CreateImageVariation(ctx context.Context, input ImageVariationCreateInput) (*ImageVariationPayload, error)
-	CreateImageVariations(ctx context.Context, input ImageVariationsCreateInput) (*ImageVariationsPayload, error)
 	UpdateImageVariation(ctx context.Context, id string, input ImageVariationUpdateInput) (*ImageVariationPayload, error)
 	UpdateImageVariations(ctx context.Context, filter *ImageVariationFilter, input ImageVariationUpdateInput) (*ImageVariationsUpdatePayload, error)
 	DeleteImageVariation(ctx context.Context, id string) (*ImageVariationDeletePayload, error)
 	DeleteImageVariations(ctx context.Context, filter *ImageVariationFilter) (*ImageVariationsDeletePayload, error)
 	CreateLike(ctx context.Context, input LikeCreateInput) (*LikePayload, error)
-	CreateLikes(ctx context.Context, input LikesCreateInput) (*LikesPayload, error)
 	UpdateLike(ctx context.Context, id string, input LikeUpdateInput) (*LikePayload, error)
 	UpdateLikes(ctx context.Context, filter *LikeFilter, input LikeUpdateInput) (*LikesUpdatePayload, error)
 	DeleteLike(ctx context.Context, id string) (*LikeDeletePayload, error)
 	DeleteLikes(ctx context.Context, filter *LikeFilter) (*LikesDeletePayload, error)
 	CreatePost(ctx context.Context, input PostCreateInput) (*PostPayload, error)
-	CreatePosts(ctx context.Context, input PostsCreateInput) (*PostsPayload, error)
 	UpdatePost(ctx context.Context, id string, input PostUpdateInput) (*PostPayload, error)
 	UpdatePosts(ctx context.Context, filter *PostFilter, input PostUpdateInput) (*PostsUpdatePayload, error)
 	DeletePost(ctx context.Context, id string) (*PostDeletePayload, error)
 	DeletePosts(ctx context.Context, filter *PostFilter) (*PostsDeletePayload, error)
 	CreateUser(ctx context.Context, input UserCreateInput) (*UserPayload, error)
-	CreateUsers(ctx context.Context, input UsersCreateInput) (*UsersPayload, error)
 	UpdateUser(ctx context.Context, id string, input UserUpdateInput) (*UserPayload, error)
 	UpdateUsers(ctx context.Context, filter *UserFilter, input UserUpdateInput) (*UsersUpdatePayload, error)
 	DeleteUser(ctx context.Context, id string) (*UserDeletePayload, error)
 	DeleteUsers(ctx context.Context, filter *UserFilter) (*UsersDeletePayload, error)
 }
 type QueryResolver interface {
+	Node(ctx context.Context, id string) (Node, error)
 	Comment(ctx context.Context, id string) (*Comment, error)
-	Comments(ctx context.Context, filter *CommentFilter) ([]*Comment, error)
+	Comments(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*CommentOrdering, filter *CommentFilter) (*CommentConnection, error)
 	CommentLike(ctx context.Context, id string) (*CommentLike, error)
-	CommentLikes(ctx context.Context, filter *CommentLikeFilter) ([]*CommentLike, error)
+	CommentLikes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*CommentLikeOrdering, filter *CommentLikeFilter) (*CommentLikeConnection, error)
 	Friendship(ctx context.Context, id string) (*Friendship, error)
-	Friendships(ctx context.Context, filter *FriendshipFilter) ([]*Friendship, error)
+	Friendships(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*FriendshipOrdering, filter *FriendshipFilter) (*FriendshipConnection, error)
 	Image(ctx context.Context, id string) (*Image, error)
-	Images(ctx context.Context, filter *ImageFilter) ([]*Image, error)
+	Images(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*ImageOrdering, filter *ImageFilter) (*ImageConnection, error)
 	ImageVariation(ctx context.Context, id string) (*ImageVariation, error)
-	ImageVariations(ctx context.Context, filter *ImageVariationFilter) ([]*ImageVariation, error)
+	ImageVariations(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*ImageVariationOrdering, filter *ImageVariationFilter) (*ImageVariationConnection, error)
 	Like(ctx context.Context, id string) (*Like, error)
-	Likes(ctx context.Context, filter *LikeFilter) ([]*Like, error)
+	Likes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*LikeOrdering, filter *LikeFilter) (*LikeConnection, error)
 	Post(ctx context.Context, id string) (*Post, error)
-	Posts(ctx context.Context, filter *PostFilter) ([]*Post, error)
+	Posts(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*PostOrdering, filter *PostFilter) (*PostConnection, error)
 	User(ctx context.Context, id string) (*User, error)
-	Users(ctx context.Context, filter *UserFilter) ([]*User, error)
+	Users(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*UserOrdering, filter *UserFilter) (*UserConnection, error)
 }
 
 type executableSchema struct {
@@ -458,12 +500,40 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Comment.User(childComplexity), true
 
+	case "CommentConnection.edges":
+		if e.complexity.CommentConnection.Edges == nil {
+			break
+		}
+
+		return e.complexity.CommentConnection.Edges(childComplexity), true
+
+	case "CommentConnection.pageInfo":
+		if e.complexity.CommentConnection.PageInfo == nil {
+			break
+		}
+
+		return e.complexity.CommentConnection.PageInfo(childComplexity), true
+
 	case "CommentDeletePayload.id":
 		if e.complexity.CommentDeletePayload.ID == nil {
 			break
 		}
 
 		return e.complexity.CommentDeletePayload.ID(childComplexity), true
+
+	case "CommentEdge.cursor":
+		if e.complexity.CommentEdge.Cursor == nil {
+			break
+		}
+
+		return e.complexity.CommentEdge.Cursor(childComplexity), true
+
+	case "CommentEdge.node":
+		if e.complexity.CommentEdge.Node == nil {
+			break
+		}
+
+		return e.complexity.CommentEdge.Node(childComplexity), true
 
 	case "CommentLike.comment":
 		if e.complexity.CommentLike.Comment == nil {
@@ -500,12 +570,40 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.CommentLike.User(childComplexity), true
 
+	case "CommentLikeConnection.edges":
+		if e.complexity.CommentLikeConnection.Edges == nil {
+			break
+		}
+
+		return e.complexity.CommentLikeConnection.Edges(childComplexity), true
+
+	case "CommentLikeConnection.pageInfo":
+		if e.complexity.CommentLikeConnection.PageInfo == nil {
+			break
+		}
+
+		return e.complexity.CommentLikeConnection.PageInfo(childComplexity), true
+
 	case "CommentLikeDeletePayload.id":
 		if e.complexity.CommentLikeDeletePayload.ID == nil {
 			break
 		}
 
 		return e.complexity.CommentLikeDeletePayload.ID(childComplexity), true
+
+	case "CommentLikeEdge.cursor":
+		if e.complexity.CommentLikeEdge.Cursor == nil {
+			break
+		}
+
+		return e.complexity.CommentLikeEdge.Cursor(childComplexity), true
+
+	case "CommentLikeEdge.node":
+		if e.complexity.CommentLikeEdge.Node == nil {
+			break
+		}
+
+		return e.complexity.CommentLikeEdge.Node(childComplexity), true
 
 	case "CommentLikePayload.commentLike":
 		if e.complexity.CommentLikePayload.CommentLike == nil {
@@ -520,13 +618,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.CommentLikesDeletePayload.Ids(childComplexity), true
-
-	case "CommentLikesPayload.commentLikes":
-		if e.complexity.CommentLikesPayload.CommentLikes == nil {
-			break
-		}
-
-		return e.complexity.CommentLikesPayload.CommentLikes(childComplexity), true
 
 	case "CommentLikesUpdatePayload.ok":
 		if e.complexity.CommentLikesUpdatePayload.Ok == nil {
@@ -548,13 +639,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.CommentsDeletePayload.Ids(childComplexity), true
-
-	case "CommentsPayload.comments":
-		if e.complexity.CommentsPayload.Comments == nil {
-			break
-		}
-
-		return e.complexity.CommentsPayload.Comments(childComplexity), true
 
 	case "CommentsUpdatePayload.ok":
 		if e.complexity.CommentsUpdatePayload.Ok == nil {
@@ -584,12 +668,40 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Friendship.Users(childComplexity), true
 
+	case "FriendshipConnection.edges":
+		if e.complexity.FriendshipConnection.Edges == nil {
+			break
+		}
+
+		return e.complexity.FriendshipConnection.Edges(childComplexity), true
+
+	case "FriendshipConnection.pageInfo":
+		if e.complexity.FriendshipConnection.PageInfo == nil {
+			break
+		}
+
+		return e.complexity.FriendshipConnection.PageInfo(childComplexity), true
+
 	case "FriendshipDeletePayload.id":
 		if e.complexity.FriendshipDeletePayload.ID == nil {
 			break
 		}
 
 		return e.complexity.FriendshipDeletePayload.ID(childComplexity), true
+
+	case "FriendshipEdge.cursor":
+		if e.complexity.FriendshipEdge.Cursor == nil {
+			break
+		}
+
+		return e.complexity.FriendshipEdge.Cursor(childComplexity), true
+
+	case "FriendshipEdge.node":
+		if e.complexity.FriendshipEdge.Node == nil {
+			break
+		}
+
+		return e.complexity.FriendshipEdge.Node(childComplexity), true
 
 	case "FriendshipPayload.friendship":
 		if e.complexity.FriendshipPayload.Friendship == nil {
@@ -604,13 +716,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.FriendshipsDeletePayload.Ids(childComplexity), true
-
-	case "FriendshipsPayload.friendships":
-		if e.complexity.FriendshipsPayload.Friendships == nil {
-			break
-		}
-
-		return e.complexity.FriendshipsPayload.Friendships(childComplexity), true
 
 	case "FriendshipsUpdatePayload.ok":
 		if e.complexity.FriendshipsUpdatePayload.Ok == nil {
@@ -654,12 +759,40 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Image.Views(childComplexity), true
 
+	case "ImageConnection.edges":
+		if e.complexity.ImageConnection.Edges == nil {
+			break
+		}
+
+		return e.complexity.ImageConnection.Edges(childComplexity), true
+
+	case "ImageConnection.pageInfo":
+		if e.complexity.ImageConnection.PageInfo == nil {
+			break
+		}
+
+		return e.complexity.ImageConnection.PageInfo(childComplexity), true
+
 	case "ImageDeletePayload.id":
 		if e.complexity.ImageDeletePayload.ID == nil {
 			break
 		}
 
 		return e.complexity.ImageDeletePayload.ID(childComplexity), true
+
+	case "ImageEdge.cursor":
+		if e.complexity.ImageEdge.Cursor == nil {
+			break
+		}
+
+		return e.complexity.ImageEdge.Cursor(childComplexity), true
+
+	case "ImageEdge.node":
+		if e.complexity.ImageEdge.Node == nil {
+			break
+		}
+
+		return e.complexity.ImageEdge.Node(childComplexity), true
 
 	case "ImagePayload.image":
 		if e.complexity.ImagePayload.Image == nil {
@@ -682,12 +815,40 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.ImageVariation.Image(childComplexity), true
 
+	case "ImageVariationConnection.edges":
+		if e.complexity.ImageVariationConnection.Edges == nil {
+			break
+		}
+
+		return e.complexity.ImageVariationConnection.Edges(childComplexity), true
+
+	case "ImageVariationConnection.pageInfo":
+		if e.complexity.ImageVariationConnection.PageInfo == nil {
+			break
+		}
+
+		return e.complexity.ImageVariationConnection.PageInfo(childComplexity), true
+
 	case "ImageVariationDeletePayload.id":
 		if e.complexity.ImageVariationDeletePayload.ID == nil {
 			break
 		}
 
 		return e.complexity.ImageVariationDeletePayload.ID(childComplexity), true
+
+	case "ImageVariationEdge.cursor":
+		if e.complexity.ImageVariationEdge.Cursor == nil {
+			break
+		}
+
+		return e.complexity.ImageVariationEdge.Cursor(childComplexity), true
+
+	case "ImageVariationEdge.node":
+		if e.complexity.ImageVariationEdge.Node == nil {
+			break
+		}
+
+		return e.complexity.ImageVariationEdge.Node(childComplexity), true
 
 	case "ImageVariationPayload.imageVariation":
 		if e.complexity.ImageVariationPayload.ImageVariation == nil {
@@ -703,13 +864,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.ImageVariationsDeletePayload.Ids(childComplexity), true
 
-	case "ImageVariationsPayload.imageVariations":
-		if e.complexity.ImageVariationsPayload.ImageVariations == nil {
-			break
-		}
-
-		return e.complexity.ImageVariationsPayload.ImageVariations(childComplexity), true
-
 	case "ImageVariationsUpdatePayload.ok":
 		if e.complexity.ImageVariationsUpdatePayload.Ok == nil {
 			break
@@ -723,13 +877,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.ImagesDeletePayload.Ids(childComplexity), true
-
-	case "ImagesPayload.images":
-		if e.complexity.ImagesPayload.Images == nil {
-			break
-		}
-
-		return e.complexity.ImagesPayload.Images(childComplexity), true
 
 	case "ImagesUpdatePayload.ok":
 		if e.complexity.ImagesUpdatePayload.Ok == nil {
@@ -773,12 +920,40 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Like.User(childComplexity), true
 
+	case "LikeConnection.edges":
+		if e.complexity.LikeConnection.Edges == nil {
+			break
+		}
+
+		return e.complexity.LikeConnection.Edges(childComplexity), true
+
+	case "LikeConnection.pageInfo":
+		if e.complexity.LikeConnection.PageInfo == nil {
+			break
+		}
+
+		return e.complexity.LikeConnection.PageInfo(childComplexity), true
+
 	case "LikeDeletePayload.id":
 		if e.complexity.LikeDeletePayload.ID == nil {
 			break
 		}
 
 		return e.complexity.LikeDeletePayload.ID(childComplexity), true
+
+	case "LikeEdge.cursor":
+		if e.complexity.LikeEdge.Cursor == nil {
+			break
+		}
+
+		return e.complexity.LikeEdge.Cursor(childComplexity), true
+
+	case "LikeEdge.node":
+		if e.complexity.LikeEdge.Node == nil {
+			break
+		}
+
+		return e.complexity.LikeEdge.Node(childComplexity), true
 
 	case "LikePayload.like":
 		if e.complexity.LikePayload.Like == nil {
@@ -793,13 +968,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.LikesDeletePayload.Ids(childComplexity), true
-
-	case "LikesPayload.likes":
-		if e.complexity.LikesPayload.Likes == nil {
-			break
-		}
-
-		return e.complexity.LikesPayload.Likes(childComplexity), true
 
 	case "LikesUpdatePayload.ok":
 		if e.complexity.LikesUpdatePayload.Ok == nil {
@@ -832,30 +1000,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateCommentLike(childComplexity, args["input"].(CommentLikeCreateInput)), true
 
-	case "Mutation.createCommentLikes":
-		if e.complexity.Mutation.CreateCommentLikes == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createCommentLikes_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateCommentLikes(childComplexity, args["input"].(CommentLikesCreateInput)), true
-
-	case "Mutation.createComments":
-		if e.complexity.Mutation.CreateComments == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createComments_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateComments(childComplexity, args["input"].(CommentsCreateInput)), true
-
 	case "Mutation.createFriendship":
 		if e.complexity.Mutation.CreateFriendship == nil {
 			break
@@ -867,18 +1011,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.CreateFriendship(childComplexity, args["input"].(FriendshipCreateInput)), true
-
-	case "Mutation.createFriendships":
-		if e.complexity.Mutation.CreateFriendships == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createFriendships_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateFriendships(childComplexity, args["input"].(FriendshipsCreateInput)), true
 
 	case "Mutation.createImage":
 		if e.complexity.Mutation.CreateImage == nil {
@@ -904,30 +1036,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateImageVariation(childComplexity, args["input"].(ImageVariationCreateInput)), true
 
-	case "Mutation.createImageVariations":
-		if e.complexity.Mutation.CreateImageVariations == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createImageVariations_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateImageVariations(childComplexity, args["input"].(ImageVariationsCreateInput)), true
-
-	case "Mutation.createImages":
-		if e.complexity.Mutation.CreateImages == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createImages_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateImages(childComplexity, args["input"].(ImagesCreateInput)), true
-
 	case "Mutation.createLike":
 		if e.complexity.Mutation.CreateLike == nil {
 			break
@@ -939,18 +1047,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.CreateLike(childComplexity, args["input"].(LikeCreateInput)), true
-
-	case "Mutation.createLikes":
-		if e.complexity.Mutation.CreateLikes == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createLikes_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateLikes(childComplexity, args["input"].(LikesCreateInput)), true
 
 	case "Mutation.createPost":
 		if e.complexity.Mutation.CreatePost == nil {
@@ -964,18 +1060,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreatePost(childComplexity, args["input"].(PostCreateInput)), true
 
-	case "Mutation.createPosts":
-		if e.complexity.Mutation.CreatePosts == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createPosts_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreatePosts(childComplexity, args["input"].(PostsCreateInput)), true
-
 	case "Mutation.createUser":
 		if e.complexity.Mutation.CreateUser == nil {
 			break
@@ -987,18 +1071,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.CreateUser(childComplexity, args["input"].(UserCreateInput)), true
-
-	case "Mutation.createUsers":
-		if e.complexity.Mutation.CreateUsers == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createUsers_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateUsers(childComplexity, args["input"].(UsersCreateInput)), true
 
 	case "Mutation.deleteComment":
 		if e.complexity.Mutation.DeleteComment == nil {
@@ -1384,6 +1456,34 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateUsers(childComplexity, args["filter"].(*UserFilter), args["input"].(UserUpdateInput)), true
 
+	case "PageInfo.endCursor":
+		if e.complexity.PageInfo.EndCursor == nil {
+			break
+		}
+
+		return e.complexity.PageInfo.EndCursor(childComplexity), true
+
+	case "PageInfo.hasNextPage":
+		if e.complexity.PageInfo.HasNextPage == nil {
+			break
+		}
+
+		return e.complexity.PageInfo.HasNextPage(childComplexity), true
+
+	case "PageInfo.hasPreviousPage":
+		if e.complexity.PageInfo.HasPreviousPage == nil {
+			break
+		}
+
+		return e.complexity.PageInfo.HasPreviousPage(childComplexity), true
+
+	case "PageInfo.startCursor":
+		if e.complexity.PageInfo.StartCursor == nil {
+			break
+		}
+
+		return e.complexity.PageInfo.StartCursor(childComplexity), true
+
 	case "Post.comments":
 		if e.complexity.Post.Comments == nil {
 			break
@@ -1426,12 +1526,40 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Post.User(childComplexity), true
 
+	case "PostConnection.edges":
+		if e.complexity.PostConnection.Edges == nil {
+			break
+		}
+
+		return e.complexity.PostConnection.Edges(childComplexity), true
+
+	case "PostConnection.pageInfo":
+		if e.complexity.PostConnection.PageInfo == nil {
+			break
+		}
+
+		return e.complexity.PostConnection.PageInfo(childComplexity), true
+
 	case "PostDeletePayload.id":
 		if e.complexity.PostDeletePayload.ID == nil {
 			break
 		}
 
 		return e.complexity.PostDeletePayload.ID(childComplexity), true
+
+	case "PostEdge.cursor":
+		if e.complexity.PostEdge.Cursor == nil {
+			break
+		}
+
+		return e.complexity.PostEdge.Cursor(childComplexity), true
+
+	case "PostEdge.node":
+		if e.complexity.PostEdge.Node == nil {
+			break
+		}
+
+		return e.complexity.PostEdge.Node(childComplexity), true
 
 	case "PostPayload.post":
 		if e.complexity.PostPayload.Post == nil {
@@ -1446,13 +1574,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.PostsDeletePayload.Ids(childComplexity), true
-
-	case "PostsPayload.posts":
-		if e.complexity.PostsPayload.Posts == nil {
-			break
-		}
-
-		return e.complexity.PostsPayload.Posts(childComplexity), true
 
 	case "PostsUpdatePayload.ok":
 		if e.complexity.PostsUpdatePayload.Ok == nil {
@@ -1495,7 +1616,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.CommentLikes(childComplexity, args["filter"].(*CommentLikeFilter)), true
+		return e.complexity.Query.CommentLikes(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*CommentLikeOrdering), args["filter"].(*CommentLikeFilter)), true
 
 	case "Query.comments":
 		if e.complexity.Query.Comments == nil {
@@ -1507,7 +1628,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Comments(childComplexity, args["filter"].(*CommentFilter)), true
+		return e.complexity.Query.Comments(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*CommentOrdering), args["filter"].(*CommentFilter)), true
 
 	case "Query.friendship":
 		if e.complexity.Query.Friendship == nil {
@@ -1531,7 +1652,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Friendships(childComplexity, args["filter"].(*FriendshipFilter)), true
+		return e.complexity.Query.Friendships(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*FriendshipOrdering), args["filter"].(*FriendshipFilter)), true
 
 	case "Query.image":
 		if e.complexity.Query.Image == nil {
@@ -1567,7 +1688,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.ImageVariations(childComplexity, args["filter"].(*ImageVariationFilter)), true
+		return e.complexity.Query.ImageVariations(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*ImageVariationOrdering), args["filter"].(*ImageVariationFilter)), true
 
 	case "Query.images":
 		if e.complexity.Query.Images == nil {
@@ -1579,7 +1700,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Images(childComplexity, args["filter"].(*ImageFilter)), true
+		return e.complexity.Query.Images(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*ImageOrdering), args["filter"].(*ImageFilter)), true
 
 	case "Query.like":
 		if e.complexity.Query.Like == nil {
@@ -1603,7 +1724,19 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Likes(childComplexity, args["filter"].(*LikeFilter)), true
+		return e.complexity.Query.Likes(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*LikeOrdering), args["filter"].(*LikeFilter)), true
+
+	case "Query.node":
+		if e.complexity.Query.Node == nil {
+			break
+		}
+
+		args, err := ec.field_Query_node_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Node(childComplexity, args["id"].(string)), true
 
 	case "Query.post":
 		if e.complexity.Query.Post == nil {
@@ -1627,7 +1760,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Posts(childComplexity, args["filter"].(*PostFilter)), true
+		return e.complexity.Query.Posts(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*PostOrdering), args["filter"].(*PostFilter)), true
 
 	case "Query.user":
 		if e.complexity.Query.User == nil {
@@ -1651,7 +1784,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Users(childComplexity, args["filter"].(*UserFilter)), true
+		return e.complexity.Query.Users(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter)), true
 
 	case "User.commentLikes":
 		if e.complexity.User.CommentLikes == nil {
@@ -1716,12 +1849,40 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.Posts(childComplexity), true
 
+	case "UserConnection.edges":
+		if e.complexity.UserConnection.Edges == nil {
+			break
+		}
+
+		return e.complexity.UserConnection.Edges(childComplexity), true
+
+	case "UserConnection.pageInfo":
+		if e.complexity.UserConnection.PageInfo == nil {
+			break
+		}
+
+		return e.complexity.UserConnection.PageInfo(childComplexity), true
+
 	case "UserDeletePayload.id":
 		if e.complexity.UserDeletePayload.ID == nil {
 			break
 		}
 
 		return e.complexity.UserDeletePayload.ID(childComplexity), true
+
+	case "UserEdge.cursor":
+		if e.complexity.UserEdge.Cursor == nil {
+			break
+		}
+
+		return e.complexity.UserEdge.Cursor(childComplexity), true
+
+	case "UserEdge.node":
+		if e.complexity.UserEdge.Node == nil {
+			break
+		}
+
+		return e.complexity.UserEdge.Node(childComplexity), true
 
 	case "UserPayload.user":
 		if e.complexity.UserPayload.User == nil {
@@ -1736,13 +1897,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.UsersDeletePayload.Ids(childComplexity), true
-
-	case "UsersPayload.users":
-		if e.complexity.UsersPayload.Users == nil {
-			break
-		}
-
-		return e.complexity.UsersPayload.Users(childComplexity), true
 
 	case "UsersUpdatePayload.ok":
 		if e.complexity.UsersUpdatePayload.Ok == nil {
@@ -1815,9 +1969,124 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	&ast.Source{Name: "schema.graphql", Input: `directive @isAuthenticated on FIELD_DEFINITION
+	&ast.Source{Name: "schema.graphql", Input: `directive @IsAuthenticated on FIELD_DEFINITION
 
-type Comment {
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+input ConnectionForwardPagination {
+  first: Int!
+  after: ID
+}
+
+input ConnectionBackwardPagination {
+  last: Int!
+  before: ID
+}
+
+input ConnectionPagination {
+  forward: ConnectionForwardPagination
+  backward: ConnectionBackwardPagination
+}
+
+enum SortDirection {
+  ASC
+  DESC
+}
+
+enum CommentSort {
+  ID
+  CONTENT
+}
+
+input CommentOrdering {
+  sort: CommentSort!
+  direction: SortDirection! = ASC
+}
+
+enum CommentLikeSort {
+  ID
+  LIKE_TYPE
+  CREATED_AT
+}
+
+input CommentLikeOrdering {
+  sort: CommentLikeSort!
+  direction: SortDirection! = ASC
+}
+
+enum FriendshipSort {
+  ID
+  CREATED_AT
+}
+
+input FriendshipOrdering {
+  sort: FriendshipSort!
+  direction: SortDirection! = ASC
+}
+
+enum ImageSort {
+  ID
+  VIEWS
+  ORIGINAL_URL
+}
+
+input ImageOrdering {
+  sort: ImageSort!
+  direction: SortDirection! = ASC
+}
+
+enum ImageVariationSort {
+  ID
+}
+
+input ImageVariationOrdering {
+  sort: ImageVariationSort!
+  direction: SortDirection! = ASC
+}
+
+enum LikeSort {
+  ID
+  LIKE_TYPE
+  CREATED_AT
+}
+
+input LikeOrdering {
+  sort: LikeSort!
+  direction: SortDirection! = ASC
+}
+
+enum PostSort {
+  ID
+  CONTENT
+}
+
+input PostOrdering {
+  sort: PostSort!
+  direction: SortDirection! = ASC
+}
+
+enum UserSort {
+  ID
+  FIRST_NAME
+  LAST_NAME
+  EMAIL
+}
+
+input UserOrdering {
+  sort: UserSort!
+  direction: SortDirection! = ASC
+}
+
+type Comment implements Node {
   id: ID!
   content: String!
   post: Post
@@ -1825,7 +2094,7 @@ type Comment {
   commentLikes: [CommentLike]
 }
 
-type CommentLike {
+type CommentLike implements Node {
   id: ID!
   comment: Comment!
   user: User!
@@ -1833,13 +2102,13 @@ type CommentLike {
   createdAt: Int
 }
 
-type Friendship {
+type Friendship implements Node {
   id: ID!
   createdAt: Int
   users: [User]
 }
 
-type Image {
+type Image implements Node {
   id: ID!
   post: Post!
   views: Int
@@ -1847,12 +2116,12 @@ type Image {
   imageVariations: [ImageVariation]
 }
 
-type ImageVariation {
+type ImageVariation implements Node {
   id: ID!
   image: Image!
 }
 
-type Like {
+type Like implements Node {
   id: ID!
   post: Post!
   user: User!
@@ -1860,7 +2129,7 @@ type Like {
   createdAt: Int
 }
 
-type Post {
+type Post implements Node {
   id: ID!
   content: String!
   user: User!
@@ -1869,7 +2138,7 @@ type Post {
   likes: [Like]
 }
 
-type User {
+type User implements Node {
   id: ID!
   firstName: String!
   lastName: String!
@@ -1879,6 +2148,86 @@ type User {
   likes: [Like]
   posts: [Post]
   friendships: [Friendship]
+}
+
+type CommentEdge {
+  cursor: String!
+  node: Comment
+}
+
+type CommentLikeEdge {
+  cursor: String!
+  node: CommentLike
+}
+
+type FriendshipEdge {
+  cursor: String!
+  node: Friendship
+}
+
+type ImageEdge {
+  cursor: String!
+  node: Image
+}
+
+type ImageVariationEdge {
+  cursor: String!
+  node: ImageVariation
+}
+
+type LikeEdge {
+  cursor: String!
+  node: Like
+}
+
+type PostEdge {
+  cursor: String!
+  node: Post
+}
+
+type UserEdge {
+  cursor: String!
+  node: User
+}
+
+type CommentConnection {
+  edges: [CommentEdge]
+  pageInfo: PageInfo!
+}
+
+type CommentLikeConnection {
+  edges: [CommentLikeEdge]
+  pageInfo: PageInfo!
+}
+
+type FriendshipConnection {
+  edges: [FriendshipEdge]
+  pageInfo: PageInfo!
+}
+
+type ImageConnection {
+  edges: [ImageEdge]
+  pageInfo: PageInfo!
+}
+
+type ImageVariationConnection {
+  edges: [ImageVariationEdge]
+  pageInfo: PageInfo!
+}
+
+type LikeConnection {
+  edges: [LikeEdge]
+  pageInfo: PageInfo!
+}
+
+type PostConnection {
+  edges: [PostEdge]
+  pageInfo: PageInfo!
+}
+
+type UserConnection {
+  edges: [UserEdge]
+  pageInfo: PageInfo!
 }
 
 input IDFilter {
@@ -2060,37 +2409,67 @@ input UserWhere {
 }
 
 type Query {
-  comment(id: ID!): Comment! @isAuthenticated
-  comments(filter: CommentFilter): [Comment!]! @isAuthenticated
-  commentLike(id: ID!): CommentLike! @isAuthenticated
-  commentLikes(filter: CommentLikeFilter): [CommentLike!]! @isAuthenticated
-  friendship(id: ID!): Friendship! @isAuthenticated
-  friendships(filter: FriendshipFilter): [Friendship!]! @isAuthenticated
-  image(id: ID!): Image! @isAuthenticated
-  images(filter: ImageFilter): [Image!]! @isAuthenticated
-  imageVariation(id: ID!): ImageVariation! @isAuthenticated
-  imageVariations(filter: ImageVariationFilter): [ImageVariation!]!
-    @isAuthenticated
-  like(id: ID!): Like! @isAuthenticated
-  likes(filter: LikeFilter): [Like!]! @isAuthenticated
-  post(id: ID!): Post! @isAuthenticated
-  posts(filter: PostFilter): [Post!]! @isAuthenticated
-  user(id: ID!): User! @isAuthenticated
-  users(filter: UserFilter): [User!]! @isAuthenticated
+  node(id: ID!): Node
+  comment(id: ID!): Comment! @IsAuthenticated
+  comments(
+    pagination: ConnectionPagination!
+    ordering: [CommentOrdering!]
+    filter: CommentFilter
+  ): CommentConnection! @IsAuthenticated
+  commentLike(id: ID!): CommentLike! @IsAuthenticated
+  commentLikes(
+    pagination: ConnectionPagination!
+    ordering: [CommentLikeOrdering!]
+    filter: CommentLikeFilter
+  ): CommentLikeConnection! @IsAuthenticated
+  friendship(id: ID!): Friendship! @IsAuthenticated
+  friendships(
+    pagination: ConnectionPagination!
+    ordering: [FriendshipOrdering!]
+    filter: FriendshipFilter
+  ): FriendshipConnection! @IsAuthenticated
+  image(id: ID!): Image! @IsAuthenticated
+  images(
+    pagination: ConnectionPagination!
+    ordering: [ImageOrdering!]
+    filter: ImageFilter
+  ): ImageConnection! @IsAuthenticated
+  imageVariation(id: ID!): ImageVariation! @IsAuthenticated
+  imageVariations(
+    pagination: ConnectionPagination!
+    ordering: [ImageVariationOrdering!]
+    filter: ImageVariationFilter
+  ): ImageVariationConnection! @IsAuthenticated
+  like(id: ID!): Like! @IsAuthenticated
+  likes(
+    pagination: ConnectionPagination!
+    ordering: [LikeOrdering!]
+    filter: LikeFilter
+  ): LikeConnection! @IsAuthenticated
+  post(id: ID!): Post! @IsAuthenticated
+  posts(
+    pagination: ConnectionPagination!
+    ordering: [PostOrdering!]
+    filter: PostFilter
+  ): PostConnection! @IsAuthenticated
+  user(id: ID!): User! @IsAuthenticated
+  users(
+    pagination: ConnectionPagination!
+    ordering: [UserOrdering!]
+    filter: UserFilter
+  ): UserConnection! @IsAuthenticated
 }
 
 input CommentCreateInput {
   content: String!
   postId: ID
+  userId: ID!
 }
 
 input CommentUpdateInput {
   content: String
   postId: ID
-}
-
-input CommentsCreateInput {
-  comments: [CommentCreateInput!]!
+  userId: ID
 }
 
 type CommentPayload {
@@ -2099,10 +2478,6 @@ type CommentPayload {
 
 type CommentDeletePayload {
   id: ID!
-}
-
-type CommentsPayload {
-  comments: [Comment!]!
 }
 
 type CommentsDeletePayload {
@@ -2115,18 +2490,16 @@ type CommentsUpdatePayload {
 
 input CommentLikeCreateInput {
   commentId: ID!
+  userId: ID!
   likeType: String!
   createdAt: Int
 }
 
 input CommentLikeUpdateInput {
   commentId: ID
+  userId: ID
   likeType: String
   createdAt: Int
-}
-
-input CommentLikesCreateInput {
-  commentLikes: [CommentLikeCreateInput!]!
 }
 
 type CommentLikePayload {
@@ -2135,10 +2508,6 @@ type CommentLikePayload {
 
 type CommentLikeDeletePayload {
   id: ID!
-}
-
-type CommentLikesPayload {
-  commentLikes: [CommentLike!]!
 }
 
 type CommentLikesDeletePayload {
@@ -2157,20 +2526,12 @@ input FriendshipUpdateInput {
   createdAt: Int
 }
 
-input FriendshipsCreateInput {
-  friendships: [FriendshipCreateInput!]!
-}
-
 type FriendshipPayload {
   friendship: Friendship!
 }
 
 type FriendshipDeletePayload {
   id: ID!
-}
-
-type FriendshipsPayload {
-  friendships: [Friendship!]!
 }
 
 type FriendshipsDeletePayload {
@@ -2193,20 +2554,12 @@ input ImageUpdateInput {
   originalUrl: String
 }
 
-input ImagesCreateInput {
-  images: [ImageCreateInput!]!
-}
-
 type ImagePayload {
   image: Image!
 }
 
 type ImageDeletePayload {
   id: ID!
-}
-
-type ImagesPayload {
-  images: [Image!]!
 }
 
 type ImagesDeletePayload {
@@ -2225,20 +2578,12 @@ input ImageVariationUpdateInput {
   imageId: ID
 }
 
-input ImageVariationsCreateInput {
-  imageVariations: [ImageVariationCreateInput!]!
-}
-
 type ImageVariationPayload {
   imageVariation: ImageVariation!
 }
 
 type ImageVariationDeletePayload {
   id: ID!
-}
-
-type ImageVariationsPayload {
-  imageVariations: [ImageVariation!]!
 }
 
 type ImageVariationsDeletePayload {
@@ -2251,18 +2596,16 @@ type ImageVariationsUpdatePayload {
 
 input LikeCreateInput {
   postId: ID!
+  userId: ID!
   likeType: String!
   createdAt: Int
 }
 
 input LikeUpdateInput {
   postId: ID
+  userId: ID
   likeType: String
   createdAt: Int
-}
-
-input LikesCreateInput {
-  likes: [LikeCreateInput!]!
 }
 
 type LikePayload {
@@ -2271,10 +2614,6 @@ type LikePayload {
 
 type LikeDeletePayload {
   id: ID!
-}
-
-type LikesPayload {
-  likes: [Like!]!
 }
 
 type LikesDeletePayload {
@@ -2287,14 +2626,12 @@ type LikesUpdatePayload {
 
 input PostCreateInput {
   content: String!
+  userId: ID!
 }
 
 input PostUpdateInput {
   content: String
-}
-
-input PostsCreateInput {
-  posts: [PostCreateInput!]!
+  userId: ID
 }
 
 type PostPayload {
@@ -2303,10 +2640,6 @@ type PostPayload {
 
 type PostDeletePayload {
   id: ID!
-}
-
-type PostsPayload {
-  posts: [Post!]!
 }
 
 type PostsDeletePayload {
@@ -2329,20 +2662,12 @@ input UserUpdateInput {
   email: String
 }
 
-input UsersCreateInput {
-  users: [UserCreateInput!]!
-}
-
 type UserPayload {
   user: User!
 }
 
 type UserDeletePayload {
   id: ID!
-}
-
-type UsersPayload {
-  users: [User!]!
 }
 
 type UsersDeletePayload {
@@ -2354,92 +2679,80 @@ type UsersUpdatePayload {
 }
 
 type Mutation {
-  createComment(input: CommentCreateInput!): CommentPayload! @isAuthenticated
-  createComments(input: CommentsCreateInput!): CommentsPayload! @isAuthenticated
+  createComment(input: CommentCreateInput!): CommentPayload! @IsAuthenticated
   updateComment(id: ID!, input: CommentUpdateInput!): CommentPayload!
-    @isAuthenticated
+    @IsAuthenticated
   updateComments(
     filter: CommentFilter
     input: CommentUpdateInput!
-  ): CommentsUpdatePayload! @isAuthenticated
-  deleteComment(id: ID!): CommentDeletePayload! @isAuthenticated
-  deleteComments(filter: CommentFilter): CommentsDeletePayload! @isAuthenticated
+  ): CommentsUpdatePayload! @IsAuthenticated
+  deleteComment(id: ID!): CommentDeletePayload! @IsAuthenticated
+  deleteComments(filter: CommentFilter): CommentsDeletePayload! @IsAuthenticated
   createCommentLike(input: CommentLikeCreateInput!): CommentLikePayload!
-    @isAuthenticated
-  createCommentLikes(input: CommentLikesCreateInput!): CommentLikesPayload!
-    @isAuthenticated
+    @IsAuthenticated
   updateCommentLike(
     id: ID!
     input: CommentLikeUpdateInput!
-  ): CommentLikePayload! @isAuthenticated
+  ): CommentLikePayload! @IsAuthenticated
   updateCommentLikes(
     filter: CommentLikeFilter
     input: CommentLikeUpdateInput!
-  ): CommentLikesUpdatePayload! @isAuthenticated
-  deleteCommentLike(id: ID!): CommentLikeDeletePayload! @isAuthenticated
+  ): CommentLikesUpdatePayload! @IsAuthenticated
+  deleteCommentLike(id: ID!): CommentLikeDeletePayload! @IsAuthenticated
   deleteCommentLikes(filter: CommentLikeFilter): CommentLikesDeletePayload!
-    @isAuthenticated
+    @IsAuthenticated
   createFriendship(input: FriendshipCreateInput!): FriendshipPayload!
-    @isAuthenticated
-  createFriendships(input: FriendshipsCreateInput!): FriendshipsPayload!
-    @isAuthenticated
+    @IsAuthenticated
   updateFriendship(id: ID!, input: FriendshipUpdateInput!): FriendshipPayload!
-    @isAuthenticated
+    @IsAuthenticated
   updateFriendships(
     filter: FriendshipFilter
     input: FriendshipUpdateInput!
-  ): FriendshipsUpdatePayload! @isAuthenticated
-  deleteFriendship(id: ID!): FriendshipDeletePayload! @isAuthenticated
+  ): FriendshipsUpdatePayload! @IsAuthenticated
+  deleteFriendship(id: ID!): FriendshipDeletePayload! @IsAuthenticated
   deleteFriendships(filter: FriendshipFilter): FriendshipsDeletePayload!
-    @isAuthenticated
-  createImage(input: ImageCreateInput!): ImagePayload! @isAuthenticated
-  createImages(input: ImagesCreateInput!): ImagesPayload! @isAuthenticated
-  updateImage(id: ID!, input: ImageUpdateInput!): ImagePayload! @isAuthenticated
+    @IsAuthenticated
+  createImage(input: ImageCreateInput!): ImagePayload! @IsAuthenticated
+  updateImage(id: ID!, input: ImageUpdateInput!): ImagePayload! @IsAuthenticated
   updateImages(
     filter: ImageFilter
     input: ImageUpdateInput!
-  ): ImagesUpdatePayload! @isAuthenticated
-  deleteImage(id: ID!): ImageDeletePayload! @isAuthenticated
-  deleteImages(filter: ImageFilter): ImagesDeletePayload! @isAuthenticated
+  ): ImagesUpdatePayload! @IsAuthenticated
+  deleteImage(id: ID!): ImageDeletePayload! @IsAuthenticated
+  deleteImages(filter: ImageFilter): ImagesDeletePayload! @IsAuthenticated
   createImageVariation(
     input: ImageVariationCreateInput!
-  ): ImageVariationPayload! @isAuthenticated
-  createImageVariations(
-    input: ImageVariationsCreateInput!
-  ): ImageVariationsPayload! @isAuthenticated
+  ): ImageVariationPayload! @IsAuthenticated
   updateImageVariation(
     id: ID!
     input: ImageVariationUpdateInput!
-  ): ImageVariationPayload! @isAuthenticated
+  ): ImageVariationPayload! @IsAuthenticated
   updateImageVariations(
     filter: ImageVariationFilter
     input: ImageVariationUpdateInput!
-  ): ImageVariationsUpdatePayload! @isAuthenticated
-  deleteImageVariation(id: ID!): ImageVariationDeletePayload! @isAuthenticated
+  ): ImageVariationsUpdatePayload! @IsAuthenticated
+  deleteImageVariation(id: ID!): ImageVariationDeletePayload! @IsAuthenticated
   deleteImageVariations(
     filter: ImageVariationFilter
-  ): ImageVariationsDeletePayload! @isAuthenticated
-  createLike(input: LikeCreateInput!): LikePayload! @isAuthenticated
-  createLikes(input: LikesCreateInput!): LikesPayload! @isAuthenticated
-  updateLike(id: ID!, input: LikeUpdateInput!): LikePayload! @isAuthenticated
+  ): ImageVariationsDeletePayload! @IsAuthenticated
+  createLike(input: LikeCreateInput!): LikePayload! @IsAuthenticated
+  updateLike(id: ID!, input: LikeUpdateInput!): LikePayload! @IsAuthenticated
   updateLikes(filter: LikeFilter, input: LikeUpdateInput!): LikesUpdatePayload!
-    @isAuthenticated
-  deleteLike(id: ID!): LikeDeletePayload! @isAuthenticated
-  deleteLikes(filter: LikeFilter): LikesDeletePayload! @isAuthenticated
-  createPost(input: PostCreateInput!): PostPayload! @isAuthenticated
-  createPosts(input: PostsCreateInput!): PostsPayload! @isAuthenticated
-  updatePost(id: ID!, input: PostUpdateInput!): PostPayload! @isAuthenticated
+    @IsAuthenticated
+  deleteLike(id: ID!): LikeDeletePayload! @IsAuthenticated
+  deleteLikes(filter: LikeFilter): LikesDeletePayload! @IsAuthenticated
+  createPost(input: PostCreateInput!): PostPayload! @IsAuthenticated
+  updatePost(id: ID!, input: PostUpdateInput!): PostPayload! @IsAuthenticated
   updatePosts(filter: PostFilter, input: PostUpdateInput!): PostsUpdatePayload!
-    @isAuthenticated
-  deletePost(id: ID!): PostDeletePayload! @isAuthenticated
-  deletePosts(filter: PostFilter): PostsDeletePayload! @isAuthenticated
-  createUser(input: UserCreateInput!): UserPayload! @isAuthenticated
-  createUsers(input: UsersCreateInput!): UsersPayload! @isAuthenticated
-  updateUser(id: ID!, input: UserUpdateInput!): UserPayload! @isAuthenticated
+    @IsAuthenticated
+  deletePost(id: ID!): PostDeletePayload! @IsAuthenticated
+  deletePosts(filter: PostFilter): PostsDeletePayload! @IsAuthenticated
+  createUser(input: UserCreateInput!): UserPayload! @IsAuthenticated
+  updateUser(id: ID!, input: UserUpdateInput!): UserPayload! @IsAuthenticated
   updateUsers(filter: UserFilter, input: UserUpdateInput!): UsersUpdatePayload!
-    @isAuthenticated
-  deleteUser(id: ID!): UserDeletePayload! @isAuthenticated
-  deleteUsers(filter: UserFilter): UsersDeletePayload! @isAuthenticated
+    @IsAuthenticated
+  deleteUser(id: ID!): UserDeletePayload! @IsAuthenticated
+  deleteUsers(filter: UserFilter): UsersDeletePayload! @IsAuthenticated
 }
 `, BuiltIn: false},
 }
@@ -2463,40 +2776,12 @@ func (ec *executionContext) field_Mutation_createCommentLike_args(ctx context.Co
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_createCommentLikes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 CommentLikesCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNCommentLikesCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikesCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
 func (ec *executionContext) field_Mutation_createComment_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 CommentCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNCommentCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_createComments_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 CommentsCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNCommentsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentsCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -2519,40 +2804,12 @@ func (ec *executionContext) field_Mutation_createFriendship_args(ctx context.Con
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_createFriendships_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 FriendshipsCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNFriendshipsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipsCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
 func (ec *executionContext) field_Mutation_createImageVariation_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 ImageVariationCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNImageVariationCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_createImageVariations_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 ImageVariationsCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNImageVariationsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationsCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -2575,40 +2832,12 @@ func (ec *executionContext) field_Mutation_createImage_args(ctx context.Context,
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_createImages_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 ImagesCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNImagesCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImagesCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
 func (ec *executionContext) field_Mutation_createLike_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 LikeCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNLikeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_createLikes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 LikesCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNLikesCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikesCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -2631,40 +2860,12 @@ func (ec *executionContext) field_Mutation_createPost_args(ctx context.Context, 
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_createPosts_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 PostsCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNPostsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostsCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
 func (ec *executionContext) field_Mutation_createUser_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 UserCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNUserCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserCreateInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_createUsers_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 UsersCreateInput
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNUsersCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUsersCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -3280,14 +3481,30 @@ func (ec *executionContext) field_Query_commentLike_args(ctx context.Context, ra
 func (ec *executionContext) field_Query_commentLikes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *CommentLikeFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOCommentLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeFilter(ctx, tmp)
+	var arg0 boilergql.ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*CommentLikeOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOCommentLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *CommentLikeFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOCommentLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
 	return args, nil
 }
 
@@ -3308,14 +3525,30 @@ func (ec *executionContext) field_Query_comment_args(ctx context.Context, rawArg
 func (ec *executionContext) field_Query_comments_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *CommentFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOCommentFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentFilter(ctx, tmp)
+	var arg0 boilergql.ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*CommentOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOCommentOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *CommentFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOCommentFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
 	return args, nil
 }
 
@@ -3336,14 +3569,30 @@ func (ec *executionContext) field_Query_friendship_args(ctx context.Context, raw
 func (ec *executionContext) field_Query_friendships_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *FriendshipFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOFriendshipFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipFilter(ctx, tmp)
+	var arg0 boilergql.ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*FriendshipOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOFriendshipOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *FriendshipFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOFriendshipFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
 	return args, nil
 }
 
@@ -3364,14 +3613,30 @@ func (ec *executionContext) field_Query_imageVariation_args(ctx context.Context,
 func (ec *executionContext) field_Query_imageVariations_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *ImageVariationFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOImageVariationFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationFilter(ctx, tmp)
+	var arg0 boilergql.ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*ImageVariationOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOImageVariationOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *ImageVariationFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOImageVariationFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
 	return args, nil
 }
 
@@ -3392,14 +3657,30 @@ func (ec *executionContext) field_Query_image_args(ctx context.Context, rawArgs 
 func (ec *executionContext) field_Query_images_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *ImageFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOImageFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageFilter(ctx, tmp)
+	var arg0 boilergql.ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*ImageOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOImageOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *ImageFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOImageFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
 	return args, nil
 }
 
@@ -3420,14 +3701,44 @@ func (ec *executionContext) field_Query_like_args(ctx context.Context, rawArgs m
 func (ec *executionContext) field_Query_likes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *LikeFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeFilter(ctx, tmp)
+	var arg0 boilergql.ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*LikeOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *LikeFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_node_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
 	return args, nil
 }
 
@@ -3448,14 +3759,30 @@ func (ec *executionContext) field_Query_post_args(ctx context.Context, rawArgs m
 func (ec *executionContext) field_Query_posts_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *PostFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOPostFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostFilter(ctx, tmp)
+	var arg0 boilergql.ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*PostOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOPostOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *PostFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOPostFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
 	return args, nil
 }
 
@@ -3476,14 +3803,30 @@ func (ec *executionContext) field_Query_user_args(ctx context.Context, rawArgs m
 func (ec *executionContext) field_Query_users_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *UserFilter
-	if tmp, ok := rawArgs["filter"]; ok {
-		arg0, err = ec.unmarshalOUserFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserFilter(ctx, tmp)
+	var arg0 boilergql.ConnectionPagination
+	if tmp, ok := rawArgs["pagination"]; ok {
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["pagination"] = arg0
+	var arg1 []*UserOrdering
+	if tmp, ok := rawArgs["ordering"]; ok {
+		arg1, err = ec.unmarshalOUserOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserOrderingᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ordering"] = arg1
+	var arg2 *UserFilter
+	if tmp, ok := rawArgs["filter"]; ok {
+		arg2, err = ec.unmarshalOUserFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserFilter(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg2
 	return args, nil
 }
 
@@ -3687,6 +4030,71 @@ func (ec *executionContext) _Comment_commentLikes(ctx context.Context, field gra
 	return ec.marshalOCommentLike2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLike(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _CommentConnection_edges(ctx context.Context, field graphql.CollectedField, obj *CommentConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "CommentConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Edges, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*CommentEdge)
+	fc.Result = res
+	return ec.marshalOCommentEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentEdge(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _CommentConnection_pageInfo(ctx context.Context, field graphql.CollectedField, obj *CommentConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "CommentConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PageInfo, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*PageInfo)
+	fc.Result = res
+	return ec.marshalNPageInfo2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPageInfo(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _CommentDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *CommentDeletePayload) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -3719,6 +4127,71 @@ func (ec *executionContext) _CommentDeletePayload_id(ctx context.Context, field 
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _CommentEdge_cursor(ctx context.Context, field graphql.CollectedField, obj *CommentEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "CommentEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Cursor, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _CommentEdge_node(ctx context.Context, field graphql.CollectedField, obj *CommentEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "CommentEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Node, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*Comment)
+	fc.Result = res
+	return ec.marshalOComment2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐComment(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _CommentLike_id(ctx context.Context, field graphql.CollectedField, obj *CommentLike) (ret graphql.Marshaler) {
@@ -3888,6 +4361,71 @@ func (ec *executionContext) _CommentLike_createdAt(ctx context.Context, field gr
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _CommentLikeConnection_edges(ctx context.Context, field graphql.CollectedField, obj *CommentLikeConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "CommentLikeConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Edges, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*CommentLikeEdge)
+	fc.Result = res
+	return ec.marshalOCommentLikeEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeEdge(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _CommentLikeConnection_pageInfo(ctx context.Context, field graphql.CollectedField, obj *CommentLikeConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "CommentLikeConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PageInfo, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*PageInfo)
+	fc.Result = res
+	return ec.marshalNPageInfo2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPageInfo(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _CommentLikeDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *CommentLikeDeletePayload) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -3920,6 +4458,71 @@ func (ec *executionContext) _CommentLikeDeletePayload_id(ctx context.Context, fi
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _CommentLikeEdge_cursor(ctx context.Context, field graphql.CollectedField, obj *CommentLikeEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "CommentLikeEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Cursor, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _CommentLikeEdge_node(ctx context.Context, field graphql.CollectedField, obj *CommentLikeEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "CommentLikeEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Node, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*CommentLike)
+	fc.Result = res
+	return ec.marshalOCommentLike2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLike(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _CommentLikePayload_commentLike(ctx context.Context, field graphql.CollectedField, obj *CommentLikePayload) (ret graphql.Marshaler) {
@@ -3988,40 +4591,6 @@ func (ec *executionContext) _CommentLikesDeletePayload_ids(ctx context.Context, 
 	res := resTmp.([]string)
 	fc.Result = res
 	return ec.marshalNID2ᚕstringᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _CommentLikesPayload_commentLikes(ctx context.Context, field graphql.CollectedField, obj *CommentLikesPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "CommentLikesPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CommentLikes, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*CommentLike)
-	fc.Result = res
-	return ec.marshalNCommentLike2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _CommentLikesUpdatePayload_ok(ctx context.Context, field graphql.CollectedField, obj *CommentLikesUpdatePayload) (ret graphql.Marshaler) {
@@ -4124,40 +4693,6 @@ func (ec *executionContext) _CommentsDeletePayload_ids(ctx context.Context, fiel
 	res := resTmp.([]string)
 	fc.Result = res
 	return ec.marshalNID2ᚕstringᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _CommentsPayload_comments(ctx context.Context, field graphql.CollectedField, obj *CommentsPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "CommentsPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Comments, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*Comment)
-	fc.Result = res
-	return ec.marshalNComment2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _CommentsUpdatePayload_ok(ctx context.Context, field graphql.CollectedField, obj *CommentsUpdatePayload) (ret graphql.Marshaler) {
@@ -4290,6 +4825,71 @@ func (ec *executionContext) _Friendship_users(ctx context.Context, field graphql
 	return ec.marshalOUser2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUser(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _FriendshipConnection_edges(ctx context.Context, field graphql.CollectedField, obj *FriendshipConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "FriendshipConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Edges, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*FriendshipEdge)
+	fc.Result = res
+	return ec.marshalOFriendshipEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipEdge(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _FriendshipConnection_pageInfo(ctx context.Context, field graphql.CollectedField, obj *FriendshipConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "FriendshipConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PageInfo, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*PageInfo)
+	fc.Result = res
+	return ec.marshalNPageInfo2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPageInfo(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _FriendshipDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *FriendshipDeletePayload) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -4322,6 +4922,71 @@ func (ec *executionContext) _FriendshipDeletePayload_id(ctx context.Context, fie
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _FriendshipEdge_cursor(ctx context.Context, field graphql.CollectedField, obj *FriendshipEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "FriendshipEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Cursor, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _FriendshipEdge_node(ctx context.Context, field graphql.CollectedField, obj *FriendshipEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "FriendshipEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Node, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*Friendship)
+	fc.Result = res
+	return ec.marshalOFriendship2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendship(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _FriendshipPayload_friendship(ctx context.Context, field graphql.CollectedField, obj *FriendshipPayload) (ret graphql.Marshaler) {
@@ -4390,40 +5055,6 @@ func (ec *executionContext) _FriendshipsDeletePayload_ids(ctx context.Context, f
 	res := resTmp.([]string)
 	fc.Result = res
 	return ec.marshalNID2ᚕstringᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _FriendshipsPayload_friendships(ctx context.Context, field graphql.CollectedField, obj *FriendshipsPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "FriendshipsPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Friendships, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*Friendship)
-	fc.Result = res
-	return ec.marshalNFriendship2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _FriendshipsUpdatePayload_ok(ctx context.Context, field graphql.CollectedField, obj *FriendshipsUpdatePayload) (ret graphql.Marshaler) {
@@ -4621,6 +5252,71 @@ func (ec *executionContext) _Image_imageVariations(ctx context.Context, field gr
 	return ec.marshalOImageVariation2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariation(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _ImageConnection_edges(ctx context.Context, field graphql.CollectedField, obj *ImageConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "ImageConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Edges, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*ImageEdge)
+	fc.Result = res
+	return ec.marshalOImageEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageEdge(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _ImageConnection_pageInfo(ctx context.Context, field graphql.CollectedField, obj *ImageConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "ImageConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PageInfo, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*PageInfo)
+	fc.Result = res
+	return ec.marshalNPageInfo2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPageInfo(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _ImageDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *ImageDeletePayload) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -4653,6 +5349,71 @@ func (ec *executionContext) _ImageDeletePayload_id(ctx context.Context, field gr
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _ImageEdge_cursor(ctx context.Context, field graphql.CollectedField, obj *ImageEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "ImageEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Cursor, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _ImageEdge_node(ctx context.Context, field graphql.CollectedField, obj *ImageEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "ImageEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Node, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*Image)
+	fc.Result = res
+	return ec.marshalOImage2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImage(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _ImagePayload_image(ctx context.Context, field graphql.CollectedField, obj *ImagePayload) (ret graphql.Marshaler) {
@@ -4757,6 +5518,71 @@ func (ec *executionContext) _ImageVariation_image(ctx context.Context, field gra
 	return ec.marshalNImage2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImage(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _ImageVariationConnection_edges(ctx context.Context, field graphql.CollectedField, obj *ImageVariationConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "ImageVariationConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Edges, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*ImageVariationEdge)
+	fc.Result = res
+	return ec.marshalOImageVariationEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationEdge(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _ImageVariationConnection_pageInfo(ctx context.Context, field graphql.CollectedField, obj *ImageVariationConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "ImageVariationConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PageInfo, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*PageInfo)
+	fc.Result = res
+	return ec.marshalNPageInfo2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPageInfo(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _ImageVariationDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *ImageVariationDeletePayload) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -4789,6 +5615,71 @@ func (ec *executionContext) _ImageVariationDeletePayload_id(ctx context.Context,
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _ImageVariationEdge_cursor(ctx context.Context, field graphql.CollectedField, obj *ImageVariationEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "ImageVariationEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Cursor, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _ImageVariationEdge_node(ctx context.Context, field graphql.CollectedField, obj *ImageVariationEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "ImageVariationEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Node, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*ImageVariation)
+	fc.Result = res
+	return ec.marshalOImageVariation2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariation(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _ImageVariationPayload_imageVariation(ctx context.Context, field graphql.CollectedField, obj *ImageVariationPayload) (ret graphql.Marshaler) {
@@ -4859,40 +5750,6 @@ func (ec *executionContext) _ImageVariationsDeletePayload_ids(ctx context.Contex
 	return ec.marshalNID2ᚕstringᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _ImageVariationsPayload_imageVariations(ctx context.Context, field graphql.CollectedField, obj *ImageVariationsPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "ImageVariationsPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ImageVariations, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*ImageVariation)
-	fc.Result = res
-	return ec.marshalNImageVariation2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationᚄ(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _ImageVariationsUpdatePayload_ok(ctx context.Context, field graphql.CollectedField, obj *ImageVariationsUpdatePayload) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -4959,40 +5816,6 @@ func (ec *executionContext) _ImagesDeletePayload_ids(ctx context.Context, field 
 	res := resTmp.([]string)
 	fc.Result = res
 	return ec.marshalNID2ᚕstringᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _ImagesPayload_images(ctx context.Context, field graphql.CollectedField, obj *ImagesPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "ImagesPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Images, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*Image)
-	fc.Result = res
-	return ec.marshalNImage2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _ImagesUpdatePayload_ok(ctx context.Context, field graphql.CollectedField, obj *ImagesUpdatePayload) (ret graphql.Marshaler) {
@@ -5196,6 +6019,71 @@ func (ec *executionContext) _Like_createdAt(ctx context.Context, field graphql.C
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _LikeConnection_edges(ctx context.Context, field graphql.CollectedField, obj *LikeConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "LikeConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Edges, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*LikeEdge)
+	fc.Result = res
+	return ec.marshalOLikeEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeEdge(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _LikeConnection_pageInfo(ctx context.Context, field graphql.CollectedField, obj *LikeConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "LikeConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PageInfo, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*PageInfo)
+	fc.Result = res
+	return ec.marshalNPageInfo2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPageInfo(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _LikeDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *LikeDeletePayload) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -5228,6 +6116,71 @@ func (ec *executionContext) _LikeDeletePayload_id(ctx context.Context, field gra
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _LikeEdge_cursor(ctx context.Context, field graphql.CollectedField, obj *LikeEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "LikeEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Cursor, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _LikeEdge_node(ctx context.Context, field graphql.CollectedField, obj *LikeEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "LikeEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Node, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*Like)
+	fc.Result = res
+	return ec.marshalOLike2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLike(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _LikePayload_like(ctx context.Context, field graphql.CollectedField, obj *LikePayload) (ret graphql.Marshaler) {
@@ -5298,40 +6251,6 @@ func (ec *executionContext) _LikesDeletePayload_ids(ctx context.Context, field g
 	return ec.marshalNID2ᚕstringᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _LikesPayload_likes(ctx context.Context, field graphql.CollectedField, obj *LikesPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "LikesPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Likes, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*Like)
-	fc.Result = res
-	return ec.marshalNLike2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeᚄ(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _LikesUpdatePayload_ok(ctx context.Context, field graphql.CollectedField, obj *LikesUpdatePayload) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -5395,7 +6314,7 @@ func (ec *executionContext) _Mutation_createComment(ctx context.Context, field g
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -5427,67 +6346,6 @@ func (ec *executionContext) _Mutation_createComment(ctx context.Context, field g
 	return ec.marshalNCommentPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentPayload(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Mutation_createComments(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createComments_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		directive0 := func(rctx context.Context) (interface{}, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreateComments(rctx, args["input"].(CommentsCreateInput))
-		}
-		directive1 := func(ctx context.Context) (interface{}, error) {
-			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
-			}
-			return ec.directives.IsAuthenticated(ctx, nil, directive0)
-		}
-
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, err
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*CommentsPayload); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.CommentsPayload`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*CommentsPayload)
-	fc.Result = res
-	return ec.marshalNCommentsPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentsPayload(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Mutation_updateComment(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -5517,7 +6375,7 @@ func (ec *executionContext) _Mutation_updateComment(ctx context.Context, field g
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -5578,7 +6436,7 @@ func (ec *executionContext) _Mutation_updateComments(ctx context.Context, field 
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -5639,7 +6497,7 @@ func (ec *executionContext) _Mutation_deleteComment(ctx context.Context, field g
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -5700,7 +6558,7 @@ func (ec *executionContext) _Mutation_deleteComments(ctx context.Context, field 
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -5761,7 +6619,7 @@ func (ec *executionContext) _Mutation_createCommentLike(ctx context.Context, fie
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -5793,67 +6651,6 @@ func (ec *executionContext) _Mutation_createCommentLike(ctx context.Context, fie
 	return ec.marshalNCommentLikePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikePayload(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Mutation_createCommentLikes(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createCommentLikes_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		directive0 := func(rctx context.Context) (interface{}, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreateCommentLikes(rctx, args["input"].(CommentLikesCreateInput))
-		}
-		directive1 := func(ctx context.Context) (interface{}, error) {
-			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
-			}
-			return ec.directives.IsAuthenticated(ctx, nil, directive0)
-		}
-
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, err
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*CommentLikesPayload); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.CommentLikesPayload`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*CommentLikesPayload)
-	fc.Result = res
-	return ec.marshalNCommentLikesPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikesPayload(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Mutation_updateCommentLike(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -5883,7 +6680,7 @@ func (ec *executionContext) _Mutation_updateCommentLike(ctx context.Context, fie
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -5944,7 +6741,7 @@ func (ec *executionContext) _Mutation_updateCommentLikes(ctx context.Context, fi
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -6005,7 +6802,7 @@ func (ec *executionContext) _Mutation_deleteCommentLike(ctx context.Context, fie
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -6066,7 +6863,7 @@ func (ec *executionContext) _Mutation_deleteCommentLikes(ctx context.Context, fi
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -6127,7 +6924,7 @@ func (ec *executionContext) _Mutation_createFriendship(ctx context.Context, fiel
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -6159,67 +6956,6 @@ func (ec *executionContext) _Mutation_createFriendship(ctx context.Context, fiel
 	return ec.marshalNFriendshipPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipPayload(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Mutation_createFriendships(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createFriendships_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		directive0 := func(rctx context.Context) (interface{}, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreateFriendships(rctx, args["input"].(FriendshipsCreateInput))
-		}
-		directive1 := func(ctx context.Context) (interface{}, error) {
-			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
-			}
-			return ec.directives.IsAuthenticated(ctx, nil, directive0)
-		}
-
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, err
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*FriendshipsPayload); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.FriendshipsPayload`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*FriendshipsPayload)
-	fc.Result = res
-	return ec.marshalNFriendshipsPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipsPayload(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Mutation_updateFriendship(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -6249,7 +6985,7 @@ func (ec *executionContext) _Mutation_updateFriendship(ctx context.Context, fiel
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -6310,7 +7046,7 @@ func (ec *executionContext) _Mutation_updateFriendships(ctx context.Context, fie
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -6371,7 +7107,7 @@ func (ec *executionContext) _Mutation_deleteFriendship(ctx context.Context, fiel
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -6432,7 +7168,7 @@ func (ec *executionContext) _Mutation_deleteFriendships(ctx context.Context, fie
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -6493,7 +7229,7 @@ func (ec *executionContext) _Mutation_createImage(ctx context.Context, field gra
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -6525,67 +7261,6 @@ func (ec *executionContext) _Mutation_createImage(ctx context.Context, field gra
 	return ec.marshalNImagePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImagePayload(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Mutation_createImages(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createImages_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		directive0 := func(rctx context.Context) (interface{}, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreateImages(rctx, args["input"].(ImagesCreateInput))
-		}
-		directive1 := func(ctx context.Context) (interface{}, error) {
-			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
-			}
-			return ec.directives.IsAuthenticated(ctx, nil, directive0)
-		}
-
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, err
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ImagesPayload); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.ImagesPayload`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ImagesPayload)
-	fc.Result = res
-	return ec.marshalNImagesPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImagesPayload(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Mutation_updateImage(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -6615,7 +7290,7 @@ func (ec *executionContext) _Mutation_updateImage(ctx context.Context, field gra
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -6676,7 +7351,7 @@ func (ec *executionContext) _Mutation_updateImages(ctx context.Context, field gr
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -6737,7 +7412,7 @@ func (ec *executionContext) _Mutation_deleteImage(ctx context.Context, field gra
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -6798,7 +7473,7 @@ func (ec *executionContext) _Mutation_deleteImages(ctx context.Context, field gr
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -6859,7 +7534,7 @@ func (ec *executionContext) _Mutation_createImageVariation(ctx context.Context, 
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -6891,67 +7566,6 @@ func (ec *executionContext) _Mutation_createImageVariation(ctx context.Context, 
 	return ec.marshalNImageVariationPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationPayload(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Mutation_createImageVariations(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createImageVariations_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		directive0 := func(rctx context.Context) (interface{}, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreateImageVariations(rctx, args["input"].(ImageVariationsCreateInput))
-		}
-		directive1 := func(ctx context.Context) (interface{}, error) {
-			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
-			}
-			return ec.directives.IsAuthenticated(ctx, nil, directive0)
-		}
-
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, err
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ImageVariationsPayload); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.ImageVariationsPayload`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ImageVariationsPayload)
-	fc.Result = res
-	return ec.marshalNImageVariationsPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationsPayload(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Mutation_updateImageVariation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -6981,7 +7595,7 @@ func (ec *executionContext) _Mutation_updateImageVariation(ctx context.Context, 
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -7042,7 +7656,7 @@ func (ec *executionContext) _Mutation_updateImageVariations(ctx context.Context,
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -7103,7 +7717,7 @@ func (ec *executionContext) _Mutation_deleteImageVariation(ctx context.Context, 
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -7164,7 +7778,7 @@ func (ec *executionContext) _Mutation_deleteImageVariations(ctx context.Context,
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -7225,7 +7839,7 @@ func (ec *executionContext) _Mutation_createLike(ctx context.Context, field grap
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -7257,67 +7871,6 @@ func (ec *executionContext) _Mutation_createLike(ctx context.Context, field grap
 	return ec.marshalNLikePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikePayload(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Mutation_createLikes(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createLikes_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		directive0 := func(rctx context.Context) (interface{}, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreateLikes(rctx, args["input"].(LikesCreateInput))
-		}
-		directive1 := func(ctx context.Context) (interface{}, error) {
-			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
-			}
-			return ec.directives.IsAuthenticated(ctx, nil, directive0)
-		}
-
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, err
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*LikesPayload); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.LikesPayload`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*LikesPayload)
-	fc.Result = res
-	return ec.marshalNLikesPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikesPayload(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Mutation_updateLike(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -7347,7 +7900,7 @@ func (ec *executionContext) _Mutation_updateLike(ctx context.Context, field grap
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -7408,7 +7961,7 @@ func (ec *executionContext) _Mutation_updateLikes(ctx context.Context, field gra
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -7469,7 +8022,7 @@ func (ec *executionContext) _Mutation_deleteLike(ctx context.Context, field grap
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -7530,7 +8083,7 @@ func (ec *executionContext) _Mutation_deleteLikes(ctx context.Context, field gra
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -7591,7 +8144,7 @@ func (ec *executionContext) _Mutation_createPost(ctx context.Context, field grap
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -7623,67 +8176,6 @@ func (ec *executionContext) _Mutation_createPost(ctx context.Context, field grap
 	return ec.marshalNPostPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostPayload(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Mutation_createPosts(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createPosts_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		directive0 := func(rctx context.Context) (interface{}, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreatePosts(rctx, args["input"].(PostsCreateInput))
-		}
-		directive1 := func(ctx context.Context) (interface{}, error) {
-			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
-			}
-			return ec.directives.IsAuthenticated(ctx, nil, directive0)
-		}
-
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, err
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*PostsPayload); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.PostsPayload`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*PostsPayload)
-	fc.Result = res
-	return ec.marshalNPostsPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostsPayload(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Mutation_updatePost(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -7713,7 +8205,7 @@ func (ec *executionContext) _Mutation_updatePost(ctx context.Context, field grap
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -7774,7 +8266,7 @@ func (ec *executionContext) _Mutation_updatePosts(ctx context.Context, field gra
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -7835,7 +8327,7 @@ func (ec *executionContext) _Mutation_deletePost(ctx context.Context, field grap
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -7896,7 +8388,7 @@ func (ec *executionContext) _Mutation_deletePosts(ctx context.Context, field gra
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -7957,7 +8449,7 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -7989,67 +8481,6 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 	return ec.marshalNUserPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserPayload(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Mutation_createUsers(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createUsers_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		directive0 := func(rctx context.Context) (interface{}, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreateUsers(rctx, args["input"].(UsersCreateInput))
-		}
-		directive1 := func(ctx context.Context) (interface{}, error) {
-			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
-			}
-			return ec.directives.IsAuthenticated(ctx, nil, directive0)
-		}
-
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, err
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*UsersPayload); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.UsersPayload`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*UsersPayload)
-	fc.Result = res
-	return ec.marshalNUsersPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUsersPayload(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Mutation_updateUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -8079,7 +8510,7 @@ func (ec *executionContext) _Mutation_updateUser(ctx context.Context, field grap
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -8140,7 +8571,7 @@ func (ec *executionContext) _Mutation_updateUsers(ctx context.Context, field gra
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -8201,7 +8632,7 @@ func (ec *executionContext) _Mutation_deleteUser(ctx context.Context, field grap
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -8262,7 +8693,7 @@ func (ec *executionContext) _Mutation_deleteUsers(ctx context.Context, field gra
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -8292,6 +8723,136 @@ func (ec *executionContext) _Mutation_deleteUsers(ctx context.Context, field gra
 	res := resTmp.(*UsersDeletePayload)
 	fc.Result = res
 	return ec.marshalNUsersDeletePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUsersDeletePayload(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _PageInfo_hasNextPage(ctx context.Context, field graphql.CollectedField, obj *PageInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "PageInfo",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.HasNextPage, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _PageInfo_hasPreviousPage(ctx context.Context, field graphql.CollectedField, obj *PageInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "PageInfo",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.HasPreviousPage, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _PageInfo_startCursor(ctx context.Context, field graphql.CollectedField, obj *PageInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "PageInfo",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.StartCursor, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _PageInfo_endCursor(ctx context.Context, field graphql.CollectedField, obj *PageInfo) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "PageInfo",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.EndCursor, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Post_id(ctx context.Context, field graphql.CollectedField, obj *Post) (ret graphql.Marshaler) {
@@ -8489,6 +9050,71 @@ func (ec *executionContext) _Post_likes(ctx context.Context, field graphql.Colle
 	return ec.marshalOLike2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLike(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _PostConnection_edges(ctx context.Context, field graphql.CollectedField, obj *PostConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "PostConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Edges, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*PostEdge)
+	fc.Result = res
+	return ec.marshalOPostEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostEdge(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _PostConnection_pageInfo(ctx context.Context, field graphql.CollectedField, obj *PostConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "PostConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PageInfo, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*PageInfo)
+	fc.Result = res
+	return ec.marshalNPageInfo2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPageInfo(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _PostDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *PostDeletePayload) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -8521,6 +9147,71 @@ func (ec *executionContext) _PostDeletePayload_id(ctx context.Context, field gra
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _PostEdge_cursor(ctx context.Context, field graphql.CollectedField, obj *PostEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "PostEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Cursor, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _PostEdge_node(ctx context.Context, field graphql.CollectedField, obj *PostEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "PostEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Node, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*Post)
+	fc.Result = res
+	return ec.marshalOPost2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPost(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _PostPayload_post(ctx context.Context, field graphql.CollectedField, obj *PostPayload) (ret graphql.Marshaler) {
@@ -8591,40 +9282,6 @@ func (ec *executionContext) _PostsDeletePayload_ids(ctx context.Context, field g
 	return ec.marshalNID2ᚕstringᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _PostsPayload_posts(ctx context.Context, field graphql.CollectedField, obj *PostsPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "PostsPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Posts, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*Post)
-	fc.Result = res
-	return ec.marshalNPost2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostᚄ(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _PostsUpdatePayload_ok(ctx context.Context, field graphql.CollectedField, obj *PostsUpdatePayload) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -8659,6 +9316,44 @@ func (ec *executionContext) _PostsUpdatePayload_ok(ctx context.Context, field gr
 	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Query_node(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Query",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_node_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Node(rctx, args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(Node)
+	fc.Result = res
+	return ec.marshalONode2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐNode(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Query_comment(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -8688,7 +9383,7 @@ func (ec *executionContext) _Query_comment(ctx context.Context, field graphql.Co
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -8745,11 +9440,11 @@ func (ec *executionContext) _Query_comments(ctx context.Context, field graphql.C
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Comments(rctx, args["filter"].(*CommentFilter))
+			return ec.resolvers.Query().Comments(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*CommentOrdering), args["filter"].(*CommentFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -8761,10 +9456,10 @@ func (ec *executionContext) _Query_comments(ctx context.Context, field graphql.C
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*Comment); ok {
+		if data, ok := tmp.(*CommentConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.Comment`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.CommentConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -8776,9 +9471,9 @@ func (ec *executionContext) _Query_comments(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*Comment)
+	res := resTmp.(*CommentConnection)
 	fc.Result = res
-	return ec.marshalNComment2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentᚄ(ctx, field.Selections, res)
+	return ec.marshalNCommentConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_commentLike(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -8810,7 +9505,7 @@ func (ec *executionContext) _Query_commentLike(ctx context.Context, field graphq
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -8867,11 +9562,11 @@ func (ec *executionContext) _Query_commentLikes(ctx context.Context, field graph
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().CommentLikes(rctx, args["filter"].(*CommentLikeFilter))
+			return ec.resolvers.Query().CommentLikes(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*CommentLikeOrdering), args["filter"].(*CommentLikeFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -8883,10 +9578,10 @@ func (ec *executionContext) _Query_commentLikes(ctx context.Context, field graph
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*CommentLike); ok {
+		if data, ok := tmp.(*CommentLikeConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.CommentLike`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.CommentLikeConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -8898,9 +9593,9 @@ func (ec *executionContext) _Query_commentLikes(ctx context.Context, field graph
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*CommentLike)
+	res := resTmp.(*CommentLikeConnection)
 	fc.Result = res
-	return ec.marshalNCommentLike2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeᚄ(ctx, field.Selections, res)
+	return ec.marshalNCommentLikeConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_friendship(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -8932,7 +9627,7 @@ func (ec *executionContext) _Query_friendship(ctx context.Context, field graphql
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -8989,11 +9684,11 @@ func (ec *executionContext) _Query_friendships(ctx context.Context, field graphq
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Friendships(rctx, args["filter"].(*FriendshipFilter))
+			return ec.resolvers.Query().Friendships(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*FriendshipOrdering), args["filter"].(*FriendshipFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -9005,10 +9700,10 @@ func (ec *executionContext) _Query_friendships(ctx context.Context, field graphq
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*Friendship); ok {
+		if data, ok := tmp.(*FriendshipConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.Friendship`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.FriendshipConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -9020,9 +9715,9 @@ func (ec *executionContext) _Query_friendships(ctx context.Context, field graphq
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*Friendship)
+	res := resTmp.(*FriendshipConnection)
 	fc.Result = res
-	return ec.marshalNFriendship2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipᚄ(ctx, field.Selections, res)
+	return ec.marshalNFriendshipConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_image(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -9054,7 +9749,7 @@ func (ec *executionContext) _Query_image(ctx context.Context, field graphql.Coll
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -9111,11 +9806,11 @@ func (ec *executionContext) _Query_images(ctx context.Context, field graphql.Col
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Images(rctx, args["filter"].(*ImageFilter))
+			return ec.resolvers.Query().Images(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*ImageOrdering), args["filter"].(*ImageFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -9127,10 +9822,10 @@ func (ec *executionContext) _Query_images(ctx context.Context, field graphql.Col
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*Image); ok {
+		if data, ok := tmp.(*ImageConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.Image`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.ImageConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -9142,9 +9837,9 @@ func (ec *executionContext) _Query_images(ctx context.Context, field graphql.Col
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*Image)
+	res := resTmp.(*ImageConnection)
 	fc.Result = res
-	return ec.marshalNImage2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageᚄ(ctx, field.Selections, res)
+	return ec.marshalNImageConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_imageVariation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -9176,7 +9871,7 @@ func (ec *executionContext) _Query_imageVariation(ctx context.Context, field gra
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -9233,11 +9928,11 @@ func (ec *executionContext) _Query_imageVariations(ctx context.Context, field gr
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().ImageVariations(rctx, args["filter"].(*ImageVariationFilter))
+			return ec.resolvers.Query().ImageVariations(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*ImageVariationOrdering), args["filter"].(*ImageVariationFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -9249,10 +9944,10 @@ func (ec *executionContext) _Query_imageVariations(ctx context.Context, field gr
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*ImageVariation); ok {
+		if data, ok := tmp.(*ImageVariationConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.ImageVariation`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.ImageVariationConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -9264,9 +9959,9 @@ func (ec *executionContext) _Query_imageVariations(ctx context.Context, field gr
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*ImageVariation)
+	res := resTmp.(*ImageVariationConnection)
 	fc.Result = res
-	return ec.marshalNImageVariation2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationᚄ(ctx, field.Selections, res)
+	return ec.marshalNImageVariationConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_like(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -9298,7 +9993,7 @@ func (ec *executionContext) _Query_like(ctx context.Context, field graphql.Colle
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -9355,11 +10050,11 @@ func (ec *executionContext) _Query_likes(ctx context.Context, field graphql.Coll
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Likes(rctx, args["filter"].(*LikeFilter))
+			return ec.resolvers.Query().Likes(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*LikeOrdering), args["filter"].(*LikeFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -9371,10 +10066,10 @@ func (ec *executionContext) _Query_likes(ctx context.Context, field graphql.Coll
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*Like); ok {
+		if data, ok := tmp.(*LikeConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.Like`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.LikeConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -9386,9 +10081,9 @@ func (ec *executionContext) _Query_likes(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*Like)
+	res := resTmp.(*LikeConnection)
 	fc.Result = res
-	return ec.marshalNLike2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeᚄ(ctx, field.Selections, res)
+	return ec.marshalNLikeConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_post(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -9420,7 +10115,7 @@ func (ec *executionContext) _Query_post(ctx context.Context, field graphql.Colle
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -9477,11 +10172,11 @@ func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.Coll
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Posts(rctx, args["filter"].(*PostFilter))
+			return ec.resolvers.Query().Posts(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*PostOrdering), args["filter"].(*PostFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -9493,10 +10188,10 @@ func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.Coll
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*Post); ok {
+		if data, ok := tmp.(*PostConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.Post`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.PostConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -9508,9 +10203,9 @@ func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*Post)
+	res := resTmp.(*PostConnection)
 	fc.Result = res
-	return ec.marshalNPost2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostᚄ(ctx, field.Selections, res)
+	return ec.marshalNPostConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_user(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -9542,7 +10237,7 @@ func (ec *executionContext) _Query_user(ctx context.Context, field graphql.Colle
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -9599,11 +10294,11 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Users(rctx, args["filter"].(*UserFilter))
+			return ec.resolvers.Query().Users(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
-				return nil, errors.New("directive isAuthenticated is not implemented")
+				return nil, errors.New("directive IsAuthenticated is not implemented")
 			}
 			return ec.directives.IsAuthenticated(ctx, nil, directive0)
 		}
@@ -9615,10 +10310,10 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*User); ok {
+		if data, ok := tmp.(*UserConnection); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.User`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/graphql_models.UserConnection`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -9630,9 +10325,9 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*User)
+	res := resTmp.(*UserConnection)
 	fc.Result = res
-	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserᚄ(ctx, field.Selections, res)
+	return ec.marshalNUserConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -9995,6 +10690,71 @@ func (ec *executionContext) _User_friendships(ctx context.Context, field graphql
 	return ec.marshalOFriendship2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendship(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _UserConnection_edges(ctx context.Context, field graphql.CollectedField, obj *UserConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "UserConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Edges, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*UserEdge)
+	fc.Result = res
+	return ec.marshalOUserEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserEdge(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _UserConnection_pageInfo(ctx context.Context, field graphql.CollectedField, obj *UserConnection) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "UserConnection",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PageInfo, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*PageInfo)
+	fc.Result = res
+	return ec.marshalNPageInfo2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPageInfo(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _UserDeletePayload_id(ctx context.Context, field graphql.CollectedField, obj *UserDeletePayload) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -10027,6 +10787,71 @@ func (ec *executionContext) _UserDeletePayload_id(ctx context.Context, field gra
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _UserEdge_cursor(ctx context.Context, field graphql.CollectedField, obj *UserEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "UserEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Cursor, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _UserEdge_node(ctx context.Context, field graphql.CollectedField, obj *UserEdge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "UserEdge",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Node, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*User)
+	fc.Result = res
+	return ec.marshalOUser2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _UserPayload_user(ctx context.Context, field graphql.CollectedField, obj *UserPayload) (ret graphql.Marshaler) {
@@ -10095,40 +10920,6 @@ func (ec *executionContext) _UsersDeletePayload_ids(ctx context.Context, field g
 	res := resTmp.([]string)
 	fc.Result = res
 	return ec.marshalNID2ᚕstringᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _UsersPayload_users(ctx context.Context, field graphql.CollectedField, obj *UsersPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "UsersPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Users, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*User)
-	fc.Result = res
-	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _UsersUpdatePayload_ok(ctx context.Context, field graphql.CollectedField, obj *UsersUpdatePayload) (ret graphql.Marshaler) {
@@ -11262,6 +12053,12 @@ func (ec *executionContext) unmarshalInputCommentCreateInput(ctx context.Context
 			if err != nil {
 				return it, err
 			}
+		case "userId":
+			var err error
+			it.UserID, err = ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		}
 	}
 
@@ -11301,6 +12098,12 @@ func (ec *executionContext) unmarshalInputCommentLikeCreateInput(ctx context.Con
 		case "commentId":
 			var err error
 			it.CommentID, err = ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "userId":
+			var err error
+			it.UserID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11346,6 +12149,34 @@ func (ec *executionContext) unmarshalInputCommentLikeFilter(ctx context.Context,
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputCommentLikeOrdering(ctx context.Context, obj interface{}) (CommentLikeOrdering, error) {
+	var it CommentLikeOrdering
+	var asMap = obj.(map[string]interface{})
+
+	if _, present := asMap["direction"]; !present {
+		asMap["direction"] = "ASC"
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "sort":
+			var err error
+			it.Sort, err = ec.unmarshalNCommentLikeSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeSort(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "direction":
+			var err error
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputCommentLikeUpdateInput(ctx context.Context, obj interface{}) (CommentLikeUpdateInput, error) {
 	var it CommentLikeUpdateInput
 	var asMap = obj.(map[string]interface{})
@@ -11355,6 +12186,12 @@ func (ec *executionContext) unmarshalInputCommentLikeUpdateInput(ctx context.Con
 		case "commentId":
 			var err error
 			it.CommentID, err = ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "userId":
+			var err error
+			it.UserID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11430,15 +12267,25 @@ func (ec *executionContext) unmarshalInputCommentLikeWhere(ctx context.Context, 
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputCommentLikesCreateInput(ctx context.Context, obj interface{}) (CommentLikesCreateInput, error) {
-	var it CommentLikesCreateInput
+func (ec *executionContext) unmarshalInputCommentOrdering(ctx context.Context, obj interface{}) (CommentOrdering, error) {
+	var it CommentOrdering
 	var asMap = obj.(map[string]interface{})
+
+	if _, present := asMap["direction"]; !present {
+		asMap["direction"] = "ASC"
+	}
 
 	for k, v := range asMap {
 		switch k {
-		case "commentLikes":
+		case "sort":
 			var err error
-			it.CommentLikes, err = ec.unmarshalNCommentLikeCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeCreateInputᚄ(ctx, v)
+			it.Sort, err = ec.unmarshalNCommentSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentSort(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "direction":
+			var err error
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11463,6 +12310,12 @@ func (ec *executionContext) unmarshalInputCommentUpdateInput(ctx context.Context
 		case "postId":
 			var err error
 			it.PostID, err = ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "userId":
+			var err error
+			it.UserID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11526,15 +12379,69 @@ func (ec *executionContext) unmarshalInputCommentWhere(ctx context.Context, obj 
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputCommentsCreateInput(ctx context.Context, obj interface{}) (CommentsCreateInput, error) {
-	var it CommentsCreateInput
+func (ec *executionContext) unmarshalInputConnectionBackwardPagination(ctx context.Context, obj interface{}) (boilergql.ConnectionBackwardPagination, error) {
+	var it boilergql.ConnectionBackwardPagination
 	var asMap = obj.(map[string]interface{})
 
 	for k, v := range asMap {
 		switch k {
-		case "comments":
+		case "last":
 			var err error
-			it.Comments, err = ec.unmarshalNCommentCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentCreateInputᚄ(ctx, v)
+			it.Last, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "before":
+			var err error
+			it.Before, err = ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputConnectionForwardPagination(ctx context.Context, obj interface{}) (boilergql.ConnectionForwardPagination, error) {
+	var it boilergql.ConnectionForwardPagination
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "first":
+			var err error
+			it.First, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "after":
+			var err error
+			it.After, err = ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputConnectionPagination(ctx context.Context, obj interface{}) (boilergql.ConnectionPagination, error) {
+	var it boilergql.ConnectionPagination
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "forward":
+			var err error
+			it.Forward, err = ec.unmarshalOConnectionForwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionForwardPagination(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "backward":
+			var err error
+			it.Backward, err = ec.unmarshalOConnectionBackwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionBackwardPagination(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11646,6 +12553,34 @@ func (ec *executionContext) unmarshalInputFriendshipFilter(ctx context.Context, 
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputFriendshipOrdering(ctx context.Context, obj interface{}) (FriendshipOrdering, error) {
+	var it FriendshipOrdering
+	var asMap = obj.(map[string]interface{})
+
+	if _, present := asMap["direction"]; !present {
+		asMap["direction"] = "ASC"
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "sort":
+			var err error
+			it.Sort, err = ec.unmarshalNFriendshipSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipSort(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "direction":
+			var err error
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputFriendshipUpdateInput(ctx context.Context, obj interface{}) (FriendshipUpdateInput, error) {
 	var it FriendshipUpdateInput
 	var asMap = obj.(map[string]interface{})
@@ -11697,24 +12632,6 @@ func (ec *executionContext) unmarshalInputFriendshipWhere(ctx context.Context, o
 		case "and":
 			var err error
 			it.And, err = ec.unmarshalOFriendshipWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputFriendshipsCreateInput(ctx context.Context, obj interface{}) (FriendshipsCreateInput, error) {
-	var it FriendshipsCreateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "friendships":
-			var err error
-			it.Friendships, err = ec.unmarshalNFriendshipCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipCreateInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11814,6 +12731,34 @@ func (ec *executionContext) unmarshalInputImageFilter(ctx context.Context, obj i
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputImageOrdering(ctx context.Context, obj interface{}) (ImageOrdering, error) {
+	var it ImageOrdering
+	var asMap = obj.(map[string]interface{})
+
+	if _, present := asMap["direction"]; !present {
+		asMap["direction"] = "ASC"
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "sort":
+			var err error
+			it.Sort, err = ec.unmarshalNImageSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageSort(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "direction":
+			var err error
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputImageUpdateInput(ctx context.Context, obj interface{}) (ImageUpdateInput, error) {
 	var it ImageUpdateInput
 	var asMap = obj.(map[string]interface{})
@@ -11886,6 +12831,34 @@ func (ec *executionContext) unmarshalInputImageVariationFilter(ctx context.Conte
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputImageVariationOrdering(ctx context.Context, obj interface{}) (ImageVariationOrdering, error) {
+	var it ImageVariationOrdering
+	var asMap = obj.(map[string]interface{})
+
+	if _, present := asMap["direction"]; !present {
+		asMap["direction"] = "ASC"
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "sort":
+			var err error
+			it.Sort, err = ec.unmarshalNImageVariationSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationSort(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "direction":
+			var err error
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputImageVariationUpdateInput(ctx context.Context, obj interface{}) (ImageVariationUpdateInput, error) {
 	var it ImageVariationUpdateInput
 	var asMap = obj.(map[string]interface{})
@@ -11940,24 +12913,6 @@ func (ec *executionContext) unmarshalInputImageVariationWhere(ctx context.Contex
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputImageVariationsCreateInput(ctx context.Context, obj interface{}) (ImageVariationsCreateInput, error) {
-	var it ImageVariationsCreateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "imageVariations":
-			var err error
-			it.ImageVariations, err = ec.unmarshalNImageVariationCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationCreateInputᚄ(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
 func (ec *executionContext) unmarshalInputImageWhere(ctx context.Context, obj interface{}) (ImageWhere, error) {
 	var it ImageWhere
 	var asMap = obj.(map[string]interface{})
@@ -12003,24 +12958,6 @@ func (ec *executionContext) unmarshalInputImageWhere(ctx context.Context, obj in
 		case "and":
 			var err error
 			it.And, err = ec.unmarshalOImageWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputImagesCreateInput(ctx context.Context, obj interface{}) (ImagesCreateInput, error) {
-	var it ImagesCreateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "images":
-			var err error
-			it.Images, err = ec.unmarshalNImageCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageCreateInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -12102,6 +13039,12 @@ func (ec *executionContext) unmarshalInputLikeCreateInput(ctx context.Context, o
 			if err != nil {
 				return it, err
 			}
+		case "userId":
+			var err error
+			it.UserID, err = ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "likeType":
 			var err error
 			it.LikeType, err = ec.unmarshalNString2string(ctx, v)
@@ -12144,6 +13087,34 @@ func (ec *executionContext) unmarshalInputLikeFilter(ctx context.Context, obj in
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputLikeOrdering(ctx context.Context, obj interface{}) (LikeOrdering, error) {
+	var it LikeOrdering
+	var asMap = obj.(map[string]interface{})
+
+	if _, present := asMap["direction"]; !present {
+		asMap["direction"] = "ASC"
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "sort":
+			var err error
+			it.Sort, err = ec.unmarshalNLikeSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeSort(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "direction":
+			var err error
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputLikeUpdateInput(ctx context.Context, obj interface{}) (LikeUpdateInput, error) {
 	var it LikeUpdateInput
 	var asMap = obj.(map[string]interface{})
@@ -12153,6 +13124,12 @@ func (ec *executionContext) unmarshalInputLikeUpdateInput(ctx context.Context, o
 		case "postId":
 			var err error
 			it.PostID, err = ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "userId":
+			var err error
+			it.UserID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -12228,24 +13205,6 @@ func (ec *executionContext) unmarshalInputLikeWhere(ctx context.Context, obj int
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputLikesCreateInput(ctx context.Context, obj interface{}) (LikesCreateInput, error) {
-	var it LikesCreateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "likes":
-			var err error
-			it.Likes, err = ec.unmarshalNLikeCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeCreateInputᚄ(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
 func (ec *executionContext) unmarshalInputPostCreateInput(ctx context.Context, obj interface{}) (PostCreateInput, error) {
 	var it PostCreateInput
 	var asMap = obj.(map[string]interface{})
@@ -12255,6 +13214,12 @@ func (ec *executionContext) unmarshalInputPostCreateInput(ctx context.Context, o
 		case "content":
 			var err error
 			it.Content, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "userId":
+			var err error
+			it.UserID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -12288,6 +13253,34 @@ func (ec *executionContext) unmarshalInputPostFilter(ctx context.Context, obj in
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputPostOrdering(ctx context.Context, obj interface{}) (PostOrdering, error) {
+	var it PostOrdering
+	var asMap = obj.(map[string]interface{})
+
+	if _, present := asMap["direction"]; !present {
+		asMap["direction"] = "ASC"
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "sort":
+			var err error
+			it.Sort, err = ec.unmarshalNPostSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostSort(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "direction":
+			var err error
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputPostUpdateInput(ctx context.Context, obj interface{}) (PostUpdateInput, error) {
 	var it PostUpdateInput
 	var asMap = obj.(map[string]interface{})
@@ -12297,6 +13290,12 @@ func (ec *executionContext) unmarshalInputPostUpdateInput(ctx context.Context, o
 		case "content":
 			var err error
 			it.Content, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "userId":
+			var err error
+			it.UserID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -12357,24 +13356,6 @@ func (ec *executionContext) unmarshalInputPostWhere(ctx context.Context, obj int
 		case "and":
 			var err error
 			it.And, err = ec.unmarshalOPostWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostWhere(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputPostsCreateInput(ctx context.Context, obj interface{}) (PostsCreateInput, error) {
-	var it PostsCreateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "posts":
-			var err error
-			it.Posts, err = ec.unmarshalNPostCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostCreateInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -12546,6 +13527,34 @@ func (ec *executionContext) unmarshalInputUserFilter(ctx context.Context, obj in
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputUserOrdering(ctx context.Context, obj interface{}) (UserOrdering, error) {
+	var it UserOrdering
+	var asMap = obj.(map[string]interface{})
+
+	if _, present := asMap["direction"]; !present {
+		asMap["direction"] = "ASC"
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "sort":
+			var err error
+			it.Sort, err = ec.unmarshalNUserSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserSort(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "direction":
+			var err error
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputUserUpdateInput(ctx context.Context, obj interface{}) (UserUpdateInput, error) {
 	var it UserUpdateInput
 	var asMap = obj.(map[string]interface{})
@@ -12654,33 +13663,80 @@ func (ec *executionContext) unmarshalInputUserWhere(ctx context.Context, obj int
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputUsersCreateInput(ctx context.Context, obj interface{}) (UsersCreateInput, error) {
-	var it UsersCreateInput
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "users":
-			var err error
-			it.Users, err = ec.unmarshalNUserCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserCreateInputᚄ(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
 // endregion **************************** input.gotpl *****************************
 
 // region    ************************** interface.gotpl ***************************
+
+func (ec *executionContext) _Node(ctx context.Context, sel ast.SelectionSet, obj Node) graphql.Marshaler {
+	switch obj := (obj).(type) {
+	case nil:
+		return graphql.Null
+	case Comment:
+		return ec._Comment(ctx, sel, &obj)
+	case *Comment:
+		if obj == nil {
+			return graphql.Null
+		}
+		return ec._Comment(ctx, sel, obj)
+	case CommentLike:
+		return ec._CommentLike(ctx, sel, &obj)
+	case *CommentLike:
+		if obj == nil {
+			return graphql.Null
+		}
+		return ec._CommentLike(ctx, sel, obj)
+	case Friendship:
+		return ec._Friendship(ctx, sel, &obj)
+	case *Friendship:
+		if obj == nil {
+			return graphql.Null
+		}
+		return ec._Friendship(ctx, sel, obj)
+	case Image:
+		return ec._Image(ctx, sel, &obj)
+	case *Image:
+		if obj == nil {
+			return graphql.Null
+		}
+		return ec._Image(ctx, sel, obj)
+	case ImageVariation:
+		return ec._ImageVariation(ctx, sel, &obj)
+	case *ImageVariation:
+		if obj == nil {
+			return graphql.Null
+		}
+		return ec._ImageVariation(ctx, sel, obj)
+	case Like:
+		return ec._Like(ctx, sel, &obj)
+	case *Like:
+		if obj == nil {
+			return graphql.Null
+		}
+		return ec._Like(ctx, sel, obj)
+	case Post:
+		return ec._Post(ctx, sel, &obj)
+	case *Post:
+		if obj == nil {
+			return graphql.Null
+		}
+		return ec._Post(ctx, sel, obj)
+	case User:
+		return ec._User(ctx, sel, &obj)
+	case *User:
+		if obj == nil {
+			return graphql.Null
+		}
+		return ec._User(ctx, sel, obj)
+	default:
+		panic(fmt.Errorf("unexpected type %T", obj))
+	}
+}
 
 // endregion ************************** interface.gotpl ***************************
 
 // region    **************************** object.gotpl ****************************
 
-var commentImplementors = []string{"Comment"}
+var commentImplementors = []string{"Comment", "Node"}
 
 func (ec *executionContext) _Comment(ctx context.Context, sel ast.SelectionSet, obj *Comment) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, commentImplementors)
@@ -12721,6 +13777,35 @@ func (ec *executionContext) _Comment(ctx context.Context, sel ast.SelectionSet, 
 	return out
 }
 
+var commentConnectionImplementors = []string{"CommentConnection"}
+
+func (ec *executionContext) _CommentConnection(ctx context.Context, sel ast.SelectionSet, obj *CommentConnection) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, commentConnectionImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("CommentConnection")
+		case "edges":
+			out.Values[i] = ec._CommentConnection_edges(ctx, field, obj)
+		case "pageInfo":
+			out.Values[i] = ec._CommentConnection_pageInfo(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var commentDeletePayloadImplementors = []string{"CommentDeletePayload"}
 
 func (ec *executionContext) _CommentDeletePayload(ctx context.Context, sel ast.SelectionSet, obj *CommentDeletePayload) graphql.Marshaler {
@@ -12748,7 +13833,36 @@ func (ec *executionContext) _CommentDeletePayload(ctx context.Context, sel ast.S
 	return out
 }
 
-var commentLikeImplementors = []string{"CommentLike"}
+var commentEdgeImplementors = []string{"CommentEdge"}
+
+func (ec *executionContext) _CommentEdge(ctx context.Context, sel ast.SelectionSet, obj *CommentEdge) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, commentEdgeImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("CommentEdge")
+		case "cursor":
+			out.Values[i] = ec._CommentEdge_cursor(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "node":
+			out.Values[i] = ec._CommentEdge_node(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var commentLikeImplementors = []string{"CommentLike", "Node"}
 
 func (ec *executionContext) _CommentLike(ctx context.Context, sel ast.SelectionSet, obj *CommentLike) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, commentLikeImplementors)
@@ -12792,6 +13906,35 @@ func (ec *executionContext) _CommentLike(ctx context.Context, sel ast.SelectionS
 	return out
 }
 
+var commentLikeConnectionImplementors = []string{"CommentLikeConnection"}
+
+func (ec *executionContext) _CommentLikeConnection(ctx context.Context, sel ast.SelectionSet, obj *CommentLikeConnection) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, commentLikeConnectionImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("CommentLikeConnection")
+		case "edges":
+			out.Values[i] = ec._CommentLikeConnection_edges(ctx, field, obj)
+		case "pageInfo":
+			out.Values[i] = ec._CommentLikeConnection_pageInfo(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var commentLikeDeletePayloadImplementors = []string{"CommentLikeDeletePayload"}
 
 func (ec *executionContext) _CommentLikeDeletePayload(ctx context.Context, sel ast.SelectionSet, obj *CommentLikeDeletePayload) graphql.Marshaler {
@@ -12808,6 +13951,35 @@ func (ec *executionContext) _CommentLikeDeletePayload(ctx context.Context, sel a
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var commentLikeEdgeImplementors = []string{"CommentLikeEdge"}
+
+func (ec *executionContext) _CommentLikeEdge(ctx context.Context, sel ast.SelectionSet, obj *CommentLikeEdge) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, commentLikeEdgeImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("CommentLikeEdge")
+		case "cursor":
+			out.Values[i] = ec._CommentLikeEdge_cursor(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "node":
+			out.Values[i] = ec._CommentLikeEdge_node(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -12859,33 +14031,6 @@ func (ec *executionContext) _CommentLikesDeletePayload(ctx context.Context, sel 
 			out.Values[i] = graphql.MarshalString("CommentLikesDeletePayload")
 		case "ids":
 			out.Values[i] = ec._CommentLikesDeletePayload_ids(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var commentLikesPayloadImplementors = []string{"CommentLikesPayload"}
-
-func (ec *executionContext) _CommentLikesPayload(ctx context.Context, sel ast.SelectionSet, obj *CommentLikesPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, commentLikesPayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("CommentLikesPayload")
-		case "commentLikes":
-			out.Values[i] = ec._CommentLikesPayload_commentLikes(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -12981,33 +14126,6 @@ func (ec *executionContext) _CommentsDeletePayload(ctx context.Context, sel ast.
 	return out
 }
 
-var commentsPayloadImplementors = []string{"CommentsPayload"}
-
-func (ec *executionContext) _CommentsPayload(ctx context.Context, sel ast.SelectionSet, obj *CommentsPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, commentsPayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("CommentsPayload")
-		case "comments":
-			out.Values[i] = ec._CommentsPayload_comments(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
 var commentsUpdatePayloadImplementors = []string{"CommentsUpdatePayload"}
 
 func (ec *executionContext) _CommentsUpdatePayload(ctx context.Context, sel ast.SelectionSet, obj *CommentsUpdatePayload) graphql.Marshaler {
@@ -13035,7 +14153,7 @@ func (ec *executionContext) _CommentsUpdatePayload(ctx context.Context, sel ast.
 	return out
 }
 
-var friendshipImplementors = []string{"Friendship"}
+var friendshipImplementors = []string{"Friendship", "Node"}
 
 func (ec *executionContext) _Friendship(ctx context.Context, sel ast.SelectionSet, obj *Friendship) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, friendshipImplementors)
@@ -13066,6 +14184,35 @@ func (ec *executionContext) _Friendship(ctx context.Context, sel ast.SelectionSe
 	return out
 }
 
+var friendshipConnectionImplementors = []string{"FriendshipConnection"}
+
+func (ec *executionContext) _FriendshipConnection(ctx context.Context, sel ast.SelectionSet, obj *FriendshipConnection) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, friendshipConnectionImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FriendshipConnection")
+		case "edges":
+			out.Values[i] = ec._FriendshipConnection_edges(ctx, field, obj)
+		case "pageInfo":
+			out.Values[i] = ec._FriendshipConnection_pageInfo(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var friendshipDeletePayloadImplementors = []string{"FriendshipDeletePayload"}
 
 func (ec *executionContext) _FriendshipDeletePayload(ctx context.Context, sel ast.SelectionSet, obj *FriendshipDeletePayload) graphql.Marshaler {
@@ -13082,6 +14229,35 @@ func (ec *executionContext) _FriendshipDeletePayload(ctx context.Context, sel as
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var friendshipEdgeImplementors = []string{"FriendshipEdge"}
+
+func (ec *executionContext) _FriendshipEdge(ctx context.Context, sel ast.SelectionSet, obj *FriendshipEdge) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, friendshipEdgeImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FriendshipEdge")
+		case "cursor":
+			out.Values[i] = ec._FriendshipEdge_cursor(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "node":
+			out.Values[i] = ec._FriendshipEdge_node(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -13147,33 +14323,6 @@ func (ec *executionContext) _FriendshipsDeletePayload(ctx context.Context, sel a
 	return out
 }
 
-var friendshipsPayloadImplementors = []string{"FriendshipsPayload"}
-
-func (ec *executionContext) _FriendshipsPayload(ctx context.Context, sel ast.SelectionSet, obj *FriendshipsPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, friendshipsPayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("FriendshipsPayload")
-		case "friendships":
-			out.Values[i] = ec._FriendshipsPayload_friendships(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
 var friendshipsUpdatePayloadImplementors = []string{"FriendshipsUpdatePayload"}
 
 func (ec *executionContext) _FriendshipsUpdatePayload(ctx context.Context, sel ast.SelectionSet, obj *FriendshipsUpdatePayload) graphql.Marshaler {
@@ -13201,7 +14350,7 @@ func (ec *executionContext) _FriendshipsUpdatePayload(ctx context.Context, sel a
 	return out
 }
 
-var imageImplementors = []string{"Image"}
+var imageImplementors = []string{"Image", "Node"}
 
 func (ec *executionContext) _Image(ctx context.Context, sel ast.SelectionSet, obj *Image) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, imageImplementors)
@@ -13228,6 +14377,35 @@ func (ec *executionContext) _Image(ctx context.Context, sel ast.SelectionSet, ob
 			out.Values[i] = ec._Image_originalUrl(ctx, field, obj)
 		case "imageVariations":
 			out.Values[i] = ec._Image_imageVariations(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var imageConnectionImplementors = []string{"ImageConnection"}
+
+func (ec *executionContext) _ImageConnection(ctx context.Context, sel ast.SelectionSet, obj *ImageConnection) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, imageConnectionImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ImageConnection")
+		case "edges":
+			out.Values[i] = ec._ImageConnection_edges(ctx, field, obj)
+		case "pageInfo":
+			out.Values[i] = ec._ImageConnection_pageInfo(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -13266,6 +14444,35 @@ func (ec *executionContext) _ImageDeletePayload(ctx context.Context, sel ast.Sel
 	return out
 }
 
+var imageEdgeImplementors = []string{"ImageEdge"}
+
+func (ec *executionContext) _ImageEdge(ctx context.Context, sel ast.SelectionSet, obj *ImageEdge) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, imageEdgeImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ImageEdge")
+		case "cursor":
+			out.Values[i] = ec._ImageEdge_cursor(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "node":
+			out.Values[i] = ec._ImageEdge_node(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var imagePayloadImplementors = []string{"ImagePayload"}
 
 func (ec *executionContext) _ImagePayload(ctx context.Context, sel ast.SelectionSet, obj *ImagePayload) graphql.Marshaler {
@@ -13293,7 +14500,7 @@ func (ec *executionContext) _ImagePayload(ctx context.Context, sel ast.Selection
 	return out
 }
 
-var imageVariationImplementors = []string{"ImageVariation"}
+var imageVariationImplementors = []string{"ImageVariation", "Node"}
 
 func (ec *executionContext) _ImageVariation(ctx context.Context, sel ast.SelectionSet, obj *ImageVariation) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, imageVariationImplementors)
@@ -13325,6 +14532,35 @@ func (ec *executionContext) _ImageVariation(ctx context.Context, sel ast.Selecti
 	return out
 }
 
+var imageVariationConnectionImplementors = []string{"ImageVariationConnection"}
+
+func (ec *executionContext) _ImageVariationConnection(ctx context.Context, sel ast.SelectionSet, obj *ImageVariationConnection) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, imageVariationConnectionImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ImageVariationConnection")
+		case "edges":
+			out.Values[i] = ec._ImageVariationConnection_edges(ctx, field, obj)
+		case "pageInfo":
+			out.Values[i] = ec._ImageVariationConnection_pageInfo(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var imageVariationDeletePayloadImplementors = []string{"ImageVariationDeletePayload"}
 
 func (ec *executionContext) _ImageVariationDeletePayload(ctx context.Context, sel ast.SelectionSet, obj *ImageVariationDeletePayload) graphql.Marshaler {
@@ -13341,6 +14577,35 @@ func (ec *executionContext) _ImageVariationDeletePayload(ctx context.Context, se
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var imageVariationEdgeImplementors = []string{"ImageVariationEdge"}
+
+func (ec *executionContext) _ImageVariationEdge(ctx context.Context, sel ast.SelectionSet, obj *ImageVariationEdge) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, imageVariationEdgeImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ImageVariationEdge")
+		case "cursor":
+			out.Values[i] = ec._ImageVariationEdge_cursor(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "node":
+			out.Values[i] = ec._ImageVariationEdge_node(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -13392,33 +14657,6 @@ func (ec *executionContext) _ImageVariationsDeletePayload(ctx context.Context, s
 			out.Values[i] = graphql.MarshalString("ImageVariationsDeletePayload")
 		case "ids":
 			out.Values[i] = ec._ImageVariationsDeletePayload_ids(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var imageVariationsPayloadImplementors = []string{"ImageVariationsPayload"}
-
-func (ec *executionContext) _ImageVariationsPayload(ctx context.Context, sel ast.SelectionSet, obj *ImageVariationsPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, imageVariationsPayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("ImageVariationsPayload")
-		case "imageVariations":
-			out.Values[i] = ec._ImageVariationsPayload_imageVariations(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -13487,33 +14725,6 @@ func (ec *executionContext) _ImagesDeletePayload(ctx context.Context, sel ast.Se
 	return out
 }
 
-var imagesPayloadImplementors = []string{"ImagesPayload"}
-
-func (ec *executionContext) _ImagesPayload(ctx context.Context, sel ast.SelectionSet, obj *ImagesPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, imagesPayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("ImagesPayload")
-		case "images":
-			out.Values[i] = ec._ImagesPayload_images(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
 var imagesUpdatePayloadImplementors = []string{"ImagesUpdatePayload"}
 
 func (ec *executionContext) _ImagesUpdatePayload(ctx context.Context, sel ast.SelectionSet, obj *ImagesUpdatePayload) graphql.Marshaler {
@@ -13541,7 +14752,7 @@ func (ec *executionContext) _ImagesUpdatePayload(ctx context.Context, sel ast.Se
 	return out
 }
 
-var likeImplementors = []string{"Like"}
+var likeImplementors = []string{"Like", "Node"}
 
 func (ec *executionContext) _Like(ctx context.Context, sel ast.SelectionSet, obj *Like) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, likeImplementors)
@@ -13585,6 +14796,35 @@ func (ec *executionContext) _Like(ctx context.Context, sel ast.SelectionSet, obj
 	return out
 }
 
+var likeConnectionImplementors = []string{"LikeConnection"}
+
+func (ec *executionContext) _LikeConnection(ctx context.Context, sel ast.SelectionSet, obj *LikeConnection) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, likeConnectionImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("LikeConnection")
+		case "edges":
+			out.Values[i] = ec._LikeConnection_edges(ctx, field, obj)
+		case "pageInfo":
+			out.Values[i] = ec._LikeConnection_pageInfo(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var likeDeletePayloadImplementors = []string{"LikeDeletePayload"}
 
 func (ec *executionContext) _LikeDeletePayload(ctx context.Context, sel ast.SelectionSet, obj *LikeDeletePayload) graphql.Marshaler {
@@ -13601,6 +14841,35 @@ func (ec *executionContext) _LikeDeletePayload(ctx context.Context, sel ast.Sele
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var likeEdgeImplementors = []string{"LikeEdge"}
+
+func (ec *executionContext) _LikeEdge(ctx context.Context, sel ast.SelectionSet, obj *LikeEdge) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, likeEdgeImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("LikeEdge")
+		case "cursor":
+			out.Values[i] = ec._LikeEdge_cursor(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "node":
+			out.Values[i] = ec._LikeEdge_node(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -13666,33 +14935,6 @@ func (ec *executionContext) _LikesDeletePayload(ctx context.Context, sel ast.Sel
 	return out
 }
 
-var likesPayloadImplementors = []string{"LikesPayload"}
-
-func (ec *executionContext) _LikesPayload(ctx context.Context, sel ast.SelectionSet, obj *LikesPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, likesPayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("LikesPayload")
-		case "likes":
-			out.Values[i] = ec._LikesPayload_likes(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
 var likesUpdatePayloadImplementors = []string{"LikesUpdatePayload"}
 
 func (ec *executionContext) _LikesUpdatePayload(ctx context.Context, sel ast.SelectionSet, obj *LikesUpdatePayload) graphql.Marshaler {
@@ -13740,11 +14982,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "createComments":
-			out.Values[i] = ec._Mutation_createComments(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
 		case "updateComment":
 			out.Values[i] = ec._Mutation_updateComment(ctx, field)
 			if out.Values[i] == graphql.Null {
@@ -13767,11 +15004,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			}
 		case "createCommentLike":
 			out.Values[i] = ec._Mutation_createCommentLike(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "createCommentLikes":
-			out.Values[i] = ec._Mutation_createCommentLikes(ctx, field)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -13800,11 +15032,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "createFriendships":
-			out.Values[i] = ec._Mutation_createFriendships(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
 		case "updateFriendship":
 			out.Values[i] = ec._Mutation_updateFriendship(ctx, field)
 			if out.Values[i] == graphql.Null {
@@ -13827,11 +15054,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			}
 		case "createImage":
 			out.Values[i] = ec._Mutation_createImage(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "createImages":
-			out.Values[i] = ec._Mutation_createImages(ctx, field)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -13860,11 +15082,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "createImageVariations":
-			out.Values[i] = ec._Mutation_createImageVariations(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
 		case "updateImageVariation":
 			out.Values[i] = ec._Mutation_updateImageVariation(ctx, field)
 			if out.Values[i] == graphql.Null {
@@ -13887,11 +15104,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			}
 		case "createLike":
 			out.Values[i] = ec._Mutation_createLike(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "createLikes":
-			out.Values[i] = ec._Mutation_createLikes(ctx, field)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -13920,11 +15132,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "createPosts":
-			out.Values[i] = ec._Mutation_createPosts(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
 		case "updatePost":
 			out.Values[i] = ec._Mutation_updatePost(ctx, field)
 			if out.Values[i] == graphql.Null {
@@ -13947,11 +15154,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			}
 		case "createUser":
 			out.Values[i] = ec._Mutation_createUser(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "createUsers":
-			out.Values[i] = ec._Mutation_createUsers(ctx, field)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -13986,7 +15188,43 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 	return out
 }
 
-var postImplementors = []string{"Post"}
+var pageInfoImplementors = []string{"PageInfo"}
+
+func (ec *executionContext) _PageInfo(ctx context.Context, sel ast.SelectionSet, obj *PageInfo) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, pageInfoImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("PageInfo")
+		case "hasNextPage":
+			out.Values[i] = ec._PageInfo_hasNextPage(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "hasPreviousPage":
+			out.Values[i] = ec._PageInfo_hasPreviousPage(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "startCursor":
+			out.Values[i] = ec._PageInfo_startCursor(ctx, field, obj)
+		case "endCursor":
+			out.Values[i] = ec._PageInfo_endCursor(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var postImplementors = []string{"Post", "Node"}
 
 func (ec *executionContext) _Post(ctx context.Context, sel ast.SelectionSet, obj *Post) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, postImplementors)
@@ -14029,6 +15267,35 @@ func (ec *executionContext) _Post(ctx context.Context, sel ast.SelectionSet, obj
 	return out
 }
 
+var postConnectionImplementors = []string{"PostConnection"}
+
+func (ec *executionContext) _PostConnection(ctx context.Context, sel ast.SelectionSet, obj *PostConnection) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, postConnectionImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("PostConnection")
+		case "edges":
+			out.Values[i] = ec._PostConnection_edges(ctx, field, obj)
+		case "pageInfo":
+			out.Values[i] = ec._PostConnection_pageInfo(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var postDeletePayloadImplementors = []string{"PostDeletePayload"}
 
 func (ec *executionContext) _PostDeletePayload(ctx context.Context, sel ast.SelectionSet, obj *PostDeletePayload) graphql.Marshaler {
@@ -14045,6 +15312,35 @@ func (ec *executionContext) _PostDeletePayload(ctx context.Context, sel ast.Sele
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var postEdgeImplementors = []string{"PostEdge"}
+
+func (ec *executionContext) _PostEdge(ctx context.Context, sel ast.SelectionSet, obj *PostEdge) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, postEdgeImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("PostEdge")
+		case "cursor":
+			out.Values[i] = ec._PostEdge_cursor(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "node":
+			out.Values[i] = ec._PostEdge_node(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -14110,33 +15406,6 @@ func (ec *executionContext) _PostsDeletePayload(ctx context.Context, sel ast.Sel
 	return out
 }
 
-var postsPayloadImplementors = []string{"PostsPayload"}
-
-func (ec *executionContext) _PostsPayload(ctx context.Context, sel ast.SelectionSet, obj *PostsPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, postsPayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("PostsPayload")
-		case "posts":
-			out.Values[i] = ec._PostsPayload_posts(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
 var postsUpdatePayloadImplementors = []string{"PostsUpdatePayload"}
 
 func (ec *executionContext) _PostsUpdatePayload(ctx context.Context, sel ast.SelectionSet, obj *PostsUpdatePayload) graphql.Marshaler {
@@ -14179,6 +15448,17 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Query")
+		case "node":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_node(ctx, field)
+				return res
+			})
 		case "comment":
 			field := field
 			out.Concurrently(i, func() (res graphql.Marshaler) {
@@ -14418,7 +15698,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 	return out
 }
 
-var userImplementors = []string{"User"}
+var userImplementors = []string{"User", "Node"}
 
 func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj *User) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, userImplementors)
@@ -14470,6 +15750,35 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 	return out
 }
 
+var userConnectionImplementors = []string{"UserConnection"}
+
+func (ec *executionContext) _UserConnection(ctx context.Context, sel ast.SelectionSet, obj *UserConnection) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, userConnectionImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("UserConnection")
+		case "edges":
+			out.Values[i] = ec._UserConnection_edges(ctx, field, obj)
+		case "pageInfo":
+			out.Values[i] = ec._UserConnection_pageInfo(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var userDeletePayloadImplementors = []string{"UserDeletePayload"}
 
 func (ec *executionContext) _UserDeletePayload(ctx context.Context, sel ast.SelectionSet, obj *UserDeletePayload) graphql.Marshaler {
@@ -14486,6 +15795,35 @@ func (ec *executionContext) _UserDeletePayload(ctx context.Context, sel ast.Sele
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var userEdgeImplementors = []string{"UserEdge"}
+
+func (ec *executionContext) _UserEdge(ctx context.Context, sel ast.SelectionSet, obj *UserEdge) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, userEdgeImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("UserEdge")
+		case "cursor":
+			out.Values[i] = ec._UserEdge_cursor(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "node":
+			out.Values[i] = ec._UserEdge_node(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -14537,33 +15875,6 @@ func (ec *executionContext) _UsersDeletePayload(ctx context.Context, sel ast.Sel
 			out.Values[i] = graphql.MarshalString("UsersDeletePayload")
 		case "ids":
 			out.Values[i] = ec._UsersDeletePayload_ids(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var usersPayloadImplementors = []string{"UsersPayload"}
-
-func (ec *executionContext) _UsersPayload(ctx context.Context, sel ast.SelectionSet, obj *UsersPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, usersPayloadImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("UsersPayload")
-		case "users":
-			out.Values[i] = ec._UsersPayload_users(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -14868,43 +16179,6 @@ func (ec *executionContext) marshalNComment2githubᚗcomᚋwebᚑridgeᚋgqlgen�
 	return ec._Comment(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNComment2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentᚄ(ctx context.Context, sel ast.SelectionSet, v []*Comment) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNComment2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐComment(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
-}
-
 func (ec *executionContext) marshalNComment2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐComment(ctx context.Context, sel ast.SelectionSet, v *Comment) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
@@ -14915,36 +16189,22 @@ func (ec *executionContext) marshalNComment2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlg
 	return ec._Comment(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNCommentConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentConnection(ctx context.Context, sel ast.SelectionSet, v CommentConnection) graphql.Marshaler {
+	return ec._CommentConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNCommentConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentConnection(ctx context.Context, sel ast.SelectionSet, v *CommentConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._CommentConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNCommentCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentCreateInput(ctx context.Context, v interface{}) (CommentCreateInput, error) {
 	return ec.unmarshalInputCommentCreateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNCommentCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentCreateInputᚄ(ctx context.Context, v interface{}) ([]*CommentCreateInput, error) {
-	var vSlice []interface{}
-	if v != nil {
-		if tmp1, ok := v.([]interface{}); ok {
-			vSlice = tmp1
-		} else {
-			vSlice = []interface{}{v}
-		}
-	}
-	var err error
-	res := make([]*CommentCreateInput, len(vSlice))
-	for i := range vSlice {
-		res[i], err = ec.unmarshalNCommentCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentCreateInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNCommentCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentCreateInput(ctx context.Context, v interface{}) (*CommentCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNCommentCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentCreateInput(ctx, v)
-	return &res, err
 }
 
 func (ec *executionContext) marshalNCommentDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentDeletePayload(ctx context.Context, sel ast.SelectionSet, v CommentDeletePayload) graphql.Marshaler {
@@ -14965,43 +16225,6 @@ func (ec *executionContext) marshalNCommentLike2githubᚗcomᚋwebᚑridgeᚋgql
 	return ec._CommentLike(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNCommentLike2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeᚄ(ctx context.Context, sel ast.SelectionSet, v []*CommentLike) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNCommentLike2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLike(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
-}
-
 func (ec *executionContext) marshalNCommentLike2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLike(ctx context.Context, sel ast.SelectionSet, v *CommentLike) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
@@ -15012,36 +16235,22 @@ func (ec *executionContext) marshalNCommentLike2ᚖgithubᚗcomᚋwebᚑridgeᚋ
 	return ec._CommentLike(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNCommentLikeConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeConnection(ctx context.Context, sel ast.SelectionSet, v CommentLikeConnection) graphql.Marshaler {
+	return ec._CommentLikeConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNCommentLikeConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeConnection(ctx context.Context, sel ast.SelectionSet, v *CommentLikeConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._CommentLikeConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNCommentLikeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeCreateInput(ctx context.Context, v interface{}) (CommentLikeCreateInput, error) {
 	return ec.unmarshalInputCommentLikeCreateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNCommentLikeCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeCreateInputᚄ(ctx context.Context, v interface{}) ([]*CommentLikeCreateInput, error) {
-	var vSlice []interface{}
-	if v != nil {
-		if tmp1, ok := v.([]interface{}); ok {
-			vSlice = tmp1
-		} else {
-			vSlice = []interface{}{v}
-		}
-	}
-	var err error
-	res := make([]*CommentLikeCreateInput, len(vSlice))
-	for i := range vSlice {
-		res[i], err = ec.unmarshalNCommentLikeCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeCreateInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNCommentLikeCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeCreateInput(ctx context.Context, v interface{}) (*CommentLikeCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNCommentLikeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeCreateInput(ctx, v)
-	return &res, err
 }
 
 func (ec *executionContext) marshalNCommentLikeDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeDeletePayload(ctx context.Context, sel ast.SelectionSet, v CommentLikeDeletePayload) graphql.Marshaler {
@@ -15058,6 +16267,18 @@ func (ec *executionContext) marshalNCommentLikeDeletePayload2ᚖgithubᚗcomᚋw
 	return ec._CommentLikeDeletePayload(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNCommentLikeOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeOrdering(ctx context.Context, v interface{}) (CommentLikeOrdering, error) {
+	return ec.unmarshalInputCommentLikeOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNCommentLikeOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeOrdering(ctx context.Context, v interface{}) (*CommentLikeOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNCommentLikeOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeOrdering(ctx, v)
+	return &res, err
+}
+
 func (ec *executionContext) marshalNCommentLikePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikePayload(ctx context.Context, sel ast.SelectionSet, v CommentLikePayload) graphql.Marshaler {
 	return ec._CommentLikePayload(ctx, sel, &v)
 }
@@ -15072,12 +16293,17 @@ func (ec *executionContext) marshalNCommentLikePayload2ᚖgithubᚗcomᚋwebᚑr
 	return ec._CommentLikePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNCommentLikeUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeUpdateInput(ctx context.Context, v interface{}) (CommentLikeUpdateInput, error) {
-	return ec.unmarshalInputCommentLikeUpdateInput(ctx, v)
+func (ec *executionContext) unmarshalNCommentLikeSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeSort(ctx context.Context, v interface{}) (CommentLikeSort, error) {
+	var res CommentLikeSort
+	return res, res.UnmarshalGQL(v)
 }
 
-func (ec *executionContext) unmarshalNCommentLikesCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikesCreateInput(ctx context.Context, v interface{}) (CommentLikesCreateInput, error) {
-	return ec.unmarshalInputCommentLikesCreateInput(ctx, v)
+func (ec *executionContext) marshalNCommentLikeSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeSort(ctx context.Context, sel ast.SelectionSet, v CommentLikeSort) graphql.Marshaler {
+	return v
+}
+
+func (ec *executionContext) unmarshalNCommentLikeUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeUpdateInput(ctx context.Context, v interface{}) (CommentLikeUpdateInput, error) {
+	return ec.unmarshalInputCommentLikeUpdateInput(ctx, v)
 }
 
 func (ec *executionContext) marshalNCommentLikesDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikesDeletePayload(ctx context.Context, sel ast.SelectionSet, v CommentLikesDeletePayload) graphql.Marshaler {
@@ -15094,20 +16320,6 @@ func (ec *executionContext) marshalNCommentLikesDeletePayload2ᚖgithubᚗcomᚋ
 	return ec._CommentLikesDeletePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNCommentLikesPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikesPayload(ctx context.Context, sel ast.SelectionSet, v CommentLikesPayload) graphql.Marshaler {
-	return ec._CommentLikesPayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNCommentLikesPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikesPayload(ctx context.Context, sel ast.SelectionSet, v *CommentLikesPayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._CommentLikesPayload(ctx, sel, v)
-}
-
 func (ec *executionContext) marshalNCommentLikesUpdatePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikesUpdatePayload(ctx context.Context, sel ast.SelectionSet, v CommentLikesUpdatePayload) graphql.Marshaler {
 	return ec._CommentLikesUpdatePayload(ctx, sel, &v)
 }
@@ -15120,6 +16332,18 @@ func (ec *executionContext) marshalNCommentLikesUpdatePayload2ᚖgithubᚗcomᚋ
 		return graphql.Null
 	}
 	return ec._CommentLikesUpdatePayload(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNCommentOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentOrdering(ctx context.Context, v interface{}) (CommentOrdering, error) {
+	return ec.unmarshalInputCommentOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNCommentOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentOrdering(ctx context.Context, v interface{}) (*CommentOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNCommentOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentOrdering(ctx, v)
+	return &res, err
 }
 
 func (ec *executionContext) marshalNCommentPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentPayload(ctx context.Context, sel ast.SelectionSet, v CommentPayload) graphql.Marshaler {
@@ -15136,12 +16360,17 @@ func (ec *executionContext) marshalNCommentPayload2ᚖgithubᚗcomᚋwebᚑridge
 	return ec._CommentPayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNCommentUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentUpdateInput(ctx context.Context, v interface{}) (CommentUpdateInput, error) {
-	return ec.unmarshalInputCommentUpdateInput(ctx, v)
+func (ec *executionContext) unmarshalNCommentSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentSort(ctx context.Context, v interface{}) (CommentSort, error) {
+	var res CommentSort
+	return res, res.UnmarshalGQL(v)
 }
 
-func (ec *executionContext) unmarshalNCommentsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentsCreateInput(ctx context.Context, v interface{}) (CommentsCreateInput, error) {
-	return ec.unmarshalInputCommentsCreateInput(ctx, v)
+func (ec *executionContext) marshalNCommentSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentSort(ctx context.Context, sel ast.SelectionSet, v CommentSort) graphql.Marshaler {
+	return v
+}
+
+func (ec *executionContext) unmarshalNCommentUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentUpdateInput(ctx context.Context, v interface{}) (CommentUpdateInput, error) {
+	return ec.unmarshalInputCommentUpdateInput(ctx, v)
 }
 
 func (ec *executionContext) marshalNCommentsDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentsDeletePayload(ctx context.Context, sel ast.SelectionSet, v CommentsDeletePayload) graphql.Marshaler {
@@ -15158,20 +16387,6 @@ func (ec *executionContext) marshalNCommentsDeletePayload2ᚖgithubᚗcomᚋweb�
 	return ec._CommentsDeletePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNCommentsPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentsPayload(ctx context.Context, sel ast.SelectionSet, v CommentsPayload) graphql.Marshaler {
-	return ec._CommentsPayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNCommentsPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentsPayload(ctx context.Context, sel ast.SelectionSet, v *CommentsPayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._CommentsPayload(ctx, sel, v)
-}
-
 func (ec *executionContext) marshalNCommentsUpdatePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentsUpdatePayload(ctx context.Context, sel ast.SelectionSet, v CommentsUpdatePayload) graphql.Marshaler {
 	return ec._CommentsUpdatePayload(ctx, sel, &v)
 }
@@ -15184,6 +16399,10 @@ func (ec *executionContext) marshalNCommentsUpdatePayload2ᚖgithubᚗcomᚋweb�
 		return graphql.Null
 	}
 	return ec._CommentsUpdatePayload(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx context.Context, v interface{}) (boilergql.ConnectionPagination, error) {
+	return ec.unmarshalInputConnectionPagination(ctx, v)
 }
 
 func (ec *executionContext) unmarshalNFloat2float64(ctx context.Context, v interface{}) (float64, error) {
@@ -15204,43 +16423,6 @@ func (ec *executionContext) marshalNFriendship2githubᚗcomᚋwebᚑridgeᚋgqlg
 	return ec._Friendship(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNFriendship2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipᚄ(ctx context.Context, sel ast.SelectionSet, v []*Friendship) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNFriendship2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendship(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
-}
-
 func (ec *executionContext) marshalNFriendship2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendship(ctx context.Context, sel ast.SelectionSet, v *Friendship) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
@@ -15251,36 +16433,22 @@ func (ec *executionContext) marshalNFriendship2ᚖgithubᚗcomᚋwebᚑridgeᚋg
 	return ec._Friendship(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNFriendshipConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipConnection(ctx context.Context, sel ast.SelectionSet, v FriendshipConnection) graphql.Marshaler {
+	return ec._FriendshipConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNFriendshipConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipConnection(ctx context.Context, sel ast.SelectionSet, v *FriendshipConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._FriendshipConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNFriendshipCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipCreateInput(ctx context.Context, v interface{}) (FriendshipCreateInput, error) {
 	return ec.unmarshalInputFriendshipCreateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNFriendshipCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipCreateInputᚄ(ctx context.Context, v interface{}) ([]*FriendshipCreateInput, error) {
-	var vSlice []interface{}
-	if v != nil {
-		if tmp1, ok := v.([]interface{}); ok {
-			vSlice = tmp1
-		} else {
-			vSlice = []interface{}{v}
-		}
-	}
-	var err error
-	res := make([]*FriendshipCreateInput, len(vSlice))
-	for i := range vSlice {
-		res[i], err = ec.unmarshalNFriendshipCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipCreateInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNFriendshipCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipCreateInput(ctx context.Context, v interface{}) (*FriendshipCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNFriendshipCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipCreateInput(ctx, v)
-	return &res, err
 }
 
 func (ec *executionContext) marshalNFriendshipDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipDeletePayload(ctx context.Context, sel ast.SelectionSet, v FriendshipDeletePayload) graphql.Marshaler {
@@ -15297,6 +16465,18 @@ func (ec *executionContext) marshalNFriendshipDeletePayload2ᚖgithubᚗcomᚋwe
 	return ec._FriendshipDeletePayload(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNFriendshipOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipOrdering(ctx context.Context, v interface{}) (FriendshipOrdering, error) {
+	return ec.unmarshalInputFriendshipOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNFriendshipOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipOrdering(ctx context.Context, v interface{}) (*FriendshipOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNFriendshipOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipOrdering(ctx, v)
+	return &res, err
+}
+
 func (ec *executionContext) marshalNFriendshipPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipPayload(ctx context.Context, sel ast.SelectionSet, v FriendshipPayload) graphql.Marshaler {
 	return ec._FriendshipPayload(ctx, sel, &v)
 }
@@ -15311,12 +16491,17 @@ func (ec *executionContext) marshalNFriendshipPayload2ᚖgithubᚗcomᚋwebᚑri
 	return ec._FriendshipPayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNFriendshipUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipUpdateInput(ctx context.Context, v interface{}) (FriendshipUpdateInput, error) {
-	return ec.unmarshalInputFriendshipUpdateInput(ctx, v)
+func (ec *executionContext) unmarshalNFriendshipSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipSort(ctx context.Context, v interface{}) (FriendshipSort, error) {
+	var res FriendshipSort
+	return res, res.UnmarshalGQL(v)
 }
 
-func (ec *executionContext) unmarshalNFriendshipsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipsCreateInput(ctx context.Context, v interface{}) (FriendshipsCreateInput, error) {
-	return ec.unmarshalInputFriendshipsCreateInput(ctx, v)
+func (ec *executionContext) marshalNFriendshipSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipSort(ctx context.Context, sel ast.SelectionSet, v FriendshipSort) graphql.Marshaler {
+	return v
+}
+
+func (ec *executionContext) unmarshalNFriendshipUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipUpdateInput(ctx context.Context, v interface{}) (FriendshipUpdateInput, error) {
+	return ec.unmarshalInputFriendshipUpdateInput(ctx, v)
 }
 
 func (ec *executionContext) marshalNFriendshipsDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipsDeletePayload(ctx context.Context, sel ast.SelectionSet, v FriendshipsDeletePayload) graphql.Marshaler {
@@ -15331,20 +16516,6 @@ func (ec *executionContext) marshalNFriendshipsDeletePayload2ᚖgithubᚗcomᚋw
 		return graphql.Null
 	}
 	return ec._FriendshipsDeletePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNFriendshipsPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipsPayload(ctx context.Context, sel ast.SelectionSet, v FriendshipsPayload) graphql.Marshaler {
-	return ec._FriendshipsPayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNFriendshipsPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipsPayload(ctx context.Context, sel ast.SelectionSet, v *FriendshipsPayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._FriendshipsPayload(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNFriendshipsUpdatePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipsUpdatePayload(ctx context.Context, sel ast.SelectionSet, v FriendshipsUpdatePayload) graphql.Marshaler {
@@ -15408,43 +16579,6 @@ func (ec *executionContext) marshalNImage2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑ
 	return ec._Image(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNImage2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageᚄ(ctx context.Context, sel ast.SelectionSet, v []*Image) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNImage2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImage(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
-}
-
 func (ec *executionContext) marshalNImage2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImage(ctx context.Context, sel ast.SelectionSet, v *Image) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
@@ -15455,36 +16589,22 @@ func (ec *executionContext) marshalNImage2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen
 	return ec._Image(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNImageConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageConnection(ctx context.Context, sel ast.SelectionSet, v ImageConnection) graphql.Marshaler {
+	return ec._ImageConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNImageConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageConnection(ctx context.Context, sel ast.SelectionSet, v *ImageConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._ImageConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNImageCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageCreateInput(ctx context.Context, v interface{}) (ImageCreateInput, error) {
 	return ec.unmarshalInputImageCreateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNImageCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageCreateInputᚄ(ctx context.Context, v interface{}) ([]*ImageCreateInput, error) {
-	var vSlice []interface{}
-	if v != nil {
-		if tmp1, ok := v.([]interface{}); ok {
-			vSlice = tmp1
-		} else {
-			vSlice = []interface{}{v}
-		}
-	}
-	var err error
-	res := make([]*ImageCreateInput, len(vSlice))
-	for i := range vSlice {
-		res[i], err = ec.unmarshalNImageCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageCreateInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNImageCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageCreateInput(ctx context.Context, v interface{}) (*ImageCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNImageCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageCreateInput(ctx, v)
-	return &res, err
 }
 
 func (ec *executionContext) marshalNImageDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageDeletePayload(ctx context.Context, sel ast.SelectionSet, v ImageDeletePayload) graphql.Marshaler {
@@ -15501,6 +16621,18 @@ func (ec *executionContext) marshalNImageDeletePayload2ᚖgithubᚗcomᚋwebᚑr
 	return ec._ImageDeletePayload(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNImageOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageOrdering(ctx context.Context, v interface{}) (ImageOrdering, error) {
+	return ec.unmarshalInputImageOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNImageOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageOrdering(ctx context.Context, v interface{}) (*ImageOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNImageOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageOrdering(ctx, v)
+	return &res, err
+}
+
 func (ec *executionContext) marshalNImagePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImagePayload(ctx context.Context, sel ast.SelectionSet, v ImagePayload) graphql.Marshaler {
 	return ec._ImagePayload(ctx, sel, &v)
 }
@@ -15515,49 +16647,21 @@ func (ec *executionContext) marshalNImagePayload2ᚖgithubᚗcomᚋwebᚑridge�
 	return ec._ImagePayload(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNImageSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageSort(ctx context.Context, v interface{}) (ImageSort, error) {
+	var res ImageSort
+	return res, res.UnmarshalGQL(v)
+}
+
+func (ec *executionContext) marshalNImageSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageSort(ctx context.Context, sel ast.SelectionSet, v ImageSort) graphql.Marshaler {
+	return v
+}
+
 func (ec *executionContext) unmarshalNImageUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageUpdateInput(ctx context.Context, v interface{}) (ImageUpdateInput, error) {
 	return ec.unmarshalInputImageUpdateInput(ctx, v)
 }
 
 func (ec *executionContext) marshalNImageVariation2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariation(ctx context.Context, sel ast.SelectionSet, v ImageVariation) graphql.Marshaler {
 	return ec._ImageVariation(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNImageVariation2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationᚄ(ctx context.Context, sel ast.SelectionSet, v []*ImageVariation) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNImageVariation2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariation(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
 }
 
 func (ec *executionContext) marshalNImageVariation2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariation(ctx context.Context, sel ast.SelectionSet, v *ImageVariation) graphql.Marshaler {
@@ -15570,36 +16674,22 @@ func (ec *executionContext) marshalNImageVariation2ᚖgithubᚗcomᚋwebᚑridge
 	return ec._ImageVariation(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNImageVariationConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationConnection(ctx context.Context, sel ast.SelectionSet, v ImageVariationConnection) graphql.Marshaler {
+	return ec._ImageVariationConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNImageVariationConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationConnection(ctx context.Context, sel ast.SelectionSet, v *ImageVariationConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._ImageVariationConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNImageVariationCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationCreateInput(ctx context.Context, v interface{}) (ImageVariationCreateInput, error) {
 	return ec.unmarshalInputImageVariationCreateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNImageVariationCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationCreateInputᚄ(ctx context.Context, v interface{}) ([]*ImageVariationCreateInput, error) {
-	var vSlice []interface{}
-	if v != nil {
-		if tmp1, ok := v.([]interface{}); ok {
-			vSlice = tmp1
-		} else {
-			vSlice = []interface{}{v}
-		}
-	}
-	var err error
-	res := make([]*ImageVariationCreateInput, len(vSlice))
-	for i := range vSlice {
-		res[i], err = ec.unmarshalNImageVariationCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationCreateInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNImageVariationCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationCreateInput(ctx context.Context, v interface{}) (*ImageVariationCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNImageVariationCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationCreateInput(ctx, v)
-	return &res, err
 }
 
 func (ec *executionContext) marshalNImageVariationDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationDeletePayload(ctx context.Context, sel ast.SelectionSet, v ImageVariationDeletePayload) graphql.Marshaler {
@@ -15616,6 +16706,18 @@ func (ec *executionContext) marshalNImageVariationDeletePayload2ᚖgithubᚗcom�
 	return ec._ImageVariationDeletePayload(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNImageVariationOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationOrdering(ctx context.Context, v interface{}) (ImageVariationOrdering, error) {
+	return ec.unmarshalInputImageVariationOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNImageVariationOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationOrdering(ctx context.Context, v interface{}) (*ImageVariationOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNImageVariationOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationOrdering(ctx, v)
+	return &res, err
+}
+
 func (ec *executionContext) marshalNImageVariationPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationPayload(ctx context.Context, sel ast.SelectionSet, v ImageVariationPayload) graphql.Marshaler {
 	return ec._ImageVariationPayload(ctx, sel, &v)
 }
@@ -15630,12 +16732,17 @@ func (ec *executionContext) marshalNImageVariationPayload2ᚖgithubᚗcomᚋweb�
 	return ec._ImageVariationPayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNImageVariationUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationUpdateInput(ctx context.Context, v interface{}) (ImageVariationUpdateInput, error) {
-	return ec.unmarshalInputImageVariationUpdateInput(ctx, v)
+func (ec *executionContext) unmarshalNImageVariationSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationSort(ctx context.Context, v interface{}) (ImageVariationSort, error) {
+	var res ImageVariationSort
+	return res, res.UnmarshalGQL(v)
 }
 
-func (ec *executionContext) unmarshalNImageVariationsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationsCreateInput(ctx context.Context, v interface{}) (ImageVariationsCreateInput, error) {
-	return ec.unmarshalInputImageVariationsCreateInput(ctx, v)
+func (ec *executionContext) marshalNImageVariationSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationSort(ctx context.Context, sel ast.SelectionSet, v ImageVariationSort) graphql.Marshaler {
+	return v
+}
+
+func (ec *executionContext) unmarshalNImageVariationUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationUpdateInput(ctx context.Context, v interface{}) (ImageVariationUpdateInput, error) {
+	return ec.unmarshalInputImageVariationUpdateInput(ctx, v)
 }
 
 func (ec *executionContext) marshalNImageVariationsDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationsDeletePayload(ctx context.Context, sel ast.SelectionSet, v ImageVariationsDeletePayload) graphql.Marshaler {
@@ -15652,20 +16759,6 @@ func (ec *executionContext) marshalNImageVariationsDeletePayload2ᚖgithubᚗcom
 	return ec._ImageVariationsDeletePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNImageVariationsPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationsPayload(ctx context.Context, sel ast.SelectionSet, v ImageVariationsPayload) graphql.Marshaler {
-	return ec._ImageVariationsPayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNImageVariationsPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationsPayload(ctx context.Context, sel ast.SelectionSet, v *ImageVariationsPayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._ImageVariationsPayload(ctx, sel, v)
-}
-
 func (ec *executionContext) marshalNImageVariationsUpdatePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationsUpdatePayload(ctx context.Context, sel ast.SelectionSet, v ImageVariationsUpdatePayload) graphql.Marshaler {
 	return ec._ImageVariationsUpdatePayload(ctx, sel, &v)
 }
@@ -15680,10 +16773,6 @@ func (ec *executionContext) marshalNImageVariationsUpdatePayload2ᚖgithubᚗcom
 	return ec._ImageVariationsUpdatePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNImagesCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImagesCreateInput(ctx context.Context, v interface{}) (ImagesCreateInput, error) {
-	return ec.unmarshalInputImagesCreateInput(ctx, v)
-}
-
 func (ec *executionContext) marshalNImagesDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImagesDeletePayload(ctx context.Context, sel ast.SelectionSet, v ImagesDeletePayload) graphql.Marshaler {
 	return ec._ImagesDeletePayload(ctx, sel, &v)
 }
@@ -15696,20 +16785,6 @@ func (ec *executionContext) marshalNImagesDeletePayload2ᚖgithubᚗcomᚋwebᚑ
 		return graphql.Null
 	}
 	return ec._ImagesDeletePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNImagesPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImagesPayload(ctx context.Context, sel ast.SelectionSet, v ImagesPayload) graphql.Marshaler {
-	return ec._ImagesPayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNImagesPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImagesPayload(ctx context.Context, sel ast.SelectionSet, v *ImagesPayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._ImagesPayload(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNImagesUpdatePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImagesUpdatePayload(ctx context.Context, sel ast.SelectionSet, v ImagesUpdatePayload) graphql.Marshaler {
@@ -15744,43 +16819,6 @@ func (ec *executionContext) marshalNLike2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑs
 	return ec._Like(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNLike2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeᚄ(ctx context.Context, sel ast.SelectionSet, v []*Like) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNLike2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLike(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
-}
-
 func (ec *executionContext) marshalNLike2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLike(ctx context.Context, sel ast.SelectionSet, v *Like) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
@@ -15791,36 +16829,22 @@ func (ec *executionContext) marshalNLike2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen�
 	return ec._Like(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNLikeConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeConnection(ctx context.Context, sel ast.SelectionSet, v LikeConnection) graphql.Marshaler {
+	return ec._LikeConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNLikeConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeConnection(ctx context.Context, sel ast.SelectionSet, v *LikeConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._LikeConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNLikeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeCreateInput(ctx context.Context, v interface{}) (LikeCreateInput, error) {
 	return ec.unmarshalInputLikeCreateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNLikeCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeCreateInputᚄ(ctx context.Context, v interface{}) ([]*LikeCreateInput, error) {
-	var vSlice []interface{}
-	if v != nil {
-		if tmp1, ok := v.([]interface{}); ok {
-			vSlice = tmp1
-		} else {
-			vSlice = []interface{}{v}
-		}
-	}
-	var err error
-	res := make([]*LikeCreateInput, len(vSlice))
-	for i := range vSlice {
-		res[i], err = ec.unmarshalNLikeCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeCreateInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNLikeCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeCreateInput(ctx context.Context, v interface{}) (*LikeCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNLikeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeCreateInput(ctx, v)
-	return &res, err
 }
 
 func (ec *executionContext) marshalNLikeDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeDeletePayload(ctx context.Context, sel ast.SelectionSet, v LikeDeletePayload) graphql.Marshaler {
@@ -15837,6 +16861,18 @@ func (ec *executionContext) marshalNLikeDeletePayload2ᚖgithubᚗcomᚋwebᚑri
 	return ec._LikeDeletePayload(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNLikeOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeOrdering(ctx context.Context, v interface{}) (LikeOrdering, error) {
+	return ec.unmarshalInputLikeOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNLikeOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeOrdering(ctx context.Context, v interface{}) (*LikeOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNLikeOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeOrdering(ctx, v)
+	return &res, err
+}
+
 func (ec *executionContext) marshalNLikePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikePayload(ctx context.Context, sel ast.SelectionSet, v LikePayload) graphql.Marshaler {
 	return ec._LikePayload(ctx, sel, &v)
 }
@@ -15851,12 +16887,17 @@ func (ec *executionContext) marshalNLikePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋ
 	return ec._LikePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNLikeUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeUpdateInput(ctx context.Context, v interface{}) (LikeUpdateInput, error) {
-	return ec.unmarshalInputLikeUpdateInput(ctx, v)
+func (ec *executionContext) unmarshalNLikeSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeSort(ctx context.Context, v interface{}) (LikeSort, error) {
+	var res LikeSort
+	return res, res.UnmarshalGQL(v)
 }
 
-func (ec *executionContext) unmarshalNLikesCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikesCreateInput(ctx context.Context, v interface{}) (LikesCreateInput, error) {
-	return ec.unmarshalInputLikesCreateInput(ctx, v)
+func (ec *executionContext) marshalNLikeSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeSort(ctx context.Context, sel ast.SelectionSet, v LikeSort) graphql.Marshaler {
+	return v
+}
+
+func (ec *executionContext) unmarshalNLikeUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeUpdateInput(ctx context.Context, v interface{}) (LikeUpdateInput, error) {
+	return ec.unmarshalInputLikeUpdateInput(ctx, v)
 }
 
 func (ec *executionContext) marshalNLikesDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikesDeletePayload(ctx context.Context, sel ast.SelectionSet, v LikesDeletePayload) graphql.Marshaler {
@@ -15873,20 +16914,6 @@ func (ec *executionContext) marshalNLikesDeletePayload2ᚖgithubᚗcomᚋwebᚑr
 	return ec._LikesDeletePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNLikesPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikesPayload(ctx context.Context, sel ast.SelectionSet, v LikesPayload) graphql.Marshaler {
-	return ec._LikesPayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNLikesPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikesPayload(ctx context.Context, sel ast.SelectionSet, v *LikesPayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._LikesPayload(ctx, sel, v)
-}
-
 func (ec *executionContext) marshalNLikesUpdatePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikesUpdatePayload(ctx context.Context, sel ast.SelectionSet, v LikesUpdatePayload) graphql.Marshaler {
 	return ec._LikesUpdatePayload(ctx, sel, &v)
 }
@@ -15901,45 +16928,22 @@ func (ec *executionContext) marshalNLikesUpdatePayload2ᚖgithubᚗcomᚋwebᚑr
 	return ec._LikesUpdatePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNPost2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPost(ctx context.Context, sel ast.SelectionSet, v Post) graphql.Marshaler {
-	return ec._Post(ctx, sel, &v)
+func (ec *executionContext) marshalNPageInfo2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPageInfo(ctx context.Context, sel ast.SelectionSet, v PageInfo) graphql.Marshaler {
+	return ec._PageInfo(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNPost2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostᚄ(ctx context.Context, sel ast.SelectionSet, v []*Post) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
+func (ec *executionContext) marshalNPageInfo2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPageInfo(ctx context.Context, sel ast.SelectionSet, v *PageInfo) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
 	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNPost2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPost(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
+	return ec._PageInfo(ctx, sel, v)
+}
 
-	}
-	wg.Wait()
-	return ret
+func (ec *executionContext) marshalNPost2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPost(ctx context.Context, sel ast.SelectionSet, v Post) graphql.Marshaler {
+	return ec._Post(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNPost2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPost(ctx context.Context, sel ast.SelectionSet, v *Post) graphql.Marshaler {
@@ -15952,36 +16956,22 @@ func (ec *executionContext) marshalNPost2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen�
 	return ec._Post(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNPostConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostConnection(ctx context.Context, sel ast.SelectionSet, v PostConnection) graphql.Marshaler {
+	return ec._PostConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNPostConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostConnection(ctx context.Context, sel ast.SelectionSet, v *PostConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._PostConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNPostCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostCreateInput(ctx context.Context, v interface{}) (PostCreateInput, error) {
 	return ec.unmarshalInputPostCreateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNPostCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostCreateInputᚄ(ctx context.Context, v interface{}) ([]*PostCreateInput, error) {
-	var vSlice []interface{}
-	if v != nil {
-		if tmp1, ok := v.([]interface{}); ok {
-			vSlice = tmp1
-		} else {
-			vSlice = []interface{}{v}
-		}
-	}
-	var err error
-	res := make([]*PostCreateInput, len(vSlice))
-	for i := range vSlice {
-		res[i], err = ec.unmarshalNPostCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostCreateInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNPostCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostCreateInput(ctx context.Context, v interface{}) (*PostCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNPostCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostCreateInput(ctx, v)
-	return &res, err
 }
 
 func (ec *executionContext) marshalNPostDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostDeletePayload(ctx context.Context, sel ast.SelectionSet, v PostDeletePayload) graphql.Marshaler {
@@ -15998,6 +16988,18 @@ func (ec *executionContext) marshalNPostDeletePayload2ᚖgithubᚗcomᚋwebᚑri
 	return ec._PostDeletePayload(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNPostOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostOrdering(ctx context.Context, v interface{}) (PostOrdering, error) {
+	return ec.unmarshalInputPostOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNPostOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostOrdering(ctx context.Context, v interface{}) (*PostOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNPostOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostOrdering(ctx, v)
+	return &res, err
+}
+
 func (ec *executionContext) marshalNPostPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostPayload(ctx context.Context, sel ast.SelectionSet, v PostPayload) graphql.Marshaler {
 	return ec._PostPayload(ctx, sel, &v)
 }
@@ -16012,12 +17014,17 @@ func (ec *executionContext) marshalNPostPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋ
 	return ec._PostPayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNPostUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostUpdateInput(ctx context.Context, v interface{}) (PostUpdateInput, error) {
-	return ec.unmarshalInputPostUpdateInput(ctx, v)
+func (ec *executionContext) unmarshalNPostSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostSort(ctx context.Context, v interface{}) (PostSort, error) {
+	var res PostSort
+	return res, res.UnmarshalGQL(v)
 }
 
-func (ec *executionContext) unmarshalNPostsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostsCreateInput(ctx context.Context, v interface{}) (PostsCreateInput, error) {
-	return ec.unmarshalInputPostsCreateInput(ctx, v)
+func (ec *executionContext) marshalNPostSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostSort(ctx context.Context, sel ast.SelectionSet, v PostSort) graphql.Marshaler {
+	return v
+}
+
+func (ec *executionContext) unmarshalNPostUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostUpdateInput(ctx context.Context, v interface{}) (PostUpdateInput, error) {
+	return ec.unmarshalInputPostUpdateInput(ctx, v)
 }
 
 func (ec *executionContext) marshalNPostsDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostsDeletePayload(ctx context.Context, sel ast.SelectionSet, v PostsDeletePayload) graphql.Marshaler {
@@ -16034,20 +17041,6 @@ func (ec *executionContext) marshalNPostsDeletePayload2ᚖgithubᚗcomᚋwebᚑr
 	return ec._PostsDeletePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNPostsPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostsPayload(ctx context.Context, sel ast.SelectionSet, v PostsPayload) graphql.Marshaler {
-	return ec._PostsPayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNPostsPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostsPayload(ctx context.Context, sel ast.SelectionSet, v *PostsPayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._PostsPayload(ctx, sel, v)
-}
-
 func (ec *executionContext) marshalNPostsUpdatePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostsUpdatePayload(ctx context.Context, sel ast.SelectionSet, v PostsUpdatePayload) graphql.Marshaler {
 	return ec._PostsUpdatePayload(ctx, sel, &v)
 }
@@ -16060,6 +17053,15 @@ func (ec *executionContext) marshalNPostsUpdatePayload2ᚖgithubᚗcomᚋwebᚑr
 		return graphql.Null
 	}
 	return ec._PostsUpdatePayload(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx context.Context, v interface{}) (boilergql.SortDirection, error) {
+	var res boilergql.SortDirection
+	return res, res.UnmarshalGQL(v)
+}
+
+func (ec *executionContext) marshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx context.Context, sel ast.SelectionSet, v boilergql.SortDirection) graphql.Marshaler {
+	return v
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {
@@ -16080,43 +17082,6 @@ func (ec *executionContext) marshalNUser2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑs
 	return ec._User(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNUser2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*User) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNUser2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUser(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
-}
-
 func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUser(ctx context.Context, sel ast.SelectionSet, v *User) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
@@ -16127,36 +17092,22 @@ func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen�
 	return ec._User(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNUserConnection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserConnection(ctx context.Context, sel ast.SelectionSet, v UserConnection) graphql.Marshaler {
+	return ec._UserConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNUserConnection2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserConnection(ctx context.Context, sel ast.SelectionSet, v *UserConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._UserConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNUserCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserCreateInput(ctx context.Context, v interface{}) (UserCreateInput, error) {
 	return ec.unmarshalInputUserCreateInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalNUserCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserCreateInputᚄ(ctx context.Context, v interface{}) ([]*UserCreateInput, error) {
-	var vSlice []interface{}
-	if v != nil {
-		if tmp1, ok := v.([]interface{}); ok {
-			vSlice = tmp1
-		} else {
-			vSlice = []interface{}{v}
-		}
-	}
-	var err error
-	res := make([]*UserCreateInput, len(vSlice))
-	for i := range vSlice {
-		res[i], err = ec.unmarshalNUserCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserCreateInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNUserCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserCreateInput(ctx context.Context, v interface{}) (*UserCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNUserCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserCreateInput(ctx, v)
-	return &res, err
 }
 
 func (ec *executionContext) marshalNUserDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserDeletePayload(ctx context.Context, sel ast.SelectionSet, v UserDeletePayload) graphql.Marshaler {
@@ -16173,6 +17124,18 @@ func (ec *executionContext) marshalNUserDeletePayload2ᚖgithubᚗcomᚋwebᚑri
 	return ec._UserDeletePayload(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNUserOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserOrdering(ctx context.Context, v interface{}) (UserOrdering, error) {
+	return ec.unmarshalInputUserOrdering(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNUserOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserOrdering(ctx context.Context, v interface{}) (*UserOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNUserOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserOrdering(ctx, v)
+	return &res, err
+}
+
 func (ec *executionContext) marshalNUserPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserPayload(ctx context.Context, sel ast.SelectionSet, v UserPayload) graphql.Marshaler {
 	return ec._UserPayload(ctx, sel, &v)
 }
@@ -16187,12 +17150,17 @@ func (ec *executionContext) marshalNUserPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋ
 	return ec._UserPayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNUserUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserUpdateInput(ctx context.Context, v interface{}) (UserUpdateInput, error) {
-	return ec.unmarshalInputUserUpdateInput(ctx, v)
+func (ec *executionContext) unmarshalNUserSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserSort(ctx context.Context, v interface{}) (UserSort, error) {
+	var res UserSort
+	return res, res.UnmarshalGQL(v)
 }
 
-func (ec *executionContext) unmarshalNUsersCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUsersCreateInput(ctx context.Context, v interface{}) (UsersCreateInput, error) {
-	return ec.unmarshalInputUsersCreateInput(ctx, v)
+func (ec *executionContext) marshalNUserSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserSort(ctx context.Context, sel ast.SelectionSet, v UserSort) graphql.Marshaler {
+	return v
+}
+
+func (ec *executionContext) unmarshalNUserUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserUpdateInput(ctx context.Context, v interface{}) (UserUpdateInput, error) {
+	return ec.unmarshalInputUserUpdateInput(ctx, v)
 }
 
 func (ec *executionContext) marshalNUsersDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUsersDeletePayload(ctx context.Context, sel ast.SelectionSet, v UsersDeletePayload) graphql.Marshaler {
@@ -16207,20 +17175,6 @@ func (ec *executionContext) marshalNUsersDeletePayload2ᚖgithubᚗcomᚋwebᚑr
 		return graphql.Null
 	}
 	return ec._UsersDeletePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNUsersPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUsersPayload(ctx context.Context, sel ast.SelectionSet, v UsersPayload) graphql.Marshaler {
-	return ec._UsersPayload(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNUsersPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUsersPayload(ctx context.Context, sel ast.SelectionSet, v *UsersPayload) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._UsersPayload(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNUsersUpdatePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUsersUpdatePayload(ctx context.Context, sel ast.SelectionSet, v UsersUpdatePayload) graphql.Marshaler {
@@ -16537,6 +17491,57 @@ func (ec *executionContext) marshalOComment2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlg
 	return ec._Comment(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalOCommentEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentEdge(ctx context.Context, sel ast.SelectionSet, v CommentEdge) graphql.Marshaler {
+	return ec._CommentEdge(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalOCommentEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentEdge(ctx context.Context, sel ast.SelectionSet, v []*CommentEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOCommentEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentEdge(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalOCommentEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentEdge(ctx context.Context, sel ast.SelectionSet, v *CommentEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._CommentEdge(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalOCommentFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentFilter(ctx context.Context, v interface{}) (CommentFilter, error) {
 	return ec.unmarshalInputCommentFilter(ctx, v)
 }
@@ -16600,6 +17605,57 @@ func (ec *executionContext) marshalOCommentLike2ᚖgithubᚗcomᚋwebᚑridgeᚋ
 	return ec._CommentLike(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalOCommentLikeEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeEdge(ctx context.Context, sel ast.SelectionSet, v CommentLikeEdge) graphql.Marshaler {
+	return ec._CommentLikeEdge(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalOCommentLikeEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeEdge(ctx context.Context, sel ast.SelectionSet, v []*CommentLikeEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOCommentLikeEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeEdge(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalOCommentLikeEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeEdge(ctx context.Context, sel ast.SelectionSet, v *CommentLikeEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._CommentLikeEdge(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalOCommentLikeFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeFilter(ctx context.Context, v interface{}) (CommentLikeFilter, error) {
 	return ec.unmarshalInputCommentLikeFilter(ctx, v)
 }
@@ -16610,6 +17666,26 @@ func (ec *executionContext) unmarshalOCommentLikeFilter2ᚖgithubᚗcomᚋwebᚑ
 	}
 	res, err := ec.unmarshalOCommentLikeFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeFilter(ctx, v)
 	return &res, err
+}
+
+func (ec *executionContext) unmarshalOCommentLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeOrderingᚄ(ctx context.Context, v interface{}) ([]*CommentLikeOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*CommentLikeOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNCommentLikeOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
 }
 
 func (ec *executionContext) unmarshalOCommentLikeWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentLikeWhere(ctx context.Context, v interface{}) (CommentLikeWhere, error) {
@@ -16624,6 +17700,26 @@ func (ec *executionContext) unmarshalOCommentLikeWhere2ᚖgithubᚗcomᚋwebᚑr
 	return &res, err
 }
 
+func (ec *executionContext) unmarshalOCommentOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentOrderingᚄ(ctx context.Context, v interface{}) ([]*CommentOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*CommentOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNCommentOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
 func (ec *executionContext) unmarshalOCommentWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentWhere(ctx context.Context, v interface{}) (CommentWhere, error) {
 	return ec.unmarshalInputCommentWhere(ctx, v)
 }
@@ -16633,6 +17729,30 @@ func (ec *executionContext) unmarshalOCommentWhere2ᚖgithubᚗcomᚋwebᚑridge
 		return nil, nil
 	}
 	res, err := ec.unmarshalOCommentWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐCommentWhere(ctx, v)
+	return &res, err
+}
+
+func (ec *executionContext) unmarshalOConnectionBackwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionBackwardPagination(ctx context.Context, v interface{}) (boilergql.ConnectionBackwardPagination, error) {
+	return ec.unmarshalInputConnectionBackwardPagination(ctx, v)
+}
+
+func (ec *executionContext) unmarshalOConnectionBackwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionBackwardPagination(ctx context.Context, v interface{}) (*boilergql.ConnectionBackwardPagination, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalOConnectionBackwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionBackwardPagination(ctx, v)
+	return &res, err
+}
+
+func (ec *executionContext) unmarshalOConnectionForwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionForwardPagination(ctx context.Context, v interface{}) (boilergql.ConnectionForwardPagination, error) {
+	return ec.unmarshalInputConnectionForwardPagination(ctx, v)
+}
+
+func (ec *executionContext) unmarshalOConnectionForwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionForwardPagination(ctx context.Context, v interface{}) (*boilergql.ConnectionForwardPagination, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalOConnectionForwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionForwardPagination(ctx, v)
 	return &res, err
 }
 
@@ -16742,6 +17862,57 @@ func (ec *executionContext) marshalOFriendship2ᚖgithubᚗcomᚋwebᚑridgeᚋg
 	return ec._Friendship(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalOFriendshipEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipEdge(ctx context.Context, sel ast.SelectionSet, v FriendshipEdge) graphql.Marshaler {
+	return ec._FriendshipEdge(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalOFriendshipEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipEdge(ctx context.Context, sel ast.SelectionSet, v []*FriendshipEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOFriendshipEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipEdge(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalOFriendshipEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipEdge(ctx context.Context, sel ast.SelectionSet, v *FriendshipEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._FriendshipEdge(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalOFriendshipFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipFilter(ctx context.Context, v interface{}) (FriendshipFilter, error) {
 	return ec.unmarshalInputFriendshipFilter(ctx, v)
 }
@@ -16752,6 +17923,26 @@ func (ec *executionContext) unmarshalOFriendshipFilter2ᚖgithubᚗcomᚋwebᚑr
 	}
 	res, err := ec.unmarshalOFriendshipFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipFilter(ctx, v)
 	return &res, err
+}
+
+func (ec *executionContext) unmarshalOFriendshipOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipOrderingᚄ(ctx context.Context, v interface{}) ([]*FriendshipOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*FriendshipOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNFriendshipOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
 }
 
 func (ec *executionContext) unmarshalOFriendshipWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐFriendshipWhere(ctx context.Context, v interface{}) (FriendshipWhere, error) {
@@ -16884,6 +18075,57 @@ func (ec *executionContext) marshalOImage2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen
 	return ec._Image(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalOImageEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageEdge(ctx context.Context, sel ast.SelectionSet, v ImageEdge) graphql.Marshaler {
+	return ec._ImageEdge(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalOImageEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageEdge(ctx context.Context, sel ast.SelectionSet, v []*ImageEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOImageEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageEdge(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalOImageEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageEdge(ctx context.Context, sel ast.SelectionSet, v *ImageEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._ImageEdge(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalOImageFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageFilter(ctx context.Context, v interface{}) (ImageFilter, error) {
 	return ec.unmarshalInputImageFilter(ctx, v)
 }
@@ -16894,6 +18136,26 @@ func (ec *executionContext) unmarshalOImageFilter2ᚖgithubᚗcomᚋwebᚑridge�
 	}
 	res, err := ec.unmarshalOImageFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageFilter(ctx, v)
 	return &res, err
+}
+
+func (ec *executionContext) unmarshalOImageOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageOrderingᚄ(ctx context.Context, v interface{}) ([]*ImageOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*ImageOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNImageOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
 }
 
 func (ec *executionContext) marshalOImageVariation2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariation(ctx context.Context, sel ast.SelectionSet, v ImageVariation) graphql.Marshaler {
@@ -16947,6 +18209,57 @@ func (ec *executionContext) marshalOImageVariation2ᚖgithubᚗcomᚋwebᚑridge
 	return ec._ImageVariation(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalOImageVariationEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationEdge(ctx context.Context, sel ast.SelectionSet, v ImageVariationEdge) graphql.Marshaler {
+	return ec._ImageVariationEdge(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalOImageVariationEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationEdge(ctx context.Context, sel ast.SelectionSet, v []*ImageVariationEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOImageVariationEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationEdge(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalOImageVariationEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationEdge(ctx context.Context, sel ast.SelectionSet, v *ImageVariationEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._ImageVariationEdge(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalOImageVariationFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationFilter(ctx context.Context, v interface{}) (ImageVariationFilter, error) {
 	return ec.unmarshalInputImageVariationFilter(ctx, v)
 }
@@ -16957,6 +18270,26 @@ func (ec *executionContext) unmarshalOImageVariationFilter2ᚖgithubᚗcomᚋweb
 	}
 	res, err := ec.unmarshalOImageVariationFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationFilter(ctx, v)
 	return &res, err
+}
+
+func (ec *executionContext) unmarshalOImageVariationOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationOrderingᚄ(ctx context.Context, v interface{}) ([]*ImageVariationOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*ImageVariationOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNImageVariationOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
 }
 
 func (ec *executionContext) unmarshalOImageVariationWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐImageVariationWhere(ctx context.Context, v interface{}) (ImageVariationWhere, error) {
@@ -17101,6 +18434,57 @@ func (ec *executionContext) marshalOLike2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen�
 	return ec._Like(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalOLikeEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeEdge(ctx context.Context, sel ast.SelectionSet, v LikeEdge) graphql.Marshaler {
+	return ec._LikeEdge(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalOLikeEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeEdge(ctx context.Context, sel ast.SelectionSet, v []*LikeEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOLikeEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeEdge(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalOLikeEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeEdge(ctx context.Context, sel ast.SelectionSet, v *LikeEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._LikeEdge(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalOLikeFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeFilter(ctx context.Context, v interface{}) (LikeFilter, error) {
 	return ec.unmarshalInputLikeFilter(ctx, v)
 }
@@ -17113,6 +18497,26 @@ func (ec *executionContext) unmarshalOLikeFilter2ᚖgithubᚗcomᚋwebᚑridge�
 	return &res, err
 }
 
+func (ec *executionContext) unmarshalOLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeOrderingᚄ(ctx context.Context, v interface{}) ([]*LikeOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*LikeOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNLikeOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
 func (ec *executionContext) unmarshalOLikeWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeWhere(ctx context.Context, v interface{}) (LikeWhere, error) {
 	return ec.unmarshalInputLikeWhere(ctx, v)
 }
@@ -17123,6 +18527,13 @@ func (ec *executionContext) unmarshalOLikeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋ
 	}
 	res, err := ec.unmarshalOLikeWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐLikeWhere(ctx, v)
 	return &res, err
+}
+
+func (ec *executionContext) marshalONode2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐNode(ctx context.Context, sel ast.SelectionSet, v Node) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Node(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalOPost2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPost(ctx context.Context, sel ast.SelectionSet, v Post) graphql.Marshaler {
@@ -17176,6 +18587,57 @@ func (ec *executionContext) marshalOPost2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen�
 	return ec._Post(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalOPostEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostEdge(ctx context.Context, sel ast.SelectionSet, v PostEdge) graphql.Marshaler {
+	return ec._PostEdge(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalOPostEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostEdge(ctx context.Context, sel ast.SelectionSet, v []*PostEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOPostEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostEdge(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalOPostEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostEdge(ctx context.Context, sel ast.SelectionSet, v *PostEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._PostEdge(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalOPostFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostFilter(ctx context.Context, v interface{}) (PostFilter, error) {
 	return ec.unmarshalInputPostFilter(ctx, v)
 }
@@ -17186,6 +18648,26 @@ func (ec *executionContext) unmarshalOPostFilter2ᚖgithubᚗcomᚋwebᚑridge�
 	}
 	res, err := ec.unmarshalOPostFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostFilter(ctx, v)
 	return &res, err
+}
+
+func (ec *executionContext) unmarshalOPostOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostOrderingᚄ(ctx context.Context, v interface{}) ([]*PostOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*PostOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNPostOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
 }
 
 func (ec *executionContext) unmarshalOPostWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐPostWhere(ctx context.Context, v interface{}) (PostWhere, error) {
@@ -17318,6 +18800,57 @@ func (ec *executionContext) marshalOUser2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen�
 	return ec._User(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalOUserEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserEdge(ctx context.Context, sel ast.SelectionSet, v UserEdge) graphql.Marshaler {
+	return ec._UserEdge(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalOUserEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserEdge(ctx context.Context, sel ast.SelectionSet, v []*UserEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOUserEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserEdge(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalOUserEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserEdge(ctx context.Context, sel ast.SelectionSet, v *UserEdge) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._UserEdge(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalOUserFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserFilter(ctx context.Context, v interface{}) (UserFilter, error) {
 	return ec.unmarshalInputUserFilter(ctx, v)
 }
@@ -17328,6 +18861,26 @@ func (ec *executionContext) unmarshalOUserFilter2ᚖgithubᚗcomᚋwebᚑridge�
 	}
 	res, err := ec.unmarshalOUserFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserFilter(ctx, v)
 	return &res, err
+}
+
+func (ec *executionContext) unmarshalOUserOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserOrderingᚄ(ctx context.Context, v interface{}) ([]*UserOrdering, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]*UserOrdering, len(vSlice))
+	for i := range vSlice {
+		res[i], err = ec.unmarshalNUserOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserOrdering(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
 }
 
 func (ec *executionContext) unmarshalOUserWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋissueᚑ12ᚑstringᚑidsᚋgraphql_modelsᚐUserWhere(ctx context.Context, v interface{}) (UserWhere, error) {

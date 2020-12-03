@@ -15,6 +15,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/introspection"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
+	"github.com/web-ridge/utils-go/boilergql"
 )
 
 // region    ************************** generated!.gotpl **************************
@@ -367,21 +368,21 @@ type ComplexityRoot struct {
 	Query struct {
 		Comment         func(childComplexity int, id string) int
 		CommentLike     func(childComplexity int, id string) int
-		CommentLikes    func(childComplexity int, pagination ConnectionPagination, ordering []*CommentLikeOrdering, filter *CommentLikeFilter) int
-		Comments        func(childComplexity int, pagination ConnectionPagination, ordering []*CommentOrdering, filter *CommentFilter) int
+		CommentLikes    func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*CommentLikeOrdering, filter *CommentLikeFilter) int
+		Comments        func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*CommentOrdering, filter *CommentFilter) int
 		Friendship      func(childComplexity int, id string) int
-		Friendships     func(childComplexity int, pagination ConnectionPagination, ordering []*FriendshipOrdering, filter *FriendshipFilter) int
+		Friendships     func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*FriendshipOrdering, filter *FriendshipFilter) int
 		Image           func(childComplexity int, id string) int
 		ImageVariation  func(childComplexity int, id string) int
-		ImageVariations func(childComplexity int, pagination ConnectionPagination, ordering []*ImageVariationOrdering, filter *ImageVariationFilter) int
-		Images          func(childComplexity int, pagination ConnectionPagination, ordering []*ImageOrdering, filter *ImageFilter) int
+		ImageVariations func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*ImageVariationOrdering, filter *ImageVariationFilter) int
+		Images          func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*ImageOrdering, filter *ImageFilter) int
 		Like            func(childComplexity int, id string) int
-		Likes           func(childComplexity int, pagination ConnectionPagination, ordering []*LikeOrdering, filter *LikeFilter) int
+		Likes           func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*LikeOrdering, filter *LikeFilter) int
 		Node            func(childComplexity int, id string) int
 		Post            func(childComplexity int, id string) int
-		Posts           func(childComplexity int, pagination ConnectionPagination, ordering []*PostOrdering, filter *PostFilter) int
+		Posts           func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*PostOrdering, filter *PostFilter) int
 		User            func(childComplexity int, id string) int
-		Users           func(childComplexity int, pagination ConnectionPagination, ordering []*UserOrdering, filter *UserFilter) int
+		Users           func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*UserOrdering, filter *UserFilter) int
 	}
 
 	User struct {
@@ -480,21 +481,21 @@ type MutationResolver interface {
 type QueryResolver interface {
 	Node(ctx context.Context, id string) (Node, error)
 	Comment(ctx context.Context, id string) (*Comment, error)
-	Comments(ctx context.Context, pagination ConnectionPagination, ordering []*CommentOrdering, filter *CommentFilter) (*CommentConnection, error)
+	Comments(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*CommentOrdering, filter *CommentFilter) (*CommentConnection, error)
 	CommentLike(ctx context.Context, id string) (*CommentLike, error)
-	CommentLikes(ctx context.Context, pagination ConnectionPagination, ordering []*CommentLikeOrdering, filter *CommentLikeFilter) (*CommentLikeConnection, error)
+	CommentLikes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*CommentLikeOrdering, filter *CommentLikeFilter) (*CommentLikeConnection, error)
 	Friendship(ctx context.Context, id string) (*Friendship, error)
-	Friendships(ctx context.Context, pagination ConnectionPagination, ordering []*FriendshipOrdering, filter *FriendshipFilter) (*FriendshipConnection, error)
+	Friendships(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*FriendshipOrdering, filter *FriendshipFilter) (*FriendshipConnection, error)
 	Image(ctx context.Context, id string) (*Image, error)
-	Images(ctx context.Context, pagination ConnectionPagination, ordering []*ImageOrdering, filter *ImageFilter) (*ImageConnection, error)
+	Images(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*ImageOrdering, filter *ImageFilter) (*ImageConnection, error)
 	ImageVariation(ctx context.Context, id string) (*ImageVariation, error)
-	ImageVariations(ctx context.Context, pagination ConnectionPagination, ordering []*ImageVariationOrdering, filter *ImageVariationFilter) (*ImageVariationConnection, error)
+	ImageVariations(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*ImageVariationOrdering, filter *ImageVariationFilter) (*ImageVariationConnection, error)
 	Like(ctx context.Context, id string) (*Like, error)
-	Likes(ctx context.Context, pagination ConnectionPagination, ordering []*LikeOrdering, filter *LikeFilter) (*LikeConnection, error)
+	Likes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*LikeOrdering, filter *LikeFilter) (*LikeConnection, error)
 	Post(ctx context.Context, id string) (*Post, error)
-	Posts(ctx context.Context, pagination ConnectionPagination, ordering []*PostOrdering, filter *PostFilter) (*PostConnection, error)
+	Posts(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*PostOrdering, filter *PostFilter) (*PostConnection, error)
 	User(ctx context.Context, id string) (*User, error)
-	Users(ctx context.Context, pagination ConnectionPagination, ordering []*UserOrdering, filter *UserFilter) (*UserConnection, error)
+	Users(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*UserOrdering, filter *UserFilter) (*UserConnection, error)
 }
 
 type executableSchema struct {
@@ -1808,7 +1809,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.CommentLikes(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*CommentLikeOrdering), args["filter"].(*CommentLikeFilter)), true
+		return e.complexity.Query.CommentLikes(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*CommentLikeOrdering), args["filter"].(*CommentLikeFilter)), true
 
 	case "Query.comments":
 		if e.complexity.Query.Comments == nil {
@@ -1820,7 +1821,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Comments(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*CommentOrdering), args["filter"].(*CommentFilter)), true
+		return e.complexity.Query.Comments(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*CommentOrdering), args["filter"].(*CommentFilter)), true
 
 	case "Query.friendship":
 		if e.complexity.Query.Friendship == nil {
@@ -1844,7 +1845,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Friendships(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*FriendshipOrdering), args["filter"].(*FriendshipFilter)), true
+		return e.complexity.Query.Friendships(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*FriendshipOrdering), args["filter"].(*FriendshipFilter)), true
 
 	case "Query.image":
 		if e.complexity.Query.Image == nil {
@@ -1880,7 +1881,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.ImageVariations(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*ImageVariationOrdering), args["filter"].(*ImageVariationFilter)), true
+		return e.complexity.Query.ImageVariations(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*ImageVariationOrdering), args["filter"].(*ImageVariationFilter)), true
 
 	case "Query.images":
 		if e.complexity.Query.Images == nil {
@@ -1892,7 +1893,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Images(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*ImageOrdering), args["filter"].(*ImageFilter)), true
+		return e.complexity.Query.Images(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*ImageOrdering), args["filter"].(*ImageFilter)), true
 
 	case "Query.like":
 		if e.complexity.Query.Like == nil {
@@ -1916,7 +1917,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Likes(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*LikeOrdering), args["filter"].(*LikeFilter)), true
+		return e.complexity.Query.Likes(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*LikeOrdering), args["filter"].(*LikeFilter)), true
 
 	case "Query.node":
 		if e.complexity.Query.Node == nil {
@@ -1952,7 +1953,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Posts(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*PostOrdering), args["filter"].(*PostFilter)), true
+		return e.complexity.Query.Posts(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*PostOrdering), args["filter"].(*PostFilter)), true
 
 	case "Query.user":
 		if e.complexity.Query.User == nil {
@@ -1976,7 +1977,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Users(childComplexity, args["pagination"].(ConnectionPagination), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter)), true
+		return e.complexity.Query.Users(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter)), true
 
 	case "User.commentLikes":
 		if e.complexity.User.CommentLikes == nil {
@@ -2183,12 +2184,12 @@ type PageInfo {
 
 input ConnectionForwardPagination {
   first: Int!
-  after: ID!
+  after: ID
 }
 
 input ConnectionBackwardPagination {
   last: Int!
-  before: ID!
+  before: ID
 }
 
 input ConnectionPagination {
@@ -3868,9 +3869,9 @@ func (ec *executionContext) field_Query_commentLike_args(ctx context.Context, ra
 func (ec *executionContext) field_Query_commentLikes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 ConnectionPagination
+	var arg0 boilergql.ConnectionPagination
 	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -3912,9 +3913,9 @@ func (ec *executionContext) field_Query_comment_args(ctx context.Context, rawArg
 func (ec *executionContext) field_Query_comments_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 ConnectionPagination
+	var arg0 boilergql.ConnectionPagination
 	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -3956,9 +3957,9 @@ func (ec *executionContext) field_Query_friendship_args(ctx context.Context, raw
 func (ec *executionContext) field_Query_friendships_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 ConnectionPagination
+	var arg0 boilergql.ConnectionPagination
 	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -4000,9 +4001,9 @@ func (ec *executionContext) field_Query_imageVariation_args(ctx context.Context,
 func (ec *executionContext) field_Query_imageVariations_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 ConnectionPagination
+	var arg0 boilergql.ConnectionPagination
 	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -4044,9 +4045,9 @@ func (ec *executionContext) field_Query_image_args(ctx context.Context, rawArgs 
 func (ec *executionContext) field_Query_images_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 ConnectionPagination
+	var arg0 boilergql.ConnectionPagination
 	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -4088,9 +4089,9 @@ func (ec *executionContext) field_Query_like_args(ctx context.Context, rawArgs m
 func (ec *executionContext) field_Query_likes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 ConnectionPagination
+	var arg0 boilergql.ConnectionPagination
 	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -4146,9 +4147,9 @@ func (ec *executionContext) field_Query_post_args(ctx context.Context, rawArgs m
 func (ec *executionContext) field_Query_posts_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 ConnectionPagination
+	var arg0 boilergql.ConnectionPagination
 	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -4190,9 +4191,9 @@ func (ec *executionContext) field_Query_user_args(ctx context.Context, rawArgs m
 func (ec *executionContext) field_Query_users_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 ConnectionPagination
+	var arg0 boilergql.ConnectionPagination
 	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx, tmp)
+		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -10556,7 +10557,7 @@ func (ec *executionContext) _Query_comments(ctx context.Context, field graphql.C
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Comments(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*CommentOrdering), args["filter"].(*CommentFilter))
+			return ec.resolvers.Query().Comments(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*CommentOrdering), args["filter"].(*CommentFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -10678,7 +10679,7 @@ func (ec *executionContext) _Query_commentLikes(ctx context.Context, field graph
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().CommentLikes(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*CommentLikeOrdering), args["filter"].(*CommentLikeFilter))
+			return ec.resolvers.Query().CommentLikes(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*CommentLikeOrdering), args["filter"].(*CommentLikeFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -10800,7 +10801,7 @@ func (ec *executionContext) _Query_friendships(ctx context.Context, field graphq
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Friendships(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*FriendshipOrdering), args["filter"].(*FriendshipFilter))
+			return ec.resolvers.Query().Friendships(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*FriendshipOrdering), args["filter"].(*FriendshipFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -10922,7 +10923,7 @@ func (ec *executionContext) _Query_images(ctx context.Context, field graphql.Col
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Images(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*ImageOrdering), args["filter"].(*ImageFilter))
+			return ec.resolvers.Query().Images(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*ImageOrdering), args["filter"].(*ImageFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -11044,7 +11045,7 @@ func (ec *executionContext) _Query_imageVariations(ctx context.Context, field gr
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().ImageVariations(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*ImageVariationOrdering), args["filter"].(*ImageVariationFilter))
+			return ec.resolvers.Query().ImageVariations(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*ImageVariationOrdering), args["filter"].(*ImageVariationFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -11166,7 +11167,7 @@ func (ec *executionContext) _Query_likes(ctx context.Context, field graphql.Coll
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Likes(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*LikeOrdering), args["filter"].(*LikeFilter))
+			return ec.resolvers.Query().Likes(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*LikeOrdering), args["filter"].(*LikeFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -11288,7 +11289,7 @@ func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.Coll
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Posts(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*PostOrdering), args["filter"].(*PostFilter))
+			return ec.resolvers.Query().Posts(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*PostOrdering), args["filter"].(*PostFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -11410,7 +11411,7 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Users(rctx, args["pagination"].(ConnectionPagination), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter))
+			return ec.resolvers.Query().Users(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -13317,7 +13318,7 @@ func (ec *executionContext) unmarshalInputCommentLikeOrdering(ctx context.Contex
 			}
 		case "direction":
 			var err error
-			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐSortDirection(ctx, v)
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -13453,7 +13454,7 @@ func (ec *executionContext) unmarshalInputCommentOrdering(ctx context.Context, o
 			}
 		case "direction":
 			var err error
-			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐSortDirection(ctx, v)
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -13565,8 +13566,8 @@ func (ec *executionContext) unmarshalInputCommentsCreateInput(ctx context.Contex
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputConnectionBackwardPagination(ctx context.Context, obj interface{}) (ConnectionBackwardPagination, error) {
-	var it ConnectionBackwardPagination
+func (ec *executionContext) unmarshalInputConnectionBackwardPagination(ctx context.Context, obj interface{}) (boilergql.ConnectionBackwardPagination, error) {
+	var it boilergql.ConnectionBackwardPagination
 	var asMap = obj.(map[string]interface{})
 
 	for k, v := range asMap {
@@ -13579,7 +13580,7 @@ func (ec *executionContext) unmarshalInputConnectionBackwardPagination(ctx conte
 			}
 		case "before":
 			var err error
-			it.Before, err = ec.unmarshalNID2string(ctx, v)
+			it.Before, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -13589,8 +13590,8 @@ func (ec *executionContext) unmarshalInputConnectionBackwardPagination(ctx conte
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputConnectionForwardPagination(ctx context.Context, obj interface{}) (ConnectionForwardPagination, error) {
-	var it ConnectionForwardPagination
+func (ec *executionContext) unmarshalInputConnectionForwardPagination(ctx context.Context, obj interface{}) (boilergql.ConnectionForwardPagination, error) {
+	var it boilergql.ConnectionForwardPagination
 	var asMap = obj.(map[string]interface{})
 
 	for k, v := range asMap {
@@ -13603,7 +13604,7 @@ func (ec *executionContext) unmarshalInputConnectionForwardPagination(ctx contex
 			}
 		case "after":
 			var err error
-			it.After, err = ec.unmarshalNID2string(ctx, v)
+			it.After, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -13613,21 +13614,21 @@ func (ec *executionContext) unmarshalInputConnectionForwardPagination(ctx contex
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputConnectionPagination(ctx context.Context, obj interface{}) (ConnectionPagination, error) {
-	var it ConnectionPagination
+func (ec *executionContext) unmarshalInputConnectionPagination(ctx context.Context, obj interface{}) (boilergql.ConnectionPagination, error) {
+	var it boilergql.ConnectionPagination
 	var asMap = obj.(map[string]interface{})
 
 	for k, v := range asMap {
 		switch k {
 		case "forward":
 			var err error
-			it.Forward, err = ec.unmarshalOConnectionForwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionForwardPagination(ctx, v)
+			it.Forward, err = ec.unmarshalOConnectionForwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionForwardPagination(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "backward":
 			var err error
-			it.Backward, err = ec.unmarshalOConnectionBackwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionBackwardPagination(ctx, v)
+			it.Backward, err = ec.unmarshalOConnectionBackwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionBackwardPagination(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -13757,7 +13758,7 @@ func (ec *executionContext) unmarshalInputFriendshipOrdering(ctx context.Context
 			}
 		case "direction":
 			var err error
-			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐSortDirection(ctx, v)
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -13953,7 +13954,7 @@ func (ec *executionContext) unmarshalInputImageOrdering(ctx context.Context, obj
 			}
 		case "direction":
 			var err error
-			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐSortDirection(ctx, v)
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -14053,7 +14054,7 @@ func (ec *executionContext) unmarshalInputImageVariationOrdering(ctx context.Con
 			}
 		case "direction":
 			var err error
-			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐSortDirection(ctx, v)
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -14345,7 +14346,7 @@ func (ec *executionContext) unmarshalInputLikeOrdering(ctx context.Context, obj 
 			}
 		case "direction":
 			var err error
-			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐSortDirection(ctx, v)
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -14529,7 +14530,7 @@ func (ec *executionContext) unmarshalInputPostOrdering(ctx context.Context, obj 
 			}
 		case "direction":
 			var err error
-			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐSortDirection(ctx, v)
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -14821,7 +14822,7 @@ func (ec *executionContext) unmarshalInputUserOrdering(ctx context.Context, obj 
 			}
 		case "direction":
 			var err error
-			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐSortDirection(ctx, v)
+			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -18120,7 +18121,7 @@ func (ec *executionContext) marshalNCommentsUpdatePayload2ᚖgithubᚗcomᚋweb�
 	return ec._CommentsUpdatePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionPagination(ctx context.Context, v interface{}) (ConnectionPagination, error) {
+func (ec *executionContext) unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionPagination(ctx context.Context, v interface{}) (boilergql.ConnectionPagination, error) {
 	return ec.unmarshalInputConnectionPagination(ctx, v)
 }
 
@@ -19189,12 +19190,12 @@ func (ec *executionContext) marshalNPostsUpdatePayload2ᚖgithubᚗcomᚋwebᚑr
 	return ec._PostsUpdatePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐSortDirection(ctx context.Context, v interface{}) (SortDirection, error) {
-	var res SortDirection
+func (ec *executionContext) unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx context.Context, v interface{}) (boilergql.SortDirection, error) {
+	var res boilergql.SortDirection
 	return res, res.UnmarshalGQL(v)
 }
 
-func (ec *executionContext) marshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐSortDirection(ctx context.Context, sel ast.SelectionSet, v SortDirection) graphql.Marshaler {
+func (ec *executionContext) marshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐSortDirection(ctx context.Context, sel ast.SelectionSet, v boilergql.SortDirection) graphql.Marshaler {
 	return v
 }
 
@@ -19949,27 +19950,27 @@ func (ec *executionContext) unmarshalOCommentWhere2ᚖgithubᚗcomᚋwebᚑridge
 	return &res, err
 }
 
-func (ec *executionContext) unmarshalOConnectionBackwardPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionBackwardPagination(ctx context.Context, v interface{}) (ConnectionBackwardPagination, error) {
+func (ec *executionContext) unmarshalOConnectionBackwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionBackwardPagination(ctx context.Context, v interface{}) (boilergql.ConnectionBackwardPagination, error) {
 	return ec.unmarshalInputConnectionBackwardPagination(ctx, v)
 }
 
-func (ec *executionContext) unmarshalOConnectionBackwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionBackwardPagination(ctx context.Context, v interface{}) (*ConnectionBackwardPagination, error) {
+func (ec *executionContext) unmarshalOConnectionBackwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionBackwardPagination(ctx context.Context, v interface{}) (*boilergql.ConnectionBackwardPagination, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOConnectionBackwardPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionBackwardPagination(ctx, v)
+	res, err := ec.unmarshalOConnectionBackwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionBackwardPagination(ctx, v)
 	return &res, err
 }
 
-func (ec *executionContext) unmarshalOConnectionForwardPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionForwardPagination(ctx context.Context, v interface{}) (ConnectionForwardPagination, error) {
+func (ec *executionContext) unmarshalOConnectionForwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionForwardPagination(ctx context.Context, v interface{}) (boilergql.ConnectionForwardPagination, error) {
 	return ec.unmarshalInputConnectionForwardPagination(ctx, v)
 }
 
-func (ec *executionContext) unmarshalOConnectionForwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionForwardPagination(ctx context.Context, v interface{}) (*ConnectionForwardPagination, error) {
+func (ec *executionContext) unmarshalOConnectionForwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionForwardPagination(ctx context.Context, v interface{}) (*boilergql.ConnectionForwardPagination, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOConnectionForwardPagination2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐConnectionForwardPagination(ctx, v)
+	res, err := ec.unmarshalOConnectionForwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚐConnectionForwardPagination(ctx, v)
 	return &res, err
 }
 

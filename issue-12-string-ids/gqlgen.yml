@@ -14,3 +14,12 @@ model:
 resolver:
   filename: resolver.go
   type: Resolver
+models:
+  ConnectionBackwardPagination:
+    model: github.com/web-ridge/utils-go/boilergql.ConnectionBackwardPagination
+  ConnectionForwardPagination:
+    model: github.com/web-ridge/utils-go/boilergql.ConnectionForwardPagination
+  ConnectionPagination:
+    model: github.com/web-ridge/utils-go/boilergql.ConnectionPagination
+  SortDirection:
+    model: github.com/web-ridge/utils-go/boilergql.SortDirection

@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"strconv"
+
+	"github.com/web-ridge/utils-go/boilergql"
 )
 
 type Node interface {
@@ -89,8 +91,8 @@ type CommentLikeFilter struct {
 }
 
 type CommentLikeOrdering struct {
-	Sort      CommentLikeSort `json:"sort"`
-	Direction SortDirection   `json:"direction"`
+	Sort      CommentLikeSort         `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type CommentLikePayload struct {
@@ -131,8 +133,8 @@ type CommentLikesUpdatePayload struct {
 }
 
 type CommentOrdering struct {
-	Sort      CommentSort   `json:"sort"`
-	Direction SortDirection `json:"direction"`
+	Sort      CommentSort             `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type CommentPayload struct {
@@ -169,21 +171,6 @@ type CommentsPayload struct {
 
 type CommentsUpdatePayload struct {
 	Ok bool `json:"ok"`
-}
-
-type ConnectionBackwardPagination struct {
-	Last   int    `json:"last"`
-	Before string `json:"before"`
-}
-
-type ConnectionForwardPagination struct {
-	First int    `json:"first"`
-	After string `json:"after"`
-}
-
-type ConnectionPagination struct {
-	Forward  *ConnectionForwardPagination  `json:"forward"`
-	Backward *ConnectionBackwardPagination `json:"backward"`
 }
 
 type FloatFilter struct {
@@ -229,8 +216,8 @@ type FriendshipFilter struct {
 }
 
 type FriendshipOrdering struct {
-	Sort      FriendshipSort `json:"sort"`
-	Direction SortDirection  `json:"direction"`
+	Sort      FriendshipSort          `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type FriendshipPayload struct {
@@ -308,8 +295,8 @@ type ImageFilter struct {
 }
 
 type ImageOrdering struct {
-	Sort      ImageSort     `json:"sort"`
-	Direction SortDirection `json:"direction"`
+	Sort      ImageSort               `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type ImagePayload struct {
@@ -353,8 +340,8 @@ type ImageVariationFilter struct {
 }
 
 type ImageVariationOrdering struct {
-	Sort      ImageVariationSort `json:"sort"`
-	Direction SortDirection      `json:"direction"`
+	Sort      ImageVariationSort      `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type ImageVariationPayload struct {
@@ -462,8 +449,8 @@ type LikeFilter struct {
 }
 
 type LikeOrdering struct {
-	Sort      LikeSort      `json:"sort"`
-	Direction SortDirection `json:"direction"`
+	Sort      LikeSort                `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type LikePayload struct {
@@ -546,8 +533,8 @@ type PostFilter struct {
 }
 
 type PostOrdering struct {
-	Sort      PostSort      `json:"sort"`
-	Direction SortDirection `json:"direction"`
+	Sort      PostSort                `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type PostPayload struct {
@@ -645,8 +632,8 @@ type UserFilter struct {
 }
 
 type UserOrdering struct {
-	Sort      UserSort      `json:"sort"`
-	Direction SortDirection `json:"direction"`
+	Sort      UserSort                `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type UserPayload struct {
@@ -977,47 +964,6 @@ func (e *PostSort) UnmarshalGQL(v interface{}) error {
 }
 
 func (e PostSort) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-type SortDirection string
-
-const (
-	SortDirectionAsc  SortDirection = "ASC"
-	SortDirectionDesc SortDirection = "DESC"
-)
-
-var AllSortDirection = []SortDirection{
-	SortDirectionAsc,
-	SortDirectionDesc,
-}
-
-func (e SortDirection) IsValid() bool {
-	switch e {
-	case SortDirectionAsc, SortDirectionDesc:
-		return true
-	}
-	return false
-}
-
-func (e SortDirection) String() string {
-	return string(e)
-}
-
-func (e *SortDirection) UnmarshalGQL(v interface{}) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	*e = SortDirection(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SortDirection", str)
-	}
-	return nil
-}
-
-func (e SortDirection) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 

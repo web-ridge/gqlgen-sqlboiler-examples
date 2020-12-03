@@ -19,10 +19,8 @@ TODO: make Youtube video for this example
 
    --no-back-referencing if you don't set it your program will crash with recursive converts!
 
-3. Generate graphql schema based on sqlboiler files  
-   `go run github.com/web-ridge/sqlboiler-graphql-schema --output=schema.graphql --skip-input-fields=userId --directives=isAuthenticated --pagination=no`
-4. Generate /graphql_models/\* + resolver.go  
+3. Generate /graphql_models/\* + resolver.go  
    `go run convert_plugin.go`
 
-5. ...Let's go!  
+4. ...Let's go!  
    `go run server.go resolver.go database.go`

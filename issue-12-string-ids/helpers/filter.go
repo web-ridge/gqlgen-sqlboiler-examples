@@ -53,16 +53,16 @@ func IDFilterToMods(m *graphql_models.IDFilter, column string) []qm.QueryMod {
 	}
 	var queryMods []qm.QueryMod
 	if m.EqualTo != nil {
-		queryMods = append(queryMods, qmhelper.Where(column, qmhelper.EQ, *m.EqualTo))
+		queryMods = append(queryMods, qmhelper.Where(column, qmhelper.EQ, boilergql.IDToBoiler(*m.EqualTo)))
 	}
 	if m.NotEqualTo != nil {
-		queryMods = append(queryMods, qmhelper.Where(column, qmhelper.NEQ, *m.NotEqualTo))
+		queryMods = append(queryMods, qmhelper.Where(column, qmhelper.NEQ, boilergql.IDToBoiler(*m.NotEqualTo)))
 	}
 	if len(m.In) > 0 {
-		queryMods = append(queryMods, qm.WhereIn(column+in, boilergql.StringsToInterfaces(m.In)...))
+		queryMods = append(queryMods, qm.WhereIn(column+in, boilergql.IDsToBoilerInterfaces(m.In)...))
 	}
 	if len(m.NotIn) > 0 {
-		queryMods = append(queryMods, qm.WhereIn(column+notIn, boilergql.StringsToInterfaces(m.NotIn)...))
+		queryMods = append(queryMods, qm.WhereIn(column+notIn, boilergql.IDsToBoilerInterfaces(m.NotIn)...))
 	}
 	return queryMods
 }

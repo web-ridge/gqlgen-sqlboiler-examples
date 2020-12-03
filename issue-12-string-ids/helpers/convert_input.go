@@ -29,6 +29,7 @@ func CommentCreateInputToBoiler(
 	r := &models.Comment{
 		Content: m.Content,
 		PostID:  boilergql.PointerStringToNullDotString(m.PostID),
+		UserID:  m.UserID,
 	}
 	return r
 }
@@ -44,6 +45,8 @@ func CommentCreateInputToModelM(
 			modelM[models.CommentColumns.Content] = m.Content
 		case "postId":
 			modelM[models.CommentColumns.PostID] = boilergql.PointerStringToNullDotString(m.PostID)
+		case "userId":
+			modelM[models.CommentColumns.UserID] = m.UserID
 		}
 	}
 	return modelM
@@ -57,6 +60,8 @@ func CommentCreateInputToBoilerWhitelist(input map[string]interface{}, extraColu
 			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentColumns.Content)
 		case "postId":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentColumns.PostID)
+		case "userId":
+			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentColumns.UserID)
 		}
 	}
 	columnsWhichAreSet = append(columnsWhichAreSet, extraColumns...)
@@ -82,6 +87,7 @@ func CommentLikeCreateInputToBoiler(
 
 	r := &models.CommentLike{
 		CommentID: m.CommentID,
+		UserID:    m.UserID,
 		LikeType:  m.LikeType,
 		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
 	}
@@ -97,6 +103,8 @@ func CommentLikeCreateInputToModelM(
 		switch key {
 		case "commentId":
 			modelM[models.CommentLikeColumns.CommentID] = m.CommentID
+		case "userId":
+			modelM[models.CommentLikeColumns.UserID] = m.UserID
 		case "likeType":
 			modelM[models.CommentLikeColumns.LikeType] = m.LikeType
 		case "createdAt":
@@ -112,6 +120,8 @@ func CommentLikeCreateInputToBoilerWhitelist(input map[string]interface{}, extra
 		switch key {
 		case "commentId":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentLikeColumns.CommentID)
+		case "userId":
+			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentLikeColumns.UserID)
 		case "likeType":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentLikeColumns.LikeType)
 		case "createdAt":
@@ -141,6 +151,7 @@ func CommentLikeUpdateInputToBoiler(
 
 	r := &models.CommentLike{
 		CommentID: boilergql.PointerStringToString(m.CommentID),
+		UserID:    boilergql.PointerStringToString(m.UserID),
 		LikeType:  boilergql.PointerStringToString(m.LikeType),
 		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
 	}
@@ -156,6 +167,8 @@ func CommentLikeUpdateInputToModelM(
 		switch key {
 		case "commentId":
 			modelM[models.CommentLikeColumns.CommentID] = boilergql.PointerStringToString(m.CommentID)
+		case "userId":
+			modelM[models.CommentLikeColumns.UserID] = boilergql.PointerStringToString(m.UserID)
 		case "likeType":
 			modelM[models.CommentLikeColumns.LikeType] = boilergql.PointerStringToString(m.LikeType)
 		case "createdAt":
@@ -171,6 +184,8 @@ func CommentLikeUpdateInputToBoilerWhitelist(input map[string]interface{}, extra
 		switch key {
 		case "commentId":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentLikeColumns.CommentID)
+		case "userId":
+			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentLikeColumns.UserID)
 		case "likeType":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentLikeColumns.LikeType)
 		case "createdAt":
@@ -201,6 +216,7 @@ func CommentUpdateInputToBoiler(
 	r := &models.Comment{
 		Content: boilergql.PointerStringToString(m.Content),
 		PostID:  boilergql.PointerStringToNullDotString(m.PostID),
+		UserID:  boilergql.PointerStringToString(m.UserID),
 	}
 	return r
 }
@@ -216,6 +232,8 @@ func CommentUpdateInputToModelM(
 			modelM[models.CommentColumns.Content] = boilergql.PointerStringToString(m.Content)
 		case "postId":
 			modelM[models.CommentColumns.PostID] = boilergql.PointerStringToNullDotString(m.PostID)
+		case "userId":
+			modelM[models.CommentColumns.UserID] = boilergql.PointerStringToString(m.UserID)
 		}
 	}
 	return modelM
@@ -229,6 +247,8 @@ func CommentUpdateInputToBoilerWhitelist(input map[string]interface{}, extraColu
 			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentColumns.Content)
 		case "postId":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentColumns.PostID)
+		case "userId":
+			columnsWhichAreSet = append(columnsWhichAreSet, models.CommentColumns.UserID)
 		}
 	}
 	columnsWhichAreSet = append(columnsWhichAreSet, extraColumns...)
@@ -568,6 +588,7 @@ func LikeCreateInputToBoiler(
 
 	r := &models.Like{
 		PostID:    m.PostID,
+		UserID:    m.UserID,
 		LikeType:  m.LikeType,
 		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
 	}
@@ -583,6 +604,8 @@ func LikeCreateInputToModelM(
 		switch key {
 		case "postId":
 			modelM[models.LikeColumns.PostID] = m.PostID
+		case "userId":
+			modelM[models.LikeColumns.UserID] = m.UserID
 		case "likeType":
 			modelM[models.LikeColumns.LikeType] = m.LikeType
 		case "createdAt":
@@ -598,6 +621,8 @@ func LikeCreateInputToBoilerWhitelist(input map[string]interface{}, extraColumns
 		switch key {
 		case "postId":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.LikeColumns.PostID)
+		case "userId":
+			columnsWhichAreSet = append(columnsWhichAreSet, models.LikeColumns.UserID)
 		case "likeType":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.LikeColumns.LikeType)
 		case "createdAt":
@@ -627,6 +652,7 @@ func LikeUpdateInputToBoiler(
 
 	r := &models.Like{
 		PostID:    boilergql.PointerStringToString(m.PostID),
+		UserID:    boilergql.PointerStringToString(m.UserID),
 		LikeType:  boilergql.PointerStringToString(m.LikeType),
 		CreatedAt: boilergql.PointerIntToNullDotTime(m.CreatedAt),
 	}
@@ -642,6 +668,8 @@ func LikeUpdateInputToModelM(
 		switch key {
 		case "postId":
 			modelM[models.LikeColumns.PostID] = boilergql.PointerStringToString(m.PostID)
+		case "userId":
+			modelM[models.LikeColumns.UserID] = boilergql.PointerStringToString(m.UserID)
 		case "likeType":
 			modelM[models.LikeColumns.LikeType] = boilergql.PointerStringToString(m.LikeType)
 		case "createdAt":
@@ -657,6 +685,8 @@ func LikeUpdateInputToBoilerWhitelist(input map[string]interface{}, extraColumns
 		switch key {
 		case "postId":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.LikeColumns.PostID)
+		case "userId":
+			columnsWhichAreSet = append(columnsWhichAreSet, models.LikeColumns.UserID)
 		case "likeType":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.LikeColumns.LikeType)
 		case "createdAt":
@@ -686,6 +716,7 @@ func PostCreateInputToBoiler(
 
 	r := &models.Post{
 		Content: m.Content,
+		UserID:  m.UserID,
 	}
 	return r
 }
@@ -699,6 +730,8 @@ func PostCreateInputToModelM(
 		switch key {
 		case "content":
 			modelM[models.PostColumns.Content] = m.Content
+		case "userId":
+			modelM[models.PostColumns.UserID] = m.UserID
 		}
 	}
 	return modelM
@@ -710,6 +743,8 @@ func PostCreateInputToBoilerWhitelist(input map[string]interface{}, extraColumns
 		switch key {
 		case "content":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.PostColumns.Content)
+		case "userId":
+			columnsWhichAreSet = append(columnsWhichAreSet, models.PostColumns.UserID)
 		}
 	}
 	columnsWhichAreSet = append(columnsWhichAreSet, extraColumns...)
@@ -735,6 +770,7 @@ func PostUpdateInputToBoiler(
 
 	r := &models.Post{
 		Content: boilergql.PointerStringToString(m.Content),
+		UserID:  boilergql.PointerStringToString(m.UserID),
 	}
 	return r
 }
@@ -748,6 +784,8 @@ func PostUpdateInputToModelM(
 		switch key {
 		case "content":
 			modelM[models.PostColumns.Content] = boilergql.PointerStringToString(m.Content)
+		case "userId":
+			modelM[models.PostColumns.UserID] = boilergql.PointerStringToString(m.UserID)
 		}
 	}
 	return modelM
@@ -759,6 +797,8 @@ func PostUpdateInputToBoilerWhitelist(input map[string]interface{}, extraColumns
 		switch key {
 		case "content":
 			columnsWhichAreSet = append(columnsWhichAreSet, models.PostColumns.Content)
+		case "userId":
+			columnsWhichAreSet = append(columnsWhichAreSet, models.PostColumns.UserID)
 		}
 	}
 	columnsWhichAreSet = append(columnsWhichAreSet, extraColumns...)

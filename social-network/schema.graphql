@@ -13,12 +13,12 @@ type PageInfo {
 
 input ConnectionForwardPagination {
   first: Int!
-  after: ID!
+  after: ID
 }
 
 input ConnectionBackwardPagination {
   last: Int!
-  before: ID!
+  before: ID
 }
 
 input ConnectionPagination {

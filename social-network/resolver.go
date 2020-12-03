@@ -5,9 +5,6 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
-	"math"
-	"strconv"
 	"strings"
 
 	"github.com/rs/zerolog/log"
@@ -28,6 +25,7 @@ const inputKey = "input"
 const publicCommentCreateError = "could not create comment"
 
 func (r *mutationResolver) CreateComment(ctx context.Context, input fm.CommentCreateInput) (*fm.CommentPayload, error) {
+
 	m := CommentCreateInputToBoiler(&input)
 
 	m.UserID = auth.UserIDFromContext(ctx)
@@ -59,7 +57,7 @@ func (r *mutationResolver) CreateComment(ctx context.Context, input fm.CommentCr
 	}, nil
 }
 
-// const publicCommentBatchCreateError = "could not create comments"
+//const publicCommentBatchCreateError = "could not create comments"
 
 func (r *mutationResolver) CreateComments(ctx context.Context, input fm.CommentsCreateInput) (*fm.CommentsPayload, error) {
 	// TODO: Implement batch create
@@ -72,7 +70,6 @@ func (r *mutationResolver) UpdateComment(ctx context.Context, id string, input f
 	m := CommentUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := CommentID(id)
-
 	if _, err := dm.Comments(
 		dm.CommentWhere.ID.EQ(dbID),
 
@@ -160,6 +157,7 @@ func (r *mutationResolver) DeleteComments(ctx context.Context, filter *fm.Commen
 		log.Error().Err(err).Msg(publicCommentBatchDeleteError)
 		return nil, errors.New(publicCommentBatchDeleteError)
 	}
+
 	return &fm.CommentsDeletePayload{
 		Ids: boilergql.UintIDsToGraphQL(boilerIDs, dm.TableNames.Comment),
 	}, nil
@@ -168,6 +166,7 @@ func (r *mutationResolver) DeleteComments(ctx context.Context, filter *fm.Commen
 const publicCommentLikeCreateError = "could not create commentLike"
 
 func (r *mutationResolver) CreateCommentLike(ctx context.Context, input fm.CommentLikeCreateInput) (*fm.CommentLikePayload, error) {
+
 	m := CommentLikeCreateInputToBoiler(&input)
 
 	m.UserID = auth.UserIDFromContext(ctx)
@@ -199,7 +198,7 @@ func (r *mutationResolver) CreateCommentLike(ctx context.Context, input fm.Comme
 	}, nil
 }
 
-// const publicCommentLikeBatchCreateError = "could not create commentLikes"
+//const publicCommentLikeBatchCreateError = "could not create commentLikes"
 
 func (r *mutationResolver) CreateCommentLikes(ctx context.Context, input fm.CommentLikesCreateInput) (*fm.CommentLikesPayload, error) {
 	// TODO: Implement batch create
@@ -212,7 +211,6 @@ func (r *mutationResolver) UpdateCommentLike(ctx context.Context, id string, inp
 	m := CommentLikeUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := CommentLikeID(id)
-
 	if _, err := dm.CommentLikes(
 		dm.CommentLikeWhere.ID.EQ(dbID),
 
@@ -300,6 +298,7 @@ func (r *mutationResolver) DeleteCommentLikes(ctx context.Context, filter *fm.Co
 		log.Error().Err(err).Msg(publicCommentLikeBatchDeleteError)
 		return nil, errors.New(publicCommentLikeBatchDeleteError)
 	}
+
 	return &fm.CommentLikesDeletePayload{
 		Ids: boilergql.UintIDsToGraphQL(boilerIDs, dm.TableNames.CommentLike),
 	}, nil
@@ -308,6 +307,7 @@ func (r *mutationResolver) DeleteCommentLikes(ctx context.Context, filter *fm.Co
 const publicFriendshipCreateError = "could not create friendship"
 
 func (r *mutationResolver) CreateFriendship(ctx context.Context, input fm.FriendshipCreateInput) (*fm.FriendshipPayload, error) {
+
 	m := FriendshipCreateInputToBoiler(&input)
 
 	whiteList := FriendshipCreateInputToBoilerWhitelist(
@@ -332,7 +332,7 @@ func (r *mutationResolver) CreateFriendship(ctx context.Context, input fm.Friend
 	}, nil
 }
 
-// const publicFriendshipBatchCreateError = "could not create friendships"
+//const publicFriendshipBatchCreateError = "could not create friendships"
 
 func (r *mutationResolver) CreateFriendships(ctx context.Context, input fm.FriendshipsCreateInput) (*fm.FriendshipsPayload, error) {
 	// TODO: Implement batch create
@@ -345,7 +345,6 @@ func (r *mutationResolver) UpdateFriendship(ctx context.Context, id string, inpu
 	m := FriendshipUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := FriendshipID(id)
-
 	if _, err := dm.Friendships(
 		dm.FriendshipWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
@@ -422,6 +421,7 @@ func (r *mutationResolver) DeleteFriendships(ctx context.Context, filter *fm.Fri
 		log.Error().Err(err).Msg(publicFriendshipBatchDeleteError)
 		return nil, errors.New(publicFriendshipBatchDeleteError)
 	}
+
 	return &fm.FriendshipsDeletePayload{
 		Ids: boilergql.UintIDsToGraphQL(boilerIDs, dm.TableNames.Friendship),
 	}, nil
@@ -430,6 +430,7 @@ func (r *mutationResolver) DeleteFriendships(ctx context.Context, filter *fm.Fri
 const publicImageCreateError = "could not create image"
 
 func (r *mutationResolver) CreateImage(ctx context.Context, input fm.ImageCreateInput) (*fm.ImagePayload, error) {
+
 	m := ImageCreateInputToBoiler(&input)
 
 	whiteList := ImageCreateInputToBoilerWhitelist(
@@ -454,7 +455,7 @@ func (r *mutationResolver) CreateImage(ctx context.Context, input fm.ImageCreate
 	}, nil
 }
 
-// const publicImageBatchCreateError = "could not create images"
+//const publicImageBatchCreateError = "could not create images"
 
 func (r *mutationResolver) CreateImages(ctx context.Context, input fm.ImagesCreateInput) (*fm.ImagesPayload, error) {
 	// TODO: Implement batch create
@@ -467,7 +468,6 @@ func (r *mutationResolver) UpdateImage(ctx context.Context, id string, input fm.
 	m := ImageUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := ImageID(id)
-
 	if _, err := dm.Images(
 		dm.ImageWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
@@ -544,6 +544,7 @@ func (r *mutationResolver) DeleteImages(ctx context.Context, filter *fm.ImageFil
 		log.Error().Err(err).Msg(publicImageBatchDeleteError)
 		return nil, errors.New(publicImageBatchDeleteError)
 	}
+
 	return &fm.ImagesDeletePayload{
 		Ids: boilergql.UintIDsToGraphQL(boilerIDs, dm.TableNames.Image),
 	}, nil
@@ -552,6 +553,7 @@ func (r *mutationResolver) DeleteImages(ctx context.Context, filter *fm.ImageFil
 const publicImageVariationCreateError = "could not create imageVariation"
 
 func (r *mutationResolver) CreateImageVariation(ctx context.Context, input fm.ImageVariationCreateInput) (*fm.ImageVariationPayload, error) {
+
 	m := ImageVariationCreateInputToBoiler(&input)
 
 	whiteList := ImageVariationCreateInputToBoilerWhitelist(
@@ -576,7 +578,7 @@ func (r *mutationResolver) CreateImageVariation(ctx context.Context, input fm.Im
 	}, nil
 }
 
-// const publicImageVariationBatchCreateError = "could not create imageVariations"
+//const publicImageVariationBatchCreateError = "could not create imageVariations"
 
 func (r *mutationResolver) CreateImageVariations(ctx context.Context, input fm.ImageVariationsCreateInput) (*fm.ImageVariationsPayload, error) {
 	// TODO: Implement batch create
@@ -589,7 +591,6 @@ func (r *mutationResolver) UpdateImageVariation(ctx context.Context, id string, 
 	m := ImageVariationUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := ImageVariationID(id)
-
 	if _, err := dm.ImageVariations(
 		dm.ImageVariationWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
@@ -666,6 +667,7 @@ func (r *mutationResolver) DeleteImageVariations(ctx context.Context, filter *fm
 		log.Error().Err(err).Msg(publicImageVariationBatchDeleteError)
 		return nil, errors.New(publicImageVariationBatchDeleteError)
 	}
+
 	return &fm.ImageVariationsDeletePayload{
 		Ids: boilergql.UintIDsToGraphQL(boilerIDs, dm.TableNames.ImageVariation),
 	}, nil
@@ -674,6 +676,7 @@ func (r *mutationResolver) DeleteImageVariations(ctx context.Context, filter *fm
 const publicLikeCreateError = "could not create like"
 
 func (r *mutationResolver) CreateLike(ctx context.Context, input fm.LikeCreateInput) (*fm.LikePayload, error) {
+
 	m := LikeCreateInputToBoiler(&input)
 
 	m.UserID = auth.UserIDFromContext(ctx)
@@ -705,7 +708,7 @@ func (r *mutationResolver) CreateLike(ctx context.Context, input fm.LikeCreateIn
 	}, nil
 }
 
-// const publicLikeBatchCreateError = "could not create likes"
+//const publicLikeBatchCreateError = "could not create likes"
 
 func (r *mutationResolver) CreateLikes(ctx context.Context, input fm.LikesCreateInput) (*fm.LikesPayload, error) {
 	// TODO: Implement batch create
@@ -718,7 +721,6 @@ func (r *mutationResolver) UpdateLike(ctx context.Context, id string, input fm.L
 	m := LikeUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := LikeID(id)
-
 	if _, err := dm.Likes(
 		dm.LikeWhere.ID.EQ(dbID),
 
@@ -806,6 +808,7 @@ func (r *mutationResolver) DeleteLikes(ctx context.Context, filter *fm.LikeFilte
 		log.Error().Err(err).Msg(publicLikeBatchDeleteError)
 		return nil, errors.New(publicLikeBatchDeleteError)
 	}
+
 	return &fm.LikesDeletePayload{
 		Ids: boilergql.UintIDsToGraphQL(boilerIDs, dm.TableNames.Like),
 	}, nil
@@ -814,6 +817,7 @@ func (r *mutationResolver) DeleteLikes(ctx context.Context, filter *fm.LikeFilte
 const publicPostCreateError = "could not create post"
 
 func (r *mutationResolver) CreatePost(ctx context.Context, input fm.PostCreateInput) (*fm.PostPayload, error) {
+
 	m := PostCreateInputToBoiler(&input)
 
 	m.UserID = auth.UserIDFromContext(ctx)
@@ -845,7 +849,7 @@ func (r *mutationResolver) CreatePost(ctx context.Context, input fm.PostCreateIn
 	}, nil
 }
 
-// const publicPostBatchCreateError = "could not create posts"
+//const publicPostBatchCreateError = "could not create posts"
 
 func (r *mutationResolver) CreatePosts(ctx context.Context, input fm.PostsCreateInput) (*fm.PostsPayload, error) {
 	// TODO: Implement batch create
@@ -858,7 +862,6 @@ func (r *mutationResolver) UpdatePost(ctx context.Context, id string, input fm.P
 	m := PostUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := PostID(id)
-
 	if _, err := dm.Posts(
 		dm.PostWhere.ID.EQ(dbID),
 
@@ -946,6 +949,7 @@ func (r *mutationResolver) DeletePosts(ctx context.Context, filter *fm.PostFilte
 		log.Error().Err(err).Msg(publicPostBatchDeleteError)
 		return nil, errors.New(publicPostBatchDeleteError)
 	}
+
 	return &fm.PostsDeletePayload{
 		Ids: boilergql.UintIDsToGraphQL(boilerIDs, dm.TableNames.Post),
 	}, nil
@@ -954,6 +958,7 @@ func (r *mutationResolver) DeletePosts(ctx context.Context, filter *fm.PostFilte
 const publicUserCreateError = "could not create user"
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input fm.UserCreateInput) (*fm.UserPayload, error) {
+
 	m := UserCreateInputToBoiler(&input)
 
 	whiteList := UserCreateInputToBoilerWhitelist(
@@ -978,7 +983,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input fm.UserCreateIn
 	}, nil
 }
 
-// const publicUserBatchCreateError = "could not create users"
+//const publicUserBatchCreateError = "could not create users"
 
 func (r *mutationResolver) CreateUsers(ctx context.Context, input fm.UsersCreateInput) (*fm.UsersPayload, error) {
 	// TODO: Implement batch create
@@ -991,7 +996,6 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input fm.U
 	m := UserUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := UserID(id)
-
 	if _, err := dm.Users(
 		dm.UserWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
@@ -1068,6 +1072,7 @@ func (r *mutationResolver) DeleteUsers(ctx context.Context, filter *fm.UserFilte
 		log.Error().Err(err).Msg(publicUserBatchDeleteError)
 		return nil, errors.New(publicUserBatchDeleteError)
 	}
+
 	return &fm.UsersDeletePayload{
 		Ids: boilergql.UintIDsToGraphQL(boilerIDs, dm.TableNames.User),
 	}, nil
@@ -1095,7 +1100,7 @@ func (r *queryResolver) Comment(ctx context.Context, id string) (*fm.Comment, er
 
 const publicCommentListError = "could not list comments"
 
-func (r *queryResolver) Comments(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.CommentOrdering, filter *fm.CommentFilter) (*fm.CommentConnection, error) {
+func (r *queryResolver) Comments(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.CommentOrdering, filter *fm.CommentFilter) (*fm.CommentConnection, error) {
 	mods := GetCommentPreloadMods(ctx)
 
 	mods = append(mods, dm.CommentWhere.UserID.EQ(
@@ -1154,7 +1159,7 @@ func (r *queryResolver) CommentLike(ctx context.Context, id string) (*fm.Comment
 
 const publicCommentLikeListError = "could not list commentLikes"
 
-func (r *queryResolver) CommentLikes(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.CommentLikeOrdering, filter *fm.CommentLikeFilter) (*fm.CommentLikeConnection, error) {
+func (r *queryResolver) CommentLikes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.CommentLikeOrdering, filter *fm.CommentLikeFilter) (*fm.CommentLikeConnection, error) {
 	mods := GetCommentLikePreloadMods(ctx)
 
 	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(
@@ -1209,7 +1214,7 @@ func (r *queryResolver) Friendship(ctx context.Context, id string) (*fm.Friendsh
 
 const publicFriendshipListError = "could not list friendships"
 
-func (r *queryResolver) Friendships(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.FriendshipOrdering, filter *fm.FriendshipFilter) (*fm.FriendshipConnection, error) {
+func (r *queryResolver) Friendships(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.FriendshipOrdering, filter *fm.FriendshipFilter) (*fm.FriendshipConnection, error) {
 	mods := GetFriendshipPreloadMods(ctx)
 
 	// TODO: use these if no connection is used
@@ -1260,7 +1265,7 @@ func (r *queryResolver) Image(ctx context.Context, id string) (*fm.Image, error)
 
 const publicImageListError = "could not list images"
 
-func (r *queryResolver) Images(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.ImageOrdering, filter *fm.ImageFilter) (*fm.ImageConnection, error) {
+func (r *queryResolver) Images(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.ImageOrdering, filter *fm.ImageFilter) (*fm.ImageConnection, error) {
 	mods := GetImagePreloadMods(ctx)
 
 	// TODO: use these if no connection is used
@@ -1311,7 +1316,7 @@ func (r *queryResolver) ImageVariation(ctx context.Context, id string) (*fm.Imag
 
 const publicImageVariationListError = "could not list imageVariations"
 
-func (r *queryResolver) ImageVariations(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.ImageVariationOrdering, filter *fm.ImageVariationFilter) (*fm.ImageVariationConnection, error) {
+func (r *queryResolver) ImageVariations(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.ImageVariationOrdering, filter *fm.ImageVariationFilter) (*fm.ImageVariationConnection, error) {
 	mods := GetImageVariationPreloadMods(ctx)
 
 	// TODO: use these if no connection is used
@@ -1366,162 +1371,39 @@ func (r *queryResolver) Like(ctx context.Context, id string) (*fm.Like, error) {
 
 const publicLikeListError = "could not list likes"
 
-func getUintIDFromCursor(id string) (uint, error) {
-	splitID := strings.SplitN(id, "-", 2)
-	if len(splitID) != 2 {
-		return 0, errors.New("could not parse id")
-	}
-	cursorID, err := strconv.Atoi(splitID[1])
-	if err != nil {
-		return 0, fmt.Errorf("could not parse id from cursor")
-	}
-	return uint(cursorID), nil
-}
-
-func getReverseLimitAndCursor(forward *fm.ConnectionForwardPagination, backward *fm.ConnectionBackwardPagination) (string, string, string, int) {
-	if forward != nil {
-		return forward.After, "<", "ASC", 1
-	}
-	if backward != nil {
-		return backward.Before, ">", "ASC", 1
-	}
-	return "", "", "", 0
-}
-
-func zeroOrMore(limit int) int {
-	if limit < 0 {
-		return 0
-	}
-	return limit
-}
-
-func getLimitAndCursor(forward *fm.ConnectionForwardPagination, backward *fm.ConnectionBackwardPagination) (string, string, string, int) {
-	if forward != nil {
-		return forward.After, ">", "ASC", zeroOrMore(forward.First + 1)
-	}
-	if backward != nil {
-		return backward.Before, "<", "DESC", zeroOrMore(backward.Last + 1)
-	}
-	return "", "", "", 0
-}
-
-func (r *queryResolver) Likes(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.LikeOrdering, filter *fm.LikeFilter) (*fm.LikeConnection, error) {
+func (r *queryResolver) Likes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.LikeOrdering, filter *fm.LikeFilter) (*fm.LikeConnection, error) {
 	mods := GetLikePreloadMods(ctx)
+
+	mods = append(mods, dm.LikeWhere.UserID.EQ(
+		auth.UserIDFromContext(ctx),
+	))
+
+	// TODO: use these if no connection is used
+	// return LikesToGraphQL(a), nil
+
 	mods = append(mods, LikeFilterToMods(filter)...)
 
-	normalMods := mods
-	reverseMods := mods
-
-	var hasNextPage, hasPreviousPage bool
-	var startCursor, endCursor *string
-
-	if pagination.Forward != nil && pagination.Backward != nil {
-		return nil, errors.New("can not use forward and backward pagination at once")
-	}
-	if pagination.Forward == nil && pagination.Backward == nil {
-		return nil, errors.New("no forward or backward pagination provided")
-	}
-
-	cursor, comparisonSign, direction, limit := getLimitAndCursor(pagination.Forward, pagination.Backward)
-	_, reverseComparisonSign, reverseDirection, reverseLimit := getReverseLimitAndCursor(pagination.Forward, pagination.Backward)
-	if cursor != "" {
-		cursorID, _ := getUintIDFromCursor(cursor)
-		normalMods = append(normalMods, qm.Where("id "+comparisonSign+" ?", cursorID))
-		reverseMods = append(reverseMods, qm.Where("id "+reverseComparisonSign+" ?", cursorID))
-	}
-
-	normalMods = append(normalMods, qm.OrderBy("id "+direction))
-	reverseMods = append(reverseMods, qm.OrderBy("id "+reverseDirection))
-
-	normalMods = append(normalMods, qm.Limit(limit))
-	reverseMods = append(reverseMods, qm.Limit(reverseLimit))
-
-	if cursor != "" {
-		reverseCount, err := dm.Likes(reverseMods...).Count(ctx, r.db)
-		if err != nil {
-			log.Error().Err(err).Msg(publicLikeListError)
-			return nil, errors.New(publicLikeListError)
-		}
-
-		if reverseCount > 0 {
-			if pagination.Forward != nil {
-				hasPreviousPage = true
-			}
-			if pagination.Backward != nil {
-				hasPreviousPage = true
-			}
-		}
-	}
-
-	a, err := dm.Likes(normalMods...).All(ctx, r.db)
+	a, err := dm.Likes(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicLikeListError)
 		return nil, errors.New(publicLikeListError)
 	}
 
-	maxLength := limit - 1
-	lowestLength := math.Min(float64(len(a)), float64(maxLength))
-	edges := make([]*fm.LikeEdge, 0, int(lowestLength))
-
-	fmt.Println(len(a), limit)
-
-	switch {
-	case pagination.Backward != nil:
-		// If no less last+1 results are returned, I set hasPreviousPage: true, otherwise I set it to false.
-		if len(a) == limit {
-			hasNextPage = true
+	edges := make([]*fm.LikeEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.LikeEdge{
+			Cursor: "",
+			Node:   LikeToGraphQL(row),
 		}
-
-		// If the last argument is provided, reverse the order of the results
-		for i := len(a) - 1; i >= 0; i-- {
-			isLast := i == maxLength
-			if isLast {
-				continue
-			}
-			n := LikeToGraphQL(a[i])
-			edges = append(edges, &fm.LikeEdge{
-				Cursor: fmt.Sprintf("%v", n.ID),
-				Node:   LikeToGraphQL(a[i]),
-			})
-		}
-
-	case pagination.Forward != nil:
-
-		// If no less than first+1 results are returned, I set hasNextPage: true, otherwise I set it to false.
-		if len(a) == limit {
-			hasNextPage = true
-		}
-		for i, row := range a {
-			isLast := i == maxLength
-			if isLast {
-				break
-			}
-			n := LikeToGraphQL(row)
-			edges = append(edges, &fm.LikeEdge{
-				Cursor: fmt.Sprintf("%v", n.ID),
-				Node:   n,
-			})
-		}
-	}
-
-	fmt.Println("edges length", len(edges))
-	if len(edges) >= 2 {
-		s, e := edges[0].Cursor, edges[len(edges)-1].Cursor
-		startCursor = &s
-		endCursor = &e
-	} else if len(edges) == 1 {
-		c := edges[0].Cursor
-		startCursor = &c
-		endCursor = &c
 	}
 
 	return &fm.LikeConnection{
 		Edges: edges,
 		PageInfo: &fm.PageInfo{
-			HasNextPage:     hasNextPage,
-			HasPreviousPage: hasPreviousPage,
-			StartCursor:     startCursor,
-			EndCursor:       endCursor,
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
 		},
 	}, nil
 }
@@ -1548,7 +1430,7 @@ func (r *queryResolver) Post(ctx context.Context, id string) (*fm.Post, error) {
 
 const publicPostListError = "could not list posts"
 
-func (r *queryResolver) Posts(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.PostOrdering, filter *fm.PostFilter) (*fm.PostConnection, error) {
+func (r *queryResolver) Posts(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.PostOrdering, filter *fm.PostFilter) (*fm.PostConnection, error) {
 	mods := GetPostPreloadMods(ctx)
 
 	mods = append(mods, dm.PostWhere.UserID.EQ(
@@ -1603,7 +1485,7 @@ func (r *queryResolver) User(ctx context.Context, id string) (*fm.User, error) {
 
 const publicUserListError = "could not list users"
 
-func (r *queryResolver) Users(ctx context.Context, pagination fm.ConnectionPagination, ordering []*fm.UserOrdering, filter *fm.UserFilter) (*fm.UserConnection, error) {
+func (r *queryResolver) Users(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.UserOrdering, filter *fm.UserFilter) (*fm.UserConnection, error) {
 	mods := GetUserPreloadMods(ctx)
 
 	// TODO: use these if no connection is used
@@ -1668,7 +1550,5 @@ func (r *queryResolver) Node(ctx context.Context, globalGraphID string) (fm.Node
 func (r *Resolver) Mutation() fm.MutationResolver { return &mutationResolver{r} }
 func (r *Resolver) Query() fm.QueryResolver       { return &queryResolver{r} }
 
-type (
-	mutationResolver struct{ *Resolver }
-	queryResolver    struct{ *Resolver }
-)
+type mutationResolver struct{ *Resolver }
+type queryResolver struct{ *Resolver }

@@ -5,6 +5,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"strings"
 
 	"github.com/rs/zerolog/log"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
@@ -20,7 +21,7 @@ type Resolver struct {
 
 const inputKey = "input"
 
-const publicOneAdditiveCreateError = "could not create additive"
+const publicAdditiveCreateError = "could not create additive"
 
 func (r *mutationResolver) CreateAdditive(ctx context.Context, input fm.AdditiveCreateInput) (*fm.AdditivePayload, error) {
 
@@ -30,8 +31,8 @@ func (r *mutationResolver) CreateAdditive(ctx context.Context, input fm.Additive
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneAdditiveCreateError)
-		return nil, errors.New(publicOneAdditiveCreateError)
+		log.Error().Err(err).Msg(publicAdditiveCreateError)
+		return nil, errors.New(publicAdditiveCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -40,33 +41,25 @@ func (r *mutationResolver) CreateAdditive(ctx context.Context, input fm.Additive
 
 	pM, err := dm.Additives(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAdditiveCreateError)
-		return nil, errors.New(publicOneAdditiveCreateError)
+		log.Error().Err(err).Msg(publicAdditiveCreateError)
+		return nil, errors.New(publicAdditiveCreateError)
 	}
 	return &fm.AdditivePayload{
 		Additive: AdditiveToGraphQL(pM),
 	}, nil
 }
 
-//const publicAdditiveBatchCreateError = "could not create additives"
-
-func (r *mutationResolver) CreateAdditives(ctx context.Context, input fm.AdditivesCreateInput) (*fm.AdditivesPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneAdditiveUpdateError = "could not update additive"
+const publicAdditiveUpdateError = "could not update additive"
 
 func (r *mutationResolver) UpdateAdditive(ctx context.Context, id string, input fm.AdditiveUpdateInput) (*fm.AdditivePayload, error) {
 	m := AdditiveUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := AdditiveID(id)
-
 	if _, err := dm.Additives(
 		dm.AdditiveWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneAdditiveUpdateError)
-		return nil, errors.New(publicOneAdditiveUpdateError)
+		log.Error().Err(err).Msg(publicAdditiveUpdateError)
+		return nil, errors.New(publicAdditiveUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -75,8 +68,8 @@ func (r *mutationResolver) UpdateAdditive(ctx context.Context, id string, input 
 
 	pM, err := dm.Additives(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAdditiveUpdateError)
-		return nil, errors.New(publicOneAdditiveUpdateError)
+		log.Error().Err(err).Msg(publicAdditiveUpdateError)
+		return nil, errors.New(publicAdditiveUpdateError)
 	}
 	return &fm.AdditivePayload{
 		Additive: AdditiveToGraphQL(pM),
@@ -101,7 +94,7 @@ func (r *mutationResolver) UpdateAdditives(ctx context.Context, filter *fm.Addit
 	}, nil
 }
 
-const publicOneAdditiveDeleteError = "could not delete additive"
+const publicAdditiveDeleteError = "could not delete additive"
 
 func (r *mutationResolver) DeleteAdditive(ctx context.Context, id string) (*fm.AdditiveDeletePayload, error) {
 	dbID := AdditiveID(id)
@@ -110,8 +103,8 @@ func (r *mutationResolver) DeleteAdditive(ctx context.Context, id string) (*fm.A
 		dm.AdditiveWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.Additives(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneAdditiveDeleteError)
-		return nil, errors.New(publicOneAdditiveDeleteError)
+		log.Error().Err(err).Msg(publicAdditiveDeleteError)
+		return nil, errors.New(publicAdditiveDeleteError)
 	}
 
 	return &fm.AdditiveDeletePayload{
@@ -143,7 +136,7 @@ func (r *mutationResolver) DeleteAdditives(ctx context.Context, filter *fm.Addit
 	}, nil
 }
 
-const publicOneAdditiveInventoryCreateError = "could not create additiveInventory"
+const publicAdditiveInventoryCreateError = "could not create additiveInventory"
 
 func (r *mutationResolver) CreateAdditiveInventory(ctx context.Context, input fm.AdditiveInventoryCreateInput) (*fm.AdditiveInventoryPayload, error) {
 
@@ -153,8 +146,8 @@ func (r *mutationResolver) CreateAdditiveInventory(ctx context.Context, input fm
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneAdditiveInventoryCreateError)
-		return nil, errors.New(publicOneAdditiveInventoryCreateError)
+		log.Error().Err(err).Msg(publicAdditiveInventoryCreateError)
+		return nil, errors.New(publicAdditiveInventoryCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -163,33 +156,25 @@ func (r *mutationResolver) CreateAdditiveInventory(ctx context.Context, input fm
 
 	pM, err := dm.AdditiveInventories(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAdditiveInventoryCreateError)
-		return nil, errors.New(publicOneAdditiveInventoryCreateError)
+		log.Error().Err(err).Msg(publicAdditiveInventoryCreateError)
+		return nil, errors.New(publicAdditiveInventoryCreateError)
 	}
 	return &fm.AdditiveInventoryPayload{
 		AdditiveInventory: AdditiveInventoryToGraphQL(pM),
 	}, nil
 }
 
-//const publicAdditiveInventoryBatchCreateError = "could not create additiveInventories"
-
-func (r *mutationResolver) CreateAdditiveInventories(ctx context.Context, input fm.AdditiveInventoriesCreateInput) (*fm.AdditiveInventoriesPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneAdditiveInventoryUpdateError = "could not update additiveInventory"
+const publicAdditiveInventoryUpdateError = "could not update additiveInventory"
 
 func (r *mutationResolver) UpdateAdditiveInventory(ctx context.Context, id string, input fm.AdditiveInventoryUpdateInput) (*fm.AdditiveInventoryPayload, error) {
 	m := AdditiveInventoryUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := AdditiveInventoryID(id)
-
 	if _, err := dm.AdditiveInventories(
 		dm.AdditiveInventoryWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneAdditiveInventoryUpdateError)
-		return nil, errors.New(publicOneAdditiveInventoryUpdateError)
+		log.Error().Err(err).Msg(publicAdditiveInventoryUpdateError)
+		return nil, errors.New(publicAdditiveInventoryUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -198,8 +183,8 @@ func (r *mutationResolver) UpdateAdditiveInventory(ctx context.Context, id strin
 
 	pM, err := dm.AdditiveInventories(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAdditiveInventoryUpdateError)
-		return nil, errors.New(publicOneAdditiveInventoryUpdateError)
+		log.Error().Err(err).Msg(publicAdditiveInventoryUpdateError)
+		return nil, errors.New(publicAdditiveInventoryUpdateError)
 	}
 	return &fm.AdditiveInventoryPayload{
 		AdditiveInventory: AdditiveInventoryToGraphQL(pM),
@@ -224,7 +209,7 @@ func (r *mutationResolver) UpdateAdditiveInventories(ctx context.Context, filter
 	}, nil
 }
 
-const publicOneAdditiveInventoryDeleteError = "could not delete additiveInventory"
+const publicAdditiveInventoryDeleteError = "could not delete additiveInventory"
 
 func (r *mutationResolver) DeleteAdditiveInventory(ctx context.Context, id string) (*fm.AdditiveInventoryDeletePayload, error) {
 	dbID := AdditiveInventoryID(id)
@@ -233,8 +218,8 @@ func (r *mutationResolver) DeleteAdditiveInventory(ctx context.Context, id strin
 		dm.AdditiveInventoryWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.AdditiveInventories(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneAdditiveInventoryDeleteError)
-		return nil, errors.New(publicOneAdditiveInventoryDeleteError)
+		log.Error().Err(err).Msg(publicAdditiveInventoryDeleteError)
+		return nil, errors.New(publicAdditiveInventoryDeleteError)
 	}
 
 	return &fm.AdditiveInventoryDeletePayload{
@@ -266,7 +251,7 @@ func (r *mutationResolver) DeleteAdditiveInventories(ctx context.Context, filter
 	}, nil
 }
 
-const publicOneAuthGroupCreateError = "could not create authGroup"
+const publicAuthGroupCreateError = "could not create authGroup"
 
 func (r *mutationResolver) CreateAuthGroup(ctx context.Context, input fm.AuthGroupCreateInput) (*fm.AuthGroupPayload, error) {
 
@@ -276,8 +261,8 @@ func (r *mutationResolver) CreateAuthGroup(ctx context.Context, input fm.AuthGro
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthGroupCreateError)
-		return nil, errors.New(publicOneAuthGroupCreateError)
+		log.Error().Err(err).Msg(publicAuthGroupCreateError)
+		return nil, errors.New(publicAuthGroupCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -286,33 +271,25 @@ func (r *mutationResolver) CreateAuthGroup(ctx context.Context, input fm.AuthGro
 
 	pM, err := dm.AuthGroups(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAuthGroupCreateError)
-		return nil, errors.New(publicOneAuthGroupCreateError)
+		log.Error().Err(err).Msg(publicAuthGroupCreateError)
+		return nil, errors.New(publicAuthGroupCreateError)
 	}
 	return &fm.AuthGroupPayload{
 		AuthGroup: AuthGroupToGraphQL(pM),
 	}, nil
 }
 
-//const publicAuthGroupBatchCreateError = "could not create authGroups"
-
-func (r *mutationResolver) CreateAuthGroups(ctx context.Context, input fm.AuthGroupsCreateInput) (*fm.AuthGroupsPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneAuthGroupUpdateError = "could not update authGroup"
+const publicAuthGroupUpdateError = "could not update authGroup"
 
 func (r *mutationResolver) UpdateAuthGroup(ctx context.Context, id string, input fm.AuthGroupUpdateInput) (*fm.AuthGroupPayload, error) {
 	m := AuthGroupUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := AuthGroupID(id)
-
 	if _, err := dm.AuthGroups(
 		dm.AuthGroupWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthGroupUpdateError)
-		return nil, errors.New(publicOneAuthGroupUpdateError)
+		log.Error().Err(err).Msg(publicAuthGroupUpdateError)
+		return nil, errors.New(publicAuthGroupUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -321,8 +298,8 @@ func (r *mutationResolver) UpdateAuthGroup(ctx context.Context, id string, input
 
 	pM, err := dm.AuthGroups(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAuthGroupUpdateError)
-		return nil, errors.New(publicOneAuthGroupUpdateError)
+		log.Error().Err(err).Msg(publicAuthGroupUpdateError)
+		return nil, errors.New(publicAuthGroupUpdateError)
 	}
 	return &fm.AuthGroupPayload{
 		AuthGroup: AuthGroupToGraphQL(pM),
@@ -347,7 +324,7 @@ func (r *mutationResolver) UpdateAuthGroups(ctx context.Context, filter *fm.Auth
 	}, nil
 }
 
-const publicOneAuthGroupDeleteError = "could not delete authGroup"
+const publicAuthGroupDeleteError = "could not delete authGroup"
 
 func (r *mutationResolver) DeleteAuthGroup(ctx context.Context, id string) (*fm.AuthGroupDeletePayload, error) {
 	dbID := AuthGroupID(id)
@@ -356,8 +333,8 @@ func (r *mutationResolver) DeleteAuthGroup(ctx context.Context, id string) (*fm.
 		dm.AuthGroupWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.AuthGroups(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthGroupDeleteError)
-		return nil, errors.New(publicOneAuthGroupDeleteError)
+		log.Error().Err(err).Msg(publicAuthGroupDeleteError)
+		return nil, errors.New(publicAuthGroupDeleteError)
 	}
 
 	return &fm.AuthGroupDeletePayload{
@@ -389,7 +366,7 @@ func (r *mutationResolver) DeleteAuthGroups(ctx context.Context, filter *fm.Auth
 	}, nil
 }
 
-const publicOneAuthGroupPermissionCreateError = "could not create authGroupPermission"
+const publicAuthGroupPermissionCreateError = "could not create authGroupPermission"
 
 func (r *mutationResolver) CreateAuthGroupPermission(ctx context.Context, input fm.AuthGroupPermissionCreateInput) (*fm.AuthGroupPermissionPayload, error) {
 
@@ -399,8 +376,8 @@ func (r *mutationResolver) CreateAuthGroupPermission(ctx context.Context, input 
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthGroupPermissionCreateError)
-		return nil, errors.New(publicOneAuthGroupPermissionCreateError)
+		log.Error().Err(err).Msg(publicAuthGroupPermissionCreateError)
+		return nil, errors.New(publicAuthGroupPermissionCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -409,33 +386,25 @@ func (r *mutationResolver) CreateAuthGroupPermission(ctx context.Context, input 
 
 	pM, err := dm.AuthGroupPermissions(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAuthGroupPermissionCreateError)
-		return nil, errors.New(publicOneAuthGroupPermissionCreateError)
+		log.Error().Err(err).Msg(publicAuthGroupPermissionCreateError)
+		return nil, errors.New(publicAuthGroupPermissionCreateError)
 	}
 	return &fm.AuthGroupPermissionPayload{
 		AuthGroupPermission: AuthGroupPermissionToGraphQL(pM),
 	}, nil
 }
 
-//const publicAuthGroupPermissionBatchCreateError = "could not create authGroupPermissions"
-
-func (r *mutationResolver) CreateAuthGroupPermissions(ctx context.Context, input fm.AuthGroupPermissionsCreateInput) (*fm.AuthGroupPermissionsPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneAuthGroupPermissionUpdateError = "could not update authGroupPermission"
+const publicAuthGroupPermissionUpdateError = "could not update authGroupPermission"
 
 func (r *mutationResolver) UpdateAuthGroupPermission(ctx context.Context, id string, input fm.AuthGroupPermissionUpdateInput) (*fm.AuthGroupPermissionPayload, error) {
 	m := AuthGroupPermissionUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := AuthGroupPermissionID(id)
-
 	if _, err := dm.AuthGroupPermissions(
 		dm.AuthGroupPermissionWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthGroupPermissionUpdateError)
-		return nil, errors.New(publicOneAuthGroupPermissionUpdateError)
+		log.Error().Err(err).Msg(publicAuthGroupPermissionUpdateError)
+		return nil, errors.New(publicAuthGroupPermissionUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -444,8 +413,8 @@ func (r *mutationResolver) UpdateAuthGroupPermission(ctx context.Context, id str
 
 	pM, err := dm.AuthGroupPermissions(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAuthGroupPermissionUpdateError)
-		return nil, errors.New(publicOneAuthGroupPermissionUpdateError)
+		log.Error().Err(err).Msg(publicAuthGroupPermissionUpdateError)
+		return nil, errors.New(publicAuthGroupPermissionUpdateError)
 	}
 	return &fm.AuthGroupPermissionPayload{
 		AuthGroupPermission: AuthGroupPermissionToGraphQL(pM),
@@ -470,7 +439,7 @@ func (r *mutationResolver) UpdateAuthGroupPermissions(ctx context.Context, filte
 	}, nil
 }
 
-const publicOneAuthGroupPermissionDeleteError = "could not delete authGroupPermission"
+const publicAuthGroupPermissionDeleteError = "could not delete authGroupPermission"
 
 func (r *mutationResolver) DeleteAuthGroupPermission(ctx context.Context, id string) (*fm.AuthGroupPermissionDeletePayload, error) {
 	dbID := AuthGroupPermissionID(id)
@@ -479,8 +448,8 @@ func (r *mutationResolver) DeleteAuthGroupPermission(ctx context.Context, id str
 		dm.AuthGroupPermissionWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.AuthGroupPermissions(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthGroupPermissionDeleteError)
-		return nil, errors.New(publicOneAuthGroupPermissionDeleteError)
+		log.Error().Err(err).Msg(publicAuthGroupPermissionDeleteError)
+		return nil, errors.New(publicAuthGroupPermissionDeleteError)
 	}
 
 	return &fm.AuthGroupPermissionDeletePayload{
@@ -512,7 +481,7 @@ func (r *mutationResolver) DeleteAuthGroupPermissions(ctx context.Context, filte
 	}, nil
 }
 
-const publicOneAuthPermissionCreateError = "could not create authPermission"
+const publicAuthPermissionCreateError = "could not create authPermission"
 
 func (r *mutationResolver) CreateAuthPermission(ctx context.Context, input fm.AuthPermissionCreateInput) (*fm.AuthPermissionPayload, error) {
 
@@ -522,8 +491,8 @@ func (r *mutationResolver) CreateAuthPermission(ctx context.Context, input fm.Au
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthPermissionCreateError)
-		return nil, errors.New(publicOneAuthPermissionCreateError)
+		log.Error().Err(err).Msg(publicAuthPermissionCreateError)
+		return nil, errors.New(publicAuthPermissionCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -532,33 +501,25 @@ func (r *mutationResolver) CreateAuthPermission(ctx context.Context, input fm.Au
 
 	pM, err := dm.AuthPermissions(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAuthPermissionCreateError)
-		return nil, errors.New(publicOneAuthPermissionCreateError)
+		log.Error().Err(err).Msg(publicAuthPermissionCreateError)
+		return nil, errors.New(publicAuthPermissionCreateError)
 	}
 	return &fm.AuthPermissionPayload{
 		AuthPermission: AuthPermissionToGraphQL(pM),
 	}, nil
 }
 
-//const publicAuthPermissionBatchCreateError = "could not create authPermissions"
-
-func (r *mutationResolver) CreateAuthPermissions(ctx context.Context, input fm.AuthPermissionsCreateInput) (*fm.AuthPermissionsPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneAuthPermissionUpdateError = "could not update authPermission"
+const publicAuthPermissionUpdateError = "could not update authPermission"
 
 func (r *mutationResolver) UpdateAuthPermission(ctx context.Context, id string, input fm.AuthPermissionUpdateInput) (*fm.AuthPermissionPayload, error) {
 	m := AuthPermissionUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := AuthPermissionID(id)
-
 	if _, err := dm.AuthPermissions(
 		dm.AuthPermissionWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthPermissionUpdateError)
-		return nil, errors.New(publicOneAuthPermissionUpdateError)
+		log.Error().Err(err).Msg(publicAuthPermissionUpdateError)
+		return nil, errors.New(publicAuthPermissionUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -567,8 +528,8 @@ func (r *mutationResolver) UpdateAuthPermission(ctx context.Context, id string, 
 
 	pM, err := dm.AuthPermissions(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAuthPermissionUpdateError)
-		return nil, errors.New(publicOneAuthPermissionUpdateError)
+		log.Error().Err(err).Msg(publicAuthPermissionUpdateError)
+		return nil, errors.New(publicAuthPermissionUpdateError)
 	}
 	return &fm.AuthPermissionPayload{
 		AuthPermission: AuthPermissionToGraphQL(pM),
@@ -593,7 +554,7 @@ func (r *mutationResolver) UpdateAuthPermissions(ctx context.Context, filter *fm
 	}, nil
 }
 
-const publicOneAuthPermissionDeleteError = "could not delete authPermission"
+const publicAuthPermissionDeleteError = "could not delete authPermission"
 
 func (r *mutationResolver) DeleteAuthPermission(ctx context.Context, id string) (*fm.AuthPermissionDeletePayload, error) {
 	dbID := AuthPermissionID(id)
@@ -602,8 +563,8 @@ func (r *mutationResolver) DeleteAuthPermission(ctx context.Context, id string) 
 		dm.AuthPermissionWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.AuthPermissions(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthPermissionDeleteError)
-		return nil, errors.New(publicOneAuthPermissionDeleteError)
+		log.Error().Err(err).Msg(publicAuthPermissionDeleteError)
+		return nil, errors.New(publicAuthPermissionDeleteError)
 	}
 
 	return &fm.AuthPermissionDeletePayload{
@@ -635,7 +596,7 @@ func (r *mutationResolver) DeleteAuthPermissions(ctx context.Context, filter *fm
 	}, nil
 }
 
-const publicOneAuthUserCreateError = "could not create authUser"
+const publicAuthUserCreateError = "could not create authUser"
 
 func (r *mutationResolver) CreateAuthUser(ctx context.Context, input fm.AuthUserCreateInput) (*fm.AuthUserPayload, error) {
 
@@ -645,8 +606,8 @@ func (r *mutationResolver) CreateAuthUser(ctx context.Context, input fm.AuthUser
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthUserCreateError)
-		return nil, errors.New(publicOneAuthUserCreateError)
+		log.Error().Err(err).Msg(publicAuthUserCreateError)
+		return nil, errors.New(publicAuthUserCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -655,33 +616,25 @@ func (r *mutationResolver) CreateAuthUser(ctx context.Context, input fm.AuthUser
 
 	pM, err := dm.AuthUsers(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAuthUserCreateError)
-		return nil, errors.New(publicOneAuthUserCreateError)
+		log.Error().Err(err).Msg(publicAuthUserCreateError)
+		return nil, errors.New(publicAuthUserCreateError)
 	}
 	return &fm.AuthUserPayload{
 		AuthUser: AuthUserToGraphQL(pM),
 	}, nil
 }
 
-//const publicAuthUserBatchCreateError = "could not create authUsers"
-
-func (r *mutationResolver) CreateAuthUsers(ctx context.Context, input fm.AuthUsersCreateInput) (*fm.AuthUsersPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneAuthUserUpdateError = "could not update authUser"
+const publicAuthUserUpdateError = "could not update authUser"
 
 func (r *mutationResolver) UpdateAuthUser(ctx context.Context, id string, input fm.AuthUserUpdateInput) (*fm.AuthUserPayload, error) {
 	m := AuthUserUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := AuthUserID(id)
-
 	if _, err := dm.AuthUsers(
 		dm.AuthUserWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthUserUpdateError)
-		return nil, errors.New(publicOneAuthUserUpdateError)
+		log.Error().Err(err).Msg(publicAuthUserUpdateError)
+		return nil, errors.New(publicAuthUserUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -690,8 +643,8 @@ func (r *mutationResolver) UpdateAuthUser(ctx context.Context, id string, input 
 
 	pM, err := dm.AuthUsers(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAuthUserUpdateError)
-		return nil, errors.New(publicOneAuthUserUpdateError)
+		log.Error().Err(err).Msg(publicAuthUserUpdateError)
+		return nil, errors.New(publicAuthUserUpdateError)
 	}
 	return &fm.AuthUserPayload{
 		AuthUser: AuthUserToGraphQL(pM),
@@ -716,7 +669,7 @@ func (r *mutationResolver) UpdateAuthUsers(ctx context.Context, filter *fm.AuthU
 	}, nil
 }
 
-const publicOneAuthUserDeleteError = "could not delete authUser"
+const publicAuthUserDeleteError = "could not delete authUser"
 
 func (r *mutationResolver) DeleteAuthUser(ctx context.Context, id string) (*fm.AuthUserDeletePayload, error) {
 	dbID := AuthUserID(id)
@@ -725,8 +678,8 @@ func (r *mutationResolver) DeleteAuthUser(ctx context.Context, id string) (*fm.A
 		dm.AuthUserWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.AuthUsers(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthUserDeleteError)
-		return nil, errors.New(publicOneAuthUserDeleteError)
+		log.Error().Err(err).Msg(publicAuthUserDeleteError)
+		return nil, errors.New(publicAuthUserDeleteError)
 	}
 
 	return &fm.AuthUserDeletePayload{
@@ -758,7 +711,7 @@ func (r *mutationResolver) DeleteAuthUsers(ctx context.Context, filter *fm.AuthU
 	}, nil
 }
 
-const publicOneAuthUserGroupCreateError = "could not create authUserGroup"
+const publicAuthUserGroupCreateError = "could not create authUserGroup"
 
 func (r *mutationResolver) CreateAuthUserGroup(ctx context.Context, input fm.AuthUserGroupCreateInput) (*fm.AuthUserGroupPayload, error) {
 
@@ -768,8 +721,8 @@ func (r *mutationResolver) CreateAuthUserGroup(ctx context.Context, input fm.Aut
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthUserGroupCreateError)
-		return nil, errors.New(publicOneAuthUserGroupCreateError)
+		log.Error().Err(err).Msg(publicAuthUserGroupCreateError)
+		return nil, errors.New(publicAuthUserGroupCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -778,33 +731,25 @@ func (r *mutationResolver) CreateAuthUserGroup(ctx context.Context, input fm.Aut
 
 	pM, err := dm.AuthUserGroups(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAuthUserGroupCreateError)
-		return nil, errors.New(publicOneAuthUserGroupCreateError)
+		log.Error().Err(err).Msg(publicAuthUserGroupCreateError)
+		return nil, errors.New(publicAuthUserGroupCreateError)
 	}
 	return &fm.AuthUserGroupPayload{
 		AuthUserGroup: AuthUserGroupToGraphQL(pM),
 	}, nil
 }
 
-//const publicAuthUserGroupBatchCreateError = "could not create authUserGroups"
-
-func (r *mutationResolver) CreateAuthUserGroups(ctx context.Context, input fm.AuthUserGroupsCreateInput) (*fm.AuthUserGroupsPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneAuthUserGroupUpdateError = "could not update authUserGroup"
+const publicAuthUserGroupUpdateError = "could not update authUserGroup"
 
 func (r *mutationResolver) UpdateAuthUserGroup(ctx context.Context, id string, input fm.AuthUserGroupUpdateInput) (*fm.AuthUserGroupPayload, error) {
 	m := AuthUserGroupUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := AuthUserGroupID(id)
-
 	if _, err := dm.AuthUserGroups(
 		dm.AuthUserGroupWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthUserGroupUpdateError)
-		return nil, errors.New(publicOneAuthUserGroupUpdateError)
+		log.Error().Err(err).Msg(publicAuthUserGroupUpdateError)
+		return nil, errors.New(publicAuthUserGroupUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -813,8 +758,8 @@ func (r *mutationResolver) UpdateAuthUserGroup(ctx context.Context, id string, i
 
 	pM, err := dm.AuthUserGroups(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAuthUserGroupUpdateError)
-		return nil, errors.New(publicOneAuthUserGroupUpdateError)
+		log.Error().Err(err).Msg(publicAuthUserGroupUpdateError)
+		return nil, errors.New(publicAuthUserGroupUpdateError)
 	}
 	return &fm.AuthUserGroupPayload{
 		AuthUserGroup: AuthUserGroupToGraphQL(pM),
@@ -839,7 +784,7 @@ func (r *mutationResolver) UpdateAuthUserGroups(ctx context.Context, filter *fm.
 	}, nil
 }
 
-const publicOneAuthUserGroupDeleteError = "could not delete authUserGroup"
+const publicAuthUserGroupDeleteError = "could not delete authUserGroup"
 
 func (r *mutationResolver) DeleteAuthUserGroup(ctx context.Context, id string) (*fm.AuthUserGroupDeletePayload, error) {
 	dbID := AuthUserGroupID(id)
@@ -848,8 +793,8 @@ func (r *mutationResolver) DeleteAuthUserGroup(ctx context.Context, id string) (
 		dm.AuthUserGroupWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.AuthUserGroups(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthUserGroupDeleteError)
-		return nil, errors.New(publicOneAuthUserGroupDeleteError)
+		log.Error().Err(err).Msg(publicAuthUserGroupDeleteError)
+		return nil, errors.New(publicAuthUserGroupDeleteError)
 	}
 
 	return &fm.AuthUserGroupDeletePayload{
@@ -881,7 +826,7 @@ func (r *mutationResolver) DeleteAuthUserGroups(ctx context.Context, filter *fm.
 	}, nil
 }
 
-const publicOneAuthUserUserPermissionCreateError = "could not create authUserUserPermission"
+const publicAuthUserUserPermissionCreateError = "could not create authUserUserPermission"
 
 func (r *mutationResolver) CreateAuthUserUserPermission(ctx context.Context, input fm.AuthUserUserPermissionCreateInput) (*fm.AuthUserUserPermissionPayload, error) {
 
@@ -891,8 +836,8 @@ func (r *mutationResolver) CreateAuthUserUserPermission(ctx context.Context, inp
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthUserUserPermissionCreateError)
-		return nil, errors.New(publicOneAuthUserUserPermissionCreateError)
+		log.Error().Err(err).Msg(publicAuthUserUserPermissionCreateError)
+		return nil, errors.New(publicAuthUserUserPermissionCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -901,33 +846,25 @@ func (r *mutationResolver) CreateAuthUserUserPermission(ctx context.Context, inp
 
 	pM, err := dm.AuthUserUserPermissions(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAuthUserUserPermissionCreateError)
-		return nil, errors.New(publicOneAuthUserUserPermissionCreateError)
+		log.Error().Err(err).Msg(publicAuthUserUserPermissionCreateError)
+		return nil, errors.New(publicAuthUserUserPermissionCreateError)
 	}
 	return &fm.AuthUserUserPermissionPayload{
 		AuthUserUserPermission: AuthUserUserPermissionToGraphQL(pM),
 	}, nil
 }
 
-//const publicAuthUserUserPermissionBatchCreateError = "could not create authUserUserPermissions"
-
-func (r *mutationResolver) CreateAuthUserUserPermissions(ctx context.Context, input fm.AuthUserUserPermissionsCreateInput) (*fm.AuthUserUserPermissionsPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneAuthUserUserPermissionUpdateError = "could not update authUserUserPermission"
+const publicAuthUserUserPermissionUpdateError = "could not update authUserUserPermission"
 
 func (r *mutationResolver) UpdateAuthUserUserPermission(ctx context.Context, id string, input fm.AuthUserUserPermissionUpdateInput) (*fm.AuthUserUserPermissionPayload, error) {
 	m := AuthUserUserPermissionUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := AuthUserUserPermissionID(id)
-
 	if _, err := dm.AuthUserUserPermissions(
 		dm.AuthUserUserPermissionWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthUserUserPermissionUpdateError)
-		return nil, errors.New(publicOneAuthUserUserPermissionUpdateError)
+		log.Error().Err(err).Msg(publicAuthUserUserPermissionUpdateError)
+		return nil, errors.New(publicAuthUserUserPermissionUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -936,8 +873,8 @@ func (r *mutationResolver) UpdateAuthUserUserPermission(ctx context.Context, id 
 
 	pM, err := dm.AuthUserUserPermissions(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneAuthUserUserPermissionUpdateError)
-		return nil, errors.New(publicOneAuthUserUserPermissionUpdateError)
+		log.Error().Err(err).Msg(publicAuthUserUserPermissionUpdateError)
+		return nil, errors.New(publicAuthUserUserPermissionUpdateError)
 	}
 	return &fm.AuthUserUserPermissionPayload{
 		AuthUserUserPermission: AuthUserUserPermissionToGraphQL(pM),
@@ -962,7 +899,7 @@ func (r *mutationResolver) UpdateAuthUserUserPermissions(ctx context.Context, fi
 	}, nil
 }
 
-const publicOneAuthUserUserPermissionDeleteError = "could not delete authUserUserPermission"
+const publicAuthUserUserPermissionDeleteError = "could not delete authUserUserPermission"
 
 func (r *mutationResolver) DeleteAuthUserUserPermission(ctx context.Context, id string) (*fm.AuthUserUserPermissionDeletePayload, error) {
 	dbID := AuthUserUserPermissionID(id)
@@ -971,8 +908,8 @@ func (r *mutationResolver) DeleteAuthUserUserPermission(ctx context.Context, id 
 		dm.AuthUserUserPermissionWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.AuthUserUserPermissions(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneAuthUserUserPermissionDeleteError)
-		return nil, errors.New(publicOneAuthUserUserPermissionDeleteError)
+		log.Error().Err(err).Msg(publicAuthUserUserPermissionDeleteError)
+		return nil, errors.New(publicAuthUserUserPermissionDeleteError)
 	}
 
 	return &fm.AuthUserUserPermissionDeletePayload{
@@ -1004,7 +941,7 @@ func (r *mutationResolver) DeleteAuthUserUserPermissions(ctx context.Context, fi
 	}, nil
 }
 
-const publicOneFragranceCreateError = "could not create fragrance"
+const publicFragranceCreateError = "could not create fragrance"
 
 func (r *mutationResolver) CreateFragrance(ctx context.Context, input fm.FragranceCreateInput) (*fm.FragrancePayload, error) {
 
@@ -1014,8 +951,8 @@ func (r *mutationResolver) CreateFragrance(ctx context.Context, input fm.Fragran
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneFragranceCreateError)
-		return nil, errors.New(publicOneFragranceCreateError)
+		log.Error().Err(err).Msg(publicFragranceCreateError)
+		return nil, errors.New(publicFragranceCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -1024,33 +961,25 @@ func (r *mutationResolver) CreateFragrance(ctx context.Context, input fm.Fragran
 
 	pM, err := dm.Fragrances(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneFragranceCreateError)
-		return nil, errors.New(publicOneFragranceCreateError)
+		log.Error().Err(err).Msg(publicFragranceCreateError)
+		return nil, errors.New(publicFragranceCreateError)
 	}
 	return &fm.FragrancePayload{
 		Fragrance: FragranceToGraphQL(pM),
 	}, nil
 }
 
-//const publicFragranceBatchCreateError = "could not create fragrances"
-
-func (r *mutationResolver) CreateFragrances(ctx context.Context, input fm.FragrancesCreateInput) (*fm.FragrancesPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneFragranceUpdateError = "could not update fragrance"
+const publicFragranceUpdateError = "could not update fragrance"
 
 func (r *mutationResolver) UpdateFragrance(ctx context.Context, id string, input fm.FragranceUpdateInput) (*fm.FragrancePayload, error) {
 	m := FragranceUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := FragranceID(id)
-
 	if _, err := dm.Fragrances(
 		dm.FragranceWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneFragranceUpdateError)
-		return nil, errors.New(publicOneFragranceUpdateError)
+		log.Error().Err(err).Msg(publicFragranceUpdateError)
+		return nil, errors.New(publicFragranceUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -1059,8 +988,8 @@ func (r *mutationResolver) UpdateFragrance(ctx context.Context, id string, input
 
 	pM, err := dm.Fragrances(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneFragranceUpdateError)
-		return nil, errors.New(publicOneFragranceUpdateError)
+		log.Error().Err(err).Msg(publicFragranceUpdateError)
+		return nil, errors.New(publicFragranceUpdateError)
 	}
 	return &fm.FragrancePayload{
 		Fragrance: FragranceToGraphQL(pM),
@@ -1085,7 +1014,7 @@ func (r *mutationResolver) UpdateFragrances(ctx context.Context, filter *fm.Frag
 	}, nil
 }
 
-const publicOneFragranceDeleteError = "could not delete fragrance"
+const publicFragranceDeleteError = "could not delete fragrance"
 
 func (r *mutationResolver) DeleteFragrance(ctx context.Context, id string) (*fm.FragranceDeletePayload, error) {
 	dbID := FragranceID(id)
@@ -1094,8 +1023,8 @@ func (r *mutationResolver) DeleteFragrance(ctx context.Context, id string) (*fm.
 		dm.FragranceWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.Fragrances(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneFragranceDeleteError)
-		return nil, errors.New(publicOneFragranceDeleteError)
+		log.Error().Err(err).Msg(publicFragranceDeleteError)
+		return nil, errors.New(publicFragranceDeleteError)
 	}
 
 	return &fm.FragranceDeletePayload{
@@ -1127,7 +1056,7 @@ func (r *mutationResolver) DeleteFragrances(ctx context.Context, filter *fm.Frag
 	}, nil
 }
 
-const publicOneFragranceInventoryCreateError = "could not create fragranceInventory"
+const publicFragranceInventoryCreateError = "could not create fragranceInventory"
 
 func (r *mutationResolver) CreateFragranceInventory(ctx context.Context, input fm.FragranceInventoryCreateInput) (*fm.FragranceInventoryPayload, error) {
 
@@ -1137,8 +1066,8 @@ func (r *mutationResolver) CreateFragranceInventory(ctx context.Context, input f
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneFragranceInventoryCreateError)
-		return nil, errors.New(publicOneFragranceInventoryCreateError)
+		log.Error().Err(err).Msg(publicFragranceInventoryCreateError)
+		return nil, errors.New(publicFragranceInventoryCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -1147,33 +1076,25 @@ func (r *mutationResolver) CreateFragranceInventory(ctx context.Context, input f
 
 	pM, err := dm.FragranceInventories(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneFragranceInventoryCreateError)
-		return nil, errors.New(publicOneFragranceInventoryCreateError)
+		log.Error().Err(err).Msg(publicFragranceInventoryCreateError)
+		return nil, errors.New(publicFragranceInventoryCreateError)
 	}
 	return &fm.FragranceInventoryPayload{
 		FragranceInventory: FragranceInventoryToGraphQL(pM),
 	}, nil
 }
 
-//const publicFragranceInventoryBatchCreateError = "could not create fragranceInventories"
-
-func (r *mutationResolver) CreateFragranceInventories(ctx context.Context, input fm.FragranceInventoriesCreateInput) (*fm.FragranceInventoriesPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneFragranceInventoryUpdateError = "could not update fragranceInventory"
+const publicFragranceInventoryUpdateError = "could not update fragranceInventory"
 
 func (r *mutationResolver) UpdateFragranceInventory(ctx context.Context, id string, input fm.FragranceInventoryUpdateInput) (*fm.FragranceInventoryPayload, error) {
 	m := FragranceInventoryUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := FragranceInventoryID(id)
-
 	if _, err := dm.FragranceInventories(
 		dm.FragranceInventoryWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneFragranceInventoryUpdateError)
-		return nil, errors.New(publicOneFragranceInventoryUpdateError)
+		log.Error().Err(err).Msg(publicFragranceInventoryUpdateError)
+		return nil, errors.New(publicFragranceInventoryUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -1182,8 +1103,8 @@ func (r *mutationResolver) UpdateFragranceInventory(ctx context.Context, id stri
 
 	pM, err := dm.FragranceInventories(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneFragranceInventoryUpdateError)
-		return nil, errors.New(publicOneFragranceInventoryUpdateError)
+		log.Error().Err(err).Msg(publicFragranceInventoryUpdateError)
+		return nil, errors.New(publicFragranceInventoryUpdateError)
 	}
 	return &fm.FragranceInventoryPayload{
 		FragranceInventory: FragranceInventoryToGraphQL(pM),
@@ -1208,7 +1129,7 @@ func (r *mutationResolver) UpdateFragranceInventories(ctx context.Context, filte
 	}, nil
 }
 
-const publicOneFragranceInventoryDeleteError = "could not delete fragranceInventory"
+const publicFragranceInventoryDeleteError = "could not delete fragranceInventory"
 
 func (r *mutationResolver) DeleteFragranceInventory(ctx context.Context, id string) (*fm.FragranceInventoryDeletePayload, error) {
 	dbID := FragranceInventoryID(id)
@@ -1217,8 +1138,8 @@ func (r *mutationResolver) DeleteFragranceInventory(ctx context.Context, id stri
 		dm.FragranceInventoryWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.FragranceInventories(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneFragranceInventoryDeleteError)
-		return nil, errors.New(publicOneFragranceInventoryDeleteError)
+		log.Error().Err(err).Msg(publicFragranceInventoryDeleteError)
+		return nil, errors.New(publicFragranceInventoryDeleteError)
 	}
 
 	return &fm.FragranceInventoryDeletePayload{
@@ -1250,7 +1171,7 @@ func (r *mutationResolver) DeleteFragranceInventories(ctx context.Context, filte
 	}, nil
 }
 
-const publicOneLipidCreateError = "could not create lipid"
+const publicLipidCreateError = "could not create lipid"
 
 func (r *mutationResolver) CreateLipid(ctx context.Context, input fm.LipidCreateInput) (*fm.LipidPayload, error) {
 
@@ -1260,8 +1181,8 @@ func (r *mutationResolver) CreateLipid(ctx context.Context, input fm.LipidCreate
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneLipidCreateError)
-		return nil, errors.New(publicOneLipidCreateError)
+		log.Error().Err(err).Msg(publicLipidCreateError)
+		return nil, errors.New(publicLipidCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -1270,33 +1191,25 @@ func (r *mutationResolver) CreateLipid(ctx context.Context, input fm.LipidCreate
 
 	pM, err := dm.Lipids(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneLipidCreateError)
-		return nil, errors.New(publicOneLipidCreateError)
+		log.Error().Err(err).Msg(publicLipidCreateError)
+		return nil, errors.New(publicLipidCreateError)
 	}
 	return &fm.LipidPayload{
 		Lipid: LipidToGraphQL(pM),
 	}, nil
 }
 
-//const publicLipidBatchCreateError = "could not create lipids"
-
-func (r *mutationResolver) CreateLipids(ctx context.Context, input fm.LipidsCreateInput) (*fm.LipidsPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneLipidUpdateError = "could not update lipid"
+const publicLipidUpdateError = "could not update lipid"
 
 func (r *mutationResolver) UpdateLipid(ctx context.Context, id string, input fm.LipidUpdateInput) (*fm.LipidPayload, error) {
 	m := LipidUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := LipidID(id)
-
 	if _, err := dm.Lipids(
 		dm.LipidWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneLipidUpdateError)
-		return nil, errors.New(publicOneLipidUpdateError)
+		log.Error().Err(err).Msg(publicLipidUpdateError)
+		return nil, errors.New(publicLipidUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -1305,8 +1218,8 @@ func (r *mutationResolver) UpdateLipid(ctx context.Context, id string, input fm.
 
 	pM, err := dm.Lipids(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneLipidUpdateError)
-		return nil, errors.New(publicOneLipidUpdateError)
+		log.Error().Err(err).Msg(publicLipidUpdateError)
+		return nil, errors.New(publicLipidUpdateError)
 	}
 	return &fm.LipidPayload{
 		Lipid: LipidToGraphQL(pM),
@@ -1331,7 +1244,7 @@ func (r *mutationResolver) UpdateLipids(ctx context.Context, filter *fm.LipidFil
 	}, nil
 }
 
-const publicOneLipidDeleteError = "could not delete lipid"
+const publicLipidDeleteError = "could not delete lipid"
 
 func (r *mutationResolver) DeleteLipid(ctx context.Context, id string) (*fm.LipidDeletePayload, error) {
 	dbID := LipidID(id)
@@ -1340,8 +1253,8 @@ func (r *mutationResolver) DeleteLipid(ctx context.Context, id string) (*fm.Lipi
 		dm.LipidWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.Lipids(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneLipidDeleteError)
-		return nil, errors.New(publicOneLipidDeleteError)
+		log.Error().Err(err).Msg(publicLipidDeleteError)
+		return nil, errors.New(publicLipidDeleteError)
 	}
 
 	return &fm.LipidDeletePayload{
@@ -1373,7 +1286,7 @@ func (r *mutationResolver) DeleteLipids(ctx context.Context, filter *fm.LipidFil
 	}, nil
 }
 
-const publicOneLipidInventoryCreateError = "could not create lipidInventory"
+const publicLipidInventoryCreateError = "could not create lipidInventory"
 
 func (r *mutationResolver) CreateLipidInventory(ctx context.Context, input fm.LipidInventoryCreateInput) (*fm.LipidInventoryPayload, error) {
 
@@ -1383,8 +1296,8 @@ func (r *mutationResolver) CreateLipidInventory(ctx context.Context, input fm.Li
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneLipidInventoryCreateError)
-		return nil, errors.New(publicOneLipidInventoryCreateError)
+		log.Error().Err(err).Msg(publicLipidInventoryCreateError)
+		return nil, errors.New(publicLipidInventoryCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -1393,33 +1306,25 @@ func (r *mutationResolver) CreateLipidInventory(ctx context.Context, input fm.Li
 
 	pM, err := dm.LipidInventories(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneLipidInventoryCreateError)
-		return nil, errors.New(publicOneLipidInventoryCreateError)
+		log.Error().Err(err).Msg(publicLipidInventoryCreateError)
+		return nil, errors.New(publicLipidInventoryCreateError)
 	}
 	return &fm.LipidInventoryPayload{
 		LipidInventory: LipidInventoryToGraphQL(pM),
 	}, nil
 }
 
-//const publicLipidInventoryBatchCreateError = "could not create lipidInventories"
-
-func (r *mutationResolver) CreateLipidInventories(ctx context.Context, input fm.LipidInventoriesCreateInput) (*fm.LipidInventoriesPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneLipidInventoryUpdateError = "could not update lipidInventory"
+const publicLipidInventoryUpdateError = "could not update lipidInventory"
 
 func (r *mutationResolver) UpdateLipidInventory(ctx context.Context, id string, input fm.LipidInventoryUpdateInput) (*fm.LipidInventoryPayload, error) {
 	m := LipidInventoryUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := LipidInventoryID(id)
-
 	if _, err := dm.LipidInventories(
 		dm.LipidInventoryWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneLipidInventoryUpdateError)
-		return nil, errors.New(publicOneLipidInventoryUpdateError)
+		log.Error().Err(err).Msg(publicLipidInventoryUpdateError)
+		return nil, errors.New(publicLipidInventoryUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -1428,8 +1333,8 @@ func (r *mutationResolver) UpdateLipidInventory(ctx context.Context, id string, 
 
 	pM, err := dm.LipidInventories(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneLipidInventoryUpdateError)
-		return nil, errors.New(publicOneLipidInventoryUpdateError)
+		log.Error().Err(err).Msg(publicLipidInventoryUpdateError)
+		return nil, errors.New(publicLipidInventoryUpdateError)
 	}
 	return &fm.LipidInventoryPayload{
 		LipidInventory: LipidInventoryToGraphQL(pM),
@@ -1454,7 +1359,7 @@ func (r *mutationResolver) UpdateLipidInventories(ctx context.Context, filter *f
 	}, nil
 }
 
-const publicOneLipidInventoryDeleteError = "could not delete lipidInventory"
+const publicLipidInventoryDeleteError = "could not delete lipidInventory"
 
 func (r *mutationResolver) DeleteLipidInventory(ctx context.Context, id string) (*fm.LipidInventoryDeletePayload, error) {
 	dbID := LipidInventoryID(id)
@@ -1463,8 +1368,8 @@ func (r *mutationResolver) DeleteLipidInventory(ctx context.Context, id string) 
 		dm.LipidInventoryWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.LipidInventories(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneLipidInventoryDeleteError)
-		return nil, errors.New(publicOneLipidInventoryDeleteError)
+		log.Error().Err(err).Msg(publicLipidInventoryDeleteError)
+		return nil, errors.New(publicLipidInventoryDeleteError)
 	}
 
 	return &fm.LipidInventoryDeletePayload{
@@ -1496,7 +1401,7 @@ func (r *mutationResolver) DeleteLipidInventories(ctx context.Context, filter *f
 	}, nil
 }
 
-const publicOneLyeCreateError = "could not create lye"
+const publicLyeCreateError = "could not create lye"
 
 func (r *mutationResolver) CreateLye(ctx context.Context, input fm.LyeCreateInput) (*fm.LyePayload, error) {
 
@@ -1506,8 +1411,8 @@ func (r *mutationResolver) CreateLye(ctx context.Context, input fm.LyeCreateInpu
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneLyeCreateError)
-		return nil, errors.New(publicOneLyeCreateError)
+		log.Error().Err(err).Msg(publicLyeCreateError)
+		return nil, errors.New(publicLyeCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -1516,33 +1421,25 @@ func (r *mutationResolver) CreateLye(ctx context.Context, input fm.LyeCreateInpu
 
 	pM, err := dm.Lyes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneLyeCreateError)
-		return nil, errors.New(publicOneLyeCreateError)
+		log.Error().Err(err).Msg(publicLyeCreateError)
+		return nil, errors.New(publicLyeCreateError)
 	}
 	return &fm.LyePayload{
 		Lye: LyeToGraphQL(pM),
 	}, nil
 }
 
-//const publicLyeBatchCreateError = "could not create lyes"
-
-func (r *mutationResolver) CreateLyes(ctx context.Context, input fm.LyesCreateInput) (*fm.LyesPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneLyeUpdateError = "could not update lye"
+const publicLyeUpdateError = "could not update lye"
 
 func (r *mutationResolver) UpdateLye(ctx context.Context, id string, input fm.LyeUpdateInput) (*fm.LyePayload, error) {
 	m := LyeUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := LyeID(id)
-
 	if _, err := dm.Lyes(
 		dm.LyeWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneLyeUpdateError)
-		return nil, errors.New(publicOneLyeUpdateError)
+		log.Error().Err(err).Msg(publicLyeUpdateError)
+		return nil, errors.New(publicLyeUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -1551,8 +1448,8 @@ func (r *mutationResolver) UpdateLye(ctx context.Context, id string, input fm.Ly
 
 	pM, err := dm.Lyes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneLyeUpdateError)
-		return nil, errors.New(publicOneLyeUpdateError)
+		log.Error().Err(err).Msg(publicLyeUpdateError)
+		return nil, errors.New(publicLyeUpdateError)
 	}
 	return &fm.LyePayload{
 		Lye: LyeToGraphQL(pM),
@@ -1577,7 +1474,7 @@ func (r *mutationResolver) UpdateLyes(ctx context.Context, filter *fm.LyeFilter,
 	}, nil
 }
 
-const publicOneLyeDeleteError = "could not delete lye"
+const publicLyeDeleteError = "could not delete lye"
 
 func (r *mutationResolver) DeleteLye(ctx context.Context, id string) (*fm.LyeDeletePayload, error) {
 	dbID := LyeID(id)
@@ -1586,8 +1483,8 @@ func (r *mutationResolver) DeleteLye(ctx context.Context, id string) (*fm.LyeDel
 		dm.LyeWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.Lyes(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneLyeDeleteError)
-		return nil, errors.New(publicOneLyeDeleteError)
+		log.Error().Err(err).Msg(publicLyeDeleteError)
+		return nil, errors.New(publicLyeDeleteError)
 	}
 
 	return &fm.LyeDeletePayload{
@@ -1619,7 +1516,7 @@ func (r *mutationResolver) DeleteLyes(ctx context.Context, filter *fm.LyeFilter)
 	}, nil
 }
 
-const publicOneLyeInventoryCreateError = "could not create lyeInventory"
+const publicLyeInventoryCreateError = "could not create lyeInventory"
 
 func (r *mutationResolver) CreateLyeInventory(ctx context.Context, input fm.LyeInventoryCreateInput) (*fm.LyeInventoryPayload, error) {
 
@@ -1629,8 +1526,8 @@ func (r *mutationResolver) CreateLyeInventory(ctx context.Context, input fm.LyeI
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneLyeInventoryCreateError)
-		return nil, errors.New(publicOneLyeInventoryCreateError)
+		log.Error().Err(err).Msg(publicLyeInventoryCreateError)
+		return nil, errors.New(publicLyeInventoryCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -1639,33 +1536,25 @@ func (r *mutationResolver) CreateLyeInventory(ctx context.Context, input fm.LyeI
 
 	pM, err := dm.LyeInventories(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneLyeInventoryCreateError)
-		return nil, errors.New(publicOneLyeInventoryCreateError)
+		log.Error().Err(err).Msg(publicLyeInventoryCreateError)
+		return nil, errors.New(publicLyeInventoryCreateError)
 	}
 	return &fm.LyeInventoryPayload{
 		LyeInventory: LyeInventoryToGraphQL(pM),
 	}, nil
 }
 
-//const publicLyeInventoryBatchCreateError = "could not create lyeInventories"
-
-func (r *mutationResolver) CreateLyeInventories(ctx context.Context, input fm.LyeInventoriesCreateInput) (*fm.LyeInventoriesPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneLyeInventoryUpdateError = "could not update lyeInventory"
+const publicLyeInventoryUpdateError = "could not update lyeInventory"
 
 func (r *mutationResolver) UpdateLyeInventory(ctx context.Context, id string, input fm.LyeInventoryUpdateInput) (*fm.LyeInventoryPayload, error) {
 	m := LyeInventoryUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := LyeInventoryID(id)
-
 	if _, err := dm.LyeInventories(
 		dm.LyeInventoryWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneLyeInventoryUpdateError)
-		return nil, errors.New(publicOneLyeInventoryUpdateError)
+		log.Error().Err(err).Msg(publicLyeInventoryUpdateError)
+		return nil, errors.New(publicLyeInventoryUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -1674,8 +1563,8 @@ func (r *mutationResolver) UpdateLyeInventory(ctx context.Context, id string, in
 
 	pM, err := dm.LyeInventories(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneLyeInventoryUpdateError)
-		return nil, errors.New(publicOneLyeInventoryUpdateError)
+		log.Error().Err(err).Msg(publicLyeInventoryUpdateError)
+		return nil, errors.New(publicLyeInventoryUpdateError)
 	}
 	return &fm.LyeInventoryPayload{
 		LyeInventory: LyeInventoryToGraphQL(pM),
@@ -1700,7 +1589,7 @@ func (r *mutationResolver) UpdateLyeInventories(ctx context.Context, filter *fm.
 	}, nil
 }
 
-const publicOneLyeInventoryDeleteError = "could not delete lyeInventory"
+const publicLyeInventoryDeleteError = "could not delete lyeInventory"
 
 func (r *mutationResolver) DeleteLyeInventory(ctx context.Context, id string) (*fm.LyeInventoryDeletePayload, error) {
 	dbID := LyeInventoryID(id)
@@ -1709,8 +1598,8 @@ func (r *mutationResolver) DeleteLyeInventory(ctx context.Context, id string) (*
 		dm.LyeInventoryWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.LyeInventories(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneLyeInventoryDeleteError)
-		return nil, errors.New(publicOneLyeInventoryDeleteError)
+		log.Error().Err(err).Msg(publicLyeInventoryDeleteError)
+		return nil, errors.New(publicLyeInventoryDeleteError)
 	}
 
 	return &fm.LyeInventoryDeletePayload{
@@ -1742,7 +1631,7 @@ func (r *mutationResolver) DeleteLyeInventories(ctx context.Context, filter *fm.
 	}, nil
 }
 
-const publicOneRecipeCreateError = "could not create recipe"
+const publicRecipeCreateError = "could not create recipe"
 
 func (r *mutationResolver) CreateRecipe(ctx context.Context, input fm.RecipeCreateInput) (*fm.RecipePayload, error) {
 
@@ -1752,8 +1641,8 @@ func (r *mutationResolver) CreateRecipe(ctx context.Context, input fm.RecipeCrea
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeCreateError)
-		return nil, errors.New(publicOneRecipeCreateError)
+		log.Error().Err(err).Msg(publicRecipeCreateError)
+		return nil, errors.New(publicRecipeCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -1762,33 +1651,25 @@ func (r *mutationResolver) CreateRecipe(ctx context.Context, input fm.RecipeCrea
 
 	pM, err := dm.Recipes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeCreateError)
-		return nil, errors.New(publicOneRecipeCreateError)
+		log.Error().Err(err).Msg(publicRecipeCreateError)
+		return nil, errors.New(publicRecipeCreateError)
 	}
 	return &fm.RecipePayload{
 		Recipe: RecipeToGraphQL(pM),
 	}, nil
 }
 
-//const publicRecipeBatchCreateError = "could not create recipes"
-
-func (r *mutationResolver) CreateRecipes(ctx context.Context, input fm.RecipesCreateInput) (*fm.RecipesPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneRecipeUpdateError = "could not update recipe"
+const publicRecipeUpdateError = "could not update recipe"
 
 func (r *mutationResolver) UpdateRecipe(ctx context.Context, id string, input fm.RecipeUpdateInput) (*fm.RecipePayload, error) {
 	m := RecipeUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := RecipeID(id)
-
 	if _, err := dm.Recipes(
 		dm.RecipeWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeUpdateError)
-		return nil, errors.New(publicOneRecipeUpdateError)
+		log.Error().Err(err).Msg(publicRecipeUpdateError)
+		return nil, errors.New(publicRecipeUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -1797,8 +1678,8 @@ func (r *mutationResolver) UpdateRecipe(ctx context.Context, id string, input fm
 
 	pM, err := dm.Recipes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeUpdateError)
-		return nil, errors.New(publicOneRecipeUpdateError)
+		log.Error().Err(err).Msg(publicRecipeUpdateError)
+		return nil, errors.New(publicRecipeUpdateError)
 	}
 	return &fm.RecipePayload{
 		Recipe: RecipeToGraphQL(pM),
@@ -1823,7 +1704,7 @@ func (r *mutationResolver) UpdateRecipes(ctx context.Context, filter *fm.RecipeF
 	}, nil
 }
 
-const publicOneRecipeDeleteError = "could not delete recipe"
+const publicRecipeDeleteError = "could not delete recipe"
 
 func (r *mutationResolver) DeleteRecipe(ctx context.Context, id string) (*fm.RecipeDeletePayload, error) {
 	dbID := RecipeID(id)
@@ -1832,8 +1713,8 @@ func (r *mutationResolver) DeleteRecipe(ctx context.Context, id string) (*fm.Rec
 		dm.RecipeWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.Recipes(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeDeleteError)
-		return nil, errors.New(publicOneRecipeDeleteError)
+		log.Error().Err(err).Msg(publicRecipeDeleteError)
+		return nil, errors.New(publicRecipeDeleteError)
 	}
 
 	return &fm.RecipeDeletePayload{
@@ -1865,7 +1746,7 @@ func (r *mutationResolver) DeleteRecipes(ctx context.Context, filter *fm.RecipeF
 	}, nil
 }
 
-const publicOneRecipeAdditiveCreateError = "could not create recipeAdditive"
+const publicRecipeAdditiveCreateError = "could not create recipeAdditive"
 
 func (r *mutationResolver) CreateRecipeAdditive(ctx context.Context, input fm.RecipeAdditiveCreateInput) (*fm.RecipeAdditivePayload, error) {
 
@@ -1875,8 +1756,8 @@ func (r *mutationResolver) CreateRecipeAdditive(ctx context.Context, input fm.Re
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeAdditiveCreateError)
-		return nil, errors.New(publicOneRecipeAdditiveCreateError)
+		log.Error().Err(err).Msg(publicRecipeAdditiveCreateError)
+		return nil, errors.New(publicRecipeAdditiveCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -1885,33 +1766,25 @@ func (r *mutationResolver) CreateRecipeAdditive(ctx context.Context, input fm.Re
 
 	pM, err := dm.RecipeAdditives(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeAdditiveCreateError)
-		return nil, errors.New(publicOneRecipeAdditiveCreateError)
+		log.Error().Err(err).Msg(publicRecipeAdditiveCreateError)
+		return nil, errors.New(publicRecipeAdditiveCreateError)
 	}
 	return &fm.RecipeAdditivePayload{
 		RecipeAdditive: RecipeAdditiveToGraphQL(pM),
 	}, nil
 }
 
-//const publicRecipeAdditiveBatchCreateError = "could not create recipeAdditives"
-
-func (r *mutationResolver) CreateRecipeAdditives(ctx context.Context, input fm.RecipeAdditivesCreateInput) (*fm.RecipeAdditivesPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneRecipeAdditiveUpdateError = "could not update recipeAdditive"
+const publicRecipeAdditiveUpdateError = "could not update recipeAdditive"
 
 func (r *mutationResolver) UpdateRecipeAdditive(ctx context.Context, id string, input fm.RecipeAdditiveUpdateInput) (*fm.RecipeAdditivePayload, error) {
 	m := RecipeAdditiveUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := RecipeAdditiveID(id)
-
 	if _, err := dm.RecipeAdditives(
 		dm.RecipeAdditiveWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeAdditiveUpdateError)
-		return nil, errors.New(publicOneRecipeAdditiveUpdateError)
+		log.Error().Err(err).Msg(publicRecipeAdditiveUpdateError)
+		return nil, errors.New(publicRecipeAdditiveUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -1920,8 +1793,8 @@ func (r *mutationResolver) UpdateRecipeAdditive(ctx context.Context, id string, 
 
 	pM, err := dm.RecipeAdditives(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeAdditiveUpdateError)
-		return nil, errors.New(publicOneRecipeAdditiveUpdateError)
+		log.Error().Err(err).Msg(publicRecipeAdditiveUpdateError)
+		return nil, errors.New(publicRecipeAdditiveUpdateError)
 	}
 	return &fm.RecipeAdditivePayload{
 		RecipeAdditive: RecipeAdditiveToGraphQL(pM),
@@ -1946,7 +1819,7 @@ func (r *mutationResolver) UpdateRecipeAdditives(ctx context.Context, filter *fm
 	}, nil
 }
 
-const publicOneRecipeAdditiveDeleteError = "could not delete recipeAdditive"
+const publicRecipeAdditiveDeleteError = "could not delete recipeAdditive"
 
 func (r *mutationResolver) DeleteRecipeAdditive(ctx context.Context, id string) (*fm.RecipeAdditiveDeletePayload, error) {
 	dbID := RecipeAdditiveID(id)
@@ -1955,8 +1828,8 @@ func (r *mutationResolver) DeleteRecipeAdditive(ctx context.Context, id string) 
 		dm.RecipeAdditiveWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.RecipeAdditives(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeAdditiveDeleteError)
-		return nil, errors.New(publicOneRecipeAdditiveDeleteError)
+		log.Error().Err(err).Msg(publicRecipeAdditiveDeleteError)
+		return nil, errors.New(publicRecipeAdditiveDeleteError)
 	}
 
 	return &fm.RecipeAdditiveDeletePayload{
@@ -2016,20 +1889,12 @@ func (r *mutationResolver) CreateRecipeBatch(ctx context.Context, input fm.Recip
 	}, nil
 }
 
-//const publicRecipeBatchBatchCreateError = "could not create recipeBatches"
-
-func (r *mutationResolver) CreateRecipeBatches(ctx context.Context, input fm.RecipeBatchesCreateInput) (*fm.RecipeBatchesPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
 const publicOneRecipeBatchUpdateError = "could not update recipeBatch"
 
 func (r *mutationResolver) UpdateRecipeBatch(ctx context.Context, id string, input fm.RecipeBatchUpdateInput) (*fm.RecipeBatchPayload, error) {
 	m := RecipeBatchUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := RecipeBatchID(id)
-
 	if _, err := dm.RecipeBatches(
 		dm.RecipeBatchWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
@@ -2111,7 +1976,7 @@ func (r *mutationResolver) DeleteRecipeBatches(ctx context.Context, filter *fm.R
 	}, nil
 }
 
-const publicOneRecipeBatchAdditiveCreateError = "could not create recipeBatchAdditive"
+const publicRecipeBatchAdditiveCreateError = "could not create recipeBatchAdditive"
 
 func (r *mutationResolver) CreateRecipeBatchAdditive(ctx context.Context, input fm.RecipeBatchAdditiveCreateInput) (*fm.RecipeBatchAdditivePayload, error) {
 
@@ -2121,8 +1986,8 @@ func (r *mutationResolver) CreateRecipeBatchAdditive(ctx context.Context, input 
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchAdditiveCreateError)
-		return nil, errors.New(publicOneRecipeBatchAdditiveCreateError)
+		log.Error().Err(err).Msg(publicRecipeBatchAdditiveCreateError)
+		return nil, errors.New(publicRecipeBatchAdditiveCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -2131,33 +1996,25 @@ func (r *mutationResolver) CreateRecipeBatchAdditive(ctx context.Context, input 
 
 	pM, err := dm.RecipeBatchAdditives(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchAdditiveCreateError)
-		return nil, errors.New(publicOneRecipeBatchAdditiveCreateError)
+		log.Error().Err(err).Msg(publicRecipeBatchAdditiveCreateError)
+		return nil, errors.New(publicRecipeBatchAdditiveCreateError)
 	}
 	return &fm.RecipeBatchAdditivePayload{
 		RecipeBatchAdditive: RecipeBatchAdditiveToGraphQL(pM),
 	}, nil
 }
 
-//const publicRecipeBatchAdditiveBatchCreateError = "could not create recipeBatchAdditives"
-
-func (r *mutationResolver) CreateRecipeBatchAdditives(ctx context.Context, input fm.RecipeBatchAdditivesCreateInput) (*fm.RecipeBatchAdditivesPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneRecipeBatchAdditiveUpdateError = "could not update recipeBatchAdditive"
+const publicRecipeBatchAdditiveUpdateError = "could not update recipeBatchAdditive"
 
 func (r *mutationResolver) UpdateRecipeBatchAdditive(ctx context.Context, id string, input fm.RecipeBatchAdditiveUpdateInput) (*fm.RecipeBatchAdditivePayload, error) {
 	m := RecipeBatchAdditiveUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := RecipeBatchAdditiveID(id)
-
 	if _, err := dm.RecipeBatchAdditives(
 		dm.RecipeBatchAdditiveWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchAdditiveUpdateError)
-		return nil, errors.New(publicOneRecipeBatchAdditiveUpdateError)
+		log.Error().Err(err).Msg(publicRecipeBatchAdditiveUpdateError)
+		return nil, errors.New(publicRecipeBatchAdditiveUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -2166,8 +2023,8 @@ func (r *mutationResolver) UpdateRecipeBatchAdditive(ctx context.Context, id str
 
 	pM, err := dm.RecipeBatchAdditives(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchAdditiveUpdateError)
-		return nil, errors.New(publicOneRecipeBatchAdditiveUpdateError)
+		log.Error().Err(err).Msg(publicRecipeBatchAdditiveUpdateError)
+		return nil, errors.New(publicRecipeBatchAdditiveUpdateError)
 	}
 	return &fm.RecipeBatchAdditivePayload{
 		RecipeBatchAdditive: RecipeBatchAdditiveToGraphQL(pM),
@@ -2192,7 +2049,7 @@ func (r *mutationResolver) UpdateRecipeBatchAdditives(ctx context.Context, filte
 	}, nil
 }
 
-const publicOneRecipeBatchAdditiveDeleteError = "could not delete recipeBatchAdditive"
+const publicRecipeBatchAdditiveDeleteError = "could not delete recipeBatchAdditive"
 
 func (r *mutationResolver) DeleteRecipeBatchAdditive(ctx context.Context, id string) (*fm.RecipeBatchAdditiveDeletePayload, error) {
 	dbID := RecipeBatchAdditiveID(id)
@@ -2201,8 +2058,8 @@ func (r *mutationResolver) DeleteRecipeBatchAdditive(ctx context.Context, id str
 		dm.RecipeBatchAdditiveWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.RecipeBatchAdditives(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchAdditiveDeleteError)
-		return nil, errors.New(publicOneRecipeBatchAdditiveDeleteError)
+		log.Error().Err(err).Msg(publicRecipeBatchAdditiveDeleteError)
+		return nil, errors.New(publicRecipeBatchAdditiveDeleteError)
 	}
 
 	return &fm.RecipeBatchAdditiveDeletePayload{
@@ -2234,7 +2091,7 @@ func (r *mutationResolver) DeleteRecipeBatchAdditives(ctx context.Context, filte
 	}, nil
 }
 
-const publicOneRecipeBatchFragranceCreateError = "could not create recipeBatchFragrance"
+const publicRecipeBatchFragranceCreateError = "could not create recipeBatchFragrance"
 
 func (r *mutationResolver) CreateRecipeBatchFragrance(ctx context.Context, input fm.RecipeBatchFragranceCreateInput) (*fm.RecipeBatchFragrancePayload, error) {
 
@@ -2244,8 +2101,8 @@ func (r *mutationResolver) CreateRecipeBatchFragrance(ctx context.Context, input
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchFragranceCreateError)
-		return nil, errors.New(publicOneRecipeBatchFragranceCreateError)
+		log.Error().Err(err).Msg(publicRecipeBatchFragranceCreateError)
+		return nil, errors.New(publicRecipeBatchFragranceCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -2254,33 +2111,25 @@ func (r *mutationResolver) CreateRecipeBatchFragrance(ctx context.Context, input
 
 	pM, err := dm.RecipeBatchFragrances(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchFragranceCreateError)
-		return nil, errors.New(publicOneRecipeBatchFragranceCreateError)
+		log.Error().Err(err).Msg(publicRecipeBatchFragranceCreateError)
+		return nil, errors.New(publicRecipeBatchFragranceCreateError)
 	}
 	return &fm.RecipeBatchFragrancePayload{
 		RecipeBatchFragrance: RecipeBatchFragranceToGraphQL(pM),
 	}, nil
 }
 
-//const publicRecipeBatchFragranceBatchCreateError = "could not create recipeBatchFragrances"
-
-func (r *mutationResolver) CreateRecipeBatchFragrances(ctx context.Context, input fm.RecipeBatchFragrancesCreateInput) (*fm.RecipeBatchFragrancesPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneRecipeBatchFragranceUpdateError = "could not update recipeBatchFragrance"
+const publicRecipeBatchFragranceUpdateError = "could not update recipeBatchFragrance"
 
 func (r *mutationResolver) UpdateRecipeBatchFragrance(ctx context.Context, id string, input fm.RecipeBatchFragranceUpdateInput) (*fm.RecipeBatchFragrancePayload, error) {
 	m := RecipeBatchFragranceUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := RecipeBatchFragranceID(id)
-
 	if _, err := dm.RecipeBatchFragrances(
 		dm.RecipeBatchFragranceWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchFragranceUpdateError)
-		return nil, errors.New(publicOneRecipeBatchFragranceUpdateError)
+		log.Error().Err(err).Msg(publicRecipeBatchFragranceUpdateError)
+		return nil, errors.New(publicRecipeBatchFragranceUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -2289,8 +2138,8 @@ func (r *mutationResolver) UpdateRecipeBatchFragrance(ctx context.Context, id st
 
 	pM, err := dm.RecipeBatchFragrances(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchFragranceUpdateError)
-		return nil, errors.New(publicOneRecipeBatchFragranceUpdateError)
+		log.Error().Err(err).Msg(publicRecipeBatchFragranceUpdateError)
+		return nil, errors.New(publicRecipeBatchFragranceUpdateError)
 	}
 	return &fm.RecipeBatchFragrancePayload{
 		RecipeBatchFragrance: RecipeBatchFragranceToGraphQL(pM),
@@ -2315,7 +2164,7 @@ func (r *mutationResolver) UpdateRecipeBatchFragrances(ctx context.Context, filt
 	}, nil
 }
 
-const publicOneRecipeBatchFragranceDeleteError = "could not delete recipeBatchFragrance"
+const publicRecipeBatchFragranceDeleteError = "could not delete recipeBatchFragrance"
 
 func (r *mutationResolver) DeleteRecipeBatchFragrance(ctx context.Context, id string) (*fm.RecipeBatchFragranceDeletePayload, error) {
 	dbID := RecipeBatchFragranceID(id)
@@ -2324,8 +2173,8 @@ func (r *mutationResolver) DeleteRecipeBatchFragrance(ctx context.Context, id st
 		dm.RecipeBatchFragranceWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.RecipeBatchFragrances(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchFragranceDeleteError)
-		return nil, errors.New(publicOneRecipeBatchFragranceDeleteError)
+		log.Error().Err(err).Msg(publicRecipeBatchFragranceDeleteError)
+		return nil, errors.New(publicRecipeBatchFragranceDeleteError)
 	}
 
 	return &fm.RecipeBatchFragranceDeletePayload{
@@ -2357,7 +2206,7 @@ func (r *mutationResolver) DeleteRecipeBatchFragrances(ctx context.Context, filt
 	}, nil
 }
 
-const publicOneRecipeBatchLipidCreateError = "could not create recipeBatchLipid"
+const publicRecipeBatchLipidCreateError = "could not create recipeBatchLipid"
 
 func (r *mutationResolver) CreateRecipeBatchLipid(ctx context.Context, input fm.RecipeBatchLipidCreateInput) (*fm.RecipeBatchLipidPayload, error) {
 
@@ -2367,8 +2216,8 @@ func (r *mutationResolver) CreateRecipeBatchLipid(ctx context.Context, input fm.
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchLipidCreateError)
-		return nil, errors.New(publicOneRecipeBatchLipidCreateError)
+		log.Error().Err(err).Msg(publicRecipeBatchLipidCreateError)
+		return nil, errors.New(publicRecipeBatchLipidCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -2377,33 +2226,25 @@ func (r *mutationResolver) CreateRecipeBatchLipid(ctx context.Context, input fm.
 
 	pM, err := dm.RecipeBatchLipids(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchLipidCreateError)
-		return nil, errors.New(publicOneRecipeBatchLipidCreateError)
+		log.Error().Err(err).Msg(publicRecipeBatchLipidCreateError)
+		return nil, errors.New(publicRecipeBatchLipidCreateError)
 	}
 	return &fm.RecipeBatchLipidPayload{
 		RecipeBatchLipid: RecipeBatchLipidToGraphQL(pM),
 	}, nil
 }
 
-//const publicRecipeBatchLipidBatchCreateError = "could not create recipeBatchLipids"
-
-func (r *mutationResolver) CreateRecipeBatchLipids(ctx context.Context, input fm.RecipeBatchLipidsCreateInput) (*fm.RecipeBatchLipidsPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneRecipeBatchLipidUpdateError = "could not update recipeBatchLipid"
+const publicRecipeBatchLipidUpdateError = "could not update recipeBatchLipid"
 
 func (r *mutationResolver) UpdateRecipeBatchLipid(ctx context.Context, id string, input fm.RecipeBatchLipidUpdateInput) (*fm.RecipeBatchLipidPayload, error) {
 	m := RecipeBatchLipidUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := RecipeBatchLipidID(id)
-
 	if _, err := dm.RecipeBatchLipids(
 		dm.RecipeBatchLipidWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchLipidUpdateError)
-		return nil, errors.New(publicOneRecipeBatchLipidUpdateError)
+		log.Error().Err(err).Msg(publicRecipeBatchLipidUpdateError)
+		return nil, errors.New(publicRecipeBatchLipidUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -2412,8 +2253,8 @@ func (r *mutationResolver) UpdateRecipeBatchLipid(ctx context.Context, id string
 
 	pM, err := dm.RecipeBatchLipids(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchLipidUpdateError)
-		return nil, errors.New(publicOneRecipeBatchLipidUpdateError)
+		log.Error().Err(err).Msg(publicRecipeBatchLipidUpdateError)
+		return nil, errors.New(publicRecipeBatchLipidUpdateError)
 	}
 	return &fm.RecipeBatchLipidPayload{
 		RecipeBatchLipid: RecipeBatchLipidToGraphQL(pM),
@@ -2438,7 +2279,7 @@ func (r *mutationResolver) UpdateRecipeBatchLipids(ctx context.Context, filter *
 	}, nil
 }
 
-const publicOneRecipeBatchLipidDeleteError = "could not delete recipeBatchLipid"
+const publicRecipeBatchLipidDeleteError = "could not delete recipeBatchLipid"
 
 func (r *mutationResolver) DeleteRecipeBatchLipid(ctx context.Context, id string) (*fm.RecipeBatchLipidDeletePayload, error) {
 	dbID := RecipeBatchLipidID(id)
@@ -2447,8 +2288,8 @@ func (r *mutationResolver) DeleteRecipeBatchLipid(ctx context.Context, id string
 		dm.RecipeBatchLipidWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.RecipeBatchLipids(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchLipidDeleteError)
-		return nil, errors.New(publicOneRecipeBatchLipidDeleteError)
+		log.Error().Err(err).Msg(publicRecipeBatchLipidDeleteError)
+		return nil, errors.New(publicRecipeBatchLipidDeleteError)
 	}
 
 	return &fm.RecipeBatchLipidDeletePayload{
@@ -2480,7 +2321,7 @@ func (r *mutationResolver) DeleteRecipeBatchLipids(ctx context.Context, filter *
 	}, nil
 }
 
-const publicOneRecipeBatchLyeCreateError = "could not create recipeBatchLye"
+const publicRecipeBatchLyeCreateError = "could not create recipeBatchLye"
 
 func (r *mutationResolver) CreateRecipeBatchLye(ctx context.Context, input fm.RecipeBatchLyeCreateInput) (*fm.RecipeBatchLyePayload, error) {
 
@@ -2490,8 +2331,8 @@ func (r *mutationResolver) CreateRecipeBatchLye(ctx context.Context, input fm.Re
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchLyeCreateError)
-		return nil, errors.New(publicOneRecipeBatchLyeCreateError)
+		log.Error().Err(err).Msg(publicRecipeBatchLyeCreateError)
+		return nil, errors.New(publicRecipeBatchLyeCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -2500,33 +2341,25 @@ func (r *mutationResolver) CreateRecipeBatchLye(ctx context.Context, input fm.Re
 
 	pM, err := dm.RecipeBatchLyes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchLyeCreateError)
-		return nil, errors.New(publicOneRecipeBatchLyeCreateError)
+		log.Error().Err(err).Msg(publicRecipeBatchLyeCreateError)
+		return nil, errors.New(publicRecipeBatchLyeCreateError)
 	}
 	return &fm.RecipeBatchLyePayload{
 		RecipeBatchLye: RecipeBatchLyeToGraphQL(pM),
 	}, nil
 }
 
-//const publicRecipeBatchLyeBatchCreateError = "could not create recipeBatchLyes"
-
-func (r *mutationResolver) CreateRecipeBatchLyes(ctx context.Context, input fm.RecipeBatchLyesCreateInput) (*fm.RecipeBatchLyesPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneRecipeBatchLyeUpdateError = "could not update recipeBatchLye"
+const publicRecipeBatchLyeUpdateError = "could not update recipeBatchLye"
 
 func (r *mutationResolver) UpdateRecipeBatchLye(ctx context.Context, id string, input fm.RecipeBatchLyeUpdateInput) (*fm.RecipeBatchLyePayload, error) {
 	m := RecipeBatchLyeUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := RecipeBatchLyeID(id)
-
 	if _, err := dm.RecipeBatchLyes(
 		dm.RecipeBatchLyeWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchLyeUpdateError)
-		return nil, errors.New(publicOneRecipeBatchLyeUpdateError)
+		log.Error().Err(err).Msg(publicRecipeBatchLyeUpdateError)
+		return nil, errors.New(publicRecipeBatchLyeUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -2535,8 +2368,8 @@ func (r *mutationResolver) UpdateRecipeBatchLye(ctx context.Context, id string, 
 
 	pM, err := dm.RecipeBatchLyes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchLyeUpdateError)
-		return nil, errors.New(publicOneRecipeBatchLyeUpdateError)
+		log.Error().Err(err).Msg(publicRecipeBatchLyeUpdateError)
+		return nil, errors.New(publicRecipeBatchLyeUpdateError)
 	}
 	return &fm.RecipeBatchLyePayload{
 		RecipeBatchLye: RecipeBatchLyeToGraphQL(pM),
@@ -2561,7 +2394,7 @@ func (r *mutationResolver) UpdateRecipeBatchLyes(ctx context.Context, filter *fm
 	}, nil
 }
 
-const publicOneRecipeBatchLyeDeleteError = "could not delete recipeBatchLye"
+const publicRecipeBatchLyeDeleteError = "could not delete recipeBatchLye"
 
 func (r *mutationResolver) DeleteRecipeBatchLye(ctx context.Context, id string) (*fm.RecipeBatchLyeDeletePayload, error) {
 	dbID := RecipeBatchLyeID(id)
@@ -2570,8 +2403,8 @@ func (r *mutationResolver) DeleteRecipeBatchLye(ctx context.Context, id string) 
 		dm.RecipeBatchLyeWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.RecipeBatchLyes(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchLyeDeleteError)
-		return nil, errors.New(publicOneRecipeBatchLyeDeleteError)
+		log.Error().Err(err).Msg(publicRecipeBatchLyeDeleteError)
+		return nil, errors.New(publicRecipeBatchLyeDeleteError)
 	}
 
 	return &fm.RecipeBatchLyeDeletePayload{
@@ -2603,7 +2436,7 @@ func (r *mutationResolver) DeleteRecipeBatchLyes(ctx context.Context, filter *fm
 	}, nil
 }
 
-const publicOneRecipeBatchNoteCreateError = "could not create recipeBatchNote"
+const publicRecipeBatchNoteCreateError = "could not create recipeBatchNote"
 
 func (r *mutationResolver) CreateRecipeBatchNote(ctx context.Context, input fm.RecipeBatchNoteCreateInput) (*fm.RecipeBatchNotePayload, error) {
 
@@ -2613,8 +2446,8 @@ func (r *mutationResolver) CreateRecipeBatchNote(ctx context.Context, input fm.R
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchNoteCreateError)
-		return nil, errors.New(publicOneRecipeBatchNoteCreateError)
+		log.Error().Err(err).Msg(publicRecipeBatchNoteCreateError)
+		return nil, errors.New(publicRecipeBatchNoteCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -2623,33 +2456,25 @@ func (r *mutationResolver) CreateRecipeBatchNote(ctx context.Context, input fm.R
 
 	pM, err := dm.RecipeBatchNotes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchNoteCreateError)
-		return nil, errors.New(publicOneRecipeBatchNoteCreateError)
+		log.Error().Err(err).Msg(publicRecipeBatchNoteCreateError)
+		return nil, errors.New(publicRecipeBatchNoteCreateError)
 	}
 	return &fm.RecipeBatchNotePayload{
 		RecipeBatchNote: RecipeBatchNoteToGraphQL(pM),
 	}, nil
 }
 
-//const publicRecipeBatchNoteBatchCreateError = "could not create recipeBatchNotes"
-
-func (r *mutationResolver) CreateRecipeBatchNotes(ctx context.Context, input fm.RecipeBatchNotesCreateInput) (*fm.RecipeBatchNotesPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneRecipeBatchNoteUpdateError = "could not update recipeBatchNote"
+const publicRecipeBatchNoteUpdateError = "could not update recipeBatchNote"
 
 func (r *mutationResolver) UpdateRecipeBatchNote(ctx context.Context, id string, input fm.RecipeBatchNoteUpdateInput) (*fm.RecipeBatchNotePayload, error) {
 	m := RecipeBatchNoteUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := RecipeBatchNoteID(id)
-
 	if _, err := dm.RecipeBatchNotes(
 		dm.RecipeBatchNoteWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchNoteUpdateError)
-		return nil, errors.New(publicOneRecipeBatchNoteUpdateError)
+		log.Error().Err(err).Msg(publicRecipeBatchNoteUpdateError)
+		return nil, errors.New(publicRecipeBatchNoteUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -2658,8 +2483,8 @@ func (r *mutationResolver) UpdateRecipeBatchNote(ctx context.Context, id string,
 
 	pM, err := dm.RecipeBatchNotes(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchNoteUpdateError)
-		return nil, errors.New(publicOneRecipeBatchNoteUpdateError)
+		log.Error().Err(err).Msg(publicRecipeBatchNoteUpdateError)
+		return nil, errors.New(publicRecipeBatchNoteUpdateError)
 	}
 	return &fm.RecipeBatchNotePayload{
 		RecipeBatchNote: RecipeBatchNoteToGraphQL(pM),
@@ -2684,7 +2509,7 @@ func (r *mutationResolver) UpdateRecipeBatchNotes(ctx context.Context, filter *f
 	}, nil
 }
 
-const publicOneRecipeBatchNoteDeleteError = "could not delete recipeBatchNote"
+const publicRecipeBatchNoteDeleteError = "could not delete recipeBatchNote"
 
 func (r *mutationResolver) DeleteRecipeBatchNote(ctx context.Context, id string) (*fm.RecipeBatchNoteDeletePayload, error) {
 	dbID := RecipeBatchNoteID(id)
@@ -2693,8 +2518,8 @@ func (r *mutationResolver) DeleteRecipeBatchNote(ctx context.Context, id string)
 		dm.RecipeBatchNoteWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.RecipeBatchNotes(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeBatchNoteDeleteError)
-		return nil, errors.New(publicOneRecipeBatchNoteDeleteError)
+		log.Error().Err(err).Msg(publicRecipeBatchNoteDeleteError)
+		return nil, errors.New(publicRecipeBatchNoteDeleteError)
 	}
 
 	return &fm.RecipeBatchNoteDeletePayload{
@@ -2726,7 +2551,7 @@ func (r *mutationResolver) DeleteRecipeBatchNotes(ctx context.Context, filter *f
 	}, nil
 }
 
-const publicOneRecipeFragranceCreateError = "could not create recipeFragrance"
+const publicRecipeFragranceCreateError = "could not create recipeFragrance"
 
 func (r *mutationResolver) CreateRecipeFragrance(ctx context.Context, input fm.RecipeFragranceCreateInput) (*fm.RecipeFragrancePayload, error) {
 
@@ -2736,8 +2561,8 @@ func (r *mutationResolver) CreateRecipeFragrance(ctx context.Context, input fm.R
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeFragranceCreateError)
-		return nil, errors.New(publicOneRecipeFragranceCreateError)
+		log.Error().Err(err).Msg(publicRecipeFragranceCreateError)
+		return nil, errors.New(publicRecipeFragranceCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -2746,33 +2571,25 @@ func (r *mutationResolver) CreateRecipeFragrance(ctx context.Context, input fm.R
 
 	pM, err := dm.RecipeFragrances(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeFragranceCreateError)
-		return nil, errors.New(publicOneRecipeFragranceCreateError)
+		log.Error().Err(err).Msg(publicRecipeFragranceCreateError)
+		return nil, errors.New(publicRecipeFragranceCreateError)
 	}
 	return &fm.RecipeFragrancePayload{
 		RecipeFragrance: RecipeFragranceToGraphQL(pM),
 	}, nil
 }
 
-//const publicRecipeFragranceBatchCreateError = "could not create recipeFragrances"
-
-func (r *mutationResolver) CreateRecipeFragrances(ctx context.Context, input fm.RecipeFragrancesCreateInput) (*fm.RecipeFragrancesPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneRecipeFragranceUpdateError = "could not update recipeFragrance"
+const publicRecipeFragranceUpdateError = "could not update recipeFragrance"
 
 func (r *mutationResolver) UpdateRecipeFragrance(ctx context.Context, id string, input fm.RecipeFragranceUpdateInput) (*fm.RecipeFragrancePayload, error) {
 	m := RecipeFragranceUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := RecipeFragranceID(id)
-
 	if _, err := dm.RecipeFragrances(
 		dm.RecipeFragranceWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeFragranceUpdateError)
-		return nil, errors.New(publicOneRecipeFragranceUpdateError)
+		log.Error().Err(err).Msg(publicRecipeFragranceUpdateError)
+		return nil, errors.New(publicRecipeFragranceUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -2781,8 +2598,8 @@ func (r *mutationResolver) UpdateRecipeFragrance(ctx context.Context, id string,
 
 	pM, err := dm.RecipeFragrances(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeFragranceUpdateError)
-		return nil, errors.New(publicOneRecipeFragranceUpdateError)
+		log.Error().Err(err).Msg(publicRecipeFragranceUpdateError)
+		return nil, errors.New(publicRecipeFragranceUpdateError)
 	}
 	return &fm.RecipeFragrancePayload{
 		RecipeFragrance: RecipeFragranceToGraphQL(pM),
@@ -2807,7 +2624,7 @@ func (r *mutationResolver) UpdateRecipeFragrances(ctx context.Context, filter *f
 	}, nil
 }
 
-const publicOneRecipeFragranceDeleteError = "could not delete recipeFragrance"
+const publicRecipeFragranceDeleteError = "could not delete recipeFragrance"
 
 func (r *mutationResolver) DeleteRecipeFragrance(ctx context.Context, id string) (*fm.RecipeFragranceDeletePayload, error) {
 	dbID := RecipeFragranceID(id)
@@ -2816,8 +2633,8 @@ func (r *mutationResolver) DeleteRecipeFragrance(ctx context.Context, id string)
 		dm.RecipeFragranceWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.RecipeFragrances(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeFragranceDeleteError)
-		return nil, errors.New(publicOneRecipeFragranceDeleteError)
+		log.Error().Err(err).Msg(publicRecipeFragranceDeleteError)
+		return nil, errors.New(publicRecipeFragranceDeleteError)
 	}
 
 	return &fm.RecipeFragranceDeletePayload{
@@ -2849,7 +2666,7 @@ func (r *mutationResolver) DeleteRecipeFragrances(ctx context.Context, filter *f
 	}, nil
 }
 
-const publicOneRecipeLipidCreateError = "could not create recipeLipid"
+const publicRecipeLipidCreateError = "could not create recipeLipid"
 
 func (r *mutationResolver) CreateRecipeLipid(ctx context.Context, input fm.RecipeLipidCreateInput) (*fm.RecipeLipidPayload, error) {
 
@@ -2859,8 +2676,8 @@ func (r *mutationResolver) CreateRecipeLipid(ctx context.Context, input fm.Recip
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeLipidCreateError)
-		return nil, errors.New(publicOneRecipeLipidCreateError)
+		log.Error().Err(err).Msg(publicRecipeLipidCreateError)
+		return nil, errors.New(publicRecipeLipidCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -2869,33 +2686,25 @@ func (r *mutationResolver) CreateRecipeLipid(ctx context.Context, input fm.Recip
 
 	pM, err := dm.RecipeLipids(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeLipidCreateError)
-		return nil, errors.New(publicOneRecipeLipidCreateError)
+		log.Error().Err(err).Msg(publicRecipeLipidCreateError)
+		return nil, errors.New(publicRecipeLipidCreateError)
 	}
 	return &fm.RecipeLipidPayload{
 		RecipeLipid: RecipeLipidToGraphQL(pM),
 	}, nil
 }
 
-//const publicRecipeLipidBatchCreateError = "could not create recipeLipids"
-
-func (r *mutationResolver) CreateRecipeLipids(ctx context.Context, input fm.RecipeLipidsCreateInput) (*fm.RecipeLipidsPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneRecipeLipidUpdateError = "could not update recipeLipid"
+const publicRecipeLipidUpdateError = "could not update recipeLipid"
 
 func (r *mutationResolver) UpdateRecipeLipid(ctx context.Context, id string, input fm.RecipeLipidUpdateInput) (*fm.RecipeLipidPayload, error) {
 	m := RecipeLipidUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := RecipeLipidID(id)
-
 	if _, err := dm.RecipeLipids(
 		dm.RecipeLipidWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeLipidUpdateError)
-		return nil, errors.New(publicOneRecipeLipidUpdateError)
+		log.Error().Err(err).Msg(publicRecipeLipidUpdateError)
+		return nil, errors.New(publicRecipeLipidUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -2904,8 +2713,8 @@ func (r *mutationResolver) UpdateRecipeLipid(ctx context.Context, id string, inp
 
 	pM, err := dm.RecipeLipids(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeLipidUpdateError)
-		return nil, errors.New(publicOneRecipeLipidUpdateError)
+		log.Error().Err(err).Msg(publicRecipeLipidUpdateError)
+		return nil, errors.New(publicRecipeLipidUpdateError)
 	}
 	return &fm.RecipeLipidPayload{
 		RecipeLipid: RecipeLipidToGraphQL(pM),
@@ -2930,7 +2739,7 @@ func (r *mutationResolver) UpdateRecipeLipids(ctx context.Context, filter *fm.Re
 	}, nil
 }
 
-const publicOneRecipeLipidDeleteError = "could not delete recipeLipid"
+const publicRecipeLipidDeleteError = "could not delete recipeLipid"
 
 func (r *mutationResolver) DeleteRecipeLipid(ctx context.Context, id string) (*fm.RecipeLipidDeletePayload, error) {
 	dbID := RecipeLipidID(id)
@@ -2939,8 +2748,8 @@ func (r *mutationResolver) DeleteRecipeLipid(ctx context.Context, id string) (*f
 		dm.RecipeLipidWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.RecipeLipids(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeLipidDeleteError)
-		return nil, errors.New(publicOneRecipeLipidDeleteError)
+		log.Error().Err(err).Msg(publicRecipeLipidDeleteError)
+		return nil, errors.New(publicRecipeLipidDeleteError)
 	}
 
 	return &fm.RecipeLipidDeletePayload{
@@ -2972,7 +2781,7 @@ func (r *mutationResolver) DeleteRecipeLipids(ctx context.Context, filter *fm.Re
 	}, nil
 }
 
-const publicOneRecipeStepCreateError = "could not create recipeStep"
+const publicRecipeStepCreateError = "could not create recipeStep"
 
 func (r *mutationResolver) CreateRecipeStep(ctx context.Context, input fm.RecipeStepCreateInput) (*fm.RecipeStepPayload, error) {
 
@@ -2982,8 +2791,8 @@ func (r *mutationResolver) CreateRecipeStep(ctx context.Context, input fm.Recipe
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeStepCreateError)
-		return nil, errors.New(publicOneRecipeStepCreateError)
+		log.Error().Err(err).Msg(publicRecipeStepCreateError)
+		return nil, errors.New(publicRecipeStepCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -2992,33 +2801,25 @@ func (r *mutationResolver) CreateRecipeStep(ctx context.Context, input fm.Recipe
 
 	pM, err := dm.RecipeSteps(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeStepCreateError)
-		return nil, errors.New(publicOneRecipeStepCreateError)
+		log.Error().Err(err).Msg(publicRecipeStepCreateError)
+		return nil, errors.New(publicRecipeStepCreateError)
 	}
 	return &fm.RecipeStepPayload{
 		RecipeStep: RecipeStepToGraphQL(pM),
 	}, nil
 }
 
-//const publicRecipeStepBatchCreateError = "could not create recipeSteps"
-
-func (r *mutationResolver) CreateRecipeSteps(ctx context.Context, input fm.RecipeStepsCreateInput) (*fm.RecipeStepsPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneRecipeStepUpdateError = "could not update recipeStep"
+const publicRecipeStepUpdateError = "could not update recipeStep"
 
 func (r *mutationResolver) UpdateRecipeStep(ctx context.Context, id string, input fm.RecipeStepUpdateInput) (*fm.RecipeStepPayload, error) {
 	m := RecipeStepUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := RecipeStepID(id)
-
 	if _, err := dm.RecipeSteps(
 		dm.RecipeStepWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeStepUpdateError)
-		return nil, errors.New(publicOneRecipeStepUpdateError)
+		log.Error().Err(err).Msg(publicRecipeStepUpdateError)
+		return nil, errors.New(publicRecipeStepUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -3027,8 +2828,8 @@ func (r *mutationResolver) UpdateRecipeStep(ctx context.Context, id string, inpu
 
 	pM, err := dm.RecipeSteps(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeStepUpdateError)
-		return nil, errors.New(publicOneRecipeStepUpdateError)
+		log.Error().Err(err).Msg(publicRecipeStepUpdateError)
+		return nil, errors.New(publicRecipeStepUpdateError)
 	}
 	return &fm.RecipeStepPayload{
 		RecipeStep: RecipeStepToGraphQL(pM),
@@ -3053,7 +2854,7 @@ func (r *mutationResolver) UpdateRecipeSteps(ctx context.Context, filter *fm.Rec
 	}, nil
 }
 
-const publicOneRecipeStepDeleteError = "could not delete recipeStep"
+const publicRecipeStepDeleteError = "could not delete recipeStep"
 
 func (r *mutationResolver) DeleteRecipeStep(ctx context.Context, id string) (*fm.RecipeStepDeletePayload, error) {
 	dbID := RecipeStepID(id)
@@ -3062,8 +2863,8 @@ func (r *mutationResolver) DeleteRecipeStep(ctx context.Context, id string) (*fm
 		dm.RecipeStepWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.RecipeSteps(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneRecipeStepDeleteError)
-		return nil, errors.New(publicOneRecipeStepDeleteError)
+		log.Error().Err(err).Msg(publicRecipeStepDeleteError)
+		return nil, errors.New(publicRecipeStepDeleteError)
 	}
 
 	return &fm.RecipeStepDeletePayload{
@@ -3095,7 +2896,7 @@ func (r *mutationResolver) DeleteRecipeSteps(ctx context.Context, filter *fm.Rec
 	}, nil
 }
 
-const publicOneSupplierCreateError = "could not create supplier"
+const publicSupplierCreateError = "could not create supplier"
 
 func (r *mutationResolver) CreateSupplier(ctx context.Context, input fm.SupplierCreateInput) (*fm.SupplierPayload, error) {
 
@@ -3105,8 +2906,8 @@ func (r *mutationResolver) CreateSupplier(ctx context.Context, input fm.Supplier
 		boilergql.GetInputFromContext(ctx, inputKey),
 	)
 	if err := m.Insert(ctx, r.db, whiteList); err != nil {
-		log.Error().Err(err).Msg(publicOneSupplierCreateError)
-		return nil, errors.New(publicOneSupplierCreateError)
+		log.Error().Err(err).Msg(publicSupplierCreateError)
+		return nil, errors.New(publicSupplierCreateError)
 	}
 
 	// resolve requested fields after creating
@@ -3115,33 +2916,25 @@ func (r *mutationResolver) CreateSupplier(ctx context.Context, input fm.Supplier
 
 	pM, err := dm.Suppliers(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneSupplierCreateError)
-		return nil, errors.New(publicOneSupplierCreateError)
+		log.Error().Err(err).Msg(publicSupplierCreateError)
+		return nil, errors.New(publicSupplierCreateError)
 	}
 	return &fm.SupplierPayload{
 		Supplier: SupplierToGraphQL(pM),
 	}, nil
 }
 
-//const publicSupplierBatchCreateError = "could not create suppliers"
-
-func (r *mutationResolver) CreateSuppliers(ctx context.Context, input fm.SuppliersCreateInput) (*fm.SuppliersPayload, error) {
-	// TODO: Implement batch create
-	return nil, nil
-}
-
-const publicOneSupplierUpdateError = "could not update supplier"
+const publicSupplierUpdateError = "could not update supplier"
 
 func (r *mutationResolver) UpdateSupplier(ctx context.Context, id string, input fm.SupplierUpdateInput) (*fm.SupplierPayload, error) {
 	m := SupplierUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
 
 	dbID := SupplierID(id)
-
 	if _, err := dm.Suppliers(
 		dm.SupplierWhere.ID.EQ(dbID),
 	).UpdateAll(ctx, r.db, m); err != nil {
-		log.Error().Err(err).Msg(publicOneSupplierUpdateError)
-		return nil, errors.New(publicOneSupplierUpdateError)
+		log.Error().Err(err).Msg(publicSupplierUpdateError)
+		return nil, errors.New(publicSupplierUpdateError)
 	}
 
 	// resolve requested fields after updating
@@ -3150,8 +2943,8 @@ func (r *mutationResolver) UpdateSupplier(ctx context.Context, id string, input 
 
 	pM, err := dm.Suppliers(mods...).One(ctx, r.db)
 	if err != nil {
-		log.Error().Err(err).Msg(publicOneSupplierUpdateError)
-		return nil, errors.New(publicOneSupplierUpdateError)
+		log.Error().Err(err).Msg(publicSupplierUpdateError)
+		return nil, errors.New(publicSupplierUpdateError)
 	}
 	return &fm.SupplierPayload{
 		Supplier: SupplierToGraphQL(pM),
@@ -3176,7 +2969,7 @@ func (r *mutationResolver) UpdateSuppliers(ctx context.Context, filter *fm.Suppl
 	}, nil
 }
 
-const publicOneSupplierDeleteError = "could not delete supplier"
+const publicSupplierDeleteError = "could not delete supplier"
 
 func (r *mutationResolver) DeleteSupplier(ctx context.Context, id string) (*fm.SupplierDeletePayload, error) {
 	dbID := SupplierID(id)
@@ -3185,8 +2978,8 @@ func (r *mutationResolver) DeleteSupplier(ctx context.Context, id string) (*fm.S
 		dm.SupplierWhere.ID.EQ(dbID),
 	}
 	if _, err := dm.Suppliers(mods...).DeleteAll(ctx, r.db); err != nil {
-		log.Error().Err(err).Msg(publicOneSupplierDeleteError)
-		return nil, errors.New(publicOneSupplierDeleteError)
+		log.Error().Err(err).Msg(publicSupplierDeleteError)
+		return nil, errors.New(publicSupplierDeleteError)
 	}
 
 	return &fm.SupplierDeletePayload{
@@ -3236,16 +3029,37 @@ func (r *queryResolver) Additive(ctx context.Context, id string) (*fm.Additive, 
 
 const publicAdditiveListError = "could not list additives"
 
-func (r *queryResolver) Additives(ctx context.Context, filter *fm.AdditiveFilter) ([]*fm.Additive, error) {
+func (r *queryResolver) Additives(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AdditiveOrdering, filter *fm.AdditiveFilter) (*fm.AdditiveConnection, error) {
 	mods := GetAdditivePreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return AdditivesToGraphQL(a), nil
+
 	mods = append(mods, AdditiveFilterToMods(filter)...)
+
 	a, err := dm.Additives(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAdditiveListError)
 		return nil, errors.New(publicAdditiveListError)
 	}
-	return AdditivesToGraphQL(a), nil
+
+	edges := make([]*fm.AdditiveEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.AdditiveEdge{
+			Cursor: "",
+			Node:   AdditiveToGraphQL(row),
+		}
+	}
+
+	return &fm.AdditiveConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicAdditiveInventorySingleError = "could not get additiveInventory"
@@ -3266,16 +3080,37 @@ func (r *queryResolver) AdditiveInventory(ctx context.Context, id string) (*fm.A
 
 const publicAdditiveInventoryListError = "could not list additiveInventories"
 
-func (r *queryResolver) AdditiveInventories(ctx context.Context, filter *fm.AdditiveInventoryFilter) ([]*fm.AdditiveInventory, error) {
+func (r *queryResolver) AdditiveInventories(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AdditiveInventoryOrdering, filter *fm.AdditiveInventoryFilter) (*fm.AdditiveInventoryConnection, error) {
 	mods := GetAdditiveInventoryPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return AdditiveInventoriesToGraphQL(a), nil
+
 	mods = append(mods, AdditiveInventoryFilterToMods(filter)...)
+
 	a, err := dm.AdditiveInventories(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAdditiveInventoryListError)
 		return nil, errors.New(publicAdditiveInventoryListError)
 	}
-	return AdditiveInventoriesToGraphQL(a), nil
+
+	edges := make([]*fm.AdditiveInventoryEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.AdditiveInventoryEdge{
+			Cursor: "",
+			Node:   AdditiveInventoryToGraphQL(row),
+		}
+	}
+
+	return &fm.AdditiveInventoryConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicAuthGroupSingleError = "could not get authGroup"
@@ -3296,16 +3131,37 @@ func (r *queryResolver) AuthGroup(ctx context.Context, id string) (*fm.AuthGroup
 
 const publicAuthGroupListError = "could not list authGroups"
 
-func (r *queryResolver) AuthGroups(ctx context.Context, filter *fm.AuthGroupFilter) ([]*fm.AuthGroup, error) {
+func (r *queryResolver) AuthGroups(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AuthGroupOrdering, filter *fm.AuthGroupFilter) (*fm.AuthGroupConnection, error) {
 	mods := GetAuthGroupPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return AuthGroupsToGraphQL(a), nil
+
 	mods = append(mods, AuthGroupFilterToMods(filter)...)
+
 	a, err := dm.AuthGroups(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAuthGroupListError)
 		return nil, errors.New(publicAuthGroupListError)
 	}
-	return AuthGroupsToGraphQL(a), nil
+
+	edges := make([]*fm.AuthGroupEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.AuthGroupEdge{
+			Cursor: "",
+			Node:   AuthGroupToGraphQL(row),
+		}
+	}
+
+	return &fm.AuthGroupConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicAuthGroupPermissionSingleError = "could not get authGroupPermission"
@@ -3326,16 +3182,37 @@ func (r *queryResolver) AuthGroupPermission(ctx context.Context, id string) (*fm
 
 const publicAuthGroupPermissionListError = "could not list authGroupPermissions"
 
-func (r *queryResolver) AuthGroupPermissions(ctx context.Context, filter *fm.AuthGroupPermissionFilter) ([]*fm.AuthGroupPermission, error) {
+func (r *queryResolver) AuthGroupPermissions(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AuthGroupPermissionOrdering, filter *fm.AuthGroupPermissionFilter) (*fm.AuthGroupPermissionConnection, error) {
 	mods := GetAuthGroupPermissionPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return AuthGroupPermissionsToGraphQL(a), nil
+
 	mods = append(mods, AuthGroupPermissionFilterToMods(filter)...)
+
 	a, err := dm.AuthGroupPermissions(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAuthGroupPermissionListError)
 		return nil, errors.New(publicAuthGroupPermissionListError)
 	}
-	return AuthGroupPermissionsToGraphQL(a), nil
+
+	edges := make([]*fm.AuthGroupPermissionEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.AuthGroupPermissionEdge{
+			Cursor: "",
+			Node:   AuthGroupPermissionToGraphQL(row),
+		}
+	}
+
+	return &fm.AuthGroupPermissionConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicAuthPermissionSingleError = "could not get authPermission"
@@ -3356,16 +3233,37 @@ func (r *queryResolver) AuthPermission(ctx context.Context, id string) (*fm.Auth
 
 const publicAuthPermissionListError = "could not list authPermissions"
 
-func (r *queryResolver) AuthPermissions(ctx context.Context, filter *fm.AuthPermissionFilter) ([]*fm.AuthPermission, error) {
+func (r *queryResolver) AuthPermissions(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AuthPermissionOrdering, filter *fm.AuthPermissionFilter) (*fm.AuthPermissionConnection, error) {
 	mods := GetAuthPermissionPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return AuthPermissionsToGraphQL(a), nil
+
 	mods = append(mods, AuthPermissionFilterToMods(filter)...)
+
 	a, err := dm.AuthPermissions(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAuthPermissionListError)
 		return nil, errors.New(publicAuthPermissionListError)
 	}
-	return AuthPermissionsToGraphQL(a), nil
+
+	edges := make([]*fm.AuthPermissionEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.AuthPermissionEdge{
+			Cursor: "",
+			Node:   AuthPermissionToGraphQL(row),
+		}
+	}
+
+	return &fm.AuthPermissionConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicAuthUserSingleError = "could not get authUser"
@@ -3386,16 +3284,37 @@ func (r *queryResolver) AuthUser(ctx context.Context, id string) (*fm.AuthUser, 
 
 const publicAuthUserListError = "could not list authUsers"
 
-func (r *queryResolver) AuthUsers(ctx context.Context, filter *fm.AuthUserFilter) ([]*fm.AuthUser, error) {
+func (r *queryResolver) AuthUsers(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AuthUserOrdering, filter *fm.AuthUserFilter) (*fm.AuthUserConnection, error) {
 	mods := GetAuthUserPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return AuthUsersToGraphQL(a), nil
+
 	mods = append(mods, AuthUserFilterToMods(filter)...)
+
 	a, err := dm.AuthUsers(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAuthUserListError)
 		return nil, errors.New(publicAuthUserListError)
 	}
-	return AuthUsersToGraphQL(a), nil
+
+	edges := make([]*fm.AuthUserEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.AuthUserEdge{
+			Cursor: "",
+			Node:   AuthUserToGraphQL(row),
+		}
+	}
+
+	return &fm.AuthUserConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicAuthUserGroupSingleError = "could not get authUserGroup"
@@ -3416,16 +3335,37 @@ func (r *queryResolver) AuthUserGroup(ctx context.Context, id string) (*fm.AuthU
 
 const publicAuthUserGroupListError = "could not list authUserGroups"
 
-func (r *queryResolver) AuthUserGroups(ctx context.Context, filter *fm.AuthUserGroupFilter) ([]*fm.AuthUserGroup, error) {
+func (r *queryResolver) AuthUserGroups(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AuthUserGroupOrdering, filter *fm.AuthUserGroupFilter) (*fm.AuthUserGroupConnection, error) {
 	mods := GetAuthUserGroupPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return AuthUserGroupsToGraphQL(a), nil
+
 	mods = append(mods, AuthUserGroupFilterToMods(filter)...)
+
 	a, err := dm.AuthUserGroups(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAuthUserGroupListError)
 		return nil, errors.New(publicAuthUserGroupListError)
 	}
-	return AuthUserGroupsToGraphQL(a), nil
+
+	edges := make([]*fm.AuthUserGroupEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.AuthUserGroupEdge{
+			Cursor: "",
+			Node:   AuthUserGroupToGraphQL(row),
+		}
+	}
+
+	return &fm.AuthUserGroupConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicAuthUserUserPermissionSingleError = "could not get authUserUserPermission"
@@ -3446,16 +3386,37 @@ func (r *queryResolver) AuthUserUserPermission(ctx context.Context, id string) (
 
 const publicAuthUserUserPermissionListError = "could not list authUserUserPermissions"
 
-func (r *queryResolver) AuthUserUserPermissions(ctx context.Context, filter *fm.AuthUserUserPermissionFilter) ([]*fm.AuthUserUserPermission, error) {
+func (r *queryResolver) AuthUserUserPermissions(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.AuthUserUserPermissionOrdering, filter *fm.AuthUserUserPermissionFilter) (*fm.AuthUserUserPermissionConnection, error) {
 	mods := GetAuthUserUserPermissionPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return AuthUserUserPermissionsToGraphQL(a), nil
+
 	mods = append(mods, AuthUserUserPermissionFilterToMods(filter)...)
+
 	a, err := dm.AuthUserUserPermissions(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicAuthUserUserPermissionListError)
 		return nil, errors.New(publicAuthUserUserPermissionListError)
 	}
-	return AuthUserUserPermissionsToGraphQL(a), nil
+
+	edges := make([]*fm.AuthUserUserPermissionEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.AuthUserUserPermissionEdge{
+			Cursor: "",
+			Node:   AuthUserUserPermissionToGraphQL(row),
+		}
+	}
+
+	return &fm.AuthUserUserPermissionConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicFragranceSingleError = "could not get fragrance"
@@ -3476,16 +3437,37 @@ func (r *queryResolver) Fragrance(ctx context.Context, id string) (*fm.Fragrance
 
 const publicFragranceListError = "could not list fragrances"
 
-func (r *queryResolver) Fragrances(ctx context.Context, filter *fm.FragranceFilter) ([]*fm.Fragrance, error) {
+func (r *queryResolver) Fragrances(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.FragranceOrdering, filter *fm.FragranceFilter) (*fm.FragranceConnection, error) {
 	mods := GetFragrancePreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return FragrancesToGraphQL(a), nil
+
 	mods = append(mods, FragranceFilterToMods(filter)...)
+
 	a, err := dm.Fragrances(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicFragranceListError)
 		return nil, errors.New(publicFragranceListError)
 	}
-	return FragrancesToGraphQL(a), nil
+
+	edges := make([]*fm.FragranceEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.FragranceEdge{
+			Cursor: "",
+			Node:   FragranceToGraphQL(row),
+		}
+	}
+
+	return &fm.FragranceConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicFragranceInventorySingleError = "could not get fragranceInventory"
@@ -3506,16 +3488,37 @@ func (r *queryResolver) FragranceInventory(ctx context.Context, id string) (*fm.
 
 const publicFragranceInventoryListError = "could not list fragranceInventories"
 
-func (r *queryResolver) FragranceInventories(ctx context.Context, filter *fm.FragranceInventoryFilter) ([]*fm.FragranceInventory, error) {
+func (r *queryResolver) FragranceInventories(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.FragranceInventoryOrdering, filter *fm.FragranceInventoryFilter) (*fm.FragranceInventoryConnection, error) {
 	mods := GetFragranceInventoryPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return FragranceInventoriesToGraphQL(a), nil
+
 	mods = append(mods, FragranceInventoryFilterToMods(filter)...)
+
 	a, err := dm.FragranceInventories(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicFragranceInventoryListError)
 		return nil, errors.New(publicFragranceInventoryListError)
 	}
-	return FragranceInventoriesToGraphQL(a), nil
+
+	edges := make([]*fm.FragranceInventoryEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.FragranceInventoryEdge{
+			Cursor: "",
+			Node:   FragranceInventoryToGraphQL(row),
+		}
+	}
+
+	return &fm.FragranceInventoryConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicLipidSingleError = "could not get lipid"
@@ -3536,16 +3539,37 @@ func (r *queryResolver) Lipid(ctx context.Context, id string) (*fm.Lipid, error)
 
 const publicLipidListError = "could not list lipids"
 
-func (r *queryResolver) Lipids(ctx context.Context, filter *fm.LipidFilter) ([]*fm.Lipid, error) {
+func (r *queryResolver) Lipids(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.LipidOrdering, filter *fm.LipidFilter) (*fm.LipidConnection, error) {
 	mods := GetLipidPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return LipidsToGraphQL(a), nil
+
 	mods = append(mods, LipidFilterToMods(filter)...)
+
 	a, err := dm.Lipids(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicLipidListError)
 		return nil, errors.New(publicLipidListError)
 	}
-	return LipidsToGraphQL(a), nil
+
+	edges := make([]*fm.LipidEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.LipidEdge{
+			Cursor: "",
+			Node:   LipidToGraphQL(row),
+		}
+	}
+
+	return &fm.LipidConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicLipidInventorySingleError = "could not get lipidInventory"
@@ -3566,16 +3590,37 @@ func (r *queryResolver) LipidInventory(ctx context.Context, id string) (*fm.Lipi
 
 const publicLipidInventoryListError = "could not list lipidInventories"
 
-func (r *queryResolver) LipidInventories(ctx context.Context, filter *fm.LipidInventoryFilter) ([]*fm.LipidInventory, error) {
+func (r *queryResolver) LipidInventories(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.LipidInventoryOrdering, filter *fm.LipidInventoryFilter) (*fm.LipidInventoryConnection, error) {
 	mods := GetLipidInventoryPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return LipidInventoriesToGraphQL(a), nil
+
 	mods = append(mods, LipidInventoryFilterToMods(filter)...)
+
 	a, err := dm.LipidInventories(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicLipidInventoryListError)
 		return nil, errors.New(publicLipidInventoryListError)
 	}
-	return LipidInventoriesToGraphQL(a), nil
+
+	edges := make([]*fm.LipidInventoryEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.LipidInventoryEdge{
+			Cursor: "",
+			Node:   LipidInventoryToGraphQL(row),
+		}
+	}
+
+	return &fm.LipidInventoryConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicLyeSingleError = "could not get lye"
@@ -3596,16 +3641,37 @@ func (r *queryResolver) Lye(ctx context.Context, id string) (*fm.Lye, error) {
 
 const publicLyeListError = "could not list lyes"
 
-func (r *queryResolver) Lyes(ctx context.Context, filter *fm.LyeFilter) ([]*fm.Lye, error) {
+func (r *queryResolver) Lyes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.LyeOrdering, filter *fm.LyeFilter) (*fm.LyeConnection, error) {
 	mods := GetLyePreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return LyesToGraphQL(a), nil
+
 	mods = append(mods, LyeFilterToMods(filter)...)
+
 	a, err := dm.Lyes(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicLyeListError)
 		return nil, errors.New(publicLyeListError)
 	}
-	return LyesToGraphQL(a), nil
+
+	edges := make([]*fm.LyeEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.LyeEdge{
+			Cursor: "",
+			Node:   LyeToGraphQL(row),
+		}
+	}
+
+	return &fm.LyeConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicLyeInventorySingleError = "could not get lyeInventory"
@@ -3626,16 +3692,37 @@ func (r *queryResolver) LyeInventory(ctx context.Context, id string) (*fm.LyeInv
 
 const publicLyeInventoryListError = "could not list lyeInventories"
 
-func (r *queryResolver) LyeInventories(ctx context.Context, filter *fm.LyeInventoryFilter) ([]*fm.LyeInventory, error) {
+func (r *queryResolver) LyeInventories(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.LyeInventoryOrdering, filter *fm.LyeInventoryFilter) (*fm.LyeInventoryConnection, error) {
 	mods := GetLyeInventoryPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return LyeInventoriesToGraphQL(a), nil
+
 	mods = append(mods, LyeInventoryFilterToMods(filter)...)
+
 	a, err := dm.LyeInventories(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicLyeInventoryListError)
 		return nil, errors.New(publicLyeInventoryListError)
 	}
-	return LyeInventoriesToGraphQL(a), nil
+
+	edges := make([]*fm.LyeInventoryEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.LyeInventoryEdge{
+			Cursor: "",
+			Node:   LyeInventoryToGraphQL(row),
+		}
+	}
+
+	return &fm.LyeInventoryConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicRecipeSingleError = "could not get recipe"
@@ -3656,16 +3743,37 @@ func (r *queryResolver) Recipe(ctx context.Context, id string) (*fm.Recipe, erro
 
 const publicRecipeListError = "could not list recipes"
 
-func (r *queryResolver) Recipes(ctx context.Context, filter *fm.RecipeFilter) ([]*fm.Recipe, error) {
+func (r *queryResolver) Recipes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeOrdering, filter *fm.RecipeFilter) (*fm.RecipeConnection, error) {
 	mods := GetRecipePreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return RecipesToGraphQL(a), nil
+
 	mods = append(mods, RecipeFilterToMods(filter)...)
+
 	a, err := dm.Recipes(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeListError)
 		return nil, errors.New(publicRecipeListError)
 	}
-	return RecipesToGraphQL(a), nil
+
+	edges := make([]*fm.RecipeEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.RecipeEdge{
+			Cursor: "",
+			Node:   RecipeToGraphQL(row),
+		}
+	}
+
+	return &fm.RecipeConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicRecipeAdditiveSingleError = "could not get recipeAdditive"
@@ -3686,16 +3794,37 @@ func (r *queryResolver) RecipeAdditive(ctx context.Context, id string) (*fm.Reci
 
 const publicRecipeAdditiveListError = "could not list recipeAdditives"
 
-func (r *queryResolver) RecipeAdditives(ctx context.Context, filter *fm.RecipeAdditiveFilter) ([]*fm.RecipeAdditive, error) {
+func (r *queryResolver) RecipeAdditives(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeAdditiveOrdering, filter *fm.RecipeAdditiveFilter) (*fm.RecipeAdditiveConnection, error) {
 	mods := GetRecipeAdditivePreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return RecipeAdditivesToGraphQL(a), nil
+
 	mods = append(mods, RecipeAdditiveFilterToMods(filter)...)
+
 	a, err := dm.RecipeAdditives(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeAdditiveListError)
 		return nil, errors.New(publicRecipeAdditiveListError)
 	}
-	return RecipeAdditivesToGraphQL(a), nil
+
+	edges := make([]*fm.RecipeAdditiveEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.RecipeAdditiveEdge{
+			Cursor: "",
+			Node:   RecipeAdditiveToGraphQL(row),
+		}
+	}
+
+	return &fm.RecipeAdditiveConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicRecipeBatchSingleError = "could not get recipeBatch"
@@ -3716,16 +3845,37 @@ func (r *queryResolver) RecipeBatch(ctx context.Context, id string) (*fm.RecipeB
 
 const publicRecipeBatchListError = "could not list recipeBatches"
 
-func (r *queryResolver) RecipeBatches(ctx context.Context, filter *fm.RecipeBatchFilter) ([]*fm.RecipeBatch, error) {
+func (r *queryResolver) RecipeBatches(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeBatchOrdering, filter *fm.RecipeBatchFilter) (*fm.RecipeBatchConnection, error) {
 	mods := GetRecipeBatchPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return RecipeBatchesToGraphQL(a), nil
+
 	mods = append(mods, RecipeBatchFilterToMods(filter)...)
+
 	a, err := dm.RecipeBatches(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeBatchListError)
 		return nil, errors.New(publicRecipeBatchListError)
 	}
-	return RecipeBatchesToGraphQL(a), nil
+
+	edges := make([]*fm.RecipeBatchEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.RecipeBatchEdge{
+			Cursor: "",
+			Node:   RecipeBatchToGraphQL(row),
+		}
+	}
+
+	return &fm.RecipeBatchConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicRecipeBatchAdditiveSingleError = "could not get recipeBatchAdditive"
@@ -3746,16 +3896,37 @@ func (r *queryResolver) RecipeBatchAdditive(ctx context.Context, id string) (*fm
 
 const publicRecipeBatchAdditiveListError = "could not list recipeBatchAdditives"
 
-func (r *queryResolver) RecipeBatchAdditives(ctx context.Context, filter *fm.RecipeBatchAdditiveFilter) ([]*fm.RecipeBatchAdditive, error) {
+func (r *queryResolver) RecipeBatchAdditives(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeBatchAdditiveOrdering, filter *fm.RecipeBatchAdditiveFilter) (*fm.RecipeBatchAdditiveConnection, error) {
 	mods := GetRecipeBatchAdditivePreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return RecipeBatchAdditivesToGraphQL(a), nil
+
 	mods = append(mods, RecipeBatchAdditiveFilterToMods(filter)...)
+
 	a, err := dm.RecipeBatchAdditives(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeBatchAdditiveListError)
 		return nil, errors.New(publicRecipeBatchAdditiveListError)
 	}
-	return RecipeBatchAdditivesToGraphQL(a), nil
+
+	edges := make([]*fm.RecipeBatchAdditiveEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.RecipeBatchAdditiveEdge{
+			Cursor: "",
+			Node:   RecipeBatchAdditiveToGraphQL(row),
+		}
+	}
+
+	return &fm.RecipeBatchAdditiveConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicRecipeBatchFragranceSingleError = "could not get recipeBatchFragrance"
@@ -3776,16 +3947,37 @@ func (r *queryResolver) RecipeBatchFragrance(ctx context.Context, id string) (*f
 
 const publicRecipeBatchFragranceListError = "could not list recipeBatchFragrances"
 
-func (r *queryResolver) RecipeBatchFragrances(ctx context.Context, filter *fm.RecipeBatchFragranceFilter) ([]*fm.RecipeBatchFragrance, error) {
+func (r *queryResolver) RecipeBatchFragrances(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeBatchFragranceOrdering, filter *fm.RecipeBatchFragranceFilter) (*fm.RecipeBatchFragranceConnection, error) {
 	mods := GetRecipeBatchFragrancePreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return RecipeBatchFragrancesToGraphQL(a), nil
+
 	mods = append(mods, RecipeBatchFragranceFilterToMods(filter)...)
+
 	a, err := dm.RecipeBatchFragrances(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeBatchFragranceListError)
 		return nil, errors.New(publicRecipeBatchFragranceListError)
 	}
-	return RecipeBatchFragrancesToGraphQL(a), nil
+
+	edges := make([]*fm.RecipeBatchFragranceEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.RecipeBatchFragranceEdge{
+			Cursor: "",
+			Node:   RecipeBatchFragranceToGraphQL(row),
+		}
+	}
+
+	return &fm.RecipeBatchFragranceConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicRecipeBatchLipidSingleError = "could not get recipeBatchLipid"
@@ -3806,16 +3998,37 @@ func (r *queryResolver) RecipeBatchLipid(ctx context.Context, id string) (*fm.Re
 
 const publicRecipeBatchLipidListError = "could not list recipeBatchLipids"
 
-func (r *queryResolver) RecipeBatchLipids(ctx context.Context, filter *fm.RecipeBatchLipidFilter) ([]*fm.RecipeBatchLipid, error) {
+func (r *queryResolver) RecipeBatchLipids(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeBatchLipidOrdering, filter *fm.RecipeBatchLipidFilter) (*fm.RecipeBatchLipidConnection, error) {
 	mods := GetRecipeBatchLipidPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return RecipeBatchLipidsToGraphQL(a), nil
+
 	mods = append(mods, RecipeBatchLipidFilterToMods(filter)...)
+
 	a, err := dm.RecipeBatchLipids(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeBatchLipidListError)
 		return nil, errors.New(publicRecipeBatchLipidListError)
 	}
-	return RecipeBatchLipidsToGraphQL(a), nil
+
+	edges := make([]*fm.RecipeBatchLipidEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.RecipeBatchLipidEdge{
+			Cursor: "",
+			Node:   RecipeBatchLipidToGraphQL(row),
+		}
+	}
+
+	return &fm.RecipeBatchLipidConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicRecipeBatchLyeSingleError = "could not get recipeBatchLye"
@@ -3836,16 +4049,37 @@ func (r *queryResolver) RecipeBatchLye(ctx context.Context, id string) (*fm.Reci
 
 const publicRecipeBatchLyeListError = "could not list recipeBatchLyes"
 
-func (r *queryResolver) RecipeBatchLyes(ctx context.Context, filter *fm.RecipeBatchLyeFilter) ([]*fm.RecipeBatchLye, error) {
+func (r *queryResolver) RecipeBatchLyes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeBatchLyeOrdering, filter *fm.RecipeBatchLyeFilter) (*fm.RecipeBatchLyeConnection, error) {
 	mods := GetRecipeBatchLyePreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return RecipeBatchLyesToGraphQL(a), nil
+
 	mods = append(mods, RecipeBatchLyeFilterToMods(filter)...)
+
 	a, err := dm.RecipeBatchLyes(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeBatchLyeListError)
 		return nil, errors.New(publicRecipeBatchLyeListError)
 	}
-	return RecipeBatchLyesToGraphQL(a), nil
+
+	edges := make([]*fm.RecipeBatchLyeEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.RecipeBatchLyeEdge{
+			Cursor: "",
+			Node:   RecipeBatchLyeToGraphQL(row),
+		}
+	}
+
+	return &fm.RecipeBatchLyeConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicRecipeBatchNoteSingleError = "could not get recipeBatchNote"
@@ -3866,16 +4100,37 @@ func (r *queryResolver) RecipeBatchNote(ctx context.Context, id string) (*fm.Rec
 
 const publicRecipeBatchNoteListError = "could not list recipeBatchNotes"
 
-func (r *queryResolver) RecipeBatchNotes(ctx context.Context, filter *fm.RecipeBatchNoteFilter) ([]*fm.RecipeBatchNote, error) {
+func (r *queryResolver) RecipeBatchNotes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeBatchNoteOrdering, filter *fm.RecipeBatchNoteFilter) (*fm.RecipeBatchNoteConnection, error) {
 	mods := GetRecipeBatchNotePreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return RecipeBatchNotesToGraphQL(a), nil
+
 	mods = append(mods, RecipeBatchNoteFilterToMods(filter)...)
+
 	a, err := dm.RecipeBatchNotes(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeBatchNoteListError)
 		return nil, errors.New(publicRecipeBatchNoteListError)
 	}
-	return RecipeBatchNotesToGraphQL(a), nil
+
+	edges := make([]*fm.RecipeBatchNoteEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.RecipeBatchNoteEdge{
+			Cursor: "",
+			Node:   RecipeBatchNoteToGraphQL(row),
+		}
+	}
+
+	return &fm.RecipeBatchNoteConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicRecipeFragranceSingleError = "could not get recipeFragrance"
@@ -3896,16 +4151,37 @@ func (r *queryResolver) RecipeFragrance(ctx context.Context, id string) (*fm.Rec
 
 const publicRecipeFragranceListError = "could not list recipeFragrances"
 
-func (r *queryResolver) RecipeFragrances(ctx context.Context, filter *fm.RecipeFragranceFilter) ([]*fm.RecipeFragrance, error) {
+func (r *queryResolver) RecipeFragrances(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeFragranceOrdering, filter *fm.RecipeFragranceFilter) (*fm.RecipeFragranceConnection, error) {
 	mods := GetRecipeFragrancePreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return RecipeFragrancesToGraphQL(a), nil
+
 	mods = append(mods, RecipeFragranceFilterToMods(filter)...)
+
 	a, err := dm.RecipeFragrances(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeFragranceListError)
 		return nil, errors.New(publicRecipeFragranceListError)
 	}
-	return RecipeFragrancesToGraphQL(a), nil
+
+	edges := make([]*fm.RecipeFragranceEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.RecipeFragranceEdge{
+			Cursor: "",
+			Node:   RecipeFragranceToGraphQL(row),
+		}
+	}
+
+	return &fm.RecipeFragranceConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicRecipeLipidSingleError = "could not get recipeLipid"
@@ -3926,16 +4202,37 @@ func (r *queryResolver) RecipeLipid(ctx context.Context, id string) (*fm.RecipeL
 
 const publicRecipeLipidListError = "could not list recipeLipids"
 
-func (r *queryResolver) RecipeLipids(ctx context.Context, filter *fm.RecipeLipidFilter) ([]*fm.RecipeLipid, error) {
+func (r *queryResolver) RecipeLipids(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeLipidOrdering, filter *fm.RecipeLipidFilter) (*fm.RecipeLipidConnection, error) {
 	mods := GetRecipeLipidPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return RecipeLipidsToGraphQL(a), nil
+
 	mods = append(mods, RecipeLipidFilterToMods(filter)...)
+
 	a, err := dm.RecipeLipids(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeLipidListError)
 		return nil, errors.New(publicRecipeLipidListError)
 	}
-	return RecipeLipidsToGraphQL(a), nil
+
+	edges := make([]*fm.RecipeLipidEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.RecipeLipidEdge{
+			Cursor: "",
+			Node:   RecipeLipidToGraphQL(row),
+		}
+	}
+
+	return &fm.RecipeLipidConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicRecipeStepSingleError = "could not get recipeStep"
@@ -3956,16 +4253,37 @@ func (r *queryResolver) RecipeStep(ctx context.Context, id string) (*fm.RecipeSt
 
 const publicRecipeStepListError = "could not list recipeSteps"
 
-func (r *queryResolver) RecipeSteps(ctx context.Context, filter *fm.RecipeStepFilter) ([]*fm.RecipeStep, error) {
+func (r *queryResolver) RecipeSteps(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.RecipeStepOrdering, filter *fm.RecipeStepFilter) (*fm.RecipeStepConnection, error) {
 	mods := GetRecipeStepPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return RecipeStepsToGraphQL(a), nil
+
 	mods = append(mods, RecipeStepFilterToMods(filter)...)
+
 	a, err := dm.RecipeSteps(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicRecipeStepListError)
 		return nil, errors.New(publicRecipeStepListError)
 	}
-	return RecipeStepsToGraphQL(a), nil
+
+	edges := make([]*fm.RecipeStepEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.RecipeStepEdge{
+			Cursor: "",
+			Node:   RecipeStepToGraphQL(row),
+		}
+	}
+
+	return &fm.RecipeStepConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
 }
 
 const publicSupplierSingleError = "could not get supplier"
@@ -3986,16 +4304,102 @@ func (r *queryResolver) Supplier(ctx context.Context, id string) (*fm.Supplier, 
 
 const publicSupplierListError = "could not list suppliers"
 
-func (r *queryResolver) Suppliers(ctx context.Context, filter *fm.SupplierFilter) ([]*fm.Supplier, error) {
+func (r *queryResolver) Suppliers(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.SupplierOrdering, filter *fm.SupplierFilter) (*fm.SupplierConnection, error) {
 	mods := GetSupplierPreloadMods(ctx)
 
+	// TODO: use these if no connection is used
+	// return SuppliersToGraphQL(a), nil
+
 	mods = append(mods, SupplierFilterToMods(filter)...)
+
 	a, err := dm.Suppliers(mods...).All(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicSupplierListError)
 		return nil, errors.New(publicSupplierListError)
 	}
-	return SuppliersToGraphQL(a), nil
+
+	edges := make([]*fm.SupplierEdge, len(a))
+	for i, row := range a {
+		edges[i] = &fm.SupplierEdge{
+			Cursor: "",
+			Node:   SupplierToGraphQL(row),
+		}
+	}
+
+	return &fm.SupplierConnection{
+		Edges: edges,
+		PageInfo: &fm.PageInfo{
+			HasNextPage:     false,
+			HasPreviousPage: false,
+			StartCursor:     nil,
+			EndCursor:       nil,
+		},
+	}, nil
+}
+
+func (r *queryResolver) Node(ctx context.Context, globalGraphID string) (fm.Node, error) {
+	splitID := strings.SplitN(globalGraphID, "-", 1)
+	if len(splitID) != 2 {
+		return nil, errors.New("could not parse id")
+	}
+
+	model := splitID[0]
+	switch model {
+	case "Additive":
+		return r.Additive(ctx, globalGraphID)
+	case "AdditiveInventory":
+		return r.AdditiveInventory(ctx, globalGraphID)
+	case "AuthGroup":
+		return r.AuthGroup(ctx, globalGraphID)
+	case "AuthGroupPermission":
+		return r.AuthGroupPermission(ctx, globalGraphID)
+	case "AuthPermission":
+		return r.AuthPermission(ctx, globalGraphID)
+	case "AuthUser":
+		return r.AuthUser(ctx, globalGraphID)
+	case "AuthUserGroup":
+		return r.AuthUserGroup(ctx, globalGraphID)
+	case "AuthUserUserPermission":
+		return r.AuthUserUserPermission(ctx, globalGraphID)
+	case "Fragrance":
+		return r.Fragrance(ctx, globalGraphID)
+	case "FragranceInventory":
+		return r.FragranceInventory(ctx, globalGraphID)
+	case "Lipid":
+		return r.Lipid(ctx, globalGraphID)
+	case "LipidInventory":
+		return r.LipidInventory(ctx, globalGraphID)
+	case "Lye":
+		return r.Lye(ctx, globalGraphID)
+	case "LyeInventory":
+		return r.LyeInventory(ctx, globalGraphID)
+	case "Recipe":
+		return r.Recipe(ctx, globalGraphID)
+	case "RecipeAdditive":
+		return r.RecipeAdditive(ctx, globalGraphID)
+	case "RecipeBatch":
+		return r.RecipeBatch(ctx, globalGraphID)
+	case "RecipeBatchAdditive":
+		return r.RecipeBatchAdditive(ctx, globalGraphID)
+	case "RecipeBatchFragrance":
+		return r.RecipeBatchFragrance(ctx, globalGraphID)
+	case "RecipeBatchLipid":
+		return r.RecipeBatchLipid(ctx, globalGraphID)
+	case "RecipeBatchLye":
+		return r.RecipeBatchLye(ctx, globalGraphID)
+	case "RecipeBatchNote":
+		return r.RecipeBatchNote(ctx, globalGraphID)
+	case "RecipeFragrance":
+		return r.RecipeFragrance(ctx, globalGraphID)
+	case "RecipeLipid":
+		return r.RecipeLipid(ctx, globalGraphID)
+	case "RecipeStep":
+		return r.RecipeStep(ctx, globalGraphID)
+	case "Supplier":
+		return r.Supplier(ctx, globalGraphID)
+	default:
+		return nil, errors.New("could not find corresponding model for id")
+	}
 }
 
 func (r *Resolver) Mutation() fm.MutationResolver { return &mutationResolver{r} }

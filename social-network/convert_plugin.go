@@ -34,14 +34,15 @@ func main() {
 	}
 
 	err = gbgen.SchemaWrite(gbgen.SchemaConfig{
-		ModelDirectory:      "models",
-		Pagination:          gbgen.Paginations.Connections,
-		GenerateBatchCreate: true,
-		GenerateMutations:   true,
-		GenerateBatchDelete: true,
-		GenerateBatchUpdate: true,
-		Directives:          []string{"isAuthenticated"},
-	}, "schema.graphql", false)
+		BoilerModelDirectory: backend,
+		GenerateBatchCreate:  true,
+		GenerateMutations:    true,
+		GenerateBatchDelete:  true,
+		GenerateBatchUpdate:  true,
+		Directives:           []string{"isAuthenticated"},
+	}, "schema.graphql", gbgen.SchemaGenerateConfig{
+		MergeSchema: false,
+	})
 
 	if err != nil {
 		fmt.Println("error while trying to gbgen.SchemaWrite")

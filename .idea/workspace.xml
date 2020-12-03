@@ -23,7 +23,36 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue-6-edges-connections/helpers/sort.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-6-edges-connections/helpers/sort.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-12-string-ids/convert_plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-12-string-ids/convert_plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-12-string-ids/gqlgen.yml" beforeDir="false" afterPath="$PROJECT_DIR$/issue-12-string-ids/gqlgen.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-12-string-ids/graphql_models/generated.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-12-string-ids/graphql_models/generated.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-12-string-ids/graphql_models/generated_models.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-12-string-ids/graphql_models/generated_models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-12-string-ids/helpers/convert.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-12-string-ids/helpers/convert.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-12-string-ids/helpers/convert_input.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-12-string-ids/helpers/convert_input.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-12-string-ids/helpers/filter.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-12-string-ids/helpers/filter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-12-string-ids/resolver.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-12-string-ids/resolver.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-12-string-ids/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/issue-12-string-ids/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/convert_plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/convert_plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/gqlgen.yml" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/gqlgen.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/graphql_models/generated.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/graphql_models/generated.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/graphql_models/generated_models.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/graphql_models/generated_models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/helpers/convert.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/helpers/convert.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/helpers/convert_input.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/helpers/convert_input.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/helpers/filter.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/helpers/filter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/resolver.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/resolver.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-38-plugin-panics/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/issue-38-plugin-panics/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-6-edges-connections/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/issue-6-edges-connections/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-6-edges-connections/convert_plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-6-edges-connections/convert_plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue-6-edges-connections/resolver.go" beforeDir="false" afterPath="$PROJECT_DIR$/issue-6-edges-connections/resolver.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social-network/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social-network/convert_plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/convert_plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social-network/gqlgen.yml" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/gqlgen.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social-network/graphql_models/generated.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/graphql_models/generated.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social-network/graphql_models/generated_models.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/graphql_models/generated_models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social-network/helpers/convert.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/helpers/convert.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social-network/resolver.go" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/resolver.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social-network/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/social-network/schema.graphql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,11 +125,12 @@
     </state>
     <state x="-1576" y="103" key="SettingsEditor/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1602965213308" />
     <state x="344" y="98" key="SettingsEditor/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@0.23.1920.989" timestamp="1603230423695" />
-    <state x="633" y="297" width="730" height="715" key="find.popup" timestamp="1605975312900">
-      <screen x="0" y="23" width="1920" height="989" />
+    <state x="4537" y="300" width="730" height="765" key="find.popup" timestamp="1607005774546">
+      <screen x="3600" y="23" width="1920" height="1057" />
     </state>
     <state x="415" y="395" width="730" height="616" key="find.popup/-1920.23.1920.1057/0.23.1920.989/1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1603481315461" />
     <state x="554" y="290" width="726" height="760" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1604526169885" />
+    <state x="4537" y="300" width="730" height="765" key="find.popup/1680.23.1920.989/3600.23.1920.1057/0.23.1680.1027@3600.23.1920.1057" timestamp="1607005774546" />
     <state x="-1287" y="316" width="730" height="764" key="find.popup/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@-1920.23.1920.1057" timestamp="1603705083766" />
     <state x="633" y="297" width="730" height="715" key="find.popup/1920.23.1920.1057/0.23.1920.989/-1920.23.1920.1057/-3600.93.1680.1027@0.23.1920.989" timestamp="1605975312900" />
   </component>

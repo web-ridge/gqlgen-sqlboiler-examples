@@ -2,23 +2,42 @@
 
 package graphql_models
 
+import (
+	"fmt"
+	"io"
+	"strconv"
+
+	"github.com/web-ridge/utils-go/boilergql"
+)
+
+type Node interface {
+	IsNode()
+}
+
 type Additive struct {
 	ID                  string               `json:"id"`
 	Name                string               `json:"name"`
 	Note                string               `json:"note"`
-	UpdatedAt           int                  `json:"updatedAt"`
 	CreatedAt           int                  `json:"createdAt"`
+	UpdatedAt           int                  `json:"updatedAt"`
 	DeletedAt           *int                 `json:"deletedAt"`
 	RecipeAdditive      *RecipeAdditive      `json:"recipeAdditive"`
 	RecipeBatchAdditive *RecipeBatchAdditive `json:"recipeBatchAdditive"`
 	AdditiveInventories []*AdditiveInventory `json:"additiveInventories"`
 }
 
+func (Additive) IsNode() {}
+
+type AdditiveConnection struct {
+	Edges    []*AdditiveEdge `json:"edges"`
+	PageInfo *PageInfo       `json:"pageInfo"`
+}
+
 type AdditiveCreateInput struct {
 	Name      string `json:"name"`
 	Note      string `json:"note"`
-	UpdatedAt int    `json:"updatedAt"`
 	CreatedAt int    `json:"createdAt"`
+	UpdatedAt int    `json:"updatedAt"`
 	DeletedAt *int   `json:"deletedAt"`
 }
 
@@ -26,21 +45,18 @@ type AdditiveDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type AdditiveEdge struct {
+	Cursor string    `json:"cursor"`
+	Node   *Additive `json:"node"`
+}
+
 type AdditiveFilter struct {
 	Search *string        `json:"search"`
 	Where  *AdditiveWhere `json:"where"`
 }
 
-type AdditiveInventoriesCreateInput struct {
-	AdditiveInventories []*AdditiveInventoryCreateInput `json:"additiveInventories"`
-}
-
 type AdditiveInventoriesDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type AdditiveInventoriesPayload struct {
-	AdditiveInventories []*AdditiveInventory `json:"additiveInventories"`
 }
 
 type AdditiveInventoriesUpdatePayload struct {
@@ -55,9 +71,16 @@ type AdditiveInventory struct {
 	Weight       float64   `json:"weight"`
 	Additive     *Additive `json:"additive"`
 	Supplier     *Supplier `json:"supplier"`
-	UpdatedAt    int       `json:"updatedAt"`
-	DeletedAt    *int      `json:"deletedAt"`
 	CreatedAt    int       `json:"createdAt"`
+	DeletedAt    *int      `json:"deletedAt"`
+	UpdatedAt    int       `json:"updatedAt"`
+}
+
+func (AdditiveInventory) IsNode() {}
+
+type AdditiveInventoryConnection struct {
+	Edges    []*AdditiveInventoryEdge `json:"edges"`
+	PageInfo *PageInfo                `json:"pageInfo"`
 }
 
 type AdditiveInventoryCreateInput struct {
@@ -67,18 +90,28 @@ type AdditiveInventoryCreateInput struct {
 	Weight       float64 `json:"weight"`
 	AdditiveID   string  `json:"additiveId"`
 	SupplierID   string  `json:"supplierId"`
-	UpdatedAt    int     `json:"updatedAt"`
-	DeletedAt    *int    `json:"deletedAt"`
 	CreatedAt    int     `json:"createdAt"`
+	DeletedAt    *int    `json:"deletedAt"`
+	UpdatedAt    int     `json:"updatedAt"`
 }
 
 type AdditiveInventoryDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type AdditiveInventoryEdge struct {
+	Cursor string             `json:"cursor"`
+	Node   *AdditiveInventory `json:"node"`
+}
+
 type AdditiveInventoryFilter struct {
 	Search *string                 `json:"search"`
 	Where  *AdditiveInventoryWhere `json:"where"`
+}
+
+type AdditiveInventoryOrdering struct {
+	Sort      AdditiveInventorySort   `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type AdditiveInventoryPayload struct {
@@ -92,9 +125,9 @@ type AdditiveInventoryUpdateInput struct {
 	Weight       *float64 `json:"weight"`
 	AdditiveID   *string  `json:"additiveId"`
 	SupplierID   *string  `json:"supplierId"`
-	UpdatedAt    *int     `json:"updatedAt"`
-	DeletedAt    *int     `json:"deletedAt"`
 	CreatedAt    *int     `json:"createdAt"`
+	DeletedAt    *int     `json:"deletedAt"`
+	UpdatedAt    *int     `json:"updatedAt"`
 }
 
 type AdditiveInventoryWhere struct {
@@ -105,11 +138,16 @@ type AdditiveInventoryWhere struct {
 	Weight       *FloatFilter            `json:"weight"`
 	Additive     *AdditiveWhere          `json:"additive"`
 	Supplier     *SupplierWhere          `json:"supplier"`
-	UpdatedAt    *IntFilter              `json:"updatedAt"`
-	DeletedAt    *IntFilter              `json:"deletedAt"`
 	CreatedAt    *IntFilter              `json:"createdAt"`
+	DeletedAt    *IntFilter              `json:"deletedAt"`
+	UpdatedAt    *IntFilter              `json:"updatedAt"`
 	Or           *AdditiveInventoryWhere `json:"or"`
 	And          *AdditiveInventoryWhere `json:"and"`
+}
+
+type AdditiveOrdering struct {
+	Sort      AdditiveSort            `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type AdditivePayload struct {
@@ -119,8 +157,8 @@ type AdditivePayload struct {
 type AdditiveUpdateInput struct {
 	Name      *string `json:"name"`
 	Note      *string `json:"note"`
-	UpdatedAt *int    `json:"updatedAt"`
 	CreatedAt *int    `json:"createdAt"`
+	UpdatedAt *int    `json:"updatedAt"`
 	DeletedAt *int    `json:"deletedAt"`
 }
 
@@ -128,8 +166,8 @@ type AdditiveWhere struct {
 	ID                  *IDFilter                 `json:"id"`
 	Name                *StringFilter             `json:"name"`
 	Note                *StringFilter             `json:"note"`
-	UpdatedAt           *IntFilter                `json:"updatedAt"`
 	CreatedAt           *IntFilter                `json:"createdAt"`
+	UpdatedAt           *IntFilter                `json:"updatedAt"`
 	DeletedAt           *IntFilter                `json:"deletedAt"`
 	RecipeAdditive      *RecipeAdditiveWhere      `json:"recipeAdditive"`
 	RecipeBatchAdditive *RecipeBatchAdditiveWhere `json:"recipeBatchAdditive"`
@@ -138,16 +176,8 @@ type AdditiveWhere struct {
 	And                 *AdditiveWhere            `json:"and"`
 }
 
-type AdditivesCreateInput struct {
-	Additives []*AdditiveCreateInput `json:"additives"`
-}
-
 type AdditivesDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type AdditivesPayload struct {
-	Additives []*Additive `json:"additives"`
 }
 
 type AdditivesUpdatePayload struct {
@@ -161,6 +191,13 @@ type AuthGroup struct {
 	GroupAuthUserGroups       []*AuthUserGroup       `json:"groupAuthUserGroups"`
 }
 
+func (AuthGroup) IsNode() {}
+
+type AuthGroupConnection struct {
+	Edges    []*AuthGroupEdge `json:"edges"`
+	PageInfo *PageInfo        `json:"pageInfo"`
+}
+
 type AuthGroupCreateInput struct {
 	Name string `json:"name"`
 }
@@ -169,9 +206,19 @@ type AuthGroupDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type AuthGroupEdge struct {
+	Cursor string     `json:"cursor"`
+	Node   *AuthGroup `json:"node"`
+}
+
 type AuthGroupFilter struct {
 	Search *string         `json:"search"`
 	Where  *AuthGroupWhere `json:"where"`
+}
+
+type AuthGroupOrdering struct {
+	Sort      AuthGroupSort           `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type AuthGroupPayload struct {
@@ -184,6 +231,13 @@ type AuthGroupPermission struct {
 	Permission *AuthPermission `json:"permission"`
 }
 
+func (AuthGroupPermission) IsNode() {}
+
+type AuthGroupPermissionConnection struct {
+	Edges    []*AuthGroupPermissionEdge `json:"edges"`
+	PageInfo *PageInfo                  `json:"pageInfo"`
+}
+
 type AuthGroupPermissionCreateInput struct {
 	GroupID      string `json:"groupId"`
 	PermissionID string `json:"permissionId"`
@@ -193,9 +247,19 @@ type AuthGroupPermissionDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type AuthGroupPermissionEdge struct {
+	Cursor string               `json:"cursor"`
+	Node   *AuthGroupPermission `json:"node"`
+}
+
 type AuthGroupPermissionFilter struct {
 	Search *string                   `json:"search"`
 	Where  *AuthGroupPermissionWhere `json:"where"`
+}
+
+type AuthGroupPermissionOrdering struct {
+	Sort      AuthGroupPermissionSort `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type AuthGroupPermissionPayload struct {
@@ -215,16 +279,8 @@ type AuthGroupPermissionWhere struct {
 	And        *AuthGroupPermissionWhere `json:"and"`
 }
 
-type AuthGroupPermissionsCreateInput struct {
-	AuthGroupPermissions []*AuthGroupPermissionCreateInput `json:"authGroupPermissions"`
-}
-
 type AuthGroupPermissionsDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type AuthGroupPermissionsPayload struct {
-	AuthGroupPermissions []*AuthGroupPermission `json:"authGroupPermissions"`
 }
 
 type AuthGroupPermissionsUpdatePayload struct {
@@ -244,16 +300,8 @@ type AuthGroupWhere struct {
 	And                       *AuthGroupWhere           `json:"and"`
 }
 
-type AuthGroupsCreateInput struct {
-	AuthGroups []*AuthGroupCreateInput `json:"authGroups"`
-}
-
 type AuthGroupsDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type AuthGroupsPayload struct {
-	AuthGroups []*AuthGroup `json:"authGroups"`
 }
 
 type AuthGroupsUpdatePayload struct {
@@ -269,6 +317,13 @@ type AuthPermission struct {
 	PermissionAuthUserUserPermissions []*AuthUserUserPermission `json:"permissionAuthUserUserPermissions"`
 }
 
+func (AuthPermission) IsNode() {}
+
+type AuthPermissionConnection struct {
+	Edges    []*AuthPermissionEdge `json:"edges"`
+	PageInfo *PageInfo             `json:"pageInfo"`
+}
+
 type AuthPermissionCreateInput struct {
 	Name          string `json:"name"`
 	ContentTypeID string `json:"contentTypeId"`
@@ -279,9 +334,19 @@ type AuthPermissionDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type AuthPermissionEdge struct {
+	Cursor string          `json:"cursor"`
+	Node   *AuthPermission `json:"node"`
+}
+
 type AuthPermissionFilter struct {
 	Search *string              `json:"search"`
 	Where  *AuthPermissionWhere `json:"where"`
+}
+
+type AuthPermissionOrdering struct {
+	Sort      AuthPermissionSort      `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type AuthPermissionPayload struct {
@@ -305,16 +370,8 @@ type AuthPermissionWhere struct {
 	And                               *AuthPermissionWhere         `json:"and"`
 }
 
-type AuthPermissionsCreateInput struct {
-	AuthPermissions []*AuthPermissionCreateInput `json:"authPermissions"`
-}
-
 type AuthPermissionsDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type AuthPermissionsPayload struct {
-	AuthPermissions []*AuthPermission `json:"authPermissions"`
 }
 
 type AuthPermissionsUpdatePayload struct {
@@ -337,6 +394,13 @@ type AuthUser struct {
 	UserAuthUserUserPermissions []*AuthUserUserPermission `json:"userAuthUserUserPermissions"`
 }
 
+func (AuthUser) IsNode() {}
+
+type AuthUserConnection struct {
+	Edges    []*AuthUserEdge `json:"edges"`
+	PageInfo *PageInfo       `json:"pageInfo"`
+}
+
 type AuthUserCreateInput struct {
 	Password    string `json:"password"`
 	LastLogin   *int   `json:"lastLogin"`
@@ -354,6 +418,11 @@ type AuthUserDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type AuthUserEdge struct {
+	Cursor string    `json:"cursor"`
+	Node   *AuthUser `json:"node"`
+}
+
 type AuthUserFilter struct {
 	Search *string        `json:"search"`
 	Where  *AuthUserWhere `json:"where"`
@@ -365,6 +434,13 @@ type AuthUserGroup struct {
 	Group *AuthGroup `json:"group"`
 }
 
+func (AuthUserGroup) IsNode() {}
+
+type AuthUserGroupConnection struct {
+	Edges    []*AuthUserGroupEdge `json:"edges"`
+	PageInfo *PageInfo            `json:"pageInfo"`
+}
+
 type AuthUserGroupCreateInput struct {
 	UserID  string `json:"userId"`
 	GroupID string `json:"groupId"`
@@ -374,9 +450,19 @@ type AuthUserGroupDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type AuthUserGroupEdge struct {
+	Cursor string         `json:"cursor"`
+	Node   *AuthUserGroup `json:"node"`
+}
+
 type AuthUserGroupFilter struct {
 	Search *string             `json:"search"`
 	Where  *AuthUserGroupWhere `json:"where"`
+}
+
+type AuthUserGroupOrdering struct {
+	Sort      AuthUserGroupSort       `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type AuthUserGroupPayload struct {
@@ -396,20 +482,17 @@ type AuthUserGroupWhere struct {
 	And   *AuthUserGroupWhere `json:"and"`
 }
 
-type AuthUserGroupsCreateInput struct {
-	AuthUserGroups []*AuthUserGroupCreateInput `json:"authUserGroups"`
-}
-
 type AuthUserGroupsDeletePayload struct {
 	Ids []string `json:"ids"`
 }
 
-type AuthUserGroupsPayload struct {
-	AuthUserGroups []*AuthUserGroup `json:"authUserGroups"`
-}
-
 type AuthUserGroupsUpdatePayload struct {
 	Ok bool `json:"ok"`
+}
+
+type AuthUserOrdering struct {
+	Sort      AuthUserSort            `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type AuthUserPayload struct {
@@ -435,6 +518,13 @@ type AuthUserUserPermission struct {
 	Permission *AuthPermission `json:"permission"`
 }
 
+func (AuthUserUserPermission) IsNode() {}
+
+type AuthUserUserPermissionConnection struct {
+	Edges    []*AuthUserUserPermissionEdge `json:"edges"`
+	PageInfo *PageInfo                     `json:"pageInfo"`
+}
+
 type AuthUserUserPermissionCreateInput struct {
 	UserID       string `json:"userId"`
 	PermissionID string `json:"permissionId"`
@@ -444,9 +534,19 @@ type AuthUserUserPermissionDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type AuthUserUserPermissionEdge struct {
+	Cursor string                  `json:"cursor"`
+	Node   *AuthUserUserPermission `json:"node"`
+}
+
 type AuthUserUserPermissionFilter struct {
 	Search *string                      `json:"search"`
 	Where  *AuthUserUserPermissionWhere `json:"where"`
+}
+
+type AuthUserUserPermissionOrdering struct {
+	Sort      AuthUserUserPermissionSort `json:"sort"`
+	Direction boilergql.SortDirection    `json:"direction"`
 }
 
 type AuthUserUserPermissionPayload struct {
@@ -466,16 +566,8 @@ type AuthUserUserPermissionWhere struct {
 	And        *AuthUserUserPermissionWhere `json:"and"`
 }
 
-type AuthUserUserPermissionsCreateInput struct {
-	AuthUserUserPermissions []*AuthUserUserPermissionCreateInput `json:"authUserUserPermissions"`
-}
-
 type AuthUserUserPermissionsDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type AuthUserUserPermissionsPayload struct {
-	AuthUserUserPermissions []*AuthUserUserPermission `json:"authUserUserPermissions"`
 }
 
 type AuthUserUserPermissionsUpdatePayload struct {
@@ -500,16 +592,8 @@ type AuthUserWhere struct {
 	And                         *AuthUserWhere               `json:"and"`
 }
 
-type AuthUsersCreateInput struct {
-	AuthUsers []*AuthUserCreateInput `json:"authUsers"`
-}
-
 type AuthUsersDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type AuthUsersPayload struct {
-	AuthUsers []*AuthUser `json:"authUsers"`
 }
 
 type AuthUsersUpdatePayload struct {
@@ -536,24 +620,36 @@ type Fragrance struct {
 	ID                   string                `json:"id"`
 	Name                 string                `json:"name"`
 	Note                 string                `json:"note"`
-	DeletedAt            *int                  `json:"deletedAt"`
-	CreatedAt            int                   `json:"createdAt"`
 	UpdatedAt            int                   `json:"updatedAt"`
+	CreatedAt            int                   `json:"createdAt"`
+	DeletedAt            *int                  `json:"deletedAt"`
 	RecipeBatchFragrance *RecipeBatchFragrance `json:"recipeBatchFragrance"`
 	RecipeFragrance      *RecipeFragrance      `json:"recipeFragrance"`
 	FragranceInventories []*FragranceInventory `json:"fragranceInventories"`
 }
 
+func (Fragrance) IsNode() {}
+
+type FragranceConnection struct {
+	Edges    []*FragranceEdge `json:"edges"`
+	PageInfo *PageInfo        `json:"pageInfo"`
+}
+
 type FragranceCreateInput struct {
 	Name      string `json:"name"`
 	Note      string `json:"note"`
-	DeletedAt *int   `json:"deletedAt"`
-	CreatedAt int    `json:"createdAt"`
 	UpdatedAt int    `json:"updatedAt"`
+	CreatedAt int    `json:"createdAt"`
+	DeletedAt *int   `json:"deletedAt"`
 }
 
 type FragranceDeletePayload struct {
 	ID string `json:"id"`
+}
+
+type FragranceEdge struct {
+	Cursor string     `json:"cursor"`
+	Node   *Fragrance `json:"node"`
 }
 
 type FragranceFilter struct {
@@ -561,16 +657,8 @@ type FragranceFilter struct {
 	Where  *FragranceWhere `json:"where"`
 }
 
-type FragranceInventoriesCreateInput struct {
-	FragranceInventories []*FragranceInventoryCreateInput `json:"fragranceInventories"`
-}
-
 type FragranceInventoriesDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type FragranceInventoriesPayload struct {
-	FragranceInventories []*FragranceInventory `json:"fragranceInventories"`
 }
 
 type FragranceInventoriesUpdatePayload struct {
@@ -585,9 +673,16 @@ type FragranceInventory struct {
 	Weight       float64    `json:"weight"`
 	Fragrance    *Fragrance `json:"fragrance"`
 	Supplier     *Supplier  `json:"supplier"`
-	CreatedAt    int        `json:"createdAt"`
-	DeletedAt    *int       `json:"deletedAt"`
 	UpdatedAt    int        `json:"updatedAt"`
+	DeletedAt    *int       `json:"deletedAt"`
+	CreatedAt    int        `json:"createdAt"`
+}
+
+func (FragranceInventory) IsNode() {}
+
+type FragranceInventoryConnection struct {
+	Edges    []*FragranceInventoryEdge `json:"edges"`
+	PageInfo *PageInfo                 `json:"pageInfo"`
 }
 
 type FragranceInventoryCreateInput struct {
@@ -597,18 +692,28 @@ type FragranceInventoryCreateInput struct {
 	Weight       float64 `json:"weight"`
 	FragranceID  string  `json:"fragranceId"`
 	SupplierID   string  `json:"supplierId"`
-	CreatedAt    int     `json:"createdAt"`
-	DeletedAt    *int    `json:"deletedAt"`
 	UpdatedAt    int     `json:"updatedAt"`
+	DeletedAt    *int    `json:"deletedAt"`
+	CreatedAt    int     `json:"createdAt"`
 }
 
 type FragranceInventoryDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type FragranceInventoryEdge struct {
+	Cursor string              `json:"cursor"`
+	Node   *FragranceInventory `json:"node"`
+}
+
 type FragranceInventoryFilter struct {
 	Search *string                  `json:"search"`
 	Where  *FragranceInventoryWhere `json:"where"`
+}
+
+type FragranceInventoryOrdering struct {
+	Sort      FragranceInventorySort  `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type FragranceInventoryPayload struct {
@@ -622,9 +727,9 @@ type FragranceInventoryUpdateInput struct {
 	Weight       *float64 `json:"weight"`
 	FragranceID  *string  `json:"fragranceId"`
 	SupplierID   *string  `json:"supplierId"`
-	CreatedAt    *int     `json:"createdAt"`
-	DeletedAt    *int     `json:"deletedAt"`
 	UpdatedAt    *int     `json:"updatedAt"`
+	DeletedAt    *int     `json:"deletedAt"`
+	CreatedAt    *int     `json:"createdAt"`
 }
 
 type FragranceInventoryWhere struct {
@@ -635,11 +740,16 @@ type FragranceInventoryWhere struct {
 	Weight       *FloatFilter             `json:"weight"`
 	Fragrance    *FragranceWhere          `json:"fragrance"`
 	Supplier     *SupplierWhere           `json:"supplier"`
-	CreatedAt    *IntFilter               `json:"createdAt"`
-	DeletedAt    *IntFilter               `json:"deletedAt"`
 	UpdatedAt    *IntFilter               `json:"updatedAt"`
+	DeletedAt    *IntFilter               `json:"deletedAt"`
+	CreatedAt    *IntFilter               `json:"createdAt"`
 	Or           *FragranceInventoryWhere `json:"or"`
 	And          *FragranceInventoryWhere `json:"and"`
+}
+
+type FragranceOrdering struct {
+	Sort      FragranceSort           `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type FragrancePayload struct {
@@ -649,18 +759,18 @@ type FragrancePayload struct {
 type FragranceUpdateInput struct {
 	Name      *string `json:"name"`
 	Note      *string `json:"note"`
-	DeletedAt *int    `json:"deletedAt"`
-	CreatedAt *int    `json:"createdAt"`
 	UpdatedAt *int    `json:"updatedAt"`
+	CreatedAt *int    `json:"createdAt"`
+	DeletedAt *int    `json:"deletedAt"`
 }
 
 type FragranceWhere struct {
 	ID                   *IDFilter                  `json:"id"`
 	Name                 *StringFilter              `json:"name"`
 	Note                 *StringFilter              `json:"note"`
-	DeletedAt            *IntFilter                 `json:"deletedAt"`
-	CreatedAt            *IntFilter                 `json:"createdAt"`
 	UpdatedAt            *IntFilter                 `json:"updatedAt"`
+	CreatedAt            *IntFilter                 `json:"createdAt"`
+	DeletedAt            *IntFilter                 `json:"deletedAt"`
 	RecipeBatchFragrance *RecipeBatchFragranceWhere `json:"recipeBatchFragrance"`
 	RecipeFragrance      *RecipeFragranceWhere      `json:"recipeFragrance"`
 	FragranceInventories *FragranceInventoryWhere   `json:"fragranceInventories"`
@@ -668,16 +778,8 @@ type FragranceWhere struct {
 	And                  *FragranceWhere            `json:"and"`
 }
 
-type FragrancesCreateInput struct {
-	Fragrances []*FragranceCreateInput `json:"fragrances"`
-}
-
 type FragrancesDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type FragrancesPayload struct {
-	Fragrances []*Fragrance `json:"fragrances"`
 }
 
 type FragrancesUpdatePayload struct {
@@ -723,12 +825,19 @@ type Lipid struct {
 	InciName         string            `json:"inciName"`
 	Family           string            `json:"family"`
 	Naoh             float64           `json:"naoh"`
-	DeletedAt        *int              `json:"deletedAt"`
-	CreatedAt        int               `json:"createdAt"`
 	UpdatedAt        int               `json:"updatedAt"`
+	CreatedAt        int               `json:"createdAt"`
+	DeletedAt        *int              `json:"deletedAt"`
 	RecipeBatchLipid *RecipeBatchLipid `json:"recipeBatchLipid"`
 	RecipeLipid      *RecipeLipid      `json:"recipeLipid"`
 	LipidInventories []*LipidInventory `json:"lipidInventories"`
+}
+
+func (Lipid) IsNode() {}
+
+type LipidConnection struct {
+	Edges    []*LipidEdge `json:"edges"`
+	PageInfo *PageInfo    `json:"pageInfo"`
 }
 
 type LipidCreateInput struct {
@@ -751,13 +860,18 @@ type LipidCreateInput struct {
 	InciName     string  `json:"inciName"`
 	Family       string  `json:"family"`
 	Naoh         float64 `json:"naoh"`
-	DeletedAt    *int    `json:"deletedAt"`
-	CreatedAt    int     `json:"createdAt"`
 	UpdatedAt    int     `json:"updatedAt"`
+	CreatedAt    int     `json:"createdAt"`
+	DeletedAt    *int    `json:"deletedAt"`
 }
 
 type LipidDeletePayload struct {
 	ID string `json:"id"`
+}
+
+type LipidEdge struct {
+	Cursor string `json:"cursor"`
+	Node   *Lipid `json:"node"`
 }
 
 type LipidFilter struct {
@@ -765,16 +879,8 @@ type LipidFilter struct {
 	Where  *LipidWhere `json:"where"`
 }
 
-type LipidInventoriesCreateInput struct {
-	LipidInventories []*LipidInventoryCreateInput `json:"lipidInventories"`
-}
-
 type LipidInventoriesDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type LipidInventoriesPayload struct {
-	LipidInventories []*LipidInventory `json:"lipidInventories"`
 }
 
 type LipidInventoriesUpdatePayload struct {
@@ -798,6 +904,13 @@ type LipidInventory struct {
 	CreatedAt     int       `json:"createdAt"`
 }
 
+func (LipidInventory) IsNode() {}
+
+type LipidInventoryConnection struct {
+	Edges    []*LipidInventoryEdge `json:"edges"`
+	PageInfo *PageInfo             `json:"pageInfo"`
+}
+
 type LipidInventoryCreateInput struct {
 	PurchaseDate  int     `json:"purchaseDate"`
 	ExpiryDate    int     `json:"expiryDate"`
@@ -818,9 +931,19 @@ type LipidInventoryDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type LipidInventoryEdge struct {
+	Cursor string          `json:"cursor"`
+	Node   *LipidInventory `json:"node"`
+}
+
 type LipidInventoryFilter struct {
 	Search *string              `json:"search"`
 	Where  *LipidInventoryWhere `json:"where"`
+}
+
+type LipidInventoryOrdering struct {
+	Sort      LipidInventorySort      `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type LipidInventoryPayload struct {
@@ -862,6 +985,11 @@ type LipidInventoryWhere struct {
 	And           *LipidInventoryWhere `json:"and"`
 }
 
+type LipidOrdering struct {
+	Sort      LipidSort               `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
+}
+
 type LipidPayload struct {
 	Lipid *Lipid `json:"lipid"`
 }
@@ -886,9 +1014,9 @@ type LipidUpdateInput struct {
 	InciName     *string  `json:"inciName"`
 	Family       *string  `json:"family"`
 	Naoh         *float64 `json:"naoh"`
-	DeletedAt    *int     `json:"deletedAt"`
-	CreatedAt    *int     `json:"createdAt"`
 	UpdatedAt    *int     `json:"updatedAt"`
+	CreatedAt    *int     `json:"createdAt"`
+	DeletedAt    *int     `json:"deletedAt"`
 }
 
 type LipidWhere struct {
@@ -912,9 +1040,9 @@ type LipidWhere struct {
 	InciName         *StringFilter          `json:"inciName"`
 	Family           *StringFilter          `json:"family"`
 	Naoh             *FloatFilter           `json:"naoh"`
-	DeletedAt        *IntFilter             `json:"deletedAt"`
-	CreatedAt        *IntFilter             `json:"createdAt"`
 	UpdatedAt        *IntFilter             `json:"updatedAt"`
+	CreatedAt        *IntFilter             `json:"createdAt"`
+	DeletedAt        *IntFilter             `json:"deletedAt"`
 	RecipeBatchLipid *RecipeBatchLipidWhere `json:"recipeBatchLipid"`
 	RecipeLipid      *RecipeLipidWhere      `json:"recipeLipid"`
 	LipidInventories *LipidInventoryWhere   `json:"lipidInventories"`
@@ -922,16 +1050,8 @@ type LipidWhere struct {
 	And              *LipidWhere            `json:"and"`
 }
 
-type LipidsCreateInput struct {
-	Lipids []*LipidCreateInput `json:"lipids"`
-}
-
 type LipidsDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type LipidsPayload struct {
-	Lipids []*Lipid `json:"lipids"`
 }
 
 type LipidsUpdatePayload struct {
@@ -944,10 +1064,17 @@ type Lye struct {
 	Name           string          `json:"name"`
 	Note           string          `json:"note"`
 	DeletedAt      *int            `json:"deletedAt"`
-	UpdatedAt      int             `json:"updatedAt"`
 	CreatedAt      int             `json:"createdAt"`
+	UpdatedAt      int             `json:"updatedAt"`
 	RecipeBatchLye *RecipeBatchLye `json:"recipeBatchLye"`
 	LyeInventories []*LyeInventory `json:"lyeInventories"`
+}
+
+func (Lye) IsNode() {}
+
+type LyeConnection struct {
+	Edges    []*LyeEdge `json:"edges"`
+	PageInfo *PageInfo  `json:"pageInfo"`
 }
 
 type LyeCreateInput struct {
@@ -955,12 +1082,17 @@ type LyeCreateInput struct {
 	Name      string `json:"name"`
 	Note      string `json:"note"`
 	DeletedAt *int   `json:"deletedAt"`
-	UpdatedAt int    `json:"updatedAt"`
 	CreatedAt int    `json:"createdAt"`
+	UpdatedAt int    `json:"updatedAt"`
 }
 
 type LyeDeletePayload struct {
 	ID string `json:"id"`
+}
+
+type LyeEdge struct {
+	Cursor string `json:"cursor"`
+	Node   *Lye   `json:"node"`
 }
 
 type LyeFilter struct {
@@ -968,16 +1100,8 @@ type LyeFilter struct {
 	Where  *LyeWhere `json:"where"`
 }
 
-type LyeInventoriesCreateInput struct {
-	LyeInventories []*LyeInventoryCreateInput `json:"lyeInventories"`
-}
-
 type LyeInventoriesDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type LyeInventoriesPayload struct {
-	LyeInventories []*LyeInventory `json:"lyeInventories"`
 }
 
 type LyeInventoriesUpdatePayload struct {
@@ -993,9 +1117,16 @@ type LyeInventory struct {
 	Concentration float64   `json:"concentration"`
 	Lye           *Lye      `json:"lye"`
 	Supplier      *Supplier `json:"supplier"`
-	DeletedAt     *int      `json:"deletedAt"`
-	UpdatedAt     int       `json:"updatedAt"`
 	CreatedAt     int       `json:"createdAt"`
+	UpdatedAt     int       `json:"updatedAt"`
+	DeletedAt     *int      `json:"deletedAt"`
+}
+
+func (LyeInventory) IsNode() {}
+
+type LyeInventoryConnection struct {
+	Edges    []*LyeInventoryEdge `json:"edges"`
+	PageInfo *PageInfo           `json:"pageInfo"`
 }
 
 type LyeInventoryCreateInput struct {
@@ -1006,18 +1137,28 @@ type LyeInventoryCreateInput struct {
 	Concentration float64 `json:"concentration"`
 	LyeID         string  `json:"lyeId"`
 	SupplierID    string  `json:"supplierId"`
-	DeletedAt     *int    `json:"deletedAt"`
-	UpdatedAt     int     `json:"updatedAt"`
 	CreatedAt     int     `json:"createdAt"`
+	UpdatedAt     int     `json:"updatedAt"`
+	DeletedAt     *int    `json:"deletedAt"`
 }
 
 type LyeInventoryDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type LyeInventoryEdge struct {
+	Cursor string        `json:"cursor"`
+	Node   *LyeInventory `json:"node"`
+}
+
 type LyeInventoryFilter struct {
 	Search *string            `json:"search"`
 	Where  *LyeInventoryWhere `json:"where"`
+}
+
+type LyeInventoryOrdering struct {
+	Sort      LyeInventorySort        `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type LyeInventoryPayload struct {
@@ -1032,9 +1173,9 @@ type LyeInventoryUpdateInput struct {
 	Concentration *float64 `json:"concentration"`
 	LyeID         *string  `json:"lyeId"`
 	SupplierID    *string  `json:"supplierId"`
-	DeletedAt     *int     `json:"deletedAt"`
-	UpdatedAt     *int     `json:"updatedAt"`
 	CreatedAt     *int     `json:"createdAt"`
+	UpdatedAt     *int     `json:"updatedAt"`
+	DeletedAt     *int     `json:"deletedAt"`
 }
 
 type LyeInventoryWhere struct {
@@ -1046,11 +1187,16 @@ type LyeInventoryWhere struct {
 	Concentration *FloatFilter       `json:"concentration"`
 	Lye           *LyeWhere          `json:"lye"`
 	Supplier      *SupplierWhere     `json:"supplier"`
-	DeletedAt     *IntFilter         `json:"deletedAt"`
-	UpdatedAt     *IntFilter         `json:"updatedAt"`
 	CreatedAt     *IntFilter         `json:"createdAt"`
+	UpdatedAt     *IntFilter         `json:"updatedAt"`
+	DeletedAt     *IntFilter         `json:"deletedAt"`
 	Or            *LyeInventoryWhere `json:"or"`
 	And           *LyeInventoryWhere `json:"and"`
+}
+
+type LyeOrdering struct {
+	Sort      LyeSort                 `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type LyePayload struct {
@@ -1062,8 +1208,8 @@ type LyeUpdateInput struct {
 	Name      *string `json:"name"`
 	Note      *string `json:"note"`
 	DeletedAt *int    `json:"deletedAt"`
-	UpdatedAt *int    `json:"updatedAt"`
 	CreatedAt *int    `json:"createdAt"`
+	UpdatedAt *int    `json:"updatedAt"`
 }
 
 type LyeWhere struct {
@@ -1072,37 +1218,36 @@ type LyeWhere struct {
 	Name           *StringFilter        `json:"name"`
 	Note           *StringFilter        `json:"note"`
 	DeletedAt      *IntFilter           `json:"deletedAt"`
-	UpdatedAt      *IntFilter           `json:"updatedAt"`
 	CreatedAt      *IntFilter           `json:"createdAt"`
+	UpdatedAt      *IntFilter           `json:"updatedAt"`
 	RecipeBatchLye *RecipeBatchLyeWhere `json:"recipeBatchLye"`
 	LyeInventories *LyeInventoryWhere   `json:"lyeInventories"`
 	Or             *LyeWhere            `json:"or"`
 	And            *LyeWhere            `json:"and"`
 }
 
-type LyesCreateInput struct {
-	Lyes []*LyeCreateInput `json:"lyes"`
-}
-
 type LyesDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type LyesPayload struct {
-	Lyes []*Lye `json:"lyes"`
 }
 
 type LyesUpdatePayload struct {
 	Ok bool `json:"ok"`
 }
 
+type PageInfo struct {
+	HasNextPage     bool    `json:"hasNextPage"`
+	HasPreviousPage bool    `json:"hasPreviousPage"`
+	StartCursor     *string `json:"startCursor"`
+	EndCursor       *string `json:"endCursor"`
+}
+
 type Recipe struct {
 	ID               string             `json:"id"`
 	Name             string             `json:"name"`
 	Note             string             `json:"note"`
-	UpdatedAt        int                `json:"updatedAt"`
-	DeletedAt        *int               `json:"deletedAt"`
 	CreatedAt        int                `json:"createdAt"`
+	DeletedAt        *int               `json:"deletedAt"`
+	UpdatedAt        int                `json:"updatedAt"`
 	RecipeAdditives  []*RecipeAdditive  `json:"recipeAdditives"`
 	RecipeBatches    []*RecipeBatch     `json:"recipeBatches"`
 	RecipeFragrances []*RecipeFragrance `json:"recipeFragrances"`
@@ -1110,32 +1255,51 @@ type Recipe struct {
 	RecipeSteps      []*RecipeStep      `json:"recipeSteps"`
 }
 
+func (Recipe) IsNode() {}
+
 type RecipeAdditive struct {
 	ID         string    `json:"id"`
 	Percentage float64   `json:"percentage"`
 	Additive   *Additive `json:"additive"`
 	Recipe     *Recipe   `json:"recipe"`
-	CreatedAt  int       `json:"createdAt"`
 	UpdatedAt  int       `json:"updatedAt"`
 	DeletedAt  *int      `json:"deletedAt"`
+	CreatedAt  int       `json:"createdAt"`
+}
+
+func (RecipeAdditive) IsNode() {}
+
+type RecipeAdditiveConnection struct {
+	Edges    []*RecipeAdditiveEdge `json:"edges"`
+	PageInfo *PageInfo             `json:"pageInfo"`
 }
 
 type RecipeAdditiveCreateInput struct {
 	Percentage float64 `json:"percentage"`
 	AdditiveID string  `json:"additiveId"`
 	RecipeID   string  `json:"recipeId"`
-	CreatedAt  int     `json:"createdAt"`
 	UpdatedAt  int     `json:"updatedAt"`
 	DeletedAt  *int    `json:"deletedAt"`
+	CreatedAt  int     `json:"createdAt"`
 }
 
 type RecipeAdditiveDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type RecipeAdditiveEdge struct {
+	Cursor string          `json:"cursor"`
+	Node   *RecipeAdditive `json:"node"`
+}
+
 type RecipeAdditiveFilter struct {
 	Search *string              `json:"search"`
 	Where  *RecipeAdditiveWhere `json:"where"`
+}
+
+type RecipeAdditiveOrdering struct {
+	Sort      RecipeAdditiveSort      `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type RecipeAdditivePayload struct {
@@ -1146,9 +1310,9 @@ type RecipeAdditiveUpdateInput struct {
 	Percentage *float64 `json:"percentage"`
 	AdditiveID *string  `json:"additiveId"`
 	RecipeID   *string  `json:"recipeId"`
-	CreatedAt  *int     `json:"createdAt"`
 	UpdatedAt  *int     `json:"updatedAt"`
 	DeletedAt  *int     `json:"deletedAt"`
+	CreatedAt  *int     `json:"createdAt"`
 }
 
 type RecipeAdditiveWhere struct {
@@ -1156,23 +1320,15 @@ type RecipeAdditiveWhere struct {
 	Percentage *FloatFilter         `json:"percentage"`
 	Additive   *AdditiveWhere       `json:"additive"`
 	Recipe     *RecipeWhere         `json:"recipe"`
-	CreatedAt  *IntFilter           `json:"createdAt"`
 	UpdatedAt  *IntFilter           `json:"updatedAt"`
 	DeletedAt  *IntFilter           `json:"deletedAt"`
+	CreatedAt  *IntFilter           `json:"createdAt"`
 	Or         *RecipeAdditiveWhere `json:"or"`
 	And        *RecipeAdditiveWhere `json:"and"`
 }
 
-type RecipeAdditivesCreateInput struct {
-	RecipeAdditives []*RecipeAdditiveCreateInput `json:"recipeAdditives"`
-}
-
 type RecipeAdditivesDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type RecipeAdditivesPayload struct {
-	RecipeAdditives []*RecipeAdditive `json:"recipeAdditives"`
 }
 
 type RecipeAdditivesUpdatePayload struct {
@@ -1190,8 +1346,8 @@ type RecipeBatch struct {
 	CuredWeight                float64                 `json:"curedWeight"`
 	Recipe                     *Recipe                 `json:"recipe"`
 	CreatedAt                  int                     `json:"createdAt"`
-	DeletedAt                  *int                    `json:"deletedAt"`
 	UpdatedAt                  int                     `json:"updatedAt"`
+	DeletedAt                  *int                    `json:"deletedAt"`
 	BatchRecipeBatchAdditives  []*RecipeBatchAdditive  `json:"batchRecipeBatchAdditives"`
 	BatchRecipeBatchFragrances []*RecipeBatchFragrance `json:"batchRecipeBatchFragrances"`
 	BatchRecipeBatchLipids     []*RecipeBatchLipid     `json:"batchRecipeBatchLipids"`
@@ -1199,15 +1355,24 @@ type RecipeBatch struct {
 	BatchRecipeBatchNotes      []*RecipeBatchNote      `json:"batchRecipeBatchNotes"`
 }
 
+func (RecipeBatch) IsNode() {}
+
 type RecipeBatchAdditive struct {
 	ID        string       `json:"id"`
 	Weight    float64      `json:"weight"`
 	Cost      float64      `json:"cost"`
 	Additive  *Additive    `json:"additive"`
 	Batch     *RecipeBatch `json:"batch"`
-	CreatedAt int          `json:"createdAt"`
 	DeletedAt *int         `json:"deletedAt"`
+	CreatedAt int          `json:"createdAt"`
 	UpdatedAt int          `json:"updatedAt"`
+}
+
+func (RecipeBatchAdditive) IsNode() {}
+
+type RecipeBatchAdditiveConnection struct {
+	Edges    []*RecipeBatchAdditiveEdge `json:"edges"`
+	PageInfo *PageInfo                  `json:"pageInfo"`
 }
 
 type RecipeBatchAdditiveCreateInput struct {
@@ -1215,8 +1380,8 @@ type RecipeBatchAdditiveCreateInput struct {
 	Cost       float64 `json:"cost"`
 	AdditiveID string  `json:"additiveId"`
 	BatchID    string  `json:"batchId"`
-	CreatedAt  int     `json:"createdAt"`
 	DeletedAt  *int    `json:"deletedAt"`
+	CreatedAt  int     `json:"createdAt"`
 	UpdatedAt  int     `json:"updatedAt"`
 }
 
@@ -1224,9 +1389,19 @@ type RecipeBatchAdditiveDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type RecipeBatchAdditiveEdge struct {
+	Cursor string               `json:"cursor"`
+	Node   *RecipeBatchAdditive `json:"node"`
+}
+
 type RecipeBatchAdditiveFilter struct {
 	Search *string                   `json:"search"`
 	Where  *RecipeBatchAdditiveWhere `json:"where"`
+}
+
+type RecipeBatchAdditiveOrdering struct {
+	Sort      RecipeBatchAdditiveSort `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type RecipeBatchAdditivePayload struct {
@@ -1238,8 +1413,8 @@ type RecipeBatchAdditiveUpdateInput struct {
 	Cost       *float64 `json:"cost"`
 	AdditiveID *string  `json:"additiveId"`
 	BatchID    *string  `json:"batchId"`
-	CreatedAt  *int     `json:"createdAt"`
 	DeletedAt  *int     `json:"deletedAt"`
+	CreatedAt  *int     `json:"createdAt"`
 	UpdatedAt  *int     `json:"updatedAt"`
 }
 
@@ -1249,27 +1424,24 @@ type RecipeBatchAdditiveWhere struct {
 	Cost      *FloatFilter              `json:"cost"`
 	Additive  *AdditiveWhere            `json:"additive"`
 	Batch     *RecipeBatchWhere         `json:"batch"`
-	CreatedAt *IntFilter                `json:"createdAt"`
 	DeletedAt *IntFilter                `json:"deletedAt"`
+	CreatedAt *IntFilter                `json:"createdAt"`
 	UpdatedAt *IntFilter                `json:"updatedAt"`
 	Or        *RecipeBatchAdditiveWhere `json:"or"`
 	And       *RecipeBatchAdditiveWhere `json:"and"`
-}
-
-type RecipeBatchAdditivesCreateInput struct {
-	RecipeBatchAdditives []*RecipeBatchAdditiveCreateInput `json:"recipeBatchAdditives"`
 }
 
 type RecipeBatchAdditivesDeletePayload struct {
 	Ids []string `json:"ids"`
 }
 
-type RecipeBatchAdditivesPayload struct {
-	RecipeBatchAdditives []*RecipeBatchAdditive `json:"recipeBatchAdditives"`
-}
-
 type RecipeBatchAdditivesUpdatePayload struct {
 	Ok bool `json:"ok"`
+}
+
+type RecipeBatchConnection struct {
+	Edges    []*RecipeBatchEdge `json:"edges"`
+	PageInfo *PageInfo          `json:"pageInfo"`
 }
 
 type RecipeBatchCreateInput struct {
@@ -1282,12 +1454,17 @@ type RecipeBatchCreateInput struct {
 	CuredWeight      float64 `json:"curedWeight"`
 	RecipeID         string  `json:"recipeId"`
 	CreatedAt        int     `json:"createdAt"`
-	DeletedAt        *int    `json:"deletedAt"`
 	UpdatedAt        int     `json:"updatedAt"`
+	DeletedAt        *int    `json:"deletedAt"`
 }
 
 type RecipeBatchDeletePayload struct {
 	ID string `json:"id"`
+}
+
+type RecipeBatchEdge struct {
+	Cursor string       `json:"cursor"`
+	Node   *RecipeBatch `json:"node"`
 }
 
 type RecipeBatchFilter struct {
@@ -1301,9 +1478,16 @@ type RecipeBatchFragrance struct {
 	Cost      float64      `json:"cost"`
 	Fragrance *Fragrance   `json:"fragrance"`
 	Batch     *RecipeBatch `json:"batch"`
-	CreatedAt int          `json:"createdAt"`
-	DeletedAt *int         `json:"deletedAt"`
 	UpdatedAt int          `json:"updatedAt"`
+	DeletedAt *int         `json:"deletedAt"`
+	CreatedAt int          `json:"createdAt"`
+}
+
+func (RecipeBatchFragrance) IsNode() {}
+
+type RecipeBatchFragranceConnection struct {
+	Edges    []*RecipeBatchFragranceEdge `json:"edges"`
+	PageInfo *PageInfo                   `json:"pageInfo"`
 }
 
 type RecipeBatchFragranceCreateInput struct {
@@ -1311,18 +1495,28 @@ type RecipeBatchFragranceCreateInput struct {
 	Cost        float64 `json:"cost"`
 	FragranceID string  `json:"fragranceId"`
 	BatchID     string  `json:"batchId"`
-	CreatedAt   int     `json:"createdAt"`
-	DeletedAt   *int    `json:"deletedAt"`
 	UpdatedAt   int     `json:"updatedAt"`
+	DeletedAt   *int    `json:"deletedAt"`
+	CreatedAt   int     `json:"createdAt"`
 }
 
 type RecipeBatchFragranceDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type RecipeBatchFragranceEdge struct {
+	Cursor string                `json:"cursor"`
+	Node   *RecipeBatchFragrance `json:"node"`
+}
+
 type RecipeBatchFragranceFilter struct {
 	Search *string                    `json:"search"`
 	Where  *RecipeBatchFragranceWhere `json:"where"`
+}
+
+type RecipeBatchFragranceOrdering struct {
+	Sort      RecipeBatchFragranceSort `json:"sort"`
+	Direction boilergql.SortDirection  `json:"direction"`
 }
 
 type RecipeBatchFragrancePayload struct {
@@ -1334,9 +1528,9 @@ type RecipeBatchFragranceUpdateInput struct {
 	Cost        *float64 `json:"cost"`
 	FragranceID *string  `json:"fragranceId"`
 	BatchID     *string  `json:"batchId"`
-	CreatedAt   *int     `json:"createdAt"`
-	DeletedAt   *int     `json:"deletedAt"`
 	UpdatedAt   *int     `json:"updatedAt"`
+	DeletedAt   *int     `json:"deletedAt"`
+	CreatedAt   *int     `json:"createdAt"`
 }
 
 type RecipeBatchFragranceWhere struct {
@@ -1345,23 +1539,15 @@ type RecipeBatchFragranceWhere struct {
 	Cost      *FloatFilter               `json:"cost"`
 	Fragrance *FragranceWhere            `json:"fragrance"`
 	Batch     *RecipeBatchWhere          `json:"batch"`
-	CreatedAt *IntFilter                 `json:"createdAt"`
-	DeletedAt *IntFilter                 `json:"deletedAt"`
 	UpdatedAt *IntFilter                 `json:"updatedAt"`
+	DeletedAt *IntFilter                 `json:"deletedAt"`
+	CreatedAt *IntFilter                 `json:"createdAt"`
 	Or        *RecipeBatchFragranceWhere `json:"or"`
 	And       *RecipeBatchFragranceWhere `json:"and"`
 }
 
-type RecipeBatchFragrancesCreateInput struct {
-	RecipeBatchFragrances []*RecipeBatchFragranceCreateInput `json:"recipeBatchFragrances"`
-}
-
 type RecipeBatchFragrancesDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type RecipeBatchFragrancesPayload struct {
-	RecipeBatchFragrances []*RecipeBatchFragrance `json:"recipeBatchFragrances"`
 }
 
 type RecipeBatchFragrancesUpdatePayload struct {
@@ -1374,9 +1560,16 @@ type RecipeBatchLipid struct {
 	Cost      float64      `json:"cost"`
 	Lipid     *Lipid       `json:"lipid"`
 	Batch     *RecipeBatch `json:"batch"`
-	CreatedAt int          `json:"createdAt"`
 	UpdatedAt int          `json:"updatedAt"`
 	DeletedAt *int         `json:"deletedAt"`
+	CreatedAt int          `json:"createdAt"`
+}
+
+func (RecipeBatchLipid) IsNode() {}
+
+type RecipeBatchLipidConnection struct {
+	Edges    []*RecipeBatchLipidEdge `json:"edges"`
+	PageInfo *PageInfo               `json:"pageInfo"`
 }
 
 type RecipeBatchLipidCreateInput struct {
@@ -1384,18 +1577,28 @@ type RecipeBatchLipidCreateInput struct {
 	Cost      float64 `json:"cost"`
 	LipidID   string  `json:"lipidId"`
 	BatchID   string  `json:"batchId"`
-	CreatedAt int     `json:"createdAt"`
 	UpdatedAt int     `json:"updatedAt"`
 	DeletedAt *int    `json:"deletedAt"`
+	CreatedAt int     `json:"createdAt"`
 }
 
 type RecipeBatchLipidDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type RecipeBatchLipidEdge struct {
+	Cursor string            `json:"cursor"`
+	Node   *RecipeBatchLipid `json:"node"`
+}
+
 type RecipeBatchLipidFilter struct {
 	Search *string                `json:"search"`
 	Where  *RecipeBatchLipidWhere `json:"where"`
+}
+
+type RecipeBatchLipidOrdering struct {
+	Sort      RecipeBatchLipidSort    `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type RecipeBatchLipidPayload struct {
@@ -1407,9 +1610,9 @@ type RecipeBatchLipidUpdateInput struct {
 	Cost      *float64 `json:"cost"`
 	LipidID   *string  `json:"lipidId"`
 	BatchID   *string  `json:"batchId"`
-	CreatedAt *int     `json:"createdAt"`
 	UpdatedAt *int     `json:"updatedAt"`
 	DeletedAt *int     `json:"deletedAt"`
+	CreatedAt *int     `json:"createdAt"`
 }
 
 type RecipeBatchLipidWhere struct {
@@ -1418,23 +1621,15 @@ type RecipeBatchLipidWhere struct {
 	Cost      *FloatFilter           `json:"cost"`
 	Lipid     *LipidWhere            `json:"lipid"`
 	Batch     *RecipeBatchWhere      `json:"batch"`
-	CreatedAt *IntFilter             `json:"createdAt"`
 	UpdatedAt *IntFilter             `json:"updatedAt"`
 	DeletedAt *IntFilter             `json:"deletedAt"`
+	CreatedAt *IntFilter             `json:"createdAt"`
 	Or        *RecipeBatchLipidWhere `json:"or"`
 	And       *RecipeBatchLipidWhere `json:"and"`
 }
 
-type RecipeBatchLipidsCreateInput struct {
-	RecipeBatchLipids []*RecipeBatchLipidCreateInput `json:"recipeBatchLipids"`
-}
-
 type RecipeBatchLipidsDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type RecipeBatchLipidsPayload struct {
-	RecipeBatchLipids []*RecipeBatchLipid `json:"recipeBatchLipids"`
 }
 
 type RecipeBatchLipidsUpdatePayload struct {
@@ -1453,6 +1648,13 @@ type RecipeBatchLye struct {
 	UpdatedAt int          `json:"updatedAt"`
 }
 
+func (RecipeBatchLye) IsNode() {}
+
+type RecipeBatchLyeConnection struct {
+	Edges    []*RecipeBatchLyeEdge `json:"edges"`
+	PageInfo *PageInfo             `json:"pageInfo"`
+}
+
 type RecipeBatchLyeCreateInput struct {
 	Weight    float64 `json:"weight"`
 	Discount  float64 `json:"discount"`
@@ -1468,9 +1670,19 @@ type RecipeBatchLyeDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type RecipeBatchLyeEdge struct {
+	Cursor string          `json:"cursor"`
+	Node   *RecipeBatchLye `json:"node"`
+}
+
 type RecipeBatchLyeFilter struct {
 	Search *string              `json:"search"`
 	Where  *RecipeBatchLyeWhere `json:"where"`
+}
+
+type RecipeBatchLyeOrdering struct {
+	Sort      RecipeBatchLyeSort      `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type RecipeBatchLyePayload struct {
@@ -1502,16 +1714,8 @@ type RecipeBatchLyeWhere struct {
 	And       *RecipeBatchLyeWhere `json:"and"`
 }
 
-type RecipeBatchLyesCreateInput struct {
-	RecipeBatchLyes []*RecipeBatchLyeCreateInput `json:"recipeBatchLyes"`
-}
-
 type RecipeBatchLyesDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type RecipeBatchLyesPayload struct {
-	RecipeBatchLyes []*RecipeBatchLye `json:"recipeBatchLyes"`
 }
 
 type RecipeBatchLyesUpdatePayload struct {
@@ -1528,6 +1732,13 @@ type RecipeBatchNote struct {
 	UpdatedAt int          `json:"updatedAt"`
 }
 
+func (RecipeBatchNote) IsNode() {}
+
+type RecipeBatchNoteConnection struct {
+	Edges    []*RecipeBatchNoteEdge `json:"edges"`
+	PageInfo *PageInfo              `json:"pageInfo"`
+}
+
 type RecipeBatchNoteCreateInput struct {
 	Note      string `json:"note"`
 	Link      string `json:"link"`
@@ -1541,9 +1752,19 @@ type RecipeBatchNoteDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type RecipeBatchNoteEdge struct {
+	Cursor string           `json:"cursor"`
+	Node   *RecipeBatchNote `json:"node"`
+}
+
 type RecipeBatchNoteFilter struct {
 	Search *string               `json:"search"`
 	Where  *RecipeBatchNoteWhere `json:"where"`
+}
+
+type RecipeBatchNoteOrdering struct {
+	Sort      RecipeBatchNoteSort     `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type RecipeBatchNotePayload struct {
@@ -1571,20 +1792,17 @@ type RecipeBatchNoteWhere struct {
 	And       *RecipeBatchNoteWhere `json:"and"`
 }
 
-type RecipeBatchNotesCreateInput struct {
-	RecipeBatchNotes []*RecipeBatchNoteCreateInput `json:"recipeBatchNotes"`
-}
-
 type RecipeBatchNotesDeletePayload struct {
 	Ids []string `json:"ids"`
 }
 
-type RecipeBatchNotesPayload struct {
-	RecipeBatchNotes []*RecipeBatchNote `json:"recipeBatchNotes"`
-}
-
 type RecipeBatchNotesUpdatePayload struct {
 	Ok bool `json:"ok"`
+}
+
+type RecipeBatchOrdering struct {
+	Sort      RecipeBatchSort         `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type RecipeBatchPayload struct {
@@ -1601,8 +1819,8 @@ type RecipeBatchUpdateInput struct {
 	CuredWeight      *float64 `json:"curedWeight"`
 	RecipeID         *string  `json:"recipeId"`
 	CreatedAt        *int     `json:"createdAt"`
-	DeletedAt        *int     `json:"deletedAt"`
 	UpdatedAt        *int     `json:"updatedAt"`
+	DeletedAt        *int     `json:"deletedAt"`
 }
 
 type RecipeBatchWhere struct {
@@ -1616,8 +1834,8 @@ type RecipeBatchWhere struct {
 	CuredWeight                *FloatFilter               `json:"curedWeight"`
 	Recipe                     *RecipeWhere               `json:"recipe"`
 	CreatedAt                  *IntFilter                 `json:"createdAt"`
-	DeletedAt                  *IntFilter                 `json:"deletedAt"`
 	UpdatedAt                  *IntFilter                 `json:"updatedAt"`
+	DeletedAt                  *IntFilter                 `json:"deletedAt"`
 	BatchRecipeBatchAdditives  *RecipeBatchAdditiveWhere  `json:"batchRecipeBatchAdditives"`
 	BatchRecipeBatchFragrances *RecipeBatchFragranceWhere `json:"batchRecipeBatchFragrances"`
 	BatchRecipeBatchLipids     *RecipeBatchLipidWhere     `json:"batchRecipeBatchLipids"`
@@ -1627,32 +1845,34 @@ type RecipeBatchWhere struct {
 	And                        *RecipeBatchWhere          `json:"and"`
 }
 
-type RecipeBatchesCreateInput struct {
-	RecipeBatches []*RecipeBatchCreateInput `json:"recipeBatches"`
-}
-
 type RecipeBatchesDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type RecipeBatchesPayload struct {
-	RecipeBatches []*RecipeBatch `json:"recipeBatches"`
 }
 
 type RecipeBatchesUpdatePayload struct {
 	Ok bool `json:"ok"`
 }
 
+type RecipeConnection struct {
+	Edges    []*RecipeEdge `json:"edges"`
+	PageInfo *PageInfo     `json:"pageInfo"`
+}
+
 type RecipeCreateInput struct {
 	Name      string `json:"name"`
 	Note      string `json:"note"`
-	UpdatedAt int    `json:"updatedAt"`
-	DeletedAt *int   `json:"deletedAt"`
 	CreatedAt int    `json:"createdAt"`
+	DeletedAt *int   `json:"deletedAt"`
+	UpdatedAt int    `json:"updatedAt"`
 }
 
 type RecipeDeletePayload struct {
 	ID string `json:"id"`
+}
+
+type RecipeEdge struct {
+	Cursor string  `json:"cursor"`
+	Node   *Recipe `json:"node"`
 }
 
 type RecipeFilter struct {
@@ -1665,27 +1885,44 @@ type RecipeFragrance struct {
 	Percentage float64    `json:"percentage"`
 	Fragrance  *Fragrance `json:"fragrance"`
 	Recipe     *Recipe    `json:"recipe"`
-	DeletedAt  *int       `json:"deletedAt"`
 	UpdatedAt  int        `json:"updatedAt"`
 	CreatedAt  int        `json:"createdAt"`
+	DeletedAt  *int       `json:"deletedAt"`
+}
+
+func (RecipeFragrance) IsNode() {}
+
+type RecipeFragranceConnection struct {
+	Edges    []*RecipeFragranceEdge `json:"edges"`
+	PageInfo *PageInfo              `json:"pageInfo"`
 }
 
 type RecipeFragranceCreateInput struct {
 	Percentage  float64 `json:"percentage"`
 	FragranceID string  `json:"fragranceId"`
 	RecipeID    string  `json:"recipeId"`
-	DeletedAt   *int    `json:"deletedAt"`
 	UpdatedAt   int     `json:"updatedAt"`
 	CreatedAt   int     `json:"createdAt"`
+	DeletedAt   *int    `json:"deletedAt"`
 }
 
 type RecipeFragranceDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type RecipeFragranceEdge struct {
+	Cursor string           `json:"cursor"`
+	Node   *RecipeFragrance `json:"node"`
+}
+
 type RecipeFragranceFilter struct {
 	Search *string               `json:"search"`
 	Where  *RecipeFragranceWhere `json:"where"`
+}
+
+type RecipeFragranceOrdering struct {
+	Sort      RecipeFragranceSort     `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type RecipeFragrancePayload struct {
@@ -1696,9 +1933,9 @@ type RecipeFragranceUpdateInput struct {
 	Percentage  *float64 `json:"percentage"`
 	FragranceID *string  `json:"fragranceId"`
 	RecipeID    *string  `json:"recipeId"`
-	DeletedAt   *int     `json:"deletedAt"`
 	UpdatedAt   *int     `json:"updatedAt"`
 	CreatedAt   *int     `json:"createdAt"`
+	DeletedAt   *int     `json:"deletedAt"`
 }
 
 type RecipeFragranceWhere struct {
@@ -1706,23 +1943,15 @@ type RecipeFragranceWhere struct {
 	Percentage *FloatFilter          `json:"percentage"`
 	Fragrance  *FragranceWhere       `json:"fragrance"`
 	Recipe     *RecipeWhere          `json:"recipe"`
-	DeletedAt  *IntFilter            `json:"deletedAt"`
 	UpdatedAt  *IntFilter            `json:"updatedAt"`
 	CreatedAt  *IntFilter            `json:"createdAt"`
+	DeletedAt  *IntFilter            `json:"deletedAt"`
 	Or         *RecipeFragranceWhere `json:"or"`
 	And        *RecipeFragranceWhere `json:"and"`
 }
 
-type RecipeFragrancesCreateInput struct {
-	RecipeFragrances []*RecipeFragranceCreateInput `json:"recipeFragrances"`
-}
-
 type RecipeFragrancesDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type RecipeFragrancesPayload struct {
-	RecipeFragrances []*RecipeFragrance `json:"recipeFragrances"`
 }
 
 type RecipeFragrancesUpdatePayload struct {
@@ -1735,8 +1964,15 @@ type RecipeLipid struct {
 	Lipid      *Lipid  `json:"lipid"`
 	Recipe     *Recipe `json:"recipe"`
 	UpdatedAt  int     `json:"updatedAt"`
-	DeletedAt  *int    `json:"deletedAt"`
 	CreatedAt  int     `json:"createdAt"`
+	DeletedAt  *int    `json:"deletedAt"`
+}
+
+func (RecipeLipid) IsNode() {}
+
+type RecipeLipidConnection struct {
+	Edges    []*RecipeLipidEdge `json:"edges"`
+	PageInfo *PageInfo          `json:"pageInfo"`
 }
 
 type RecipeLipidCreateInput struct {
@@ -1744,17 +1980,27 @@ type RecipeLipidCreateInput struct {
 	LipidID    string  `json:"lipidId"`
 	RecipeID   string  `json:"recipeId"`
 	UpdatedAt  int     `json:"updatedAt"`
-	DeletedAt  *int    `json:"deletedAt"`
 	CreatedAt  int     `json:"createdAt"`
+	DeletedAt  *int    `json:"deletedAt"`
 }
 
 type RecipeLipidDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type RecipeLipidEdge struct {
+	Cursor string       `json:"cursor"`
+	Node   *RecipeLipid `json:"node"`
+}
+
 type RecipeLipidFilter struct {
 	Search *string           `json:"search"`
 	Where  *RecipeLipidWhere `json:"where"`
+}
+
+type RecipeLipidOrdering struct {
+	Sort      RecipeLipidSort         `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type RecipeLipidPayload struct {
@@ -1766,8 +2012,8 @@ type RecipeLipidUpdateInput struct {
 	LipidID    *string  `json:"lipidId"`
 	RecipeID   *string  `json:"recipeId"`
 	UpdatedAt  *int     `json:"updatedAt"`
-	DeletedAt  *int     `json:"deletedAt"`
 	CreatedAt  *int     `json:"createdAt"`
+	DeletedAt  *int     `json:"deletedAt"`
 }
 
 type RecipeLipidWhere struct {
@@ -1776,26 +2022,23 @@ type RecipeLipidWhere struct {
 	Lipid      *LipidWhere       `json:"lipid"`
 	Recipe     *RecipeWhere      `json:"recipe"`
 	UpdatedAt  *IntFilter        `json:"updatedAt"`
-	DeletedAt  *IntFilter        `json:"deletedAt"`
 	CreatedAt  *IntFilter        `json:"createdAt"`
+	DeletedAt  *IntFilter        `json:"deletedAt"`
 	Or         *RecipeLipidWhere `json:"or"`
 	And        *RecipeLipidWhere `json:"and"`
-}
-
-type RecipeLipidsCreateInput struct {
-	RecipeLipids []*RecipeLipidCreateInput `json:"recipeLipids"`
 }
 
 type RecipeLipidsDeletePayload struct {
 	Ids []string `json:"ids"`
 }
 
-type RecipeLipidsPayload struct {
-	RecipeLipids []*RecipeLipid `json:"recipeLipids"`
-}
-
 type RecipeLipidsUpdatePayload struct {
 	Ok bool `json:"ok"`
+}
+
+type RecipeOrdering struct {
+	Sort      RecipeSort              `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type RecipePayload struct {
@@ -1807,17 +2050,24 @@ type RecipeStep struct {
 	Num       int     `json:"num"`
 	Note      string  `json:"note"`
 	Recipe    *Recipe `json:"recipe"`
-	UpdatedAt int     `json:"updatedAt"`
 	DeletedAt *int    `json:"deletedAt"`
+	UpdatedAt int     `json:"updatedAt"`
 	CreatedAt int     `json:"createdAt"`
+}
+
+func (RecipeStep) IsNode() {}
+
+type RecipeStepConnection struct {
+	Edges    []*RecipeStepEdge `json:"edges"`
+	PageInfo *PageInfo         `json:"pageInfo"`
 }
 
 type RecipeStepCreateInput struct {
 	Num       int    `json:"num"`
 	Note      string `json:"note"`
 	RecipeID  string `json:"recipeId"`
-	UpdatedAt int    `json:"updatedAt"`
 	DeletedAt *int   `json:"deletedAt"`
+	UpdatedAt int    `json:"updatedAt"`
 	CreatedAt int    `json:"createdAt"`
 }
 
@@ -1825,9 +2075,19 @@ type RecipeStepDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type RecipeStepEdge struct {
+	Cursor string      `json:"cursor"`
+	Node   *RecipeStep `json:"node"`
+}
+
 type RecipeStepFilter struct {
 	Search *string          `json:"search"`
 	Where  *RecipeStepWhere `json:"where"`
+}
+
+type RecipeStepOrdering struct {
+	Sort      RecipeStepSort          `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type RecipeStepPayload struct {
@@ -1838,8 +2098,8 @@ type RecipeStepUpdateInput struct {
 	Num       *int    `json:"num"`
 	Note      *string `json:"note"`
 	RecipeID  *string `json:"recipeId"`
-	UpdatedAt *int    `json:"updatedAt"`
 	DeletedAt *int    `json:"deletedAt"`
+	UpdatedAt *int    `json:"updatedAt"`
 	CreatedAt *int    `json:"createdAt"`
 }
 
@@ -1848,23 +2108,15 @@ type RecipeStepWhere struct {
 	Num       *IntFilter       `json:"num"`
 	Note      *StringFilter    `json:"note"`
 	Recipe    *RecipeWhere     `json:"recipe"`
-	UpdatedAt *IntFilter       `json:"updatedAt"`
 	DeletedAt *IntFilter       `json:"deletedAt"`
+	UpdatedAt *IntFilter       `json:"updatedAt"`
 	CreatedAt *IntFilter       `json:"createdAt"`
 	Or        *RecipeStepWhere `json:"or"`
 	And       *RecipeStepWhere `json:"and"`
 }
 
-type RecipeStepsCreateInput struct {
-	RecipeSteps []*RecipeStepCreateInput `json:"recipeSteps"`
-}
-
 type RecipeStepsDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type RecipeStepsPayload struct {
-	RecipeSteps []*RecipeStep `json:"recipeSteps"`
 }
 
 type RecipeStepsUpdatePayload struct {
@@ -1874,18 +2126,18 @@ type RecipeStepsUpdatePayload struct {
 type RecipeUpdateInput struct {
 	Name      *string `json:"name"`
 	Note      *string `json:"note"`
-	UpdatedAt *int    `json:"updatedAt"`
-	DeletedAt *int    `json:"deletedAt"`
 	CreatedAt *int    `json:"createdAt"`
+	DeletedAt *int    `json:"deletedAt"`
+	UpdatedAt *int    `json:"updatedAt"`
 }
 
 type RecipeWhere struct {
 	ID               *IDFilter             `json:"id"`
 	Name             *StringFilter         `json:"name"`
 	Note             *StringFilter         `json:"note"`
-	UpdatedAt        *IntFilter            `json:"updatedAt"`
-	DeletedAt        *IntFilter            `json:"deletedAt"`
 	CreatedAt        *IntFilter            `json:"createdAt"`
+	DeletedAt        *IntFilter            `json:"deletedAt"`
+	UpdatedAt        *IntFilter            `json:"updatedAt"`
 	RecipeAdditives  *RecipeAdditiveWhere  `json:"recipeAdditives"`
 	RecipeBatches    *RecipeBatchWhere     `json:"recipeBatches"`
 	RecipeFragrances *RecipeFragranceWhere `json:"recipeFragrances"`
@@ -1895,16 +2147,8 @@ type RecipeWhere struct {
 	And              *RecipeWhere          `json:"and"`
 }
 
-type RecipesCreateInput struct {
-	Recipes []*RecipeCreateInput `json:"recipes"`
-}
-
 type RecipesDeletePayload struct {
 	Ids []string `json:"ids"`
-}
-
-type RecipesPayload struct {
-	Recipes []*Recipe `json:"recipes"`
 }
 
 type RecipesUpdatePayload struct {
@@ -1935,31 +2179,48 @@ type Supplier struct {
 	Name                 string                `json:"name"`
 	Website              string                `json:"website"`
 	Note                 string                `json:"note"`
-	CreatedAt            int                   `json:"createdAt"`
 	DeletedAt            *int                  `json:"deletedAt"`
 	UpdatedAt            int                   `json:"updatedAt"`
+	CreatedAt            int                   `json:"createdAt"`
 	AdditiveInventories  []*AdditiveInventory  `json:"additiveInventories"`
 	FragranceInventories []*FragranceInventory `json:"fragranceInventories"`
 	LipidInventories     []*LipidInventory     `json:"lipidInventories"`
 	LyeInventories       []*LyeInventory       `json:"lyeInventories"`
 }
 
+func (Supplier) IsNode() {}
+
+type SupplierConnection struct {
+	Edges    []*SupplierEdge `json:"edges"`
+	PageInfo *PageInfo       `json:"pageInfo"`
+}
+
 type SupplierCreateInput struct {
 	Name      string `json:"name"`
 	Website   string `json:"website"`
 	Note      string `json:"note"`
-	CreatedAt int    `json:"createdAt"`
 	DeletedAt *int   `json:"deletedAt"`
 	UpdatedAt int    `json:"updatedAt"`
+	CreatedAt int    `json:"createdAt"`
 }
 
 type SupplierDeletePayload struct {
 	ID string `json:"id"`
 }
 
+type SupplierEdge struct {
+	Cursor string    `json:"cursor"`
+	Node   *Supplier `json:"node"`
+}
+
 type SupplierFilter struct {
 	Search *string        `json:"search"`
 	Where  *SupplierWhere `json:"where"`
+}
+
+type SupplierOrdering struct {
+	Sort      SupplierSort            `json:"sort"`
+	Direction boilergql.SortDirection `json:"direction"`
 }
 
 type SupplierPayload struct {
@@ -1970,9 +2231,9 @@ type SupplierUpdateInput struct {
 	Name      *string `json:"name"`
 	Website   *string `json:"website"`
 	Note      *string `json:"note"`
-	CreatedAt *int    `json:"createdAt"`
 	DeletedAt *int    `json:"deletedAt"`
 	UpdatedAt *int    `json:"updatedAt"`
+	CreatedAt *int    `json:"createdAt"`
 }
 
 type SupplierWhere struct {
@@ -1980,9 +2241,9 @@ type SupplierWhere struct {
 	Name                 *StringFilter            `json:"name"`
 	Website              *StringFilter            `json:"website"`
 	Note                 *StringFilter            `json:"note"`
-	CreatedAt            *IntFilter               `json:"createdAt"`
 	DeletedAt            *IntFilter               `json:"deletedAt"`
 	UpdatedAt            *IntFilter               `json:"updatedAt"`
+	CreatedAt            *IntFilter               `json:"createdAt"`
 	AdditiveInventories  *AdditiveInventoryWhere  `json:"additiveInventories"`
 	FragranceInventories *FragranceInventoryWhere `json:"fragranceInventories"`
 	LipidInventories     *LipidInventoryWhere     `json:"lipidInventories"`
@@ -1991,18 +2252,1320 @@ type SupplierWhere struct {
 	And                  *SupplierWhere           `json:"and"`
 }
 
-type SuppliersCreateInput struct {
-	Suppliers []*SupplierCreateInput `json:"suppliers"`
-}
-
 type SuppliersDeletePayload struct {
 	Ids []string `json:"ids"`
 }
 
-type SuppliersPayload struct {
-	Suppliers []*Supplier `json:"suppliers"`
-}
-
 type SuppliersUpdatePayload struct {
 	Ok bool `json:"ok"`
+}
+
+type AdditiveInventorySort string
+
+const (
+	AdditiveInventorySortID           AdditiveInventorySort = "ID"
+	AdditiveInventorySortPurchaseDate AdditiveInventorySort = "PURCHASE_DATE"
+	AdditiveInventorySortExpiryDate   AdditiveInventorySort = "EXPIRY_DATE"
+	AdditiveInventorySortCost         AdditiveInventorySort = "COST"
+	AdditiveInventorySortWeight       AdditiveInventorySort = "WEIGHT"
+	AdditiveInventorySortCreatedAt    AdditiveInventorySort = "CREATED_AT"
+	AdditiveInventorySortDeletedAt    AdditiveInventorySort = "DELETED_AT"
+	AdditiveInventorySortUpdatedAt    AdditiveInventorySort = "UPDATED_AT"
+)
+
+var AllAdditiveInventorySort = []AdditiveInventorySort{
+	AdditiveInventorySortID,
+	AdditiveInventorySortPurchaseDate,
+	AdditiveInventorySortExpiryDate,
+	AdditiveInventorySortCost,
+	AdditiveInventorySortWeight,
+	AdditiveInventorySortCreatedAt,
+	AdditiveInventorySortDeletedAt,
+	AdditiveInventorySortUpdatedAt,
+}
+
+func (e AdditiveInventorySort) IsValid() bool {
+	switch e {
+	case AdditiveInventorySortID, AdditiveInventorySortPurchaseDate, AdditiveInventorySortExpiryDate, AdditiveInventorySortCost, AdditiveInventorySortWeight, AdditiveInventorySortCreatedAt, AdditiveInventorySortDeletedAt, AdditiveInventorySortUpdatedAt:
+		return true
+	}
+	return false
+}
+
+func (e AdditiveInventorySort) String() string {
+	return string(e)
+}
+
+func (e *AdditiveInventorySort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AdditiveInventorySort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AdditiveInventorySort", str)
+	}
+	return nil
+}
+
+func (e AdditiveInventorySort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type AdditiveSort string
+
+const (
+	AdditiveSortID        AdditiveSort = "ID"
+	AdditiveSortName      AdditiveSort = "NAME"
+	AdditiveSortNote      AdditiveSort = "NOTE"
+	AdditiveSortCreatedAt AdditiveSort = "CREATED_AT"
+	AdditiveSortUpdatedAt AdditiveSort = "UPDATED_AT"
+	AdditiveSortDeletedAt AdditiveSort = "DELETED_AT"
+)
+
+var AllAdditiveSort = []AdditiveSort{
+	AdditiveSortID,
+	AdditiveSortName,
+	AdditiveSortNote,
+	AdditiveSortCreatedAt,
+	AdditiveSortUpdatedAt,
+	AdditiveSortDeletedAt,
+}
+
+func (e AdditiveSort) IsValid() bool {
+	switch e {
+	case AdditiveSortID, AdditiveSortName, AdditiveSortNote, AdditiveSortCreatedAt, AdditiveSortUpdatedAt, AdditiveSortDeletedAt:
+		return true
+	}
+	return false
+}
+
+func (e AdditiveSort) String() string {
+	return string(e)
+}
+
+func (e *AdditiveSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AdditiveSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AdditiveSort", str)
+	}
+	return nil
+}
+
+func (e AdditiveSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type AuthGroupPermissionSort string
+
+const (
+	AuthGroupPermissionSortID AuthGroupPermissionSort = "ID"
+)
+
+var AllAuthGroupPermissionSort = []AuthGroupPermissionSort{
+	AuthGroupPermissionSortID,
+}
+
+func (e AuthGroupPermissionSort) IsValid() bool {
+	switch e {
+	case AuthGroupPermissionSortID:
+		return true
+	}
+	return false
+}
+
+func (e AuthGroupPermissionSort) String() string {
+	return string(e)
+}
+
+func (e *AuthGroupPermissionSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AuthGroupPermissionSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AuthGroupPermissionSort", str)
+	}
+	return nil
+}
+
+func (e AuthGroupPermissionSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type AuthGroupSort string
+
+const (
+	AuthGroupSortID   AuthGroupSort = "ID"
+	AuthGroupSortName AuthGroupSort = "NAME"
+)
+
+var AllAuthGroupSort = []AuthGroupSort{
+	AuthGroupSortID,
+	AuthGroupSortName,
+}
+
+func (e AuthGroupSort) IsValid() bool {
+	switch e {
+	case AuthGroupSortID, AuthGroupSortName:
+		return true
+	}
+	return false
+}
+
+func (e AuthGroupSort) String() string {
+	return string(e)
+}
+
+func (e *AuthGroupSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AuthGroupSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AuthGroupSort", str)
+	}
+	return nil
+}
+
+func (e AuthGroupSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type AuthPermissionSort string
+
+const (
+	AuthPermissionSortID       AuthPermissionSort = "ID"
+	AuthPermissionSortName     AuthPermissionSort = "NAME"
+	AuthPermissionSortCodename AuthPermissionSort = "CODENAME"
+)
+
+var AllAuthPermissionSort = []AuthPermissionSort{
+	AuthPermissionSortID,
+	AuthPermissionSortName,
+	AuthPermissionSortCodename,
+}
+
+func (e AuthPermissionSort) IsValid() bool {
+	switch e {
+	case AuthPermissionSortID, AuthPermissionSortName, AuthPermissionSortCodename:
+		return true
+	}
+	return false
+}
+
+func (e AuthPermissionSort) String() string {
+	return string(e)
+}
+
+func (e *AuthPermissionSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AuthPermissionSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AuthPermissionSort", str)
+	}
+	return nil
+}
+
+func (e AuthPermissionSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type AuthUserGroupSort string
+
+const (
+	AuthUserGroupSortID AuthUserGroupSort = "ID"
+)
+
+var AllAuthUserGroupSort = []AuthUserGroupSort{
+	AuthUserGroupSortID,
+}
+
+func (e AuthUserGroupSort) IsValid() bool {
+	switch e {
+	case AuthUserGroupSortID:
+		return true
+	}
+	return false
+}
+
+func (e AuthUserGroupSort) String() string {
+	return string(e)
+}
+
+func (e *AuthUserGroupSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AuthUserGroupSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AuthUserGroupSort", str)
+	}
+	return nil
+}
+
+func (e AuthUserGroupSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type AuthUserSort string
+
+const (
+	AuthUserSortID          AuthUserSort = "ID"
+	AuthUserSortPassword    AuthUserSort = "PASSWORD"
+	AuthUserSortLastLogin   AuthUserSort = "LAST_LOGIN"
+	AuthUserSortIsSuperuser AuthUserSort = "IS_SUPERUSER"
+	AuthUserSortUsername    AuthUserSort = "USERNAME"
+	AuthUserSortFirstName   AuthUserSort = "FIRST_NAME"
+	AuthUserSortLastName    AuthUserSort = "LAST_NAME"
+	AuthUserSortEmail       AuthUserSort = "EMAIL"
+	AuthUserSortIsStaff     AuthUserSort = "IS_STAFF"
+	AuthUserSortIsActive    AuthUserSort = "IS_ACTIVE"
+	AuthUserSortDateJoined  AuthUserSort = "DATE_JOINED"
+)
+
+var AllAuthUserSort = []AuthUserSort{
+	AuthUserSortID,
+	AuthUserSortPassword,
+	AuthUserSortLastLogin,
+	AuthUserSortIsSuperuser,
+	AuthUserSortUsername,
+	AuthUserSortFirstName,
+	AuthUserSortLastName,
+	AuthUserSortEmail,
+	AuthUserSortIsStaff,
+	AuthUserSortIsActive,
+	AuthUserSortDateJoined,
+}
+
+func (e AuthUserSort) IsValid() bool {
+	switch e {
+	case AuthUserSortID, AuthUserSortPassword, AuthUserSortLastLogin, AuthUserSortIsSuperuser, AuthUserSortUsername, AuthUserSortFirstName, AuthUserSortLastName, AuthUserSortEmail, AuthUserSortIsStaff, AuthUserSortIsActive, AuthUserSortDateJoined:
+		return true
+	}
+	return false
+}
+
+func (e AuthUserSort) String() string {
+	return string(e)
+}
+
+func (e *AuthUserSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AuthUserSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AuthUserSort", str)
+	}
+	return nil
+}
+
+func (e AuthUserSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type AuthUserUserPermissionSort string
+
+const (
+	AuthUserUserPermissionSortID AuthUserUserPermissionSort = "ID"
+)
+
+var AllAuthUserUserPermissionSort = []AuthUserUserPermissionSort{
+	AuthUserUserPermissionSortID,
+}
+
+func (e AuthUserUserPermissionSort) IsValid() bool {
+	switch e {
+	case AuthUserUserPermissionSortID:
+		return true
+	}
+	return false
+}
+
+func (e AuthUserUserPermissionSort) String() string {
+	return string(e)
+}
+
+func (e *AuthUserUserPermissionSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AuthUserUserPermissionSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AuthUserUserPermissionSort", str)
+	}
+	return nil
+}
+
+func (e AuthUserUserPermissionSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type FragranceInventorySort string
+
+const (
+	FragranceInventorySortID           FragranceInventorySort = "ID"
+	FragranceInventorySortPurchaseDate FragranceInventorySort = "PURCHASE_DATE"
+	FragranceInventorySortExpiryDate   FragranceInventorySort = "EXPIRY_DATE"
+	FragranceInventorySortCost         FragranceInventorySort = "COST"
+	FragranceInventorySortWeight       FragranceInventorySort = "WEIGHT"
+	FragranceInventorySortUpdatedAt    FragranceInventorySort = "UPDATED_AT"
+	FragranceInventorySortDeletedAt    FragranceInventorySort = "DELETED_AT"
+	FragranceInventorySortCreatedAt    FragranceInventorySort = "CREATED_AT"
+)
+
+var AllFragranceInventorySort = []FragranceInventorySort{
+	FragranceInventorySortID,
+	FragranceInventorySortPurchaseDate,
+	FragranceInventorySortExpiryDate,
+	FragranceInventorySortCost,
+	FragranceInventorySortWeight,
+	FragranceInventorySortUpdatedAt,
+	FragranceInventorySortDeletedAt,
+	FragranceInventorySortCreatedAt,
+}
+
+func (e FragranceInventorySort) IsValid() bool {
+	switch e {
+	case FragranceInventorySortID, FragranceInventorySortPurchaseDate, FragranceInventorySortExpiryDate, FragranceInventorySortCost, FragranceInventorySortWeight, FragranceInventorySortUpdatedAt, FragranceInventorySortDeletedAt, FragranceInventorySortCreatedAt:
+		return true
+	}
+	return false
+}
+
+func (e FragranceInventorySort) String() string {
+	return string(e)
+}
+
+func (e *FragranceInventorySort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = FragranceInventorySort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid FragranceInventorySort", str)
+	}
+	return nil
+}
+
+func (e FragranceInventorySort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type FragranceSort string
+
+const (
+	FragranceSortID        FragranceSort = "ID"
+	FragranceSortName      FragranceSort = "NAME"
+	FragranceSortNote      FragranceSort = "NOTE"
+	FragranceSortUpdatedAt FragranceSort = "UPDATED_AT"
+	FragranceSortCreatedAt FragranceSort = "CREATED_AT"
+	FragranceSortDeletedAt FragranceSort = "DELETED_AT"
+)
+
+var AllFragranceSort = []FragranceSort{
+	FragranceSortID,
+	FragranceSortName,
+	FragranceSortNote,
+	FragranceSortUpdatedAt,
+	FragranceSortCreatedAt,
+	FragranceSortDeletedAt,
+}
+
+func (e FragranceSort) IsValid() bool {
+	switch e {
+	case FragranceSortID, FragranceSortName, FragranceSortNote, FragranceSortUpdatedAt, FragranceSortCreatedAt, FragranceSortDeletedAt:
+		return true
+	}
+	return false
+}
+
+func (e FragranceSort) String() string {
+	return string(e)
+}
+
+func (e *FragranceSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = FragranceSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid FragranceSort", str)
+	}
+	return nil
+}
+
+func (e FragranceSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type LipidInventorySort string
+
+const (
+	LipidInventorySortID            LipidInventorySort = "ID"
+	LipidInventorySortPurchaseDate  LipidInventorySort = "PURCHASE_DATE"
+	LipidInventorySortExpiryDate    LipidInventorySort = "EXPIRY_DATE"
+	LipidInventorySortCost          LipidInventorySort = "COST"
+	LipidInventorySortWeight        LipidInventorySort = "WEIGHT"
+	LipidInventorySortSap           LipidInventorySort = "SAP"
+	LipidInventorySortNaoh          LipidInventorySort = "NAOH"
+	LipidInventorySortKoh           LipidInventorySort = "KOH"
+	LipidInventorySortGramsPerLiter LipidInventorySort = "GRAMS_PER_LITER"
+	LipidInventorySortDeletedAt     LipidInventorySort = "DELETED_AT"
+	LipidInventorySortUpdatedAt     LipidInventorySort = "UPDATED_AT"
+	LipidInventorySortCreatedAt     LipidInventorySort = "CREATED_AT"
+)
+
+var AllLipidInventorySort = []LipidInventorySort{
+	LipidInventorySortID,
+	LipidInventorySortPurchaseDate,
+	LipidInventorySortExpiryDate,
+	LipidInventorySortCost,
+	LipidInventorySortWeight,
+	LipidInventorySortSap,
+	LipidInventorySortNaoh,
+	LipidInventorySortKoh,
+	LipidInventorySortGramsPerLiter,
+	LipidInventorySortDeletedAt,
+	LipidInventorySortUpdatedAt,
+	LipidInventorySortCreatedAt,
+}
+
+func (e LipidInventorySort) IsValid() bool {
+	switch e {
+	case LipidInventorySortID, LipidInventorySortPurchaseDate, LipidInventorySortExpiryDate, LipidInventorySortCost, LipidInventorySortWeight, LipidInventorySortSap, LipidInventorySortNaoh, LipidInventorySortKoh, LipidInventorySortGramsPerLiter, LipidInventorySortDeletedAt, LipidInventorySortUpdatedAt, LipidInventorySortCreatedAt:
+		return true
+	}
+	return false
+}
+
+func (e LipidInventorySort) String() string {
+	return string(e)
+}
+
+func (e *LipidInventorySort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = LipidInventorySort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid LipidInventorySort", str)
+	}
+	return nil
+}
+
+func (e LipidInventorySort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type LipidSort string
+
+const (
+	LipidSortID           LipidSort = "ID"
+	LipidSortName         LipidSort = "NAME"
+	LipidSortLauric       LipidSort = "LAURIC"
+	LipidSortMyristic     LipidSort = "MYRISTIC"
+	LipidSortPalmitic     LipidSort = "PALMITIC"
+	LipidSortStearic      LipidSort = "STEARIC"
+	LipidSortRicinoleic   LipidSort = "RICINOLEIC"
+	LipidSortOleic        LipidSort = "OLEIC"
+	LipidSortLinoleic     LipidSort = "LINOLEIC"
+	LipidSortLinolenic    LipidSort = "LINOLENIC"
+	LipidSortHardness     LipidSort = "HARDNESS"
+	LipidSortCleansing    LipidSort = "CLEANSING"
+	LipidSortConditioning LipidSort = "CONDITIONING"
+	LipidSortBubbly       LipidSort = "BUBBLY"
+	LipidSortCreamy       LipidSort = "CREAMY"
+	LipidSortIodine       LipidSort = "IODINE"
+	LipidSortIns          LipidSort = "INS"
+	LipidSortInciName     LipidSort = "INCI_NAME"
+	LipidSortFamily       LipidSort = "FAMILY"
+	LipidSortNaoh         LipidSort = "NAOH"
+	LipidSortUpdatedAt    LipidSort = "UPDATED_AT"
+	LipidSortCreatedAt    LipidSort = "CREATED_AT"
+	LipidSortDeletedAt    LipidSort = "DELETED_AT"
+)
+
+var AllLipidSort = []LipidSort{
+	LipidSortID,
+	LipidSortName,
+	LipidSortLauric,
+	LipidSortMyristic,
+	LipidSortPalmitic,
+	LipidSortStearic,
+	LipidSortRicinoleic,
+	LipidSortOleic,
+	LipidSortLinoleic,
+	LipidSortLinolenic,
+	LipidSortHardness,
+	LipidSortCleansing,
+	LipidSortConditioning,
+	LipidSortBubbly,
+	LipidSortCreamy,
+	LipidSortIodine,
+	LipidSortIns,
+	LipidSortInciName,
+	LipidSortFamily,
+	LipidSortNaoh,
+	LipidSortUpdatedAt,
+	LipidSortCreatedAt,
+	LipidSortDeletedAt,
+}
+
+func (e LipidSort) IsValid() bool {
+	switch e {
+	case LipidSortID, LipidSortName, LipidSortLauric, LipidSortMyristic, LipidSortPalmitic, LipidSortStearic, LipidSortRicinoleic, LipidSortOleic, LipidSortLinoleic, LipidSortLinolenic, LipidSortHardness, LipidSortCleansing, LipidSortConditioning, LipidSortBubbly, LipidSortCreamy, LipidSortIodine, LipidSortIns, LipidSortInciName, LipidSortFamily, LipidSortNaoh, LipidSortUpdatedAt, LipidSortCreatedAt, LipidSortDeletedAt:
+		return true
+	}
+	return false
+}
+
+func (e LipidSort) String() string {
+	return string(e)
+}
+
+func (e *LipidSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = LipidSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid LipidSort", str)
+	}
+	return nil
+}
+
+func (e LipidSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type LyeInventorySort string
+
+const (
+	LyeInventorySortID            LyeInventorySort = "ID"
+	LyeInventorySortPurchaseDate  LyeInventorySort = "PURCHASE_DATE"
+	LyeInventorySortExpiryDate    LyeInventorySort = "EXPIRY_DATE"
+	LyeInventorySortCost          LyeInventorySort = "COST"
+	LyeInventorySortWeight        LyeInventorySort = "WEIGHT"
+	LyeInventorySortConcentration LyeInventorySort = "CONCENTRATION"
+	LyeInventorySortCreatedAt     LyeInventorySort = "CREATED_AT"
+	LyeInventorySortUpdatedAt     LyeInventorySort = "UPDATED_AT"
+	LyeInventorySortDeletedAt     LyeInventorySort = "DELETED_AT"
+)
+
+var AllLyeInventorySort = []LyeInventorySort{
+	LyeInventorySortID,
+	LyeInventorySortPurchaseDate,
+	LyeInventorySortExpiryDate,
+	LyeInventorySortCost,
+	LyeInventorySortWeight,
+	LyeInventorySortConcentration,
+	LyeInventorySortCreatedAt,
+	LyeInventorySortUpdatedAt,
+	LyeInventorySortDeletedAt,
+}
+
+func (e LyeInventorySort) IsValid() bool {
+	switch e {
+	case LyeInventorySortID, LyeInventorySortPurchaseDate, LyeInventorySortExpiryDate, LyeInventorySortCost, LyeInventorySortWeight, LyeInventorySortConcentration, LyeInventorySortCreatedAt, LyeInventorySortUpdatedAt, LyeInventorySortDeletedAt:
+		return true
+	}
+	return false
+}
+
+func (e LyeInventorySort) String() string {
+	return string(e)
+}
+
+func (e *LyeInventorySort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = LyeInventorySort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid LyeInventorySort", str)
+	}
+	return nil
+}
+
+func (e LyeInventorySort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type LyeSort string
+
+const (
+	LyeSortID        LyeSort = "ID"
+	LyeSortKind      LyeSort = "KIND"
+	LyeSortName      LyeSort = "NAME"
+	LyeSortNote      LyeSort = "NOTE"
+	LyeSortDeletedAt LyeSort = "DELETED_AT"
+	LyeSortCreatedAt LyeSort = "CREATED_AT"
+	LyeSortUpdatedAt LyeSort = "UPDATED_AT"
+)
+
+var AllLyeSort = []LyeSort{
+	LyeSortID,
+	LyeSortKind,
+	LyeSortName,
+	LyeSortNote,
+	LyeSortDeletedAt,
+	LyeSortCreatedAt,
+	LyeSortUpdatedAt,
+}
+
+func (e LyeSort) IsValid() bool {
+	switch e {
+	case LyeSortID, LyeSortKind, LyeSortName, LyeSortNote, LyeSortDeletedAt, LyeSortCreatedAt, LyeSortUpdatedAt:
+		return true
+	}
+	return false
+}
+
+func (e LyeSort) String() string {
+	return string(e)
+}
+
+func (e *LyeSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = LyeSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid LyeSort", str)
+	}
+	return nil
+}
+
+func (e LyeSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RecipeAdditiveSort string
+
+const (
+	RecipeAdditiveSortID         RecipeAdditiveSort = "ID"
+	RecipeAdditiveSortPercentage RecipeAdditiveSort = "PERCENTAGE"
+	RecipeAdditiveSortUpdatedAt  RecipeAdditiveSort = "UPDATED_AT"
+	RecipeAdditiveSortDeletedAt  RecipeAdditiveSort = "DELETED_AT"
+	RecipeAdditiveSortCreatedAt  RecipeAdditiveSort = "CREATED_AT"
+)
+
+var AllRecipeAdditiveSort = []RecipeAdditiveSort{
+	RecipeAdditiveSortID,
+	RecipeAdditiveSortPercentage,
+	RecipeAdditiveSortUpdatedAt,
+	RecipeAdditiveSortDeletedAt,
+	RecipeAdditiveSortCreatedAt,
+}
+
+func (e RecipeAdditiveSort) IsValid() bool {
+	switch e {
+	case RecipeAdditiveSortID, RecipeAdditiveSortPercentage, RecipeAdditiveSortUpdatedAt, RecipeAdditiveSortDeletedAt, RecipeAdditiveSortCreatedAt:
+		return true
+	}
+	return false
+}
+
+func (e RecipeAdditiveSort) String() string {
+	return string(e)
+}
+
+func (e *RecipeAdditiveSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RecipeAdditiveSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RecipeAdditiveSort", str)
+	}
+	return nil
+}
+
+func (e RecipeAdditiveSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RecipeBatchAdditiveSort string
+
+const (
+	RecipeBatchAdditiveSortID        RecipeBatchAdditiveSort = "ID"
+	RecipeBatchAdditiveSortWeight    RecipeBatchAdditiveSort = "WEIGHT"
+	RecipeBatchAdditiveSortCost      RecipeBatchAdditiveSort = "COST"
+	RecipeBatchAdditiveSortDeletedAt RecipeBatchAdditiveSort = "DELETED_AT"
+	RecipeBatchAdditiveSortCreatedAt RecipeBatchAdditiveSort = "CREATED_AT"
+	RecipeBatchAdditiveSortUpdatedAt RecipeBatchAdditiveSort = "UPDATED_AT"
+)
+
+var AllRecipeBatchAdditiveSort = []RecipeBatchAdditiveSort{
+	RecipeBatchAdditiveSortID,
+	RecipeBatchAdditiveSortWeight,
+	RecipeBatchAdditiveSortCost,
+	RecipeBatchAdditiveSortDeletedAt,
+	RecipeBatchAdditiveSortCreatedAt,
+	RecipeBatchAdditiveSortUpdatedAt,
+}
+
+func (e RecipeBatchAdditiveSort) IsValid() bool {
+	switch e {
+	case RecipeBatchAdditiveSortID, RecipeBatchAdditiveSortWeight, RecipeBatchAdditiveSortCost, RecipeBatchAdditiveSortDeletedAt, RecipeBatchAdditiveSortCreatedAt, RecipeBatchAdditiveSortUpdatedAt:
+		return true
+	}
+	return false
+}
+
+func (e RecipeBatchAdditiveSort) String() string {
+	return string(e)
+}
+
+func (e *RecipeBatchAdditiveSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RecipeBatchAdditiveSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RecipeBatchAdditiveSort", str)
+	}
+	return nil
+}
+
+func (e RecipeBatchAdditiveSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RecipeBatchFragranceSort string
+
+const (
+	RecipeBatchFragranceSortID        RecipeBatchFragranceSort = "ID"
+	RecipeBatchFragranceSortWeight    RecipeBatchFragranceSort = "WEIGHT"
+	RecipeBatchFragranceSortCost      RecipeBatchFragranceSort = "COST"
+	RecipeBatchFragranceSortUpdatedAt RecipeBatchFragranceSort = "UPDATED_AT"
+	RecipeBatchFragranceSortDeletedAt RecipeBatchFragranceSort = "DELETED_AT"
+	RecipeBatchFragranceSortCreatedAt RecipeBatchFragranceSort = "CREATED_AT"
+)
+
+var AllRecipeBatchFragranceSort = []RecipeBatchFragranceSort{
+	RecipeBatchFragranceSortID,
+	RecipeBatchFragranceSortWeight,
+	RecipeBatchFragranceSortCost,
+	RecipeBatchFragranceSortUpdatedAt,
+	RecipeBatchFragranceSortDeletedAt,
+	RecipeBatchFragranceSortCreatedAt,
+}
+
+func (e RecipeBatchFragranceSort) IsValid() bool {
+	switch e {
+	case RecipeBatchFragranceSortID, RecipeBatchFragranceSortWeight, RecipeBatchFragranceSortCost, RecipeBatchFragranceSortUpdatedAt, RecipeBatchFragranceSortDeletedAt, RecipeBatchFragranceSortCreatedAt:
+		return true
+	}
+	return false
+}
+
+func (e RecipeBatchFragranceSort) String() string {
+	return string(e)
+}
+
+func (e *RecipeBatchFragranceSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RecipeBatchFragranceSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RecipeBatchFragranceSort", str)
+	}
+	return nil
+}
+
+func (e RecipeBatchFragranceSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RecipeBatchLipidSort string
+
+const (
+	RecipeBatchLipidSortID        RecipeBatchLipidSort = "ID"
+	RecipeBatchLipidSortWeight    RecipeBatchLipidSort = "WEIGHT"
+	RecipeBatchLipidSortCost      RecipeBatchLipidSort = "COST"
+	RecipeBatchLipidSortUpdatedAt RecipeBatchLipidSort = "UPDATED_AT"
+	RecipeBatchLipidSortDeletedAt RecipeBatchLipidSort = "DELETED_AT"
+	RecipeBatchLipidSortCreatedAt RecipeBatchLipidSort = "CREATED_AT"
+)
+
+var AllRecipeBatchLipidSort = []RecipeBatchLipidSort{
+	RecipeBatchLipidSortID,
+	RecipeBatchLipidSortWeight,
+	RecipeBatchLipidSortCost,
+	RecipeBatchLipidSortUpdatedAt,
+	RecipeBatchLipidSortDeletedAt,
+	RecipeBatchLipidSortCreatedAt,
+}
+
+func (e RecipeBatchLipidSort) IsValid() bool {
+	switch e {
+	case RecipeBatchLipidSortID, RecipeBatchLipidSortWeight, RecipeBatchLipidSortCost, RecipeBatchLipidSortUpdatedAt, RecipeBatchLipidSortDeletedAt, RecipeBatchLipidSortCreatedAt:
+		return true
+	}
+	return false
+}
+
+func (e RecipeBatchLipidSort) String() string {
+	return string(e)
+}
+
+func (e *RecipeBatchLipidSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RecipeBatchLipidSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RecipeBatchLipidSort", str)
+	}
+	return nil
+}
+
+func (e RecipeBatchLipidSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RecipeBatchLyeSort string
+
+const (
+	RecipeBatchLyeSortID        RecipeBatchLyeSort = "ID"
+	RecipeBatchLyeSortWeight    RecipeBatchLyeSort = "WEIGHT"
+	RecipeBatchLyeSortDiscount  RecipeBatchLyeSort = "DISCOUNT"
+	RecipeBatchLyeSortCost      RecipeBatchLyeSort = "COST"
+	RecipeBatchLyeSortCreatedAt RecipeBatchLyeSort = "CREATED_AT"
+	RecipeBatchLyeSortDeletedAt RecipeBatchLyeSort = "DELETED_AT"
+	RecipeBatchLyeSortUpdatedAt RecipeBatchLyeSort = "UPDATED_AT"
+)
+
+var AllRecipeBatchLyeSort = []RecipeBatchLyeSort{
+	RecipeBatchLyeSortID,
+	RecipeBatchLyeSortWeight,
+	RecipeBatchLyeSortDiscount,
+	RecipeBatchLyeSortCost,
+	RecipeBatchLyeSortCreatedAt,
+	RecipeBatchLyeSortDeletedAt,
+	RecipeBatchLyeSortUpdatedAt,
+}
+
+func (e RecipeBatchLyeSort) IsValid() bool {
+	switch e {
+	case RecipeBatchLyeSortID, RecipeBatchLyeSortWeight, RecipeBatchLyeSortDiscount, RecipeBatchLyeSortCost, RecipeBatchLyeSortCreatedAt, RecipeBatchLyeSortDeletedAt, RecipeBatchLyeSortUpdatedAt:
+		return true
+	}
+	return false
+}
+
+func (e RecipeBatchLyeSort) String() string {
+	return string(e)
+}
+
+func (e *RecipeBatchLyeSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RecipeBatchLyeSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RecipeBatchLyeSort", str)
+	}
+	return nil
+}
+
+func (e RecipeBatchLyeSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RecipeBatchNoteSort string
+
+const (
+	RecipeBatchNoteSortID        RecipeBatchNoteSort = "ID"
+	RecipeBatchNoteSortNote      RecipeBatchNoteSort = "NOTE"
+	RecipeBatchNoteSortLink      RecipeBatchNoteSort = "LINK"
+	RecipeBatchNoteSortDeletedAt RecipeBatchNoteSort = "DELETED_AT"
+	RecipeBatchNoteSortCreatedAt RecipeBatchNoteSort = "CREATED_AT"
+	RecipeBatchNoteSortUpdatedAt RecipeBatchNoteSort = "UPDATED_AT"
+)
+
+var AllRecipeBatchNoteSort = []RecipeBatchNoteSort{
+	RecipeBatchNoteSortID,
+	RecipeBatchNoteSortNote,
+	RecipeBatchNoteSortLink,
+	RecipeBatchNoteSortDeletedAt,
+	RecipeBatchNoteSortCreatedAt,
+	RecipeBatchNoteSortUpdatedAt,
+}
+
+func (e RecipeBatchNoteSort) IsValid() bool {
+	switch e {
+	case RecipeBatchNoteSortID, RecipeBatchNoteSortNote, RecipeBatchNoteSortLink, RecipeBatchNoteSortDeletedAt, RecipeBatchNoteSortCreatedAt, RecipeBatchNoteSortUpdatedAt:
+		return true
+	}
+	return false
+}
+
+func (e RecipeBatchNoteSort) String() string {
+	return string(e)
+}
+
+func (e *RecipeBatchNoteSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RecipeBatchNoteSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RecipeBatchNoteSort", str)
+	}
+	return nil
+}
+
+func (e RecipeBatchNoteSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RecipeBatchSort string
+
+const (
+	RecipeBatchSortID               RecipeBatchSort = "ID"
+	RecipeBatchSortTag              RecipeBatchSort = "TAG"
+	RecipeBatchSortProductionDate   RecipeBatchSort = "PRODUCTION_DATE"
+	RecipeBatchSortSellableDate     RecipeBatchSort = "SELLABLE_DATE"
+	RecipeBatchSortNote             RecipeBatchSort = "NOTE"
+	RecipeBatchSortLipidWeight      RecipeBatchSort = "LIPID_WEIGHT"
+	RecipeBatchSortProductionWeight RecipeBatchSort = "PRODUCTION_WEIGHT"
+	RecipeBatchSortCuredWeight      RecipeBatchSort = "CURED_WEIGHT"
+	RecipeBatchSortCreatedAt        RecipeBatchSort = "CREATED_AT"
+	RecipeBatchSortUpdatedAt        RecipeBatchSort = "UPDATED_AT"
+	RecipeBatchSortDeletedAt        RecipeBatchSort = "DELETED_AT"
+)
+
+var AllRecipeBatchSort = []RecipeBatchSort{
+	RecipeBatchSortID,
+	RecipeBatchSortTag,
+	RecipeBatchSortProductionDate,
+	RecipeBatchSortSellableDate,
+	RecipeBatchSortNote,
+	RecipeBatchSortLipidWeight,
+	RecipeBatchSortProductionWeight,
+	RecipeBatchSortCuredWeight,
+	RecipeBatchSortCreatedAt,
+	RecipeBatchSortUpdatedAt,
+	RecipeBatchSortDeletedAt,
+}
+
+func (e RecipeBatchSort) IsValid() bool {
+	switch e {
+	case RecipeBatchSortID, RecipeBatchSortTag, RecipeBatchSortProductionDate, RecipeBatchSortSellableDate, RecipeBatchSortNote, RecipeBatchSortLipidWeight, RecipeBatchSortProductionWeight, RecipeBatchSortCuredWeight, RecipeBatchSortCreatedAt, RecipeBatchSortUpdatedAt, RecipeBatchSortDeletedAt:
+		return true
+	}
+	return false
+}
+
+func (e RecipeBatchSort) String() string {
+	return string(e)
+}
+
+func (e *RecipeBatchSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RecipeBatchSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RecipeBatchSort", str)
+	}
+	return nil
+}
+
+func (e RecipeBatchSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RecipeFragranceSort string
+
+const (
+	RecipeFragranceSortID         RecipeFragranceSort = "ID"
+	RecipeFragranceSortPercentage RecipeFragranceSort = "PERCENTAGE"
+	RecipeFragranceSortUpdatedAt  RecipeFragranceSort = "UPDATED_AT"
+	RecipeFragranceSortCreatedAt  RecipeFragranceSort = "CREATED_AT"
+	RecipeFragranceSortDeletedAt  RecipeFragranceSort = "DELETED_AT"
+)
+
+var AllRecipeFragranceSort = []RecipeFragranceSort{
+	RecipeFragranceSortID,
+	RecipeFragranceSortPercentage,
+	RecipeFragranceSortUpdatedAt,
+	RecipeFragranceSortCreatedAt,
+	RecipeFragranceSortDeletedAt,
+}
+
+func (e RecipeFragranceSort) IsValid() bool {
+	switch e {
+	case RecipeFragranceSortID, RecipeFragranceSortPercentage, RecipeFragranceSortUpdatedAt, RecipeFragranceSortCreatedAt, RecipeFragranceSortDeletedAt:
+		return true
+	}
+	return false
+}
+
+func (e RecipeFragranceSort) String() string {
+	return string(e)
+}
+
+func (e *RecipeFragranceSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RecipeFragranceSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RecipeFragranceSort", str)
+	}
+	return nil
+}
+
+func (e RecipeFragranceSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RecipeLipidSort string
+
+const (
+	RecipeLipidSortID         RecipeLipidSort = "ID"
+	RecipeLipidSortPercentage RecipeLipidSort = "PERCENTAGE"
+	RecipeLipidSortUpdatedAt  RecipeLipidSort = "UPDATED_AT"
+	RecipeLipidSortCreatedAt  RecipeLipidSort = "CREATED_AT"
+	RecipeLipidSortDeletedAt  RecipeLipidSort = "DELETED_AT"
+)
+
+var AllRecipeLipidSort = []RecipeLipidSort{
+	RecipeLipidSortID,
+	RecipeLipidSortPercentage,
+	RecipeLipidSortUpdatedAt,
+	RecipeLipidSortCreatedAt,
+	RecipeLipidSortDeletedAt,
+}
+
+func (e RecipeLipidSort) IsValid() bool {
+	switch e {
+	case RecipeLipidSortID, RecipeLipidSortPercentage, RecipeLipidSortUpdatedAt, RecipeLipidSortCreatedAt, RecipeLipidSortDeletedAt:
+		return true
+	}
+	return false
+}
+
+func (e RecipeLipidSort) String() string {
+	return string(e)
+}
+
+func (e *RecipeLipidSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RecipeLipidSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RecipeLipidSort", str)
+	}
+	return nil
+}
+
+func (e RecipeLipidSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RecipeSort string
+
+const (
+	RecipeSortID        RecipeSort = "ID"
+	RecipeSortName      RecipeSort = "NAME"
+	RecipeSortNote      RecipeSort = "NOTE"
+	RecipeSortCreatedAt RecipeSort = "CREATED_AT"
+	RecipeSortDeletedAt RecipeSort = "DELETED_AT"
+	RecipeSortUpdatedAt RecipeSort = "UPDATED_AT"
+)
+
+var AllRecipeSort = []RecipeSort{
+	RecipeSortID,
+	RecipeSortName,
+	RecipeSortNote,
+	RecipeSortCreatedAt,
+	RecipeSortDeletedAt,
+	RecipeSortUpdatedAt,
+}
+
+func (e RecipeSort) IsValid() bool {
+	switch e {
+	case RecipeSortID, RecipeSortName, RecipeSortNote, RecipeSortCreatedAt, RecipeSortDeletedAt, RecipeSortUpdatedAt:
+		return true
+	}
+	return false
+}
+
+func (e RecipeSort) String() string {
+	return string(e)
+}
+
+func (e *RecipeSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RecipeSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RecipeSort", str)
+	}
+	return nil
+}
+
+func (e RecipeSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RecipeStepSort string
+
+const (
+	RecipeStepSortID        RecipeStepSort = "ID"
+	RecipeStepSortNum       RecipeStepSort = "NUM"
+	RecipeStepSortNote      RecipeStepSort = "NOTE"
+	RecipeStepSortDeletedAt RecipeStepSort = "DELETED_AT"
+	RecipeStepSortUpdatedAt RecipeStepSort = "UPDATED_AT"
+	RecipeStepSortCreatedAt RecipeStepSort = "CREATED_AT"
+)
+
+var AllRecipeStepSort = []RecipeStepSort{
+	RecipeStepSortID,
+	RecipeStepSortNum,
+	RecipeStepSortNote,
+	RecipeStepSortDeletedAt,
+	RecipeStepSortUpdatedAt,
+	RecipeStepSortCreatedAt,
+}
+
+func (e RecipeStepSort) IsValid() bool {
+	switch e {
+	case RecipeStepSortID, RecipeStepSortNum, RecipeStepSortNote, RecipeStepSortDeletedAt, RecipeStepSortUpdatedAt, RecipeStepSortCreatedAt:
+		return true
+	}
+	return false
+}
+
+func (e RecipeStepSort) String() string {
+	return string(e)
+}
+
+func (e *RecipeStepSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RecipeStepSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RecipeStepSort", str)
+	}
+	return nil
+}
+
+func (e RecipeStepSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SupplierSort string
+
+const (
+	SupplierSortID        SupplierSort = "ID"
+	SupplierSortName      SupplierSort = "NAME"
+	SupplierSortWebsite   SupplierSort = "WEBSITE"
+	SupplierSortNote      SupplierSort = "NOTE"
+	SupplierSortDeletedAt SupplierSort = "DELETED_AT"
+	SupplierSortUpdatedAt SupplierSort = "UPDATED_AT"
+	SupplierSortCreatedAt SupplierSort = "CREATED_AT"
+)
+
+var AllSupplierSort = []SupplierSort{
+	SupplierSortID,
+	SupplierSortName,
+	SupplierSortWebsite,
+	SupplierSortNote,
+	SupplierSortDeletedAt,
+	SupplierSortUpdatedAt,
+	SupplierSortCreatedAt,
+}
+
+func (e SupplierSort) IsValid() bool {
+	switch e {
+	case SupplierSortID, SupplierSortName, SupplierSortWebsite, SupplierSortNote, SupplierSortDeletedAt, SupplierSortUpdatedAt, SupplierSortCreatedAt:
+		return true
+	}
+	return false
+}
+
+func (e SupplierSort) String() string {
+	return string(e)
+}
+
+func (e *SupplierSort) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SupplierSort(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SupplierSort", str)
+	}
+	return nil
+}
+
+func (e SupplierSort) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
 }

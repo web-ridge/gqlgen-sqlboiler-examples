@@ -1,16 +1,431 @@
-type Additive {
+directive @IsAuthenticated on FIELD_DEFINITION
+
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+input ConnectionForwardPagination {
+  first: Int!
+  after: ID
+}
+
+input ConnectionBackwardPagination {
+  last: Int!
+  before: ID
+}
+
+input ConnectionPagination {
+  forward: ConnectionForwardPagination
+  backward: ConnectionBackwardPagination
+}
+
+enum SortDirection {
+  ASC
+  DESC
+}
+
+enum AdditiveSort {
+  ID
+  NAME
+  NOTE
+  CREATED_AT
+  DELETED_AT
+  UPDATED_AT
+}
+
+input AdditiveOrdering {
+  sort: AdditiveSort!
+  direction: SortDirection! = ASC
+}
+
+enum AdditiveInventorySort {
+  ID
+  PURCHASE_DATE
+  EXPIRY_DATE
+  COST
+  WEIGHT
+  UPDATED_AT
+  DELETED_AT
+  CREATED_AT
+}
+
+input AdditiveInventoryOrdering {
+  sort: AdditiveInventorySort!
+  direction: SortDirection! = ASC
+}
+
+enum AuthGroupSort {
+  ID
+  NAME
+}
+
+input AuthGroupOrdering {
+  sort: AuthGroupSort!
+  direction: SortDirection! = ASC
+}
+
+enum AuthGroupPermissionSort {
+  ID
+}
+
+input AuthGroupPermissionOrdering {
+  sort: AuthGroupPermissionSort!
+  direction: SortDirection! = ASC
+}
+
+enum AuthPermissionSort {
+  ID
+  NAME
+  CODENAME
+}
+
+input AuthPermissionOrdering {
+  sort: AuthPermissionSort!
+  direction: SortDirection! = ASC
+}
+
+enum AuthUserSort {
+  ID
+  PASSWORD
+  LAST_LOGIN
+  IS_SUPERUSER
+  USERNAME
+  FIRST_NAME
+  LAST_NAME
+  EMAIL
+  IS_STAFF
+  IS_ACTIVE
+  DATE_JOINED
+}
+
+input AuthUserOrdering {
+  sort: AuthUserSort!
+  direction: SortDirection! = ASC
+}
+
+enum AuthUserGroupSort {
+  ID
+}
+
+input AuthUserGroupOrdering {
+  sort: AuthUserGroupSort!
+  direction: SortDirection! = ASC
+}
+
+enum AuthUserUserPermissionSort {
+  ID
+}
+
+input AuthUserUserPermissionOrdering {
+  sort: AuthUserUserPermissionSort!
+  direction: SortDirection! = ASC
+}
+
+enum FragranceSort {
+  ID
+  NAME
+  NOTE
+  UPDATED_AT
+  DELETED_AT
+  CREATED_AT
+}
+
+input FragranceOrdering {
+  sort: FragranceSort!
+  direction: SortDirection! = ASC
+}
+
+enum FragranceInventorySort {
+  ID
+  PURCHASE_DATE
+  EXPIRY_DATE
+  COST
+  WEIGHT
+  DELETED_AT
+  UPDATED_AT
+  CREATED_AT
+}
+
+input FragranceInventoryOrdering {
+  sort: FragranceInventorySort!
+  direction: SortDirection! = ASC
+}
+
+enum LipidSort {
+  ID
+  NAME
+  LAURIC
+  MYRISTIC
+  PALMITIC
+  STEARIC
+  RICINOLEIC
+  OLEIC
+  LINOLEIC
+  LINOLENIC
+  HARDNESS
+  CLEANSING
+  CONDITIONING
+  BUBBLY
+  CREAMY
+  IODINE
+  INS
+  INCI_NAME
+  FAMILY
+  NAOH
+  DELETED_AT
+  UPDATED_AT
+  CREATED_AT
+}
+
+input LipidOrdering {
+  sort: LipidSort!
+  direction: SortDirection! = ASC
+}
+
+enum LipidInventorySort {
+  ID
+  PURCHASE_DATE
+  EXPIRY_DATE
+  COST
+  WEIGHT
+  SAP
+  NAOH
+  KOH
+  GRAMS_PER_LITER
+  UPDATED_AT
+  CREATED_AT
+  DELETED_AT
+}
+
+input LipidInventoryOrdering {
+  sort: LipidInventorySort!
+  direction: SortDirection! = ASC
+}
+
+enum LyeSort {
+  ID
+  KIND
+  NAME
+  NOTE
+  UPDATED_AT
+  CREATED_AT
+  DELETED_AT
+}
+
+input LyeOrdering {
+  sort: LyeSort!
+  direction: SortDirection! = ASC
+}
+
+enum LyeInventorySort {
+  ID
+  PURCHASE_DATE
+  EXPIRY_DATE
+  COST
+  WEIGHT
+  CONCENTRATION
+  CREATED_AT
+  DELETED_AT
+  UPDATED_AT
+}
+
+input LyeInventoryOrdering {
+  sort: LyeInventorySort!
+  direction: SortDirection! = ASC
+}
+
+enum RecipeSort {
+  ID
+  NAME
+  NOTE
+  CREATED_AT
+  UPDATED_AT
+  DELETED_AT
+}
+
+input RecipeOrdering {
+  sort: RecipeSort!
+  direction: SortDirection! = ASC
+}
+
+enum RecipeAdditiveSort {
+  ID
+  PERCENTAGE
+  DELETED_AT
+  UPDATED_AT
+  CREATED_AT
+}
+
+input RecipeAdditiveOrdering {
+  sort: RecipeAdditiveSort!
+  direction: SortDirection! = ASC
+}
+
+enum RecipeBatchSort {
+  ID
+  TAG
+  PRODUCTION_DATE
+  SELLABLE_DATE
+  NOTE
+  LIPID_WEIGHT
+  PRODUCTION_WEIGHT
+  CURED_WEIGHT
+  CREATED_AT
+  UPDATED_AT
+  DELETED_AT
+}
+
+input RecipeBatchOrdering {
+  sort: RecipeBatchSort!
+  direction: SortDirection! = ASC
+}
+
+enum RecipeBatchAdditiveSort {
+  ID
+  WEIGHT
+  COST
+  DELETED_AT
+  UPDATED_AT
+  CREATED_AT
+}
+
+input RecipeBatchAdditiveOrdering {
+  sort: RecipeBatchAdditiveSort!
+  direction: SortDirection! = ASC
+}
+
+enum RecipeBatchFragranceSort {
+  ID
+  WEIGHT
+  COST
+  DELETED_AT
+  UPDATED_AT
+  CREATED_AT
+}
+
+input RecipeBatchFragranceOrdering {
+  sort: RecipeBatchFragranceSort!
+  direction: SortDirection! = ASC
+}
+
+enum RecipeBatchLipidSort {
+  ID
+  WEIGHT
+  COST
+  UPDATED_AT
+  DELETED_AT
+  CREATED_AT
+}
+
+input RecipeBatchLipidOrdering {
+  sort: RecipeBatchLipidSort!
+  direction: SortDirection! = ASC
+}
+
+enum RecipeBatchLyeSort {
+  ID
+  WEIGHT
+  DISCOUNT
+  COST
+  UPDATED_AT
+  DELETED_AT
+  CREATED_AT
+}
+
+input RecipeBatchLyeOrdering {
+  sort: RecipeBatchLyeSort!
+  direction: SortDirection! = ASC
+}
+
+enum RecipeBatchNoteSort {
+  ID
+  NOTE
+  LINK
+  UPDATED_AT
+  CREATED_AT
+  DELETED_AT
+}
+
+input RecipeBatchNoteOrdering {
+  sort: RecipeBatchNoteSort!
+  direction: SortDirection! = ASC
+}
+
+enum RecipeFragranceSort {
+  ID
+  PERCENTAGE
+  UPDATED_AT
+  CREATED_AT
+  DELETED_AT
+}
+
+input RecipeFragranceOrdering {
+  sort: RecipeFragranceSort!
+  direction: SortDirection! = ASC
+}
+
+enum RecipeLipidSort {
+  ID
+  PERCENTAGE
+  UPDATED_AT
+  DELETED_AT
+  CREATED_AT
+}
+
+input RecipeLipidOrdering {
+  sort: RecipeLipidSort!
+  direction: SortDirection! = ASC
+}
+
+enum RecipeStepSort {
+  ID
+  NUM
+  NOTE
+  CREATED_AT
+  UPDATED_AT
+  DELETED_AT
+}
+
+input RecipeStepOrdering {
+  sort: RecipeStepSort!
+  direction: SortDirection! = ASC
+}
+
+enum SupplierSort {
+  ID
+  NAME
+  WEBSITE
+  NOTE
+  DELETED_AT
+  CREATED_AT
+  UPDATED_AT
+}
+
+input SupplierOrdering {
+  sort: SupplierSort!
+  direction: SortDirection! = ASC
+}
+
+type Additive implements Node {
   id: ID!
   name: String!
   note: String!
-  updatedAt: Int!
   createdAt: Int!
   deletedAt: Int
+  updatedAt: Int!
   recipeAdditive: RecipeAdditive
   recipeBatchAdditive: RecipeBatchAdditive
   additiveInventories: [AdditiveInventory]
 }
 
-type AdditiveInventory {
+type AdditiveInventory implements Node {
   id: ID!
   purchaseDate: Int!
   expiryDate: Int!
@@ -23,20 +438,20 @@ type AdditiveInventory {
   createdAt: Int!
 }
 
-type AuthGroup {
+type AuthGroup implements Node {
   id: ID!
   name: String!
   groupAuthGroupPermissions: [AuthGroupPermission]
   groupAuthUserGroups: [AuthUserGroup]
 }
 
-type AuthGroupPermission {
+type AuthGroupPermission implements Node {
   id: ID!
   group: AuthGroup!
   permission: AuthPermission!
 }
 
-type AuthPermission {
+type AuthPermission implements Node {
   id: ID!
   name: String!
   contentTypeId: ID!
@@ -45,7 +460,7 @@ type AuthPermission {
   permissionAuthUserUserPermissions: [AuthUserUserPermission]
 }
 
-type AuthUser {
+type AuthUser implements Node {
   id: ID!
   password: String!
   lastLogin: Int
@@ -61,31 +476,31 @@ type AuthUser {
   userAuthUserUserPermissions: [AuthUserUserPermission]
 }
 
-type AuthUserGroup {
+type AuthUserGroup implements Node {
   id: ID!
   user: AuthUser!
   group: AuthGroup!
 }
 
-type AuthUserUserPermission {
+type AuthUserUserPermission implements Node {
   id: ID!
   user: AuthUser!
   permission: AuthPermission!
 }
 
-type Fragrance {
+type Fragrance implements Node {
   id: ID!
   name: String!
   note: String!
+  updatedAt: Int!
   deletedAt: Int
   createdAt: Int!
-  updatedAt: Int!
   recipeBatchFragrance: RecipeBatchFragrance
   recipeFragrance: RecipeFragrance
   fragranceInventories: [FragranceInventory]
 }
 
-type FragranceInventory {
+type FragranceInventory implements Node {
   id: ID!
   purchaseDate: Int!
   expiryDate: Int!
@@ -93,12 +508,12 @@ type FragranceInventory {
   weight: Float!
   fragrance: Fragrance!
   supplier: Supplier!
-  createdAt: Int!
   deletedAt: Int
   updatedAt: Int!
+  createdAt: Int!
 }
 
-type Lipid {
+type Lipid implements Node {
   id: ID!
   name: String!
   lauric: Int!
@@ -120,14 +535,14 @@ type Lipid {
   family: String!
   naoh: Float!
   deletedAt: Int
-  createdAt: Int!
   updatedAt: Int!
+  createdAt: Int!
   recipeBatchLipid: RecipeBatchLipid
   recipeLipid: RecipeLipid
   lipidInventories: [LipidInventory]
 }
 
-type LipidInventory {
+type LipidInventory implements Node {
   id: ID!
   purchaseDate: Int!
   expiryDate: Int!
@@ -139,24 +554,24 @@ type LipidInventory {
   gramsPerLiter: Float!
   lipid: Lipid!
   supplier: Supplier!
-  deletedAt: Int
   updatedAt: Int!
   createdAt: Int!
+  deletedAt: Int
 }
 
-type Lye {
+type Lye implements Node {
   id: ID!
   kind: String!
   name: String!
   note: String!
-  deletedAt: Int
   updatedAt: Int!
   createdAt: Int!
+  deletedAt: Int
   recipeBatchLye: RecipeBatchLye
   lyeInventories: [LyeInventory]
 }
 
-type LyeInventory {
+type LyeInventory implements Node {
   id: ID!
   purchaseDate: Int!
   expiryDate: Int!
@@ -165,18 +580,18 @@ type LyeInventory {
   concentration: Float!
   lye: Lye!
   supplier: Supplier!
+  createdAt: Int!
   deletedAt: Int
   updatedAt: Int!
-  createdAt: Int!
 }
 
-type Recipe {
+type Recipe implements Node {
   id: ID!
   name: String!
   note: String!
+  createdAt: Int!
   updatedAt: Int!
   deletedAt: Int
-  createdAt: Int!
   recipeAdditives: [RecipeAdditive]
   recipeBatches: [RecipeBatch]
   recipeFragrances: [RecipeFragrance]
@@ -184,17 +599,17 @@ type Recipe {
   recipeSteps: [RecipeStep]
 }
 
-type RecipeAdditive {
+type RecipeAdditive implements Node {
   id: ID!
   percentage: Float!
   additive: Additive!
   recipe: Recipe!
-  createdAt: Int!
-  updatedAt: Int!
   deletedAt: Int
+  updatedAt: Int!
+  createdAt: Int!
 }
 
-type RecipeBatch {
+type RecipeBatch implements Node {
   id: ID!
   tag: String!
   productionDate: Int!
@@ -205,8 +620,8 @@ type RecipeBatch {
   curedWeight: Float!
   recipe: Recipe!
   createdAt: Int!
-  deletedAt: Int
   updatedAt: Int!
+  deletedAt: Int
   batchRecipeBatchAdditives: [RecipeBatchAdditive]
   batchRecipeBatchFragrances: [RecipeBatchFragrance]
   batchRecipeBatchLipids: [RecipeBatchLipid]
@@ -214,72 +629,72 @@ type RecipeBatch {
   batchRecipeBatchNotes: [RecipeBatchNote]
 }
 
-type RecipeBatchAdditive {
+type RecipeBatchAdditive implements Node {
   id: ID!
   weight: Float!
   cost: Float!
   additive: Additive!
   batch: RecipeBatch!
-  createdAt: Int!
   deletedAt: Int
   updatedAt: Int!
+  createdAt: Int!
 }
 
-type RecipeBatchFragrance {
+type RecipeBatchFragrance implements Node {
   id: ID!
   weight: Float!
   cost: Float!
   fragrance: Fragrance!
   batch: RecipeBatch!
-  createdAt: Int!
   deletedAt: Int
   updatedAt: Int!
+  createdAt: Int!
 }
 
-type RecipeBatchLipid {
+type RecipeBatchLipid implements Node {
   id: ID!
   weight: Float!
   cost: Float!
   lipid: Lipid!
   batch: RecipeBatch!
-  createdAt: Int!
   updatedAt: Int!
   deletedAt: Int
+  createdAt: Int!
 }
 
-type RecipeBatchLye {
+type RecipeBatchLye implements Node {
   id: ID!
   weight: Float!
   discount: Float!
   cost: Float!
   lye: Lye!
   batch: RecipeBatch!
-  createdAt: Int!
-  deletedAt: Int
   updatedAt: Int!
+  deletedAt: Int
+  createdAt: Int!
 }
 
-type RecipeBatchNote {
+type RecipeBatchNote implements Node {
   id: ID!
   note: String!
   link: String!
   batch: RecipeBatch!
-  deletedAt: Int
-  createdAt: Int!
   updatedAt: Int!
+  createdAt: Int!
+  deletedAt: Int
 }
 
-type RecipeFragrance {
+type RecipeFragrance implements Node {
   id: ID!
   percentage: Float!
   fragrance: Fragrance!
   recipe: Recipe!
-  deletedAt: Int
   updatedAt: Int!
   createdAt: Int!
+  deletedAt: Int
 }
 
-type RecipeLipid {
+type RecipeLipid implements Node {
   id: ID!
   percentage: Float!
   lipid: Lipid!
@@ -289,28 +704,288 @@ type RecipeLipid {
   createdAt: Int!
 }
 
-type RecipeStep {
+type RecipeStep implements Node {
   id: ID!
   num: Int!
   note: String!
   recipe: Recipe!
+  createdAt: Int!
   updatedAt: Int!
   deletedAt: Int
-  createdAt: Int!
 }
 
-type Supplier {
+type Supplier implements Node {
   id: ID!
   name: String!
   website: String!
   note: String!
-  createdAt: Int!
   deletedAt: Int
+  createdAt: Int!
   updatedAt: Int!
   additiveInventories: [AdditiveInventory]
   fragranceInventories: [FragranceInventory]
   lipidInventories: [LipidInventory]
   lyeInventories: [LyeInventory]
+}
+
+type AdditiveEdge {
+  cursor: String!
+  node: Additive
+}
+
+type AdditiveInventoryEdge {
+  cursor: String!
+  node: AdditiveInventory
+}
+
+type AuthGroupEdge {
+  cursor: String!
+  node: AuthGroup
+}
+
+type AuthGroupPermissionEdge {
+  cursor: String!
+  node: AuthGroupPermission
+}
+
+type AuthPermissionEdge {
+  cursor: String!
+  node: AuthPermission
+}
+
+type AuthUserEdge {
+  cursor: String!
+  node: AuthUser
+}
+
+type AuthUserGroupEdge {
+  cursor: String!
+  node: AuthUserGroup
+}
+
+type AuthUserUserPermissionEdge {
+  cursor: String!
+  node: AuthUserUserPermission
+}
+
+type FragranceEdge {
+  cursor: String!
+  node: Fragrance
+}
+
+type FragranceInventoryEdge {
+  cursor: String!
+  node: FragranceInventory
+}
+
+type LipidEdge {
+  cursor: String!
+  node: Lipid
+}
+
+type LipidInventoryEdge {
+  cursor: String!
+  node: LipidInventory
+}
+
+type LyeEdge {
+  cursor: String!
+  node: Lye
+}
+
+type LyeInventoryEdge {
+  cursor: String!
+  node: LyeInventory
+}
+
+type RecipeEdge {
+  cursor: String!
+  node: Recipe
+}
+
+type RecipeAdditiveEdge {
+  cursor: String!
+  node: RecipeAdditive
+}
+
+type RecipeBatchEdge {
+  cursor: String!
+  node: RecipeBatch
+}
+
+type RecipeBatchAdditiveEdge {
+  cursor: String!
+  node: RecipeBatchAdditive
+}
+
+type RecipeBatchFragranceEdge {
+  cursor: String!
+  node: RecipeBatchFragrance
+}
+
+type RecipeBatchLipidEdge {
+  cursor: String!
+  node: RecipeBatchLipid
+}
+
+type RecipeBatchLyeEdge {
+  cursor: String!
+  node: RecipeBatchLye
+}
+
+type RecipeBatchNoteEdge {
+  cursor: String!
+  node: RecipeBatchNote
+}
+
+type RecipeFragranceEdge {
+  cursor: String!
+  node: RecipeFragrance
+}
+
+type RecipeLipidEdge {
+  cursor: String!
+  node: RecipeLipid
+}
+
+type RecipeStepEdge {
+  cursor: String!
+  node: RecipeStep
+}
+
+type SupplierEdge {
+  cursor: String!
+  node: Supplier
+}
+
+type AdditiveConnection {
+  edges: [AdditiveEdge]
+  pageInfo: PageInfo!
+}
+
+type AdditiveInventoryConnection {
+  edges: [AdditiveInventoryEdge]
+  pageInfo: PageInfo!
+}
+
+type AuthGroupConnection {
+  edges: [AuthGroupEdge]
+  pageInfo: PageInfo!
+}
+
+type AuthGroupPermissionConnection {
+  edges: [AuthGroupPermissionEdge]
+  pageInfo: PageInfo!
+}
+
+type AuthPermissionConnection {
+  edges: [AuthPermissionEdge]
+  pageInfo: PageInfo!
+}
+
+type AuthUserConnection {
+  edges: [AuthUserEdge]
+  pageInfo: PageInfo!
+}
+
+type AuthUserGroupConnection {
+  edges: [AuthUserGroupEdge]
+  pageInfo: PageInfo!
+}
+
+type AuthUserUserPermissionConnection {
+  edges: [AuthUserUserPermissionEdge]
+  pageInfo: PageInfo!
+}
+
+type FragranceConnection {
+  edges: [FragranceEdge]
+  pageInfo: PageInfo!
+}
+
+type FragranceInventoryConnection {
+  edges: [FragranceInventoryEdge]
+  pageInfo: PageInfo!
+}
+
+type LipidConnection {
+  edges: [LipidEdge]
+  pageInfo: PageInfo!
+}
+
+type LipidInventoryConnection {
+  edges: [LipidInventoryEdge]
+  pageInfo: PageInfo!
+}
+
+type LyeConnection {
+  edges: [LyeEdge]
+  pageInfo: PageInfo!
+}
+
+type LyeInventoryConnection {
+  edges: [LyeInventoryEdge]
+  pageInfo: PageInfo!
+}
+
+type RecipeConnection {
+  edges: [RecipeEdge]
+  pageInfo: PageInfo!
+}
+
+type RecipeAdditiveConnection {
+  edges: [RecipeAdditiveEdge]
+  pageInfo: PageInfo!
+}
+
+type RecipeBatchConnection {
+  edges: [RecipeBatchEdge]
+  pageInfo: PageInfo!
+}
+
+type RecipeBatchAdditiveConnection {
+  edges: [RecipeBatchAdditiveEdge]
+  pageInfo: PageInfo!
+}
+
+type RecipeBatchFragranceConnection {
+  edges: [RecipeBatchFragranceEdge]
+  pageInfo: PageInfo!
+}
+
+type RecipeBatchLipidConnection {
+  edges: [RecipeBatchLipidEdge]
+  pageInfo: PageInfo!
+}
+
+type RecipeBatchLyeConnection {
+  edges: [RecipeBatchLyeEdge]
+  pageInfo: PageInfo!
+}
+
+type RecipeBatchNoteConnection {
+  edges: [RecipeBatchNoteEdge]
+  pageInfo: PageInfo!
+}
+
+type RecipeFragranceConnection {
+  edges: [RecipeFragranceEdge]
+  pageInfo: PageInfo!
+}
+
+type RecipeLipidConnection {
+  edges: [RecipeLipidEdge]
+  pageInfo: PageInfo!
+}
+
+type RecipeStepConnection {
+  edges: [RecipeStepEdge]
+  pageInfo: PageInfo!
+}
+
+type SupplierConnection {
+  edges: [SupplierEdge]
+  pageInfo: PageInfo!
 }
 
 input IDFilter {
@@ -380,9 +1055,9 @@ input AdditiveWhere {
   id: IDFilter
   name: StringFilter
   note: StringFilter
-  updatedAt: IntFilter
   createdAt: IntFilter
   deletedAt: IntFilter
+  updatedAt: IntFilter
   recipeAdditive: RecipeAdditiveWhere
   recipeBatchAdditive: RecipeBatchAdditiveWhere
   additiveInventories: AdditiveInventoryWhere
@@ -511,9 +1186,9 @@ input FragranceWhere {
   id: IDFilter
   name: StringFilter
   note: StringFilter
+  updatedAt: IntFilter
   deletedAt: IntFilter
   createdAt: IntFilter
-  updatedAt: IntFilter
   recipeBatchFragrance: RecipeBatchFragranceWhere
   recipeFragrance: RecipeFragranceWhere
   fragranceInventories: FragranceInventoryWhere
@@ -534,9 +1209,9 @@ input FragranceInventoryWhere {
   weight: FloatFilter
   fragrance: FragranceWhere
   supplier: SupplierWhere
-  createdAt: IntFilter
   deletedAt: IntFilter
   updatedAt: IntFilter
+  createdAt: IntFilter
   or: FragranceInventoryWhere
   and: FragranceInventoryWhere
 }
@@ -568,8 +1243,8 @@ input LipidWhere {
   family: StringFilter
   naoh: FloatFilter
   deletedAt: IntFilter
-  createdAt: IntFilter
   updatedAt: IntFilter
+  createdAt: IntFilter
   recipeBatchLipid: RecipeBatchLipidWhere
   recipeLipid: RecipeLipidWhere
   lipidInventories: LipidInventoryWhere
@@ -594,9 +1269,9 @@ input LipidInventoryWhere {
   gramsPerLiter: FloatFilter
   lipid: LipidWhere
   supplier: SupplierWhere
-  deletedAt: IntFilter
   updatedAt: IntFilter
   createdAt: IntFilter
+  deletedAt: IntFilter
   or: LipidInventoryWhere
   and: LipidInventoryWhere
 }
@@ -611,9 +1286,9 @@ input LyeWhere {
   kind: StringFilter
   name: StringFilter
   note: StringFilter
-  deletedAt: IntFilter
   updatedAt: IntFilter
   createdAt: IntFilter
+  deletedAt: IntFilter
   recipeBatchLye: RecipeBatchLyeWhere
   lyeInventories: LyeInventoryWhere
   or: LyeWhere
@@ -634,9 +1309,9 @@ input LyeInventoryWhere {
   concentration: FloatFilter
   lye: LyeWhere
   supplier: SupplierWhere
+  createdAt: IntFilter
   deletedAt: IntFilter
   updatedAt: IntFilter
-  createdAt: IntFilter
   or: LyeInventoryWhere
   and: LyeInventoryWhere
 }
@@ -650,9 +1325,9 @@ input RecipeWhere {
   id: IDFilter
   name: StringFilter
   note: StringFilter
+  createdAt: IntFilter
   updatedAt: IntFilter
   deletedAt: IntFilter
-  createdAt: IntFilter
   recipeAdditives: RecipeAdditiveWhere
   recipeBatches: RecipeBatchWhere
   recipeFragrances: RecipeFragranceWhere
@@ -672,9 +1347,9 @@ input RecipeAdditiveWhere {
   percentage: FloatFilter
   additive: AdditiveWhere
   recipe: RecipeWhere
-  createdAt: IntFilter
-  updatedAt: IntFilter
   deletedAt: IntFilter
+  updatedAt: IntFilter
+  createdAt: IntFilter
   or: RecipeAdditiveWhere
   and: RecipeAdditiveWhere
 }
@@ -695,8 +1370,8 @@ input RecipeBatchWhere {
   curedWeight: FloatFilter
   recipe: RecipeWhere
   createdAt: IntFilter
-  deletedAt: IntFilter
   updatedAt: IntFilter
+  deletedAt: IntFilter
   batchRecipeBatchAdditives: RecipeBatchAdditiveWhere
   batchRecipeBatchFragrances: RecipeBatchFragranceWhere
   batchRecipeBatchLipids: RecipeBatchLipidWhere
@@ -717,9 +1392,9 @@ input RecipeBatchAdditiveWhere {
   cost: FloatFilter
   additive: AdditiveWhere
   batch: RecipeBatchWhere
-  createdAt: IntFilter
   deletedAt: IntFilter
   updatedAt: IntFilter
+  createdAt: IntFilter
   or: RecipeBatchAdditiveWhere
   and: RecipeBatchAdditiveWhere
 }
@@ -735,9 +1410,9 @@ input RecipeBatchFragranceWhere {
   cost: FloatFilter
   fragrance: FragranceWhere
   batch: RecipeBatchWhere
-  createdAt: IntFilter
   deletedAt: IntFilter
   updatedAt: IntFilter
+  createdAt: IntFilter
   or: RecipeBatchFragranceWhere
   and: RecipeBatchFragranceWhere
 }
@@ -753,9 +1428,9 @@ input RecipeBatchLipidWhere {
   cost: FloatFilter
   lipid: LipidWhere
   batch: RecipeBatchWhere
-  createdAt: IntFilter
   updatedAt: IntFilter
   deletedAt: IntFilter
+  createdAt: IntFilter
   or: RecipeBatchLipidWhere
   and: RecipeBatchLipidWhere
 }
@@ -772,9 +1447,9 @@ input RecipeBatchLyeWhere {
   cost: FloatFilter
   lye: LyeWhere
   batch: RecipeBatchWhere
-  createdAt: IntFilter
-  deletedAt: IntFilter
   updatedAt: IntFilter
+  deletedAt: IntFilter
+  createdAt: IntFilter
   or: RecipeBatchLyeWhere
   and: RecipeBatchLyeWhere
 }
@@ -789,9 +1464,9 @@ input RecipeBatchNoteWhere {
   note: StringFilter
   link: StringFilter
   batch: RecipeBatchWhere
-  deletedAt: IntFilter
-  createdAt: IntFilter
   updatedAt: IntFilter
+  createdAt: IntFilter
+  deletedAt: IntFilter
   or: RecipeBatchNoteWhere
   and: RecipeBatchNoteWhere
 }
@@ -806,9 +1481,9 @@ input RecipeFragranceWhere {
   percentage: FloatFilter
   fragrance: FragranceWhere
   recipe: RecipeWhere
-  deletedAt: IntFilter
   updatedAt: IntFilter
   createdAt: IntFilter
+  deletedAt: IntFilter
   or: RecipeFragranceWhere
   and: RecipeFragranceWhere
 }
@@ -840,9 +1515,9 @@ input RecipeStepWhere {
   num: IntFilter
   note: StringFilter
   recipe: RecipeWhere
+  createdAt: IntFilter
   updatedAt: IntFilter
   deletedAt: IntFilter
-  createdAt: IntFilter
   or: RecipeStepWhere
   and: RecipeStepWhere
 }
@@ -857,8 +1532,8 @@ input SupplierWhere {
   name: StringFilter
   website: StringFilter
   note: StringFilter
-  createdAt: IntFilter
   deletedAt: IntFilter
+  createdAt: IntFilter
   updatedAt: IntFilter
   additiveInventories: AdditiveInventoryWhere
   fragranceInventories: FragranceInventoryWhere
@@ -869,86 +1544,179 @@ input SupplierWhere {
 }
 
 type Query {
-  additive(id: ID!): Additive!
-  additives(filter: AdditiveFilter): [Additive!]!
-  additiveInventory(id: ID!): AdditiveInventory!
-  additiveInventories(filter: AdditiveInventoryFilter): [AdditiveInventory!]!
-  authGroup(id: ID!): AuthGroup!
-  authGroups(filter: AuthGroupFilter): [AuthGroup!]!
-  authGroupPermission(id: ID!): AuthGroupPermission!
+  node(id: ID!): Node
+  additive(id: ID!): Additive! @IsAuthenticated
+  additives(
+    pagination: ConnectionPagination!
+    ordering: [AdditiveOrdering!]
+    filter: AdditiveFilter
+  ): AdditiveConnection! @IsAuthenticated
+  additiveInventory(id: ID!): AdditiveInventory! @IsAuthenticated
+  additiveInventories(
+    pagination: ConnectionPagination!
+    ordering: [AdditiveInventoryOrdering!]
+    filter: AdditiveInventoryFilter
+  ): AdditiveInventoryConnection! @IsAuthenticated
+  authGroup(id: ID!): AuthGroup! @IsAuthenticated
+  authGroups(
+    pagination: ConnectionPagination!
+    ordering: [AuthGroupOrdering!]
+    filter: AuthGroupFilter
+  ): AuthGroupConnection! @IsAuthenticated
+  authGroupPermission(id: ID!): AuthGroupPermission! @IsAuthenticated
   authGroupPermissions(
+    pagination: ConnectionPagination!
+    ordering: [AuthGroupPermissionOrdering!]
     filter: AuthGroupPermissionFilter
-  ): [AuthGroupPermission!]!
-  authPermission(id: ID!): AuthPermission!
-  authPermissions(filter: AuthPermissionFilter): [AuthPermission!]!
-  authUser(id: ID!): AuthUser!
-  authUsers(filter: AuthUserFilter): [AuthUser!]!
-  authUserGroup(id: ID!): AuthUserGroup!
-  authUserGroups(filter: AuthUserGroupFilter): [AuthUserGroup!]!
-  authUserUserPermission(id: ID!): AuthUserUserPermission!
+  ): AuthGroupPermissionConnection! @IsAuthenticated
+  authPermission(id: ID!): AuthPermission! @IsAuthenticated
+  authPermissions(
+    pagination: ConnectionPagination!
+    ordering: [AuthPermissionOrdering!]
+    filter: AuthPermissionFilter
+  ): AuthPermissionConnection! @IsAuthenticated
+  authUser(id: ID!): AuthUser! @IsAuthenticated
+  authUsers(
+    pagination: ConnectionPagination!
+    ordering: [AuthUserOrdering!]
+    filter: AuthUserFilter
+  ): AuthUserConnection! @IsAuthenticated
+  authUserGroup(id: ID!): AuthUserGroup! @IsAuthenticated
+  authUserGroups(
+    pagination: ConnectionPagination!
+    ordering: [AuthUserGroupOrdering!]
+    filter: AuthUserGroupFilter
+  ): AuthUserGroupConnection! @IsAuthenticated
+  authUserUserPermission(id: ID!): AuthUserUserPermission! @IsAuthenticated
   authUserUserPermissions(
+    pagination: ConnectionPagination!
+    ordering: [AuthUserUserPermissionOrdering!]
     filter: AuthUserUserPermissionFilter
-  ): [AuthUserUserPermission!]!
-  fragrance(id: ID!): Fragrance!
-  fragrances(filter: FragranceFilter): [Fragrance!]!
-  fragranceInventory(id: ID!): FragranceInventory!
-  fragranceInventories(filter: FragranceInventoryFilter): [FragranceInventory!]!
-  lipid(id: ID!): Lipid!
-  lipids(filter: LipidFilter): [Lipid!]!
-  lipidInventory(id: ID!): LipidInventory!
-  lipidInventories(filter: LipidInventoryFilter): [LipidInventory!]!
-  lye(id: ID!): Lye!
-  lyes(filter: LyeFilter): [Lye!]!
-  lyeInventory(id: ID!): LyeInventory!
-  lyeInventories(filter: LyeInventoryFilter): [LyeInventory!]!
-  recipe(id: ID!): Recipe!
-  recipes(filter: RecipeFilter): [Recipe!]!
-  recipeAdditive(id: ID!): RecipeAdditive!
-  recipeAdditives(filter: RecipeAdditiveFilter): [RecipeAdditive!]!
-  recipeBatch(id: ID!): RecipeBatch!
-  recipeBatches(filter: RecipeBatchFilter): [RecipeBatch!]!
-  recipeBatchAdditive(id: ID!): RecipeBatchAdditive!
+  ): AuthUserUserPermissionConnection! @IsAuthenticated
+  fragrance(id: ID!): Fragrance! @IsAuthenticated
+  fragrances(
+    pagination: ConnectionPagination!
+    ordering: [FragranceOrdering!]
+    filter: FragranceFilter
+  ): FragranceConnection! @IsAuthenticated
+  fragranceInventory(id: ID!): FragranceInventory! @IsAuthenticated
+  fragranceInventories(
+    pagination: ConnectionPagination!
+    ordering: [FragranceInventoryOrdering!]
+    filter: FragranceInventoryFilter
+  ): FragranceInventoryConnection! @IsAuthenticated
+  lipid(id: ID!): Lipid! @IsAuthenticated
+  lipids(
+    pagination: ConnectionPagination!
+    ordering: [LipidOrdering!]
+    filter: LipidFilter
+  ): LipidConnection! @IsAuthenticated
+  lipidInventory(id: ID!): LipidInventory! @IsAuthenticated
+  lipidInventories(
+    pagination: ConnectionPagination!
+    ordering: [LipidInventoryOrdering!]
+    filter: LipidInventoryFilter
+  ): LipidInventoryConnection! @IsAuthenticated
+  lye(id: ID!): Lye! @IsAuthenticated
+  lyes(
+    pagination: ConnectionPagination!
+    ordering: [LyeOrdering!]
+    filter: LyeFilter
+  ): LyeConnection! @IsAuthenticated
+  lyeInventory(id: ID!): LyeInventory! @IsAuthenticated
+  lyeInventories(
+    pagination: ConnectionPagination!
+    ordering: [LyeInventoryOrdering!]
+    filter: LyeInventoryFilter
+  ): LyeInventoryConnection! @IsAuthenticated
+  recipe(id: ID!): Recipe! @IsAuthenticated
+  recipes(
+    pagination: ConnectionPagination!
+    ordering: [RecipeOrdering!]
+    filter: RecipeFilter
+  ): RecipeConnection! @IsAuthenticated
+  recipeAdditive(id: ID!): RecipeAdditive! @IsAuthenticated
+  recipeAdditives(
+    pagination: ConnectionPagination!
+    ordering: [RecipeAdditiveOrdering!]
+    filter: RecipeAdditiveFilter
+  ): RecipeAdditiveConnection! @IsAuthenticated
+  recipeBatch(id: ID!): RecipeBatch! @IsAuthenticated
+  recipeBatches(
+    pagination: ConnectionPagination!
+    ordering: [RecipeBatchOrdering!]
+    filter: RecipeBatchFilter
+  ): RecipeBatchConnection! @IsAuthenticated
+  recipeBatchAdditive(id: ID!): RecipeBatchAdditive! @IsAuthenticated
   recipeBatchAdditives(
+    pagination: ConnectionPagination!
+    ordering: [RecipeBatchAdditiveOrdering!]
     filter: RecipeBatchAdditiveFilter
-  ): [RecipeBatchAdditive!]!
-  recipeBatchFragrance(id: ID!): RecipeBatchFragrance!
+  ): RecipeBatchAdditiveConnection! @IsAuthenticated
+  recipeBatchFragrance(id: ID!): RecipeBatchFragrance! @IsAuthenticated
   recipeBatchFragrances(
+    pagination: ConnectionPagination!
+    ordering: [RecipeBatchFragranceOrdering!]
     filter: RecipeBatchFragranceFilter
-  ): [RecipeBatchFragrance!]!
-  recipeBatchLipid(id: ID!): RecipeBatchLipid!
-  recipeBatchLipids(filter: RecipeBatchLipidFilter): [RecipeBatchLipid!]!
-  recipeBatchLye(id: ID!): RecipeBatchLye!
-  recipeBatchLyes(filter: RecipeBatchLyeFilter): [RecipeBatchLye!]!
-  recipeBatchNote(id: ID!): RecipeBatchNote!
-  recipeBatchNotes(filter: RecipeBatchNoteFilter): [RecipeBatchNote!]!
-  recipeFragrance(id: ID!): RecipeFragrance!
-  recipeFragrances(filter: RecipeFragranceFilter): [RecipeFragrance!]!
-  recipeLipid(id: ID!): RecipeLipid!
-  recipeLipids(filter: RecipeLipidFilter): [RecipeLipid!]!
-  recipeStep(id: ID!): RecipeStep!
-  recipeSteps(filter: RecipeStepFilter): [RecipeStep!]!
-  supplier(id: ID!): Supplier!
-  suppliers(filter: SupplierFilter): [Supplier!]!
+  ): RecipeBatchFragranceConnection! @IsAuthenticated
+  recipeBatchLipid(id: ID!): RecipeBatchLipid! @IsAuthenticated
+  recipeBatchLipids(
+    pagination: ConnectionPagination!
+    ordering: [RecipeBatchLipidOrdering!]
+    filter: RecipeBatchLipidFilter
+  ): RecipeBatchLipidConnection! @IsAuthenticated
+  recipeBatchLye(id: ID!): RecipeBatchLye! @IsAuthenticated
+  recipeBatchLyes(
+    pagination: ConnectionPagination!
+    ordering: [RecipeBatchLyeOrdering!]
+    filter: RecipeBatchLyeFilter
+  ): RecipeBatchLyeConnection! @IsAuthenticated
+  recipeBatchNote(id: ID!): RecipeBatchNote! @IsAuthenticated
+  recipeBatchNotes(
+    pagination: ConnectionPagination!
+    ordering: [RecipeBatchNoteOrdering!]
+    filter: RecipeBatchNoteFilter
+  ): RecipeBatchNoteConnection! @IsAuthenticated
+  recipeFragrance(id: ID!): RecipeFragrance! @IsAuthenticated
+  recipeFragrances(
+    pagination: ConnectionPagination!
+    ordering: [RecipeFragranceOrdering!]
+    filter: RecipeFragranceFilter
+  ): RecipeFragranceConnection! @IsAuthenticated
+  recipeLipid(id: ID!): RecipeLipid! @IsAuthenticated
+  recipeLipids(
+    pagination: ConnectionPagination!
+    ordering: [RecipeLipidOrdering!]
+    filter: RecipeLipidFilter
+  ): RecipeLipidConnection! @IsAuthenticated
+  recipeStep(id: ID!): RecipeStep! @IsAuthenticated
+  recipeSteps(
+    pagination: ConnectionPagination!
+    ordering: [RecipeStepOrdering!]
+    filter: RecipeStepFilter
+  ): RecipeStepConnection! @IsAuthenticated
+  supplier(id: ID!): Supplier! @IsAuthenticated
+  suppliers(
+    pagination: ConnectionPagination!
+    ordering: [SupplierOrdering!]
+    filter: SupplierFilter
+  ): SupplierConnection! @IsAuthenticated
 }
 
 input AdditiveCreateInput {
   name: String!
   note: String!
-  updatedAt: Int!
   createdAt: Int!
   deletedAt: Int
+  updatedAt: Int!
 }
 
 input AdditiveUpdateInput {
   name: String
   note: String
-  updatedAt: Int
   createdAt: Int
   deletedAt: Int
-}
-
-input AdditivesCreateInput {
-  additives: [AdditiveCreateInput!]!
+  updatedAt: Int
 }
 
 type AdditivePayload {
@@ -957,10 +1725,6 @@ type AdditivePayload {
 
 type AdditiveDeletePayload {
   id: ID!
-}
-
-type AdditivesPayload {
-  additives: [Additive!]!
 }
 
 type AdditivesDeletePayload {
@@ -995,20 +1759,12 @@ input AdditiveInventoryUpdateInput {
   createdAt: Int
 }
 
-input AdditiveInventoriesCreateInput {
-  additiveInventories: [AdditiveInventoryCreateInput!]!
-}
-
 type AdditiveInventoryPayload {
   additiveInventory: AdditiveInventory!
 }
 
 type AdditiveInventoryDeletePayload {
   id: ID!
-}
-
-type AdditiveInventoriesPayload {
-  additiveInventories: [AdditiveInventory!]!
 }
 
 type AdditiveInventoriesDeletePayload {
@@ -1027,20 +1783,12 @@ input AuthGroupUpdateInput {
   name: String
 }
 
-input AuthGroupsCreateInput {
-  authGroups: [AuthGroupCreateInput!]!
-}
-
 type AuthGroupPayload {
   authGroup: AuthGroup!
 }
 
 type AuthGroupDeletePayload {
   id: ID!
-}
-
-type AuthGroupsPayload {
-  authGroups: [AuthGroup!]!
 }
 
 type AuthGroupsDeletePayload {
@@ -1061,20 +1809,12 @@ input AuthGroupPermissionUpdateInput {
   permissionId: ID
 }
 
-input AuthGroupPermissionsCreateInput {
-  authGroupPermissions: [AuthGroupPermissionCreateInput!]!
-}
-
 type AuthGroupPermissionPayload {
   authGroupPermission: AuthGroupPermission!
 }
 
 type AuthGroupPermissionDeletePayload {
   id: ID!
-}
-
-type AuthGroupPermissionsPayload {
-  authGroupPermissions: [AuthGroupPermission!]!
 }
 
 type AuthGroupPermissionsDeletePayload {
@@ -1097,20 +1837,12 @@ input AuthPermissionUpdateInput {
   codename: String
 }
 
-input AuthPermissionsCreateInput {
-  authPermissions: [AuthPermissionCreateInput!]!
-}
-
 type AuthPermissionPayload {
   authPermission: AuthPermission!
 }
 
 type AuthPermissionDeletePayload {
   id: ID!
-}
-
-type AuthPermissionsPayload {
-  authPermissions: [AuthPermission!]!
 }
 
 type AuthPermissionsDeletePayload {
@@ -1147,20 +1879,12 @@ input AuthUserUpdateInput {
   dateJoined: Int
 }
 
-input AuthUsersCreateInput {
-  authUsers: [AuthUserCreateInput!]!
-}
-
 type AuthUserPayload {
   authUser: AuthUser!
 }
 
 type AuthUserDeletePayload {
   id: ID!
-}
-
-type AuthUsersPayload {
-  authUsers: [AuthUser!]!
 }
 
 type AuthUsersDeletePayload {
@@ -1181,20 +1905,12 @@ input AuthUserGroupUpdateInput {
   groupId: ID
 }
 
-input AuthUserGroupsCreateInput {
-  authUserGroups: [AuthUserGroupCreateInput!]!
-}
-
 type AuthUserGroupPayload {
   authUserGroup: AuthUserGroup!
 }
 
 type AuthUserGroupDeletePayload {
   id: ID!
-}
-
-type AuthUserGroupsPayload {
-  authUserGroups: [AuthUserGroup!]!
 }
 
 type AuthUserGroupsDeletePayload {
@@ -1215,20 +1931,12 @@ input AuthUserUserPermissionUpdateInput {
   permissionId: ID
 }
 
-input AuthUserUserPermissionsCreateInput {
-  authUserUserPermissions: [AuthUserUserPermissionCreateInput!]!
-}
-
 type AuthUserUserPermissionPayload {
   authUserUserPermission: AuthUserUserPermission!
 }
 
 type AuthUserUserPermissionDeletePayload {
   id: ID!
-}
-
-type AuthUserUserPermissionsPayload {
-  authUserUserPermissions: [AuthUserUserPermission!]!
 }
 
 type AuthUserUserPermissionsDeletePayload {
@@ -1242,21 +1950,17 @@ type AuthUserUserPermissionsUpdatePayload {
 input FragranceCreateInput {
   name: String!
   note: String!
+  updatedAt: Int!
   deletedAt: Int
   createdAt: Int!
-  updatedAt: Int!
 }
 
 input FragranceUpdateInput {
   name: String
   note: String
+  updatedAt: Int
   deletedAt: Int
   createdAt: Int
-  updatedAt: Int
-}
-
-input FragrancesCreateInput {
-  fragrances: [FragranceCreateInput!]!
 }
 
 type FragrancePayload {
@@ -1265,10 +1969,6 @@ type FragrancePayload {
 
 type FragranceDeletePayload {
   id: ID!
-}
-
-type FragrancesPayload {
-  fragrances: [Fragrance!]!
 }
 
 type FragrancesDeletePayload {
@@ -1286,9 +1986,9 @@ input FragranceInventoryCreateInput {
   weight: Float!
   fragranceId: ID!
   supplierId: ID!
-  createdAt: Int!
   deletedAt: Int
   updatedAt: Int!
+  createdAt: Int!
 }
 
 input FragranceInventoryUpdateInput {
@@ -1298,13 +1998,9 @@ input FragranceInventoryUpdateInput {
   weight: Float
   fragranceId: ID
   supplierId: ID
-  createdAt: Int
   deletedAt: Int
   updatedAt: Int
-}
-
-input FragranceInventoriesCreateInput {
-  fragranceInventories: [FragranceInventoryCreateInput!]!
+  createdAt: Int
 }
 
 type FragranceInventoryPayload {
@@ -1313,10 +2009,6 @@ type FragranceInventoryPayload {
 
 type FragranceInventoryDeletePayload {
   id: ID!
-}
-
-type FragranceInventoriesPayload {
-  fragranceInventories: [FragranceInventory!]!
 }
 
 type FragranceInventoriesDeletePayload {
@@ -1348,8 +2040,8 @@ input LipidCreateInput {
   family: String!
   naoh: Float!
   deletedAt: Int
-  createdAt: Int!
   updatedAt: Int!
+  createdAt: Int!
 }
 
 input LipidUpdateInput {
@@ -1373,12 +2065,8 @@ input LipidUpdateInput {
   family: String
   naoh: Float
   deletedAt: Int
-  createdAt: Int
   updatedAt: Int
-}
-
-input LipidsCreateInput {
-  lipids: [LipidCreateInput!]!
+  createdAt: Int
 }
 
 type LipidPayload {
@@ -1387,10 +2075,6 @@ type LipidPayload {
 
 type LipidDeletePayload {
   id: ID!
-}
-
-type LipidsPayload {
-  lipids: [Lipid!]!
 }
 
 type LipidsDeletePayload {
@@ -1412,9 +2096,9 @@ input LipidInventoryCreateInput {
   gramsPerLiter: Float!
   lipidId: ID!
   supplierId: ID!
-  deletedAt: Int
   updatedAt: Int!
   createdAt: Int!
+  deletedAt: Int
 }
 
 input LipidInventoryUpdateInput {
@@ -1428,13 +2112,9 @@ input LipidInventoryUpdateInput {
   gramsPerLiter: Float
   lipidId: ID
   supplierId: ID
-  deletedAt: Int
   updatedAt: Int
   createdAt: Int
-}
-
-input LipidInventoriesCreateInput {
-  lipidInventories: [LipidInventoryCreateInput!]!
+  deletedAt: Int
 }
 
 type LipidInventoryPayload {
@@ -1443,10 +2123,6 @@ type LipidInventoryPayload {
 
 type LipidInventoryDeletePayload {
   id: ID!
-}
-
-type LipidInventoriesPayload {
-  lipidInventories: [LipidInventory!]!
 }
 
 type LipidInventoriesDeletePayload {
@@ -1461,22 +2137,18 @@ input LyeCreateInput {
   kind: String!
   name: String!
   note: String!
-  deletedAt: Int
   updatedAt: Int!
   createdAt: Int!
+  deletedAt: Int
 }
 
 input LyeUpdateInput {
   kind: String
   name: String
   note: String
-  deletedAt: Int
   updatedAt: Int
   createdAt: Int
-}
-
-input LyesCreateInput {
-  lyes: [LyeCreateInput!]!
+  deletedAt: Int
 }
 
 type LyePayload {
@@ -1485,10 +2157,6 @@ type LyePayload {
 
 type LyeDeletePayload {
   id: ID!
-}
-
-type LyesPayload {
-  lyes: [Lye!]!
 }
 
 type LyesDeletePayload {
@@ -1507,9 +2175,9 @@ input LyeInventoryCreateInput {
   concentration: Float!
   lyeId: ID!
   supplierId: ID!
+  createdAt: Int!
   deletedAt: Int
   updatedAt: Int!
-  createdAt: Int!
 }
 
 input LyeInventoryUpdateInput {
@@ -1520,13 +2188,9 @@ input LyeInventoryUpdateInput {
   concentration: Float
   lyeId: ID
   supplierId: ID
+  createdAt: Int
   deletedAt: Int
   updatedAt: Int
-  createdAt: Int
-}
-
-input LyeInventoriesCreateInput {
-  lyeInventories: [LyeInventoryCreateInput!]!
 }
 
 type LyeInventoryPayload {
@@ -1535,10 +2199,6 @@ type LyeInventoryPayload {
 
 type LyeInventoryDeletePayload {
   id: ID!
-}
-
-type LyeInventoriesPayload {
-  lyeInventories: [LyeInventory!]!
 }
 
 type LyeInventoriesDeletePayload {
@@ -1552,21 +2212,17 @@ type LyeInventoriesUpdatePayload {
 input RecipeCreateInput {
   name: String!
   note: String!
+  createdAt: Int!
   updatedAt: Int!
   deletedAt: Int
-  createdAt: Int!
 }
 
 input RecipeUpdateInput {
   name: String
   note: String
+  createdAt: Int
   updatedAt: Int
   deletedAt: Int
-  createdAt: Int
-}
-
-input RecipesCreateInput {
-  recipes: [RecipeCreateInput!]!
 }
 
 type RecipePayload {
@@ -1575,10 +2231,6 @@ type RecipePayload {
 
 type RecipeDeletePayload {
   id: ID!
-}
-
-type RecipesPayload {
-  recipes: [Recipe!]!
 }
 
 type RecipesDeletePayload {
@@ -1593,22 +2245,18 @@ input RecipeAdditiveCreateInput {
   percentage: Float!
   additiveId: ID!
   recipeId: ID!
-  createdAt: Int!
-  updatedAt: Int!
   deletedAt: Int
+  updatedAt: Int!
+  createdAt: Int!
 }
 
 input RecipeAdditiveUpdateInput {
   percentage: Float
   additiveId: ID
   recipeId: ID
-  createdAt: Int
-  updatedAt: Int
   deletedAt: Int
-}
-
-input RecipeAdditivesCreateInput {
-  recipeAdditives: [RecipeAdditiveCreateInput!]!
+  updatedAt: Int
+  createdAt: Int
 }
 
 type RecipeAdditivePayload {
@@ -1617,10 +2265,6 @@ type RecipeAdditivePayload {
 
 type RecipeAdditiveDeletePayload {
   id: ID!
-}
-
-type RecipeAdditivesPayload {
-  recipeAdditives: [RecipeAdditive!]!
 }
 
 type RecipeAdditivesDeletePayload {
@@ -1641,8 +2285,8 @@ input RecipeBatchCreateInput {
   curedWeight: Float!
   recipeId: ID!
   createdAt: Int!
-  deletedAt: Int
   updatedAt: Int!
+  deletedAt: Int
 }
 
 input RecipeBatchUpdateInput {
@@ -1655,12 +2299,8 @@ input RecipeBatchUpdateInput {
   curedWeight: Float
   recipeId: ID
   createdAt: Int
-  deletedAt: Int
   updatedAt: Int
-}
-
-input RecipeBatchesCreateInput {
-  recipeBatches: [RecipeBatchCreateInput!]!
+  deletedAt: Int
 }
 
 type RecipeBatchPayload {
@@ -1669,10 +2309,6 @@ type RecipeBatchPayload {
 
 type RecipeBatchDeletePayload {
   id: ID!
-}
-
-type RecipeBatchesPayload {
-  recipeBatches: [RecipeBatch!]!
 }
 
 type RecipeBatchesDeletePayload {
@@ -1688,9 +2324,9 @@ input RecipeBatchAdditiveCreateInput {
   cost: Float!
   additiveId: ID!
   batchId: ID!
-  createdAt: Int!
   deletedAt: Int
   updatedAt: Int!
+  createdAt: Int!
 }
 
 input RecipeBatchAdditiveUpdateInput {
@@ -1698,13 +2334,9 @@ input RecipeBatchAdditiveUpdateInput {
   cost: Float
   additiveId: ID
   batchId: ID
-  createdAt: Int
   deletedAt: Int
   updatedAt: Int
-}
-
-input RecipeBatchAdditivesCreateInput {
-  recipeBatchAdditives: [RecipeBatchAdditiveCreateInput!]!
+  createdAt: Int
 }
 
 type RecipeBatchAdditivePayload {
@@ -1713,10 +2345,6 @@ type RecipeBatchAdditivePayload {
 
 type RecipeBatchAdditiveDeletePayload {
   id: ID!
-}
-
-type RecipeBatchAdditivesPayload {
-  recipeBatchAdditives: [RecipeBatchAdditive!]!
 }
 
 type RecipeBatchAdditivesDeletePayload {
@@ -1732,9 +2360,9 @@ input RecipeBatchFragranceCreateInput {
   cost: Float!
   fragranceId: ID!
   batchId: ID!
-  createdAt: Int!
   deletedAt: Int
   updatedAt: Int!
+  createdAt: Int!
 }
 
 input RecipeBatchFragranceUpdateInput {
@@ -1742,13 +2370,9 @@ input RecipeBatchFragranceUpdateInput {
   cost: Float
   fragranceId: ID
   batchId: ID
-  createdAt: Int
   deletedAt: Int
   updatedAt: Int
-}
-
-input RecipeBatchFragrancesCreateInput {
-  recipeBatchFragrances: [RecipeBatchFragranceCreateInput!]!
+  createdAt: Int
 }
 
 type RecipeBatchFragrancePayload {
@@ -1757,10 +2381,6 @@ type RecipeBatchFragrancePayload {
 
 type RecipeBatchFragranceDeletePayload {
   id: ID!
-}
-
-type RecipeBatchFragrancesPayload {
-  recipeBatchFragrances: [RecipeBatchFragrance!]!
 }
 
 type RecipeBatchFragrancesDeletePayload {
@@ -1776,9 +2396,9 @@ input RecipeBatchLipidCreateInput {
   cost: Float!
   lipidId: ID!
   batchId: ID!
-  createdAt: Int!
   updatedAt: Int!
   deletedAt: Int
+  createdAt: Int!
 }
 
 input RecipeBatchLipidUpdateInput {
@@ -1786,13 +2406,9 @@ input RecipeBatchLipidUpdateInput {
   cost: Float
   lipidId: ID
   batchId: ID
-  createdAt: Int
   updatedAt: Int
   deletedAt: Int
-}
-
-input RecipeBatchLipidsCreateInput {
-  recipeBatchLipids: [RecipeBatchLipidCreateInput!]!
+  createdAt: Int
 }
 
 type RecipeBatchLipidPayload {
@@ -1801,10 +2417,6 @@ type RecipeBatchLipidPayload {
 
 type RecipeBatchLipidDeletePayload {
   id: ID!
-}
-
-type RecipeBatchLipidsPayload {
-  recipeBatchLipids: [RecipeBatchLipid!]!
 }
 
 type RecipeBatchLipidsDeletePayload {
@@ -1821,9 +2433,9 @@ input RecipeBatchLyeCreateInput {
   cost: Float!
   lyeId: ID!
   batchId: ID!
-  createdAt: Int!
-  deletedAt: Int
   updatedAt: Int!
+  deletedAt: Int
+  createdAt: Int!
 }
 
 input RecipeBatchLyeUpdateInput {
@@ -1832,13 +2444,9 @@ input RecipeBatchLyeUpdateInput {
   cost: Float
   lyeId: ID
   batchId: ID
-  createdAt: Int
-  deletedAt: Int
   updatedAt: Int
-}
-
-input RecipeBatchLyesCreateInput {
-  recipeBatchLyes: [RecipeBatchLyeCreateInput!]!
+  deletedAt: Int
+  createdAt: Int
 }
 
 type RecipeBatchLyePayload {
@@ -1847,10 +2455,6 @@ type RecipeBatchLyePayload {
 
 type RecipeBatchLyeDeletePayload {
   id: ID!
-}
-
-type RecipeBatchLyesPayload {
-  recipeBatchLyes: [RecipeBatchLye!]!
 }
 
 type RecipeBatchLyesDeletePayload {
@@ -1865,22 +2469,18 @@ input RecipeBatchNoteCreateInput {
   note: String!
   link: String!
   batchId: ID!
-  deletedAt: Int
-  createdAt: Int!
   updatedAt: Int!
+  createdAt: Int!
+  deletedAt: Int
 }
 
 input RecipeBatchNoteUpdateInput {
   note: String
   link: String
   batchId: ID
-  deletedAt: Int
-  createdAt: Int
   updatedAt: Int
-}
-
-input RecipeBatchNotesCreateInput {
-  recipeBatchNotes: [RecipeBatchNoteCreateInput!]!
+  createdAt: Int
+  deletedAt: Int
 }
 
 type RecipeBatchNotePayload {
@@ -1889,10 +2489,6 @@ type RecipeBatchNotePayload {
 
 type RecipeBatchNoteDeletePayload {
   id: ID!
-}
-
-type RecipeBatchNotesPayload {
-  recipeBatchNotes: [RecipeBatchNote!]!
 }
 
 type RecipeBatchNotesDeletePayload {
@@ -1907,22 +2503,18 @@ input RecipeFragranceCreateInput {
   percentage: Float!
   fragranceId: ID!
   recipeId: ID!
-  deletedAt: Int
   updatedAt: Int!
   createdAt: Int!
+  deletedAt: Int
 }
 
 input RecipeFragranceUpdateInput {
   percentage: Float
   fragranceId: ID
   recipeId: ID
-  deletedAt: Int
   updatedAt: Int
   createdAt: Int
-}
-
-input RecipeFragrancesCreateInput {
-  recipeFragrances: [RecipeFragranceCreateInput!]!
+  deletedAt: Int
 }
 
 type RecipeFragrancePayload {
@@ -1931,10 +2523,6 @@ type RecipeFragrancePayload {
 
 type RecipeFragranceDeletePayload {
   id: ID!
-}
-
-type RecipeFragrancesPayload {
-  recipeFragrances: [RecipeFragrance!]!
 }
 
 type RecipeFragrancesDeletePayload {
@@ -1963,20 +2551,12 @@ input RecipeLipidUpdateInput {
   createdAt: Int
 }
 
-input RecipeLipidsCreateInput {
-  recipeLipids: [RecipeLipidCreateInput!]!
-}
-
 type RecipeLipidPayload {
   recipeLipid: RecipeLipid!
 }
 
 type RecipeLipidDeletePayload {
   id: ID!
-}
-
-type RecipeLipidsPayload {
-  recipeLipids: [RecipeLipid!]!
 }
 
 type RecipeLipidsDeletePayload {
@@ -1991,22 +2571,18 @@ input RecipeStepCreateInput {
   num: Int!
   note: String!
   recipeId: ID!
+  createdAt: Int!
   updatedAt: Int!
   deletedAt: Int
-  createdAt: Int!
 }
 
 input RecipeStepUpdateInput {
   num: Int
   note: String
   recipeId: ID
+  createdAt: Int
   updatedAt: Int
   deletedAt: Int
-  createdAt: Int
-}
-
-input RecipeStepsCreateInput {
-  recipeSteps: [RecipeStepCreateInput!]!
 }
 
 type RecipeStepPayload {
@@ -2015,10 +2591,6 @@ type RecipeStepPayload {
 
 type RecipeStepDeletePayload {
   id: ID!
-}
-
-type RecipeStepsPayload {
-  recipeSteps: [RecipeStep!]!
 }
 
 type RecipeStepsDeletePayload {
@@ -2033,8 +2605,8 @@ input SupplierCreateInput {
   name: String!
   website: String!
   note: String!
-  createdAt: Int!
   deletedAt: Int
+  createdAt: Int!
   updatedAt: Int!
 }
 
@@ -2042,13 +2614,9 @@ input SupplierUpdateInput {
   name: String
   website: String
   note: String
-  createdAt: Int
   deletedAt: Int
+  createdAt: Int
   updatedAt: Int
-}
-
-input SuppliersCreateInput {
-  suppliers: [SupplierCreateInput!]!
 }
 
 type SupplierPayload {
@@ -2057,10 +2625,6 @@ type SupplierPayload {
 
 type SupplierDeletePayload {
   id: ID!
-}
-
-type SuppliersPayload {
-  suppliers: [Supplier!]!
 }
 
 type SuppliersDeletePayload {
@@ -2072,370 +2636,346 @@ type SuppliersUpdatePayload {
 }
 
 type Mutation {
-  createAdditive(input: AdditiveCreateInput!): AdditivePayload!
-  createAdditives(input: AdditivesCreateInput!): AdditivesPayload!
+  createAdditive(input: AdditiveCreateInput!): AdditivePayload! @IsAuthenticated
   updateAdditive(id: ID!, input: AdditiveUpdateInput!): AdditivePayload!
+    @IsAuthenticated
   updateAdditives(
     filter: AdditiveFilter
     input: AdditiveUpdateInput!
-  ): AdditivesUpdatePayload!
-  deleteAdditive(id: ID!): AdditiveDeletePayload!
+  ): AdditivesUpdatePayload! @IsAuthenticated
+  deleteAdditive(id: ID!): AdditiveDeletePayload! @IsAuthenticated
   deleteAdditives(filter: AdditiveFilter): AdditivesDeletePayload!
+    @IsAuthenticated
   createAdditiveInventory(
     input: AdditiveInventoryCreateInput!
-  ): AdditiveInventoryPayload!
-  createAdditiveInventories(
-    input: AdditiveInventoriesCreateInput!
-  ): AdditiveInventoriesPayload!
+  ): AdditiveInventoryPayload! @IsAuthenticated
   updateAdditiveInventory(
     id: ID!
     input: AdditiveInventoryUpdateInput!
-  ): AdditiveInventoryPayload!
+  ): AdditiveInventoryPayload! @IsAuthenticated
   updateAdditiveInventories(
     filter: AdditiveInventoryFilter
     input: AdditiveInventoryUpdateInput!
-  ): AdditiveInventoriesUpdatePayload!
+  ): AdditiveInventoriesUpdatePayload! @IsAuthenticated
   deleteAdditiveInventory(id: ID!): AdditiveInventoryDeletePayload!
+    @IsAuthenticated
   deleteAdditiveInventories(
     filter: AdditiveInventoryFilter
-  ): AdditiveInventoriesDeletePayload!
+  ): AdditiveInventoriesDeletePayload! @IsAuthenticated
   createAuthGroup(input: AuthGroupCreateInput!): AuthGroupPayload!
-  createAuthGroups(input: AuthGroupsCreateInput!): AuthGroupsPayload!
+    @IsAuthenticated
   updateAuthGroup(id: ID!, input: AuthGroupUpdateInput!): AuthGroupPayload!
+    @IsAuthenticated
   updateAuthGroups(
     filter: AuthGroupFilter
     input: AuthGroupUpdateInput!
-  ): AuthGroupsUpdatePayload!
-  deleteAuthGroup(id: ID!): AuthGroupDeletePayload!
+  ): AuthGroupsUpdatePayload! @IsAuthenticated
+  deleteAuthGroup(id: ID!): AuthGroupDeletePayload! @IsAuthenticated
   deleteAuthGroups(filter: AuthGroupFilter): AuthGroupsDeletePayload!
+    @IsAuthenticated
   createAuthGroupPermission(
     input: AuthGroupPermissionCreateInput!
-  ): AuthGroupPermissionPayload!
-  createAuthGroupPermissions(
-    input: AuthGroupPermissionsCreateInput!
-  ): AuthGroupPermissionsPayload!
+  ): AuthGroupPermissionPayload! @IsAuthenticated
   updateAuthGroupPermission(
     id: ID!
     input: AuthGroupPermissionUpdateInput!
-  ): AuthGroupPermissionPayload!
+  ): AuthGroupPermissionPayload! @IsAuthenticated
   updateAuthGroupPermissions(
     filter: AuthGroupPermissionFilter
     input: AuthGroupPermissionUpdateInput!
-  ): AuthGroupPermissionsUpdatePayload!
+  ): AuthGroupPermissionsUpdatePayload! @IsAuthenticated
   deleteAuthGroupPermission(id: ID!): AuthGroupPermissionDeletePayload!
+    @IsAuthenticated
   deleteAuthGroupPermissions(
     filter: AuthGroupPermissionFilter
-  ): AuthGroupPermissionsDeletePayload!
+  ): AuthGroupPermissionsDeletePayload! @IsAuthenticated
   createAuthPermission(
     input: AuthPermissionCreateInput!
-  ): AuthPermissionPayload!
-  createAuthPermissions(
-    input: AuthPermissionsCreateInput!
-  ): AuthPermissionsPayload!
+  ): AuthPermissionPayload! @IsAuthenticated
   updateAuthPermission(
     id: ID!
     input: AuthPermissionUpdateInput!
-  ): AuthPermissionPayload!
+  ): AuthPermissionPayload! @IsAuthenticated
   updateAuthPermissions(
     filter: AuthPermissionFilter
     input: AuthPermissionUpdateInput!
-  ): AuthPermissionsUpdatePayload!
-  deleteAuthPermission(id: ID!): AuthPermissionDeletePayload!
+  ): AuthPermissionsUpdatePayload! @IsAuthenticated
+  deleteAuthPermission(id: ID!): AuthPermissionDeletePayload! @IsAuthenticated
   deleteAuthPermissions(
     filter: AuthPermissionFilter
-  ): AuthPermissionsDeletePayload!
-  createAuthUser(input: AuthUserCreateInput!): AuthUserPayload!
-  createAuthUsers(input: AuthUsersCreateInput!): AuthUsersPayload!
+  ): AuthPermissionsDeletePayload! @IsAuthenticated
+  createAuthUser(input: AuthUserCreateInput!): AuthUserPayload! @IsAuthenticated
   updateAuthUser(id: ID!, input: AuthUserUpdateInput!): AuthUserPayload!
+    @IsAuthenticated
   updateAuthUsers(
     filter: AuthUserFilter
     input: AuthUserUpdateInput!
-  ): AuthUsersUpdatePayload!
-  deleteAuthUser(id: ID!): AuthUserDeletePayload!
+  ): AuthUsersUpdatePayload! @IsAuthenticated
+  deleteAuthUser(id: ID!): AuthUserDeletePayload! @IsAuthenticated
   deleteAuthUsers(filter: AuthUserFilter): AuthUsersDeletePayload!
+    @IsAuthenticated
   createAuthUserGroup(input: AuthUserGroupCreateInput!): AuthUserGroupPayload!
-  createAuthUserGroups(
-    input: AuthUserGroupsCreateInput!
-  ): AuthUserGroupsPayload!
+    @IsAuthenticated
   updateAuthUserGroup(
     id: ID!
     input: AuthUserGroupUpdateInput!
-  ): AuthUserGroupPayload!
+  ): AuthUserGroupPayload! @IsAuthenticated
   updateAuthUserGroups(
     filter: AuthUserGroupFilter
     input: AuthUserGroupUpdateInput!
-  ): AuthUserGroupsUpdatePayload!
-  deleteAuthUserGroup(id: ID!): AuthUserGroupDeletePayload!
+  ): AuthUserGroupsUpdatePayload! @IsAuthenticated
+  deleteAuthUserGroup(id: ID!): AuthUserGroupDeletePayload! @IsAuthenticated
   deleteAuthUserGroups(
     filter: AuthUserGroupFilter
-  ): AuthUserGroupsDeletePayload!
+  ): AuthUserGroupsDeletePayload! @IsAuthenticated
   createAuthUserUserPermission(
     input: AuthUserUserPermissionCreateInput!
-  ): AuthUserUserPermissionPayload!
-  createAuthUserUserPermissions(
-    input: AuthUserUserPermissionsCreateInput!
-  ): AuthUserUserPermissionsPayload!
+  ): AuthUserUserPermissionPayload! @IsAuthenticated
   updateAuthUserUserPermission(
     id: ID!
     input: AuthUserUserPermissionUpdateInput!
-  ): AuthUserUserPermissionPayload!
+  ): AuthUserUserPermissionPayload! @IsAuthenticated
   updateAuthUserUserPermissions(
     filter: AuthUserUserPermissionFilter
     input: AuthUserUserPermissionUpdateInput!
-  ): AuthUserUserPermissionsUpdatePayload!
+  ): AuthUserUserPermissionsUpdatePayload! @IsAuthenticated
   deleteAuthUserUserPermission(id: ID!): AuthUserUserPermissionDeletePayload!
+    @IsAuthenticated
   deleteAuthUserUserPermissions(
     filter: AuthUserUserPermissionFilter
-  ): AuthUserUserPermissionsDeletePayload!
+  ): AuthUserUserPermissionsDeletePayload! @IsAuthenticated
   createFragrance(input: FragranceCreateInput!): FragrancePayload!
-  createFragrances(input: FragrancesCreateInput!): FragrancesPayload!
+    @IsAuthenticated
   updateFragrance(id: ID!, input: FragranceUpdateInput!): FragrancePayload!
+    @IsAuthenticated
   updateFragrances(
     filter: FragranceFilter
     input: FragranceUpdateInput!
-  ): FragrancesUpdatePayload!
-  deleteFragrance(id: ID!): FragranceDeletePayload!
+  ): FragrancesUpdatePayload! @IsAuthenticated
+  deleteFragrance(id: ID!): FragranceDeletePayload! @IsAuthenticated
   deleteFragrances(filter: FragranceFilter): FragrancesDeletePayload!
+    @IsAuthenticated
   createFragranceInventory(
     input: FragranceInventoryCreateInput!
-  ): FragranceInventoryPayload!
-  createFragranceInventories(
-    input: FragranceInventoriesCreateInput!
-  ): FragranceInventoriesPayload!
+  ): FragranceInventoryPayload! @IsAuthenticated
   updateFragranceInventory(
     id: ID!
     input: FragranceInventoryUpdateInput!
-  ): FragranceInventoryPayload!
+  ): FragranceInventoryPayload! @IsAuthenticated
   updateFragranceInventories(
     filter: FragranceInventoryFilter
     input: FragranceInventoryUpdateInput!
-  ): FragranceInventoriesUpdatePayload!
+  ): FragranceInventoriesUpdatePayload! @IsAuthenticated
   deleteFragranceInventory(id: ID!): FragranceInventoryDeletePayload!
+    @IsAuthenticated
   deleteFragranceInventories(
     filter: FragranceInventoryFilter
-  ): FragranceInventoriesDeletePayload!
-  createLipid(input: LipidCreateInput!): LipidPayload!
-  createLipids(input: LipidsCreateInput!): LipidsPayload!
-  updateLipid(id: ID!, input: LipidUpdateInput!): LipidPayload!
+  ): FragranceInventoriesDeletePayload! @IsAuthenticated
+  createLipid(input: LipidCreateInput!): LipidPayload! @IsAuthenticated
+  updateLipid(id: ID!, input: LipidUpdateInput!): LipidPayload! @IsAuthenticated
   updateLipids(
     filter: LipidFilter
     input: LipidUpdateInput!
-  ): LipidsUpdatePayload!
-  deleteLipid(id: ID!): LipidDeletePayload!
-  deleteLipids(filter: LipidFilter): LipidsDeletePayload!
+  ): LipidsUpdatePayload! @IsAuthenticated
+  deleteLipid(id: ID!): LipidDeletePayload! @IsAuthenticated
+  deleteLipids(filter: LipidFilter): LipidsDeletePayload! @IsAuthenticated
   createLipidInventory(
     input: LipidInventoryCreateInput!
-  ): LipidInventoryPayload!
-  createLipidInventories(
-    input: LipidInventoriesCreateInput!
-  ): LipidInventoriesPayload!
+  ): LipidInventoryPayload! @IsAuthenticated
   updateLipidInventory(
     id: ID!
     input: LipidInventoryUpdateInput!
-  ): LipidInventoryPayload!
+  ): LipidInventoryPayload! @IsAuthenticated
   updateLipidInventories(
     filter: LipidInventoryFilter
     input: LipidInventoryUpdateInput!
-  ): LipidInventoriesUpdatePayload!
-  deleteLipidInventory(id: ID!): LipidInventoryDeletePayload!
+  ): LipidInventoriesUpdatePayload! @IsAuthenticated
+  deleteLipidInventory(id: ID!): LipidInventoryDeletePayload! @IsAuthenticated
   deleteLipidInventories(
     filter: LipidInventoryFilter
-  ): LipidInventoriesDeletePayload!
-  createLye(input: LyeCreateInput!): LyePayload!
-  createLyes(input: LyesCreateInput!): LyesPayload!
-  updateLye(id: ID!, input: LyeUpdateInput!): LyePayload!
+  ): LipidInventoriesDeletePayload! @IsAuthenticated
+  createLye(input: LyeCreateInput!): LyePayload! @IsAuthenticated
+  updateLye(id: ID!, input: LyeUpdateInput!): LyePayload! @IsAuthenticated
   updateLyes(filter: LyeFilter, input: LyeUpdateInput!): LyesUpdatePayload!
-  deleteLye(id: ID!): LyeDeletePayload!
-  deleteLyes(filter: LyeFilter): LyesDeletePayload!
+    @IsAuthenticated
+  deleteLye(id: ID!): LyeDeletePayload! @IsAuthenticated
+  deleteLyes(filter: LyeFilter): LyesDeletePayload! @IsAuthenticated
   createLyeInventory(input: LyeInventoryCreateInput!): LyeInventoryPayload!
-  createLyeInventories(
-    input: LyeInventoriesCreateInput!
-  ): LyeInventoriesPayload!
+    @IsAuthenticated
   updateLyeInventory(
     id: ID!
     input: LyeInventoryUpdateInput!
-  ): LyeInventoryPayload!
+  ): LyeInventoryPayload! @IsAuthenticated
   updateLyeInventories(
     filter: LyeInventoryFilter
     input: LyeInventoryUpdateInput!
-  ): LyeInventoriesUpdatePayload!
-  deleteLyeInventory(id: ID!): LyeInventoryDeletePayload!
-  deleteLyeInventories(filter: LyeInventoryFilter): LyeInventoriesDeletePayload!
-  createRecipe(input: RecipeCreateInput!): RecipePayload!
-  createRecipes(input: RecipesCreateInput!): RecipesPayload!
+  ): LyeInventoriesUpdatePayload! @IsAuthenticated
+  deleteLyeInventory(id: ID!): LyeInventoryDeletePayload! @IsAuthenticated
+  deleteLyeInventories(
+    filter: LyeInventoryFilter
+  ): LyeInventoriesDeletePayload! @IsAuthenticated
+  createRecipe(input: RecipeCreateInput!): RecipePayload! @IsAuthenticated
   updateRecipe(id: ID!, input: RecipeUpdateInput!): RecipePayload!
+    @IsAuthenticated
   updateRecipes(
     filter: RecipeFilter
     input: RecipeUpdateInput!
-  ): RecipesUpdatePayload!
-  deleteRecipe(id: ID!): RecipeDeletePayload!
-  deleteRecipes(filter: RecipeFilter): RecipesDeletePayload!
+  ): RecipesUpdatePayload! @IsAuthenticated
+  deleteRecipe(id: ID!): RecipeDeletePayload! @IsAuthenticated
+  deleteRecipes(filter: RecipeFilter): RecipesDeletePayload! @IsAuthenticated
   createRecipeAdditive(
     input: RecipeAdditiveCreateInput!
-  ): RecipeAdditivePayload!
-  createRecipeAdditives(
-    input: RecipeAdditivesCreateInput!
-  ): RecipeAdditivesPayload!
+  ): RecipeAdditivePayload! @IsAuthenticated
   updateRecipeAdditive(
     id: ID!
     input: RecipeAdditiveUpdateInput!
-  ): RecipeAdditivePayload!
+  ): RecipeAdditivePayload! @IsAuthenticated
   updateRecipeAdditives(
     filter: RecipeAdditiveFilter
     input: RecipeAdditiveUpdateInput!
-  ): RecipeAdditivesUpdatePayload!
-  deleteRecipeAdditive(id: ID!): RecipeAdditiveDeletePayload!
+  ): RecipeAdditivesUpdatePayload! @IsAuthenticated
+  deleteRecipeAdditive(id: ID!): RecipeAdditiveDeletePayload! @IsAuthenticated
   deleteRecipeAdditives(
     filter: RecipeAdditiveFilter
-  ): RecipeAdditivesDeletePayload!
+  ): RecipeAdditivesDeletePayload! @IsAuthenticated
   createRecipeBatch(input: RecipeBatchCreateInput!): RecipeBatchPayload!
-  createRecipeBatches(input: RecipeBatchesCreateInput!): RecipeBatchesPayload!
+    @IsAuthenticated
   updateRecipeBatch(
     id: ID!
     input: RecipeBatchUpdateInput!
-  ): RecipeBatchPayload!
+  ): RecipeBatchPayload! @IsAuthenticated
   updateRecipeBatches(
     filter: RecipeBatchFilter
     input: RecipeBatchUpdateInput!
-  ): RecipeBatchesUpdatePayload!
-  deleteRecipeBatch(id: ID!): RecipeBatchDeletePayload!
+  ): RecipeBatchesUpdatePayload! @IsAuthenticated
+  deleteRecipeBatch(id: ID!): RecipeBatchDeletePayload! @IsAuthenticated
   deleteRecipeBatches(filter: RecipeBatchFilter): RecipeBatchesDeletePayload!
+    @IsAuthenticated
   createRecipeBatchAdditive(
     input: RecipeBatchAdditiveCreateInput!
-  ): RecipeBatchAdditivePayload!
-  createRecipeBatchAdditives(
-    input: RecipeBatchAdditivesCreateInput!
-  ): RecipeBatchAdditivesPayload!
+  ): RecipeBatchAdditivePayload! @IsAuthenticated
   updateRecipeBatchAdditive(
     id: ID!
     input: RecipeBatchAdditiveUpdateInput!
-  ): RecipeBatchAdditivePayload!
+  ): RecipeBatchAdditivePayload! @IsAuthenticated
   updateRecipeBatchAdditives(
     filter: RecipeBatchAdditiveFilter
     input: RecipeBatchAdditiveUpdateInput!
-  ): RecipeBatchAdditivesUpdatePayload!
+  ): RecipeBatchAdditivesUpdatePayload! @IsAuthenticated
   deleteRecipeBatchAdditive(id: ID!): RecipeBatchAdditiveDeletePayload!
+    @IsAuthenticated
   deleteRecipeBatchAdditives(
     filter: RecipeBatchAdditiveFilter
-  ): RecipeBatchAdditivesDeletePayload!
+  ): RecipeBatchAdditivesDeletePayload! @IsAuthenticated
   createRecipeBatchFragrance(
     input: RecipeBatchFragranceCreateInput!
-  ): RecipeBatchFragrancePayload!
-  createRecipeBatchFragrances(
-    input: RecipeBatchFragrancesCreateInput!
-  ): RecipeBatchFragrancesPayload!
+  ): RecipeBatchFragrancePayload! @IsAuthenticated
   updateRecipeBatchFragrance(
     id: ID!
     input: RecipeBatchFragranceUpdateInput!
-  ): RecipeBatchFragrancePayload!
+  ): RecipeBatchFragrancePayload! @IsAuthenticated
   updateRecipeBatchFragrances(
     filter: RecipeBatchFragranceFilter
     input: RecipeBatchFragranceUpdateInput!
-  ): RecipeBatchFragrancesUpdatePayload!
+  ): RecipeBatchFragrancesUpdatePayload! @IsAuthenticated
   deleteRecipeBatchFragrance(id: ID!): RecipeBatchFragranceDeletePayload!
+    @IsAuthenticated
   deleteRecipeBatchFragrances(
     filter: RecipeBatchFragranceFilter
-  ): RecipeBatchFragrancesDeletePayload!
+  ): RecipeBatchFragrancesDeletePayload! @IsAuthenticated
   createRecipeBatchLipid(
     input: RecipeBatchLipidCreateInput!
-  ): RecipeBatchLipidPayload!
-  createRecipeBatchLipids(
-    input: RecipeBatchLipidsCreateInput!
-  ): RecipeBatchLipidsPayload!
+  ): RecipeBatchLipidPayload! @IsAuthenticated
   updateRecipeBatchLipid(
     id: ID!
     input: RecipeBatchLipidUpdateInput!
-  ): RecipeBatchLipidPayload!
+  ): RecipeBatchLipidPayload! @IsAuthenticated
   updateRecipeBatchLipids(
     filter: RecipeBatchLipidFilter
     input: RecipeBatchLipidUpdateInput!
-  ): RecipeBatchLipidsUpdatePayload!
+  ): RecipeBatchLipidsUpdatePayload! @IsAuthenticated
   deleteRecipeBatchLipid(id: ID!): RecipeBatchLipidDeletePayload!
+    @IsAuthenticated
   deleteRecipeBatchLipids(
     filter: RecipeBatchLipidFilter
-  ): RecipeBatchLipidsDeletePayload!
+  ): RecipeBatchLipidsDeletePayload! @IsAuthenticated
   createRecipeBatchLye(
     input: RecipeBatchLyeCreateInput!
-  ): RecipeBatchLyePayload!
-  createRecipeBatchLyes(
-    input: RecipeBatchLyesCreateInput!
-  ): RecipeBatchLyesPayload!
+  ): RecipeBatchLyePayload! @IsAuthenticated
   updateRecipeBatchLye(
     id: ID!
     input: RecipeBatchLyeUpdateInput!
-  ): RecipeBatchLyePayload!
+  ): RecipeBatchLyePayload! @IsAuthenticated
   updateRecipeBatchLyes(
     filter: RecipeBatchLyeFilter
     input: RecipeBatchLyeUpdateInput!
-  ): RecipeBatchLyesUpdatePayload!
-  deleteRecipeBatchLye(id: ID!): RecipeBatchLyeDeletePayload!
+  ): RecipeBatchLyesUpdatePayload! @IsAuthenticated
+  deleteRecipeBatchLye(id: ID!): RecipeBatchLyeDeletePayload! @IsAuthenticated
   deleteRecipeBatchLyes(
     filter: RecipeBatchLyeFilter
-  ): RecipeBatchLyesDeletePayload!
+  ): RecipeBatchLyesDeletePayload! @IsAuthenticated
   createRecipeBatchNote(
     input: RecipeBatchNoteCreateInput!
-  ): RecipeBatchNotePayload!
-  createRecipeBatchNotes(
-    input: RecipeBatchNotesCreateInput!
-  ): RecipeBatchNotesPayload!
+  ): RecipeBatchNotePayload! @IsAuthenticated
   updateRecipeBatchNote(
     id: ID!
     input: RecipeBatchNoteUpdateInput!
-  ): RecipeBatchNotePayload!
+  ): RecipeBatchNotePayload! @IsAuthenticated
   updateRecipeBatchNotes(
     filter: RecipeBatchNoteFilter
     input: RecipeBatchNoteUpdateInput!
-  ): RecipeBatchNotesUpdatePayload!
-  deleteRecipeBatchNote(id: ID!): RecipeBatchNoteDeletePayload!
+  ): RecipeBatchNotesUpdatePayload! @IsAuthenticated
+  deleteRecipeBatchNote(id: ID!): RecipeBatchNoteDeletePayload! @IsAuthenticated
   deleteRecipeBatchNotes(
     filter: RecipeBatchNoteFilter
-  ): RecipeBatchNotesDeletePayload!
+  ): RecipeBatchNotesDeletePayload! @IsAuthenticated
   createRecipeFragrance(
     input: RecipeFragranceCreateInput!
-  ): RecipeFragrancePayload!
-  createRecipeFragrances(
-    input: RecipeFragrancesCreateInput!
-  ): RecipeFragrancesPayload!
+  ): RecipeFragrancePayload! @IsAuthenticated
   updateRecipeFragrance(
     id: ID!
     input: RecipeFragranceUpdateInput!
-  ): RecipeFragrancePayload!
+  ): RecipeFragrancePayload! @IsAuthenticated
   updateRecipeFragrances(
     filter: RecipeFragranceFilter
     input: RecipeFragranceUpdateInput!
-  ): RecipeFragrancesUpdatePayload!
-  deleteRecipeFragrance(id: ID!): RecipeFragranceDeletePayload!
+  ): RecipeFragrancesUpdatePayload! @IsAuthenticated
+  deleteRecipeFragrance(id: ID!): RecipeFragranceDeletePayload! @IsAuthenticated
   deleteRecipeFragrances(
     filter: RecipeFragranceFilter
-  ): RecipeFragrancesDeletePayload!
+  ): RecipeFragrancesDeletePayload! @IsAuthenticated
   createRecipeLipid(input: RecipeLipidCreateInput!): RecipeLipidPayload!
-  createRecipeLipids(input: RecipeLipidsCreateInput!): RecipeLipidsPayload!
+    @IsAuthenticated
   updateRecipeLipid(
     id: ID!
     input: RecipeLipidUpdateInput!
-  ): RecipeLipidPayload!
+  ): RecipeLipidPayload! @IsAuthenticated
   updateRecipeLipids(
     filter: RecipeLipidFilter
     input: RecipeLipidUpdateInput!
-  ): RecipeLipidsUpdatePayload!
-  deleteRecipeLipid(id: ID!): RecipeLipidDeletePayload!
+  ): RecipeLipidsUpdatePayload! @IsAuthenticated
+  deleteRecipeLipid(id: ID!): RecipeLipidDeletePayload! @IsAuthenticated
   deleteRecipeLipids(filter: RecipeLipidFilter): RecipeLipidsDeletePayload!
+    @IsAuthenticated
   createRecipeStep(input: RecipeStepCreateInput!): RecipeStepPayload!
-  createRecipeSteps(input: RecipeStepsCreateInput!): RecipeStepsPayload!
+    @IsAuthenticated
   updateRecipeStep(id: ID!, input: RecipeStepUpdateInput!): RecipeStepPayload!
+    @IsAuthenticated
   updateRecipeSteps(
     filter: RecipeStepFilter
     input: RecipeStepUpdateInput!
-  ): RecipeStepsUpdatePayload!
-  deleteRecipeStep(id: ID!): RecipeStepDeletePayload!
+  ): RecipeStepsUpdatePayload! @IsAuthenticated
+  deleteRecipeStep(id: ID!): RecipeStepDeletePayload! @IsAuthenticated
   deleteRecipeSteps(filter: RecipeStepFilter): RecipeStepsDeletePayload!
-  createSupplier(input: SupplierCreateInput!): SupplierPayload!
-  createSuppliers(input: SuppliersCreateInput!): SuppliersPayload!
+    @IsAuthenticated
+  createSupplier(input: SupplierCreateInput!): SupplierPayload! @IsAuthenticated
   updateSupplier(id: ID!, input: SupplierUpdateInput!): SupplierPayload!
+    @IsAuthenticated
   updateSuppliers(
     filter: SupplierFilter
     input: SupplierUpdateInput!
-  ): SuppliersUpdatePayload!
-  deleteSupplier(id: ID!): SupplierDeletePayload!
+  ): SuppliersUpdatePayload! @IsAuthenticated
+  deleteSupplier(id: ID!): SupplierDeletePayload! @IsAuthenticated
   deleteSuppliers(filter: SupplierFilter): SuppliersDeletePayload!
+    @IsAuthenticated
 }
