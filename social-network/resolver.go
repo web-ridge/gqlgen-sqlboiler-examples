@@ -1,19 +1,26 @@
-// Generated with https://github.com/web-ridge/gqlgen-sqlboiler.
 package main
 
 import (
 	"context"
-	"database/sql"
 	"errors"
 	"strings"
 
-	"github.com/rs/zerolog/log"
+	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
-	"github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/auth"
-	fm "github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models"
+
+	"github.com/web-ridge/utils-go/boilergql/v3"
+
+	"database/sql"
+
+	"github.com/rs/zerolog/log"
+
 	. "github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/helpers"
+
 	dm "github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/models"
-	boilergql "github.com/web-ridge/utils-go/boilergql/v3"
+
+	fm "github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/graphql_models"
+
+	auth "github.com/web-ridge/gqlgen-sqlboiler-examples/social-network/auth"
 )
 
 type Resolver struct {
@@ -30,23 +37,13 @@ func (r *mutationResolver) CreateComment(ctx context.Context, input fm.CommentCr
 
 	m.UserID = auth.UserIDFromContext(ctx)
 
-	whiteList := CommentCreateInputToBoilerWhitelist(
-		boilergql.GetInputFromContext(ctx, inputKey),
-
-		dm.CommentColumns.UserID,
-	)
-	if err := m.Insert(ctx, r.db, whiteList); err != nil {
+	if err := m.Insert(ctx, r.db, boil.Infer()); err != nil {
 		log.Error().Err(err).Msg(publicCommentCreateError)
 		return nil, errors.New(publicCommentCreateError)
 	}
 
-	// resolve requested fields after creating
 	mods := GetCommentPreloadModsWithLevel(ctx, CommentPayloadPreloadLevels.Comment)
 	mods = append(mods, dm.CommentWhere.ID.EQ(m.ID))
-
-	mods = append(mods, dm.CommentWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
 	pM, err := dm.Comments(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicCommentCreateError)
@@ -57,10 +54,8 @@ func (r *mutationResolver) CreateComment(ctx context.Context, input fm.CommentCr
 	}, nil
 }
 
-//const publicCommentBatchCreateError = "could not create comments"
-
 func (r *mutationResolver) CreateComments(ctx context.Context, input fm.CommentsCreateInput) (*fm.CommentsPayload, error) {
-	// TODO: Implement batch create
+
 	return nil, nil
 }
 
@@ -79,11 +74,11 @@ func (r *mutationResolver) UpdateComment(ctx context.Context, id string, input f
 		return nil, errors.New(publicCommentUpdateError)
 	}
 
-	// resolve requested fields after updating
 	mods := GetCommentPreloadModsWithLevel(ctx, CommentPayloadPreloadLevels.Comment)
 	mods = append(mods, dm.CommentWhere.ID.EQ(dbID))
 
 	mods = append(mods, dm.CommentWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
+
 	pM, err := dm.Comments(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicCommentUpdateError)
@@ -99,9 +94,7 @@ const publicCommentBatchUpdateError = "could not update comments"
 func (r *mutationResolver) UpdateComments(ctx context.Context, filter *fm.CommentFilter, input fm.CommentUpdateInput) (*fm.CommentsUpdatePayload, error) {
 	var mods []qm.QueryMod
 
-	mods = append(mods, dm.CommentWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.CommentWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	mods = append(mods, CommentFilterToMods(filter)...)
 
 	m := CommentUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -119,11 +112,12 @@ const publicCommentDeleteError = "could not delete comment"
 
 func (r *mutationResolver) DeleteComment(ctx context.Context, id string) (*fm.CommentDeletePayload, error) {
 	dbID := CommentID(id)
-
 	mods := []qm.QueryMod{
 		dm.CommentWhere.ID.EQ(dbID),
 
-		dm.CommentWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
+		dm.CommentWhere.UserID.EQ(
+			auth.UserIDFromContext(ctx),
+		),
 	}
 	if _, err := dm.Comments(mods...).DeleteAll(ctx, r.db); err != nil {
 		log.Error().Err(err).Msg(publicCommentDeleteError)
@@ -140,9 +134,7 @@ const publicCommentBatchDeleteError = "could not delete comments"
 func (r *mutationResolver) DeleteComments(ctx context.Context, filter *fm.CommentFilter) (*fm.CommentsDeletePayload, error) {
 	var mods []qm.QueryMod
 
-	mods = append(mods, dm.CommentWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.CommentWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	mods = append(mods, CommentFilterToMods(filter)...)
 	mods = append(mods, qm.Select(dm.CommentColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.Comment))
@@ -171,23 +163,13 @@ func (r *mutationResolver) CreateCommentLike(ctx context.Context, input fm.Comme
 
 	m.UserID = auth.UserIDFromContext(ctx)
 
-	whiteList := CommentLikeCreateInputToBoilerWhitelist(
-		boilergql.GetInputFromContext(ctx, inputKey),
-
-		dm.CommentLikeColumns.UserID,
-	)
-	if err := m.Insert(ctx, r.db, whiteList); err != nil {
+	if err := m.Insert(ctx, r.db, boil.Infer()); err != nil {
 		log.Error().Err(err).Msg(publicCommentLikeCreateError)
 		return nil, errors.New(publicCommentLikeCreateError)
 	}
 
-	// resolve requested fields after creating
 	mods := GetCommentLikePreloadModsWithLevel(ctx, CommentLikePayloadPreloadLevels.CommentLike)
 	mods = append(mods, dm.CommentLikeWhere.ID.EQ(m.ID))
-
-	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
 	pM, err := dm.CommentLikes(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicCommentLikeCreateError)
@@ -198,10 +180,8 @@ func (r *mutationResolver) CreateCommentLike(ctx context.Context, input fm.Comme
 	}, nil
 }
 
-//const publicCommentLikeBatchCreateError = "could not create commentLikes"
-
 func (r *mutationResolver) CreateCommentLikes(ctx context.Context, input fm.CommentLikesCreateInput) (*fm.CommentLikesPayload, error) {
-	// TODO: Implement batch create
+
 	return nil, nil
 }
 
@@ -220,11 +200,11 @@ func (r *mutationResolver) UpdateCommentLike(ctx context.Context, id string, inp
 		return nil, errors.New(publicCommentLikeUpdateError)
 	}
 
-	// resolve requested fields after updating
 	mods := GetCommentLikePreloadModsWithLevel(ctx, CommentLikePayloadPreloadLevels.CommentLike)
 	mods = append(mods, dm.CommentLikeWhere.ID.EQ(dbID))
 
 	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
+
 	pM, err := dm.CommentLikes(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicCommentLikeUpdateError)
@@ -240,9 +220,7 @@ const publicCommentLikeBatchUpdateError = "could not update commentLikes"
 func (r *mutationResolver) UpdateCommentLikes(ctx context.Context, filter *fm.CommentLikeFilter, input fm.CommentLikeUpdateInput) (*fm.CommentLikesUpdatePayload, error) {
 	var mods []qm.QueryMod
 
-	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	mods = append(mods, CommentLikeFilterToMods(filter)...)
 
 	m := CommentLikeUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -260,11 +238,12 @@ const publicCommentLikeDeleteError = "could not delete commentLike"
 
 func (r *mutationResolver) DeleteCommentLike(ctx context.Context, id string) (*fm.CommentLikeDeletePayload, error) {
 	dbID := CommentLikeID(id)
-
 	mods := []qm.QueryMod{
 		dm.CommentLikeWhere.ID.EQ(dbID),
 
-		dm.CommentLikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
+		dm.CommentLikeWhere.UserID.EQ(
+			auth.UserIDFromContext(ctx),
+		),
 	}
 	if _, err := dm.CommentLikes(mods...).DeleteAll(ctx, r.db); err != nil {
 		log.Error().Err(err).Msg(publicCommentLikeDeleteError)
@@ -281,9 +260,7 @@ const publicCommentLikeBatchDeleteError = "could not delete commentLikes"
 func (r *mutationResolver) DeleteCommentLikes(ctx context.Context, filter *fm.CommentLikeFilter) (*fm.CommentLikesDeletePayload, error) {
 	var mods []qm.QueryMod
 
-	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	mods = append(mods, CommentLikeFilterToMods(filter)...)
 	mods = append(mods, qm.Select(dm.CommentLikeColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.CommentLike))
@@ -310,18 +287,13 @@ func (r *mutationResolver) CreateFriendship(ctx context.Context, input fm.Friend
 
 	m := FriendshipCreateInputToBoiler(&input)
 
-	whiteList := FriendshipCreateInputToBoilerWhitelist(
-		boilergql.GetInputFromContext(ctx, inputKey),
-	)
-	if err := m.Insert(ctx, r.db, whiteList); err != nil {
+	if err := m.Insert(ctx, r.db, boil.Infer()); err != nil {
 		log.Error().Err(err).Msg(publicFriendshipCreateError)
 		return nil, errors.New(publicFriendshipCreateError)
 	}
 
-	// resolve requested fields after creating
 	mods := GetFriendshipPreloadModsWithLevel(ctx, FriendshipPayloadPreloadLevels.Friendship)
 	mods = append(mods, dm.FriendshipWhere.ID.EQ(m.ID))
-
 	pM, err := dm.Friendships(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicFriendshipCreateError)
@@ -332,10 +304,8 @@ func (r *mutationResolver) CreateFriendship(ctx context.Context, input fm.Friend
 	}, nil
 }
 
-//const publicFriendshipBatchCreateError = "could not create friendships"
-
 func (r *mutationResolver) CreateFriendships(ctx context.Context, input fm.FriendshipsCreateInput) (*fm.FriendshipsPayload, error) {
-	// TODO: Implement batch create
+
 	return nil, nil
 }
 
@@ -352,7 +322,6 @@ func (r *mutationResolver) UpdateFriendship(ctx context.Context, id string, inpu
 		return nil, errors.New(publicFriendshipUpdateError)
 	}
 
-	// resolve requested fields after updating
 	mods := GetFriendshipPreloadModsWithLevel(ctx, FriendshipPayloadPreloadLevels.Friendship)
 	mods = append(mods, dm.FriendshipWhere.ID.EQ(dbID))
 
@@ -388,7 +357,6 @@ const publicFriendshipDeleteError = "could not delete friendship"
 
 func (r *mutationResolver) DeleteFriendship(ctx context.Context, id string) (*fm.FriendshipDeletePayload, error) {
 	dbID := FriendshipID(id)
-
 	mods := []qm.QueryMod{
 		dm.FriendshipWhere.ID.EQ(dbID),
 	}
@@ -433,18 +401,13 @@ func (r *mutationResolver) CreateImage(ctx context.Context, input fm.ImageCreate
 
 	m := ImageCreateInputToBoiler(&input)
 
-	whiteList := ImageCreateInputToBoilerWhitelist(
-		boilergql.GetInputFromContext(ctx, inputKey),
-	)
-	if err := m.Insert(ctx, r.db, whiteList); err != nil {
+	if err := m.Insert(ctx, r.db, boil.Infer()); err != nil {
 		log.Error().Err(err).Msg(publicImageCreateError)
 		return nil, errors.New(publicImageCreateError)
 	}
 
-	// resolve requested fields after creating
 	mods := GetImagePreloadModsWithLevel(ctx, ImagePayloadPreloadLevels.Image)
 	mods = append(mods, dm.ImageWhere.ID.EQ(m.ID))
-
 	pM, err := dm.Images(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicImageCreateError)
@@ -455,10 +418,8 @@ func (r *mutationResolver) CreateImage(ctx context.Context, input fm.ImageCreate
 	}, nil
 }
 
-//const publicImageBatchCreateError = "could not create images"
-
 func (r *mutationResolver) CreateImages(ctx context.Context, input fm.ImagesCreateInput) (*fm.ImagesPayload, error) {
-	// TODO: Implement batch create
+
 	return nil, nil
 }
 
@@ -475,7 +436,6 @@ func (r *mutationResolver) UpdateImage(ctx context.Context, id string, input fm.
 		return nil, errors.New(publicImageUpdateError)
 	}
 
-	// resolve requested fields after updating
 	mods := GetImagePreloadModsWithLevel(ctx, ImagePayloadPreloadLevels.Image)
 	mods = append(mods, dm.ImageWhere.ID.EQ(dbID))
 
@@ -511,7 +471,6 @@ const publicImageDeleteError = "could not delete image"
 
 func (r *mutationResolver) DeleteImage(ctx context.Context, id string) (*fm.ImageDeletePayload, error) {
 	dbID := ImageID(id)
-
 	mods := []qm.QueryMod{
 		dm.ImageWhere.ID.EQ(dbID),
 	}
@@ -556,18 +515,13 @@ func (r *mutationResolver) CreateImageVariation(ctx context.Context, input fm.Im
 
 	m := ImageVariationCreateInputToBoiler(&input)
 
-	whiteList := ImageVariationCreateInputToBoilerWhitelist(
-		boilergql.GetInputFromContext(ctx, inputKey),
-	)
-	if err := m.Insert(ctx, r.db, whiteList); err != nil {
+	if err := m.Insert(ctx, r.db, boil.Infer()); err != nil {
 		log.Error().Err(err).Msg(publicImageVariationCreateError)
 		return nil, errors.New(publicImageVariationCreateError)
 	}
 
-	// resolve requested fields after creating
 	mods := GetImageVariationPreloadModsWithLevel(ctx, ImageVariationPayloadPreloadLevels.ImageVariation)
 	mods = append(mods, dm.ImageVariationWhere.ID.EQ(m.ID))
-
 	pM, err := dm.ImageVariations(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicImageVariationCreateError)
@@ -578,10 +532,8 @@ func (r *mutationResolver) CreateImageVariation(ctx context.Context, input fm.Im
 	}, nil
 }
 
-//const publicImageVariationBatchCreateError = "could not create imageVariations"
-
 func (r *mutationResolver) CreateImageVariations(ctx context.Context, input fm.ImageVariationsCreateInput) (*fm.ImageVariationsPayload, error) {
-	// TODO: Implement batch create
+
 	return nil, nil
 }
 
@@ -598,7 +550,6 @@ func (r *mutationResolver) UpdateImageVariation(ctx context.Context, id string, 
 		return nil, errors.New(publicImageVariationUpdateError)
 	}
 
-	// resolve requested fields after updating
 	mods := GetImageVariationPreloadModsWithLevel(ctx, ImageVariationPayloadPreloadLevels.ImageVariation)
 	mods = append(mods, dm.ImageVariationWhere.ID.EQ(dbID))
 
@@ -634,7 +585,6 @@ const publicImageVariationDeleteError = "could not delete imageVariation"
 
 func (r *mutationResolver) DeleteImageVariation(ctx context.Context, id string) (*fm.ImageVariationDeletePayload, error) {
 	dbID := ImageVariationID(id)
-
 	mods := []qm.QueryMod{
 		dm.ImageVariationWhere.ID.EQ(dbID),
 	}
@@ -681,23 +631,13 @@ func (r *mutationResolver) CreateLike(ctx context.Context, input fm.LikeCreateIn
 
 	m.UserID = auth.UserIDFromContext(ctx)
 
-	whiteList := LikeCreateInputToBoilerWhitelist(
-		boilergql.GetInputFromContext(ctx, inputKey),
-
-		dm.LikeColumns.UserID,
-	)
-	if err := m.Insert(ctx, r.db, whiteList); err != nil {
+	if err := m.Insert(ctx, r.db, boil.Infer()); err != nil {
 		log.Error().Err(err).Msg(publicLikeCreateError)
 		return nil, errors.New(publicLikeCreateError)
 	}
 
-	// resolve requested fields after creating
 	mods := GetLikePreloadModsWithLevel(ctx, LikePayloadPreloadLevels.Like)
 	mods = append(mods, dm.LikeWhere.ID.EQ(m.ID))
-
-	mods = append(mods, dm.LikeWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
 	pM, err := dm.Likes(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicLikeCreateError)
@@ -708,10 +648,8 @@ func (r *mutationResolver) CreateLike(ctx context.Context, input fm.LikeCreateIn
 	}, nil
 }
 
-//const publicLikeBatchCreateError = "could not create likes"
-
 func (r *mutationResolver) CreateLikes(ctx context.Context, input fm.LikesCreateInput) (*fm.LikesPayload, error) {
-	// TODO: Implement batch create
+
 	return nil, nil
 }
 
@@ -730,11 +668,11 @@ func (r *mutationResolver) UpdateLike(ctx context.Context, id string, input fm.L
 		return nil, errors.New(publicLikeUpdateError)
 	}
 
-	// resolve requested fields after updating
 	mods := GetLikePreloadModsWithLevel(ctx, LikePayloadPreloadLevels.Like)
 	mods = append(mods, dm.LikeWhere.ID.EQ(dbID))
 
 	mods = append(mods, dm.LikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
+
 	pM, err := dm.Likes(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicLikeUpdateError)
@@ -750,9 +688,7 @@ const publicLikeBatchUpdateError = "could not update likes"
 func (r *mutationResolver) UpdateLikes(ctx context.Context, filter *fm.LikeFilter, input fm.LikeUpdateInput) (*fm.LikesUpdatePayload, error) {
 	var mods []qm.QueryMod
 
-	mods = append(mods, dm.LikeWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.LikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	mods = append(mods, LikeFilterToMods(filter)...)
 
 	m := LikeUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -770,11 +706,12 @@ const publicLikeDeleteError = "could not delete like"
 
 func (r *mutationResolver) DeleteLike(ctx context.Context, id string) (*fm.LikeDeletePayload, error) {
 	dbID := LikeID(id)
-
 	mods := []qm.QueryMod{
 		dm.LikeWhere.ID.EQ(dbID),
 
-		dm.LikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
+		dm.LikeWhere.UserID.EQ(
+			auth.UserIDFromContext(ctx),
+		),
 	}
 	if _, err := dm.Likes(mods...).DeleteAll(ctx, r.db); err != nil {
 		log.Error().Err(err).Msg(publicLikeDeleteError)
@@ -791,9 +728,7 @@ const publicLikeBatchDeleteError = "could not delete likes"
 func (r *mutationResolver) DeleteLikes(ctx context.Context, filter *fm.LikeFilter) (*fm.LikesDeletePayload, error) {
 	var mods []qm.QueryMod
 
-	mods = append(mods, dm.LikeWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.LikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	mods = append(mods, LikeFilterToMods(filter)...)
 	mods = append(mods, qm.Select(dm.LikeColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.Like))
@@ -822,23 +757,13 @@ func (r *mutationResolver) CreatePost(ctx context.Context, input fm.PostCreateIn
 
 	m.UserID = auth.UserIDFromContext(ctx)
 
-	whiteList := PostCreateInputToBoilerWhitelist(
-		boilergql.GetInputFromContext(ctx, inputKey),
-
-		dm.PostColumns.UserID,
-	)
-	if err := m.Insert(ctx, r.db, whiteList); err != nil {
+	if err := m.Insert(ctx, r.db, boil.Infer()); err != nil {
 		log.Error().Err(err).Msg(publicPostCreateError)
 		return nil, errors.New(publicPostCreateError)
 	}
 
-	// resolve requested fields after creating
 	mods := GetPostPreloadModsWithLevel(ctx, PostPayloadPreloadLevels.Post)
 	mods = append(mods, dm.PostWhere.ID.EQ(m.ID))
-
-	mods = append(mods, dm.PostWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
 	pM, err := dm.Posts(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicPostCreateError)
@@ -849,10 +774,8 @@ func (r *mutationResolver) CreatePost(ctx context.Context, input fm.PostCreateIn
 	}, nil
 }
 
-//const publicPostBatchCreateError = "could not create posts"
-
 func (r *mutationResolver) CreatePosts(ctx context.Context, input fm.PostsCreateInput) (*fm.PostsPayload, error) {
-	// TODO: Implement batch create
+
 	return nil, nil
 }
 
@@ -871,11 +794,11 @@ func (r *mutationResolver) UpdatePost(ctx context.Context, id string, input fm.P
 		return nil, errors.New(publicPostUpdateError)
 	}
 
-	// resolve requested fields after updating
 	mods := GetPostPreloadModsWithLevel(ctx, PostPayloadPreloadLevels.Post)
 	mods = append(mods, dm.PostWhere.ID.EQ(dbID))
 
 	mods = append(mods, dm.PostWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
+
 	pM, err := dm.Posts(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicPostUpdateError)
@@ -891,9 +814,7 @@ const publicPostBatchUpdateError = "could not update posts"
 func (r *mutationResolver) UpdatePosts(ctx context.Context, filter *fm.PostFilter, input fm.PostUpdateInput) (*fm.PostsUpdatePayload, error) {
 	var mods []qm.QueryMod
 
-	mods = append(mods, dm.PostWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.PostWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	mods = append(mods, PostFilterToMods(filter)...)
 
 	m := PostUpdateInputToModelM(boilergql.GetInputFromContext(ctx, inputKey), input)
@@ -911,11 +832,12 @@ const publicPostDeleteError = "could not delete post"
 
 func (r *mutationResolver) DeletePost(ctx context.Context, id string) (*fm.PostDeletePayload, error) {
 	dbID := PostID(id)
-
 	mods := []qm.QueryMod{
 		dm.PostWhere.ID.EQ(dbID),
 
-		dm.PostWhere.UserID.EQ(auth.UserIDFromContext(ctx)),
+		dm.PostWhere.UserID.EQ(
+			auth.UserIDFromContext(ctx),
+		),
 	}
 	if _, err := dm.Posts(mods...).DeleteAll(ctx, r.db); err != nil {
 		log.Error().Err(err).Msg(publicPostDeleteError)
@@ -932,9 +854,7 @@ const publicPostBatchDeleteError = "could not delete posts"
 func (r *mutationResolver) DeletePosts(ctx context.Context, filter *fm.PostFilter) (*fm.PostsDeletePayload, error) {
 	var mods []qm.QueryMod
 
-	mods = append(mods, dm.PostWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.PostWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 	mods = append(mods, PostFilterToMods(filter)...)
 	mods = append(mods, qm.Select(dm.PostColumns.ID))
 	mods = append(mods, qm.From(dm.TableNames.Post))
@@ -961,18 +881,13 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input fm.UserCreateIn
 
 	m := UserCreateInputToBoiler(&input)
 
-	whiteList := UserCreateInputToBoilerWhitelist(
-		boilergql.GetInputFromContext(ctx, inputKey),
-	)
-	if err := m.Insert(ctx, r.db, whiteList); err != nil {
+	if err := m.Insert(ctx, r.db, boil.Infer()); err != nil {
 		log.Error().Err(err).Msg(publicUserCreateError)
 		return nil, errors.New(publicUserCreateError)
 	}
 
-	// resolve requested fields after creating
 	mods := GetUserPreloadModsWithLevel(ctx, UserPayloadPreloadLevels.User)
 	mods = append(mods, dm.UserWhere.ID.EQ(m.ID))
-
 	pM, err := dm.Users(mods...).One(ctx, r.db)
 	if err != nil {
 		log.Error().Err(err).Msg(publicUserCreateError)
@@ -983,10 +898,8 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input fm.UserCreateIn
 	}, nil
 }
 
-//const publicUserBatchCreateError = "could not create users"
-
 func (r *mutationResolver) CreateUsers(ctx context.Context, input fm.UsersCreateInput) (*fm.UsersPayload, error) {
-	// TODO: Implement batch create
+
 	return nil, nil
 }
 
@@ -1003,7 +916,6 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input fm.U
 		return nil, errors.New(publicUserUpdateError)
 	}
 
-	// resolve requested fields after updating
 	mods := GetUserPreloadModsWithLevel(ctx, UserPayloadPreloadLevels.User)
 	mods = append(mods, dm.UserWhere.ID.EQ(dbID))
 
@@ -1039,7 +951,6 @@ const publicUserDeleteError = "could not delete user"
 
 func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*fm.UserDeletePayload, error) {
 	dbID := UserID(id)
-
 	mods := []qm.QueryMod{
 		dm.UserWhere.ID.EQ(dbID),
 	}
@@ -1082,13 +993,10 @@ const publicCommentSingleError = "could not get comment"
 
 func (r *queryResolver) Comment(ctx context.Context, id string) (*fm.Comment, error) {
 	dbID := CommentID(id)
-
 	mods := GetCommentPreloadMods(ctx)
 	mods = append(mods, dm.CommentWhere.ID.EQ(dbID))
 
-	mods = append(mods, dm.CommentWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.CommentWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
 	m, err := dm.Comments(mods...).One(ctx, r.db)
 	if err != nil {
@@ -1100,15 +1008,13 @@ func (r *queryResolver) Comment(ctx context.Context, id string) (*fm.Comment, er
 
 const publicCommentListError = "could not list comments"
 
-func (r *queryResolver) Comments(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.CommentOrdering, filter *fm.CommentFilter) (*fm.CommentConnection, error) {
-	mods := GetCommentPreloadMods(ctx)
+func (r *queryResolver) Comments(ctx context.Context, first int, after *string, ordering []*fm.CommentOrdering, filter *fm.CommentFilter) (*fm.CommentConnection, error) {
+	mods := GetCommentNodePreloadMods(ctx)
 
-	mods = append(mods, dm.CommentWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.CommentWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
 	mods = append(mods, CommentFilterToMods(filter)...)
-	connection, err := CommentConnection(ctx, r.db, mods, pagination, ordering)
+	connection, err := CommentConnection(ctx, r.db, mods, boilergql.NewForwardPagination(first, after), ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicCommentListError)
 		return nil, errors.New(publicCommentListError)
@@ -1120,13 +1026,10 @@ const publicCommentLikeSingleError = "could not get commentLike"
 
 func (r *queryResolver) CommentLike(ctx context.Context, id string) (*fm.CommentLike, error) {
 	dbID := CommentLikeID(id)
-
 	mods := GetCommentLikePreloadMods(ctx)
 	mods = append(mods, dm.CommentLikeWhere.ID.EQ(dbID))
 
-	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
 	m, err := dm.CommentLikes(mods...).One(ctx, r.db)
 	if err != nil {
@@ -1138,15 +1041,13 @@ func (r *queryResolver) CommentLike(ctx context.Context, id string) (*fm.Comment
 
 const publicCommentLikeListError = "could not list commentLikes"
 
-func (r *queryResolver) CommentLikes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.CommentLikeOrdering, filter *fm.CommentLikeFilter) (*fm.CommentLikeConnection, error) {
-	mods := GetCommentLikePreloadMods(ctx)
+func (r *queryResolver) CommentLikes(ctx context.Context, first int, after *string, ordering []*fm.CommentLikeOrdering, filter *fm.CommentLikeFilter) (*fm.CommentLikeConnection, error) {
+	mods := GetCommentLikeNodePreloadMods(ctx)
 
-	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.CommentLikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
 	mods = append(mods, CommentLikeFilterToMods(filter)...)
-	connection, err := CommentLikeConnection(ctx, r.db, mods, pagination, ordering)
+	connection, err := CommentLikeConnection(ctx, r.db, mods, boilergql.NewForwardPagination(first, after), ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicCommentLikeListError)
 		return nil, errors.New(publicCommentLikeListError)
@@ -1158,7 +1059,6 @@ const publicFriendshipSingleError = "could not get friendship"
 
 func (r *queryResolver) Friendship(ctx context.Context, id string) (*fm.Friendship, error) {
 	dbID := FriendshipID(id)
-
 	mods := GetFriendshipPreloadMods(ctx)
 	mods = append(mods, dm.FriendshipWhere.ID.EQ(dbID))
 
@@ -1172,11 +1072,11 @@ func (r *queryResolver) Friendship(ctx context.Context, id string) (*fm.Friendsh
 
 const publicFriendshipListError = "could not list friendships"
 
-func (r *queryResolver) Friendships(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.FriendshipOrdering, filter *fm.FriendshipFilter) (*fm.FriendshipConnection, error) {
-	mods := GetFriendshipPreloadMods(ctx)
+func (r *queryResolver) Friendships(ctx context.Context, first int, after *string, ordering []*fm.FriendshipOrdering, filter *fm.FriendshipFilter) (*fm.FriendshipConnection, error) {
+	mods := GetFriendshipNodePreloadMods(ctx)
 
 	mods = append(mods, FriendshipFilterToMods(filter)...)
-	connection, err := FriendshipConnection(ctx, r.db, mods, pagination, ordering)
+	connection, err := FriendshipConnection(ctx, r.db, mods, boilergql.NewForwardPagination(first, after), ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicFriendshipListError)
 		return nil, errors.New(publicFriendshipListError)
@@ -1188,7 +1088,6 @@ const publicImageSingleError = "could not get image"
 
 func (r *queryResolver) Image(ctx context.Context, id string) (*fm.Image, error) {
 	dbID := ImageID(id)
-
 	mods := GetImagePreloadMods(ctx)
 	mods = append(mods, dm.ImageWhere.ID.EQ(dbID))
 
@@ -1202,11 +1101,11 @@ func (r *queryResolver) Image(ctx context.Context, id string) (*fm.Image, error)
 
 const publicImageListError = "could not list images"
 
-func (r *queryResolver) Images(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.ImageOrdering, filter *fm.ImageFilter) (*fm.ImageConnection, error) {
-	mods := GetImagePreloadMods(ctx)
+func (r *queryResolver) Images(ctx context.Context, first int, after *string, ordering []*fm.ImageOrdering, filter *fm.ImageFilter) (*fm.ImageConnection, error) {
+	mods := GetImageNodePreloadMods(ctx)
 
 	mods = append(mods, ImageFilterToMods(filter)...)
-	connection, err := ImageConnection(ctx, r.db, mods, pagination, ordering)
+	connection, err := ImageConnection(ctx, r.db, mods, boilergql.NewForwardPagination(first, after), ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicImageListError)
 		return nil, errors.New(publicImageListError)
@@ -1218,7 +1117,6 @@ const publicImageVariationSingleError = "could not get imageVariation"
 
 func (r *queryResolver) ImageVariation(ctx context.Context, id string) (*fm.ImageVariation, error) {
 	dbID := ImageVariationID(id)
-
 	mods := GetImageVariationPreloadMods(ctx)
 	mods = append(mods, dm.ImageVariationWhere.ID.EQ(dbID))
 
@@ -1232,11 +1130,11 @@ func (r *queryResolver) ImageVariation(ctx context.Context, id string) (*fm.Imag
 
 const publicImageVariationListError = "could not list imageVariations"
 
-func (r *queryResolver) ImageVariations(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.ImageVariationOrdering, filter *fm.ImageVariationFilter) (*fm.ImageVariationConnection, error) {
-	mods := GetImageVariationPreloadMods(ctx)
+func (r *queryResolver) ImageVariations(ctx context.Context, first int, after *string, ordering []*fm.ImageVariationOrdering, filter *fm.ImageVariationFilter) (*fm.ImageVariationConnection, error) {
+	mods := GetImageVariationNodePreloadMods(ctx)
 
 	mods = append(mods, ImageVariationFilterToMods(filter)...)
-	connection, err := ImageVariationConnection(ctx, r.db, mods, pagination, ordering)
+	connection, err := ImageVariationConnection(ctx, r.db, mods, boilergql.NewForwardPagination(first, after), ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicImageVariationListError)
 		return nil, errors.New(publicImageVariationListError)
@@ -1248,13 +1146,10 @@ const publicLikeSingleError = "could not get like"
 
 func (r *queryResolver) Like(ctx context.Context, id string) (*fm.Like, error) {
 	dbID := LikeID(id)
-
 	mods := GetLikePreloadMods(ctx)
 	mods = append(mods, dm.LikeWhere.ID.EQ(dbID))
 
-	mods = append(mods, dm.LikeWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.LikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
 	m, err := dm.Likes(mods...).One(ctx, r.db)
 	if err != nil {
@@ -1266,15 +1161,13 @@ func (r *queryResolver) Like(ctx context.Context, id string) (*fm.Like, error) {
 
 const publicLikeListError = "could not list likes"
 
-func (r *queryResolver) Likes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.LikeOrdering, filter *fm.LikeFilter) (*fm.LikeConnection, error) {
-	mods := GetLikePreloadMods(ctx)
+func (r *queryResolver) Likes(ctx context.Context, first int, after *string, ordering []*fm.LikeOrdering, filter *fm.LikeFilter) (*fm.LikeConnection, error) {
+	mods := GetLikeNodePreloadMods(ctx)
 
-	mods = append(mods, dm.LikeWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.LikeWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
 	mods = append(mods, LikeFilterToMods(filter)...)
-	connection, err := LikeConnection(ctx, r.db, mods, pagination, ordering)
+	connection, err := LikeConnection(ctx, r.db, mods, boilergql.NewForwardPagination(first, after), ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicLikeListError)
 		return nil, errors.New(publicLikeListError)
@@ -1286,13 +1179,10 @@ const publicPostSingleError = "could not get post"
 
 func (r *queryResolver) Post(ctx context.Context, id string) (*fm.Post, error) {
 	dbID := PostID(id)
-
 	mods := GetPostPreloadMods(ctx)
 	mods = append(mods, dm.PostWhere.ID.EQ(dbID))
 
-	mods = append(mods, dm.PostWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.PostWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
 	m, err := dm.Posts(mods...).One(ctx, r.db)
 	if err != nil {
@@ -1304,15 +1194,13 @@ func (r *queryResolver) Post(ctx context.Context, id string) (*fm.Post, error) {
 
 const publicPostListError = "could not list posts"
 
-func (r *queryResolver) Posts(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.PostOrdering, filter *fm.PostFilter) (*fm.PostConnection, error) {
-	mods := GetPostPreloadMods(ctx)
+func (r *queryResolver) Posts(ctx context.Context, first int, after *string, ordering []*fm.PostOrdering, filter *fm.PostFilter) (*fm.PostConnection, error) {
+	mods := GetPostNodePreloadMods(ctx)
 
-	mods = append(mods, dm.PostWhere.UserID.EQ(
-		auth.UserIDFromContext(ctx),
-	))
+	mods = append(mods, dm.PostWhere.UserID.EQ(auth.UserIDFromContext(ctx)))
 
 	mods = append(mods, PostFilterToMods(filter)...)
-	connection, err := PostConnection(ctx, r.db, mods, pagination, ordering)
+	connection, err := PostConnection(ctx, r.db, mods, boilergql.NewForwardPagination(first, after), ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicPostListError)
 		return nil, errors.New(publicPostListError)
@@ -1324,7 +1212,6 @@ const publicUserSingleError = "could not get user"
 
 func (r *queryResolver) User(ctx context.Context, id string) (*fm.User, error) {
 	dbID := UserID(id)
-
 	mods := GetUserPreloadMods(ctx)
 	mods = append(mods, dm.UserWhere.ID.EQ(dbID))
 
@@ -1338,11 +1225,11 @@ func (r *queryResolver) User(ctx context.Context, id string) (*fm.User, error) {
 
 const publicUserListError = "could not list users"
 
-func (r *queryResolver) Users(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*fm.UserOrdering, filter *fm.UserFilter) (*fm.UserConnection, error) {
-	mods := GetUserPreloadMods(ctx)
+func (r *queryResolver) Users(ctx context.Context, first int, after *string, ordering []*fm.UserOrdering, filter *fm.UserFilter) (*fm.UserConnection, error) {
+	mods := GetUserNodePreloadMods(ctx)
 
 	mods = append(mods, UserFilterToMods(filter)...)
-	connection, err := UserConnection(ctx, r.db, mods, pagination, ordering)
+	connection, err := UserConnection(ctx, r.db, mods, boilergql.NewForwardPagination(first, after), ordering)
 	if err != nil {
 		log.Error().Err(err).Msg(publicUserListError)
 		return nil, errors.New(publicUserListError)
@@ -1379,8 +1266,8 @@ func (r *queryResolver) Node(ctx context.Context, globalGraphID string) (fm.Node
 	}
 }
 
-func (r *Resolver) Mutation() fm.MutationResolver { return &mutationResolver{r} }
-func (r *Resolver) Query() fm.QueryResolver       { return &queryResolver{r} }
+func (r *Resolver) Mutation() fm.MutationResolver	{ return &mutationResolver{r} }
+func (r *Resolver) Query() fm.QueryResolver		{ return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }

@@ -8,17 +8,10 @@ import (
 
 	"github.com/99designs/gqlgen/api"
 	"github.com/99designs/gqlgen/codegen/config"
-
 	gbgen "github.com/web-ridge/gqlgen-sqlboiler/v3"
 )
 
 func main() {
-	cfg, err := config.LoadConfigFromDefaultLocations()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, "failed to load config", err.Error())
-		os.Exit(2)
-	}
-
 	output := gbgen.Config{
 		Directory:   "helpers", // supports root or sub directories
 		PackageName: "helpers",
@@ -32,21 +25,26 @@ func main() {
 		PackageName: "graphql_models",
 	}
 
-	err = gbgen.SchemaWrite(gbgen.SchemaConfig{
+	if err := gbgen.SchemaWrite(gbgen.SchemaConfig{
 		BoilerModelDirectory: backend,
 		Directives:           []string{"IsAuthenticated"},
+		SkipInputFields:      []string{"userId"},
 		GenerateBatchCreate:  false,
 		GenerateMutations:    true,
 		GenerateBatchDelete:  true,
 		GenerateBatchUpdate:  true,
 	}, "schema.graphql", gbgen.SchemaGenerateConfig{
 		MergeSchema: false,
-	})
-
-	if err != nil {
-		fmt.Println("error while trying to gbgen.SchemaWrite")
+	}); err != nil {
+		fmt.Println("error while trying to generate schema.graphql")
 		fmt.Fprintln(os.Stderr, err.Error())
 		os.Exit(3)
+	}
+
+	cfg, err := config.LoadConfigFromDefaultLocations()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "failed to load config", err.Error())
+		os.Exit(2)
 	}
 	err = api.Generate(cfg,
 		api.AddPlugin(gbgen.NewConvertPlugin(
@@ -59,7 +57,35 @@ func main() {
 			output,
 			backend,
 			frontend,
-			"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/auth", // leave empty if you don't have auth
+			gbgen.ResolverPluginConfig{
+				// Authorization scopes can be used to override e.g. userId, organizationId, tenantId
+				// This will be resolved used the provided ScopeResolverName if the result of the AddTrigger=true
+				// You would need this if you don't want to require these fields in your schema but you want to add them
+				// to the db model.
+				// If you do have these fields in your schema but want them authorized you could use a gqlgen directive
+				AuthorizationScopes: []*gbgen.AuthorizationScope{
+					{
+						ImportPath:        "github.com/web-ridge/gqlgen-sqlboiler-examples/issue-12-string-ids/auth",
+						ImportAlias:       "auth",
+						ScopeResolverName: "UserIDFromContext", // function which is called with the context of the resolver
+						BoilerColumnName:  "UserID",
+
+						AddHook: func(model *gbgen.BoilerModel, resolver *gbgen.Resolver, templateKey string) bool {
+							// fmt.Println(templateKey)
+							// templateKey contains a unique where the resolver tries to add something
+							// e.g.
+							// most of the time you can ignore this
+
+							for _, field := range model.Fields {
+								if field.Name == "UserID" {
+									return true
+								}
+							}
+							return false
+						},
+					},
+				},
+			},
 		)),
 	)
 	if err != nil {

@@ -1,5 +1,10 @@
 directive @isAuthenticated on FIELD_DEFINITION
 
+schema {
+  query: Query
+  mutation: Mutation
+}
+
 interface Node {
   id: ID!
 }
@@ -9,21 +14,6 @@ type PageInfo {
   hasPreviousPage: Boolean!
   startCursor: String
   endCursor: String
-}
-
-input ConnectionForwardPagination {
-  first: Int!
-  after: ID
-}
-
-input ConnectionBackwardPagination {
-  last: Int!
-  before: ID
-}
-
-input ConnectionPagination {
-  forward: ConnectionForwardPagination
-  backward: ConnectionBackwardPagination
 }
 
 enum SortDirection {
@@ -108,6 +98,7 @@ enum UserSort {
   FIRST_NAME
   LAST_NAME
   EMAIL
+  PASSWORD
 }
 
 input UserOrdering {
@@ -172,6 +163,7 @@ type User implements Node {
   firstName: String!
   lastName: String!
   email: String!
+  password: String!
   comments: [Comment]
   commentLikes: [CommentLike]
   likes: [Like]
@@ -428,6 +420,7 @@ input UserWhere {
   firstName: StringFilter
   lastName: StringFilter
   email: StringFilter
+  password: StringFilter
   comments: CommentWhere
   commentLikes: CommentLikeWhere
   likes: LikeWhere
@@ -441,49 +434,57 @@ type Query {
   node(id: ID!): Node
   comment(id: ID!): Comment! @isAuthenticated
   comments(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [CommentOrdering!]
     filter: CommentFilter
   ): CommentConnection! @isAuthenticated
   commentLike(id: ID!): CommentLike! @isAuthenticated
   commentLikes(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [CommentLikeOrdering!]
     filter: CommentLikeFilter
   ): CommentLikeConnection! @isAuthenticated
   friendship(id: ID!): Friendship! @isAuthenticated
   friendships(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [FriendshipOrdering!]
     filter: FriendshipFilter
   ): FriendshipConnection! @isAuthenticated
   image(id: ID!): Image! @isAuthenticated
   images(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [ImageOrdering!]
     filter: ImageFilter
   ): ImageConnection! @isAuthenticated
   imageVariation(id: ID!): ImageVariation! @isAuthenticated
   imageVariations(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [ImageVariationOrdering!]
     filter: ImageVariationFilter
   ): ImageVariationConnection! @isAuthenticated
   like(id: ID!): Like! @isAuthenticated
   likes(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [LikeOrdering!]
     filter: LikeFilter
   ): LikeConnection! @isAuthenticated
   post(id: ID!): Post! @isAuthenticated
   posts(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [PostOrdering!]
     filter: PostFilter
   ): PostConnection! @isAuthenticated
   user(id: ID!): User! @isAuthenticated
   users(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [UserOrdering!]
     filter: UserFilter
   ): UserConnection! @isAuthenticated
@@ -739,12 +740,14 @@ input UserCreateInput {
   firstName: String!
   lastName: String!
   email: String!
+  password: String!
 }
 
 input UserUpdateInput {
   firstName: String
   lastName: String
   email: String
+  password: String
 }
 
 input UsersCreateInput {

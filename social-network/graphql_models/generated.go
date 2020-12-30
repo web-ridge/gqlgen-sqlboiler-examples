@@ -368,21 +368,21 @@ type ComplexityRoot struct {
 	Query struct {
 		Comment         func(childComplexity int, id string) int
 		CommentLike     func(childComplexity int, id string) int
-		CommentLikes    func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*CommentLikeOrdering, filter *CommentLikeFilter) int
-		Comments        func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*CommentOrdering, filter *CommentFilter) int
+		CommentLikes    func(childComplexity int, first int, after *string, ordering []*CommentLikeOrdering, filter *CommentLikeFilter) int
+		Comments        func(childComplexity int, first int, after *string, ordering []*CommentOrdering, filter *CommentFilter) int
 		Friendship      func(childComplexity int, id string) int
-		Friendships     func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*FriendshipOrdering, filter *FriendshipFilter) int
+		Friendships     func(childComplexity int, first int, after *string, ordering []*FriendshipOrdering, filter *FriendshipFilter) int
 		Image           func(childComplexity int, id string) int
 		ImageVariation  func(childComplexity int, id string) int
-		ImageVariations func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*ImageVariationOrdering, filter *ImageVariationFilter) int
-		Images          func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*ImageOrdering, filter *ImageFilter) int
+		ImageVariations func(childComplexity int, first int, after *string, ordering []*ImageVariationOrdering, filter *ImageVariationFilter) int
+		Images          func(childComplexity int, first int, after *string, ordering []*ImageOrdering, filter *ImageFilter) int
 		Like            func(childComplexity int, id string) int
-		Likes           func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*LikeOrdering, filter *LikeFilter) int
+		Likes           func(childComplexity int, first int, after *string, ordering []*LikeOrdering, filter *LikeFilter) int
 		Node            func(childComplexity int, id string) int
 		Post            func(childComplexity int, id string) int
-		Posts           func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*PostOrdering, filter *PostFilter) int
+		Posts           func(childComplexity int, first int, after *string, ordering []*PostOrdering, filter *PostFilter) int
 		User            func(childComplexity int, id string) int
-		Users           func(childComplexity int, pagination boilergql.ConnectionPagination, ordering []*UserOrdering, filter *UserFilter) int
+		Users           func(childComplexity int, first int, after *string, ordering []*UserOrdering, filter *UserFilter) int
 	}
 
 	User struct {
@@ -394,6 +394,7 @@ type ComplexityRoot struct {
 		ID           func(childComplexity int) int
 		LastName     func(childComplexity int) int
 		Likes        func(childComplexity int) int
+		Password     func(childComplexity int) int
 		Posts        func(childComplexity int) int
 	}
 
@@ -481,21 +482,21 @@ type MutationResolver interface {
 type QueryResolver interface {
 	Node(ctx context.Context, id string) (Node, error)
 	Comment(ctx context.Context, id string) (*Comment, error)
-	Comments(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*CommentOrdering, filter *CommentFilter) (*CommentConnection, error)
+	Comments(ctx context.Context, first int, after *string, ordering []*CommentOrdering, filter *CommentFilter) (*CommentConnection, error)
 	CommentLike(ctx context.Context, id string) (*CommentLike, error)
-	CommentLikes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*CommentLikeOrdering, filter *CommentLikeFilter) (*CommentLikeConnection, error)
+	CommentLikes(ctx context.Context, first int, after *string, ordering []*CommentLikeOrdering, filter *CommentLikeFilter) (*CommentLikeConnection, error)
 	Friendship(ctx context.Context, id string) (*Friendship, error)
-	Friendships(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*FriendshipOrdering, filter *FriendshipFilter) (*FriendshipConnection, error)
+	Friendships(ctx context.Context, first int, after *string, ordering []*FriendshipOrdering, filter *FriendshipFilter) (*FriendshipConnection, error)
 	Image(ctx context.Context, id string) (*Image, error)
-	Images(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*ImageOrdering, filter *ImageFilter) (*ImageConnection, error)
+	Images(ctx context.Context, first int, after *string, ordering []*ImageOrdering, filter *ImageFilter) (*ImageConnection, error)
 	ImageVariation(ctx context.Context, id string) (*ImageVariation, error)
-	ImageVariations(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*ImageVariationOrdering, filter *ImageVariationFilter) (*ImageVariationConnection, error)
+	ImageVariations(ctx context.Context, first int, after *string, ordering []*ImageVariationOrdering, filter *ImageVariationFilter) (*ImageVariationConnection, error)
 	Like(ctx context.Context, id string) (*Like, error)
-	Likes(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*LikeOrdering, filter *LikeFilter) (*LikeConnection, error)
+	Likes(ctx context.Context, first int, after *string, ordering []*LikeOrdering, filter *LikeFilter) (*LikeConnection, error)
 	Post(ctx context.Context, id string) (*Post, error)
-	Posts(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*PostOrdering, filter *PostFilter) (*PostConnection, error)
+	Posts(ctx context.Context, first int, after *string, ordering []*PostOrdering, filter *PostFilter) (*PostConnection, error)
 	User(ctx context.Context, id string) (*User, error)
-	Users(ctx context.Context, pagination boilergql.ConnectionPagination, ordering []*UserOrdering, filter *UserFilter) (*UserConnection, error)
+	Users(ctx context.Context, first int, after *string, ordering []*UserOrdering, filter *UserFilter) (*UserConnection, error)
 }
 
 type executableSchema struct {
@@ -1809,7 +1810,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.CommentLikes(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*CommentLikeOrdering), args["filter"].(*CommentLikeFilter)), true
+		return e.complexity.Query.CommentLikes(childComplexity, args["first"].(int), args["after"].(*string), args["ordering"].([]*CommentLikeOrdering), args["filter"].(*CommentLikeFilter)), true
 
 	case "Query.comments":
 		if e.complexity.Query.Comments == nil {
@@ -1821,7 +1822,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Comments(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*CommentOrdering), args["filter"].(*CommentFilter)), true
+		return e.complexity.Query.Comments(childComplexity, args["first"].(int), args["after"].(*string), args["ordering"].([]*CommentOrdering), args["filter"].(*CommentFilter)), true
 
 	case "Query.friendship":
 		if e.complexity.Query.Friendship == nil {
@@ -1845,7 +1846,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Friendships(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*FriendshipOrdering), args["filter"].(*FriendshipFilter)), true
+		return e.complexity.Query.Friendships(childComplexity, args["first"].(int), args["after"].(*string), args["ordering"].([]*FriendshipOrdering), args["filter"].(*FriendshipFilter)), true
 
 	case "Query.image":
 		if e.complexity.Query.Image == nil {
@@ -1881,7 +1882,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.ImageVariations(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*ImageVariationOrdering), args["filter"].(*ImageVariationFilter)), true
+		return e.complexity.Query.ImageVariations(childComplexity, args["first"].(int), args["after"].(*string), args["ordering"].([]*ImageVariationOrdering), args["filter"].(*ImageVariationFilter)), true
 
 	case "Query.images":
 		if e.complexity.Query.Images == nil {
@@ -1893,7 +1894,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Images(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*ImageOrdering), args["filter"].(*ImageFilter)), true
+		return e.complexity.Query.Images(childComplexity, args["first"].(int), args["after"].(*string), args["ordering"].([]*ImageOrdering), args["filter"].(*ImageFilter)), true
 
 	case "Query.like":
 		if e.complexity.Query.Like == nil {
@@ -1917,7 +1918,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Likes(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*LikeOrdering), args["filter"].(*LikeFilter)), true
+		return e.complexity.Query.Likes(childComplexity, args["first"].(int), args["after"].(*string), args["ordering"].([]*LikeOrdering), args["filter"].(*LikeFilter)), true
 
 	case "Query.node":
 		if e.complexity.Query.Node == nil {
@@ -1953,7 +1954,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Posts(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*PostOrdering), args["filter"].(*PostFilter)), true
+		return e.complexity.Query.Posts(childComplexity, args["first"].(int), args["after"].(*string), args["ordering"].([]*PostOrdering), args["filter"].(*PostFilter)), true
 
 	case "Query.user":
 		if e.complexity.Query.User == nil {
@@ -1977,7 +1978,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Users(childComplexity, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter)), true
+		return e.complexity.Query.Users(childComplexity, args["first"].(int), args["after"].(*string), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter)), true
 
 	case "User.commentLikes":
 		if e.complexity.User.CommentLikes == nil {
@@ -2034,6 +2035,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.User.Likes(childComplexity), true
+
+	case "User.password":
+		if e.complexity.User.Password == nil {
+			break
+		}
+
+		return e.complexity.User.Password(childComplexity), true
 
 	case "User.posts":
 		if e.complexity.User.Posts == nil {
@@ -2169,7 +2177,12 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	&ast.Source{Name: "schema.graphql", Input: `directive @isAuthenticated on FIELD_DEFINITION
+	{Name: "schema.graphql", Input: `directive @isAuthenticated on FIELD_DEFINITION
+
+schema {
+  query: Query
+  mutation: Mutation
+}
 
 interface Node {
   id: ID!
@@ -2180,21 +2193,6 @@ type PageInfo {
   hasPreviousPage: Boolean!
   startCursor: String
   endCursor: String
-}
-
-input ConnectionForwardPagination {
-  first: Int!
-  after: ID
-}
-
-input ConnectionBackwardPagination {
-  last: Int!
-  before: ID
-}
-
-input ConnectionPagination {
-  forward: ConnectionForwardPagination
-  backward: ConnectionBackwardPagination
 }
 
 enum SortDirection {
@@ -2279,6 +2277,7 @@ enum UserSort {
   FIRST_NAME
   LAST_NAME
   EMAIL
+  PASSWORD
 }
 
 input UserOrdering {
@@ -2343,6 +2342,7 @@ type User implements Node {
   firstName: String!
   lastName: String!
   email: String!
+  password: String!
   comments: [Comment]
   commentLikes: [CommentLike]
   likes: [Like]
@@ -2599,6 +2599,7 @@ input UserWhere {
   firstName: StringFilter
   lastName: StringFilter
   email: StringFilter
+  password: StringFilter
   comments: CommentWhere
   commentLikes: CommentLikeWhere
   likes: LikeWhere
@@ -2612,49 +2613,57 @@ type Query {
   node(id: ID!): Node
   comment(id: ID!): Comment! @isAuthenticated
   comments(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [CommentOrdering!]
     filter: CommentFilter
   ): CommentConnection! @isAuthenticated
   commentLike(id: ID!): CommentLike! @isAuthenticated
   commentLikes(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [CommentLikeOrdering!]
     filter: CommentLikeFilter
   ): CommentLikeConnection! @isAuthenticated
   friendship(id: ID!): Friendship! @isAuthenticated
   friendships(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [FriendshipOrdering!]
     filter: FriendshipFilter
   ): FriendshipConnection! @isAuthenticated
   image(id: ID!): Image! @isAuthenticated
   images(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [ImageOrdering!]
     filter: ImageFilter
   ): ImageConnection! @isAuthenticated
   imageVariation(id: ID!): ImageVariation! @isAuthenticated
   imageVariations(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [ImageVariationOrdering!]
     filter: ImageVariationFilter
   ): ImageVariationConnection! @isAuthenticated
   like(id: ID!): Like! @isAuthenticated
   likes(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [LikeOrdering!]
     filter: LikeFilter
   ): LikeConnection! @isAuthenticated
   post(id: ID!): Post! @isAuthenticated
   posts(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [PostOrdering!]
     filter: PostFilter
   ): PostConnection! @isAuthenticated
   user(id: ID!): User! @isAuthenticated
   users(
-    pagination: ConnectionPagination!
+    first: Int!
+    after: String
     ordering: [UserOrdering!]
     filter: UserFilter
   ): UserConnection! @isAuthenticated
@@ -2910,12 +2919,14 @@ input UserCreateInput {
   firstName: String!
   lastName: String!
   email: String!
+  password: String!
 }
 
 input UserUpdateInput {
   firstName: String
   lastName: String
   email: String
+  password: String
 }
 
 input UsersCreateInput {
@@ -3043,6 +3054,7 @@ func (ec *executionContext) field_Mutation_createCommentLike_args(ctx context.Co
 	args := map[string]interface{}{}
 	var arg0 CommentLikeCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNCommentLikeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3057,6 +3069,7 @@ func (ec *executionContext) field_Mutation_createCommentLikes_args(ctx context.C
 	args := map[string]interface{}{}
 	var arg0 CommentLikesCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNCommentLikesCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikesCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3071,6 +3084,7 @@ func (ec *executionContext) field_Mutation_createComment_args(ctx context.Contex
 	args := map[string]interface{}{}
 	var arg0 CommentCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNCommentCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3085,6 +3099,7 @@ func (ec *executionContext) field_Mutation_createComments_args(ctx context.Conte
 	args := map[string]interface{}{}
 	var arg0 CommentsCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNCommentsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentsCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3099,6 +3114,7 @@ func (ec *executionContext) field_Mutation_createFriendship_args(ctx context.Con
 	args := map[string]interface{}{}
 	var arg0 FriendshipCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNFriendshipCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3113,6 +3129,7 @@ func (ec *executionContext) field_Mutation_createFriendships_args(ctx context.Co
 	args := map[string]interface{}{}
 	var arg0 FriendshipsCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNFriendshipsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipsCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3127,6 +3144,7 @@ func (ec *executionContext) field_Mutation_createImageVariation_args(ctx context
 	args := map[string]interface{}{}
 	var arg0 ImageVariationCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNImageVariationCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3141,6 +3159,7 @@ func (ec *executionContext) field_Mutation_createImageVariations_args(ctx contex
 	args := map[string]interface{}{}
 	var arg0 ImageVariationsCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNImageVariationsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationsCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3155,6 +3174,7 @@ func (ec *executionContext) field_Mutation_createImage_args(ctx context.Context,
 	args := map[string]interface{}{}
 	var arg0 ImageCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNImageCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3169,6 +3189,7 @@ func (ec *executionContext) field_Mutation_createImages_args(ctx context.Context
 	args := map[string]interface{}{}
 	var arg0 ImagesCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNImagesCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImagesCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3183,6 +3204,7 @@ func (ec *executionContext) field_Mutation_createLike_args(ctx context.Context, 
 	args := map[string]interface{}{}
 	var arg0 LikeCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNLikeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3197,6 +3219,7 @@ func (ec *executionContext) field_Mutation_createLikes_args(ctx context.Context,
 	args := map[string]interface{}{}
 	var arg0 LikesCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNLikesCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikesCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3211,6 +3234,7 @@ func (ec *executionContext) field_Mutation_createPost_args(ctx context.Context, 
 	args := map[string]interface{}{}
 	var arg0 PostCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNPostCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3225,6 +3249,7 @@ func (ec *executionContext) field_Mutation_createPosts_args(ctx context.Context,
 	args := map[string]interface{}{}
 	var arg0 PostsCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNPostsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostsCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3239,6 +3264,7 @@ func (ec *executionContext) field_Mutation_createUser_args(ctx context.Context, 
 	args := map[string]interface{}{}
 	var arg0 UserCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNUserCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3253,6 +3279,7 @@ func (ec *executionContext) field_Mutation_createUsers_args(ctx context.Context,
 	args := map[string]interface{}{}
 	var arg0 UsersCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNUsersCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUsersCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3267,6 +3294,7 @@ func (ec *executionContext) field_Mutation_deleteCommentLike_args(ctx context.Co
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3281,6 +3309,7 @@ func (ec *executionContext) field_Mutation_deleteCommentLikes_args(ctx context.C
 	args := map[string]interface{}{}
 	var arg0 *CommentLikeFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOCommentLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3295,6 +3324,7 @@ func (ec *executionContext) field_Mutation_deleteComment_args(ctx context.Contex
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3309,6 +3339,7 @@ func (ec *executionContext) field_Mutation_deleteComments_args(ctx context.Conte
 	args := map[string]interface{}{}
 	var arg0 *CommentFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOCommentFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3323,6 +3354,7 @@ func (ec *executionContext) field_Mutation_deleteFriendship_args(ctx context.Con
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3337,6 +3369,7 @@ func (ec *executionContext) field_Mutation_deleteFriendships_args(ctx context.Co
 	args := map[string]interface{}{}
 	var arg0 *FriendshipFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOFriendshipFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3351,6 +3384,7 @@ func (ec *executionContext) field_Mutation_deleteImageVariation_args(ctx context
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3365,6 +3399,7 @@ func (ec *executionContext) field_Mutation_deleteImageVariations_args(ctx contex
 	args := map[string]interface{}{}
 	var arg0 *ImageVariationFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOImageVariationFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3379,6 +3414,7 @@ func (ec *executionContext) field_Mutation_deleteImage_args(ctx context.Context,
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3393,6 +3429,7 @@ func (ec *executionContext) field_Mutation_deleteImages_args(ctx context.Context
 	args := map[string]interface{}{}
 	var arg0 *ImageFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOImageFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3407,6 +3444,7 @@ func (ec *executionContext) field_Mutation_deleteLike_args(ctx context.Context, 
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3421,6 +3459,7 @@ func (ec *executionContext) field_Mutation_deleteLikes_args(ctx context.Context,
 	args := map[string]interface{}{}
 	var arg0 *LikeFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3435,6 +3474,7 @@ func (ec *executionContext) field_Mutation_deletePost_args(ctx context.Context, 
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3449,6 +3489,7 @@ func (ec *executionContext) field_Mutation_deletePosts_args(ctx context.Context,
 	args := map[string]interface{}{}
 	var arg0 *PostFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOPostFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3463,6 +3504,7 @@ func (ec *executionContext) field_Mutation_deleteUser_args(ctx context.Context, 
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3477,6 +3519,7 @@ func (ec *executionContext) field_Mutation_deleteUsers_args(ctx context.Context,
 	args := map[string]interface{}{}
 	var arg0 *UserFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOUserFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3491,6 +3534,7 @@ func (ec *executionContext) field_Mutation_updateCommentLike_args(ctx context.Co
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3499,6 +3543,7 @@ func (ec *executionContext) field_Mutation_updateCommentLike_args(ctx context.Co
 	args["id"] = arg0
 	var arg1 CommentLikeUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNCommentLikeUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3513,6 +3558,7 @@ func (ec *executionContext) field_Mutation_updateCommentLikes_args(ctx context.C
 	args := map[string]interface{}{}
 	var arg0 *CommentLikeFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOCommentLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3521,6 +3567,7 @@ func (ec *executionContext) field_Mutation_updateCommentLikes_args(ctx context.C
 	args["filter"] = arg0
 	var arg1 CommentLikeUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNCommentLikeUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3535,6 +3582,7 @@ func (ec *executionContext) field_Mutation_updateComment_args(ctx context.Contex
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3543,6 +3591,7 @@ func (ec *executionContext) field_Mutation_updateComment_args(ctx context.Contex
 	args["id"] = arg0
 	var arg1 CommentUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNCommentUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3557,6 +3606,7 @@ func (ec *executionContext) field_Mutation_updateComments_args(ctx context.Conte
 	args := map[string]interface{}{}
 	var arg0 *CommentFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOCommentFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3565,6 +3615,7 @@ func (ec *executionContext) field_Mutation_updateComments_args(ctx context.Conte
 	args["filter"] = arg0
 	var arg1 CommentUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNCommentUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3579,6 +3630,7 @@ func (ec *executionContext) field_Mutation_updateFriendship_args(ctx context.Con
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3587,6 +3639,7 @@ func (ec *executionContext) field_Mutation_updateFriendship_args(ctx context.Con
 	args["id"] = arg0
 	var arg1 FriendshipUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNFriendshipUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3601,6 +3654,7 @@ func (ec *executionContext) field_Mutation_updateFriendships_args(ctx context.Co
 	args := map[string]interface{}{}
 	var arg0 *FriendshipFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOFriendshipFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3609,6 +3663,7 @@ func (ec *executionContext) field_Mutation_updateFriendships_args(ctx context.Co
 	args["filter"] = arg0
 	var arg1 FriendshipUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNFriendshipUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3623,6 +3678,7 @@ func (ec *executionContext) field_Mutation_updateImageVariation_args(ctx context
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3631,6 +3687,7 @@ func (ec *executionContext) field_Mutation_updateImageVariation_args(ctx context
 	args["id"] = arg0
 	var arg1 ImageVariationUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNImageVariationUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3645,6 +3702,7 @@ func (ec *executionContext) field_Mutation_updateImageVariations_args(ctx contex
 	args := map[string]interface{}{}
 	var arg0 *ImageVariationFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOImageVariationFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3653,6 +3711,7 @@ func (ec *executionContext) field_Mutation_updateImageVariations_args(ctx contex
 	args["filter"] = arg0
 	var arg1 ImageVariationUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNImageVariationUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3667,6 +3726,7 @@ func (ec *executionContext) field_Mutation_updateImage_args(ctx context.Context,
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3675,6 +3735,7 @@ func (ec *executionContext) field_Mutation_updateImage_args(ctx context.Context,
 	args["id"] = arg0
 	var arg1 ImageUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNImageUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3689,6 +3750,7 @@ func (ec *executionContext) field_Mutation_updateImages_args(ctx context.Context
 	args := map[string]interface{}{}
 	var arg0 *ImageFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOImageFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3697,6 +3759,7 @@ func (ec *executionContext) field_Mutation_updateImages_args(ctx context.Context
 	args["filter"] = arg0
 	var arg1 ImageUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNImageUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3711,6 +3774,7 @@ func (ec *executionContext) field_Mutation_updateLike_args(ctx context.Context, 
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3719,6 +3783,7 @@ func (ec *executionContext) field_Mutation_updateLike_args(ctx context.Context, 
 	args["id"] = arg0
 	var arg1 LikeUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNLikeUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3733,6 +3798,7 @@ func (ec *executionContext) field_Mutation_updateLikes_args(ctx context.Context,
 	args := map[string]interface{}{}
 	var arg0 *LikeFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3741,6 +3807,7 @@ func (ec *executionContext) field_Mutation_updateLikes_args(ctx context.Context,
 	args["filter"] = arg0
 	var arg1 LikeUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNLikeUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3755,6 +3822,7 @@ func (ec *executionContext) field_Mutation_updatePost_args(ctx context.Context, 
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3763,6 +3831,7 @@ func (ec *executionContext) field_Mutation_updatePost_args(ctx context.Context, 
 	args["id"] = arg0
 	var arg1 PostUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNPostUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3777,6 +3846,7 @@ func (ec *executionContext) field_Mutation_updatePosts_args(ctx context.Context,
 	args := map[string]interface{}{}
 	var arg0 *PostFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOPostFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3785,6 +3855,7 @@ func (ec *executionContext) field_Mutation_updatePosts_args(ctx context.Context,
 	args["filter"] = arg0
 	var arg1 PostUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNPostUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3799,6 +3870,7 @@ func (ec *executionContext) field_Mutation_updateUser_args(ctx context.Context, 
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3807,6 +3879,7 @@ func (ec *executionContext) field_Mutation_updateUser_args(ctx context.Context, 
 	args["id"] = arg0
 	var arg1 UserUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNUserUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3821,6 +3894,7 @@ func (ec *executionContext) field_Mutation_updateUsers_args(ctx context.Context,
 	args := map[string]interface{}{}
 	var arg0 *UserFilter
 	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 		arg0, err = ec.unmarshalOUserFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3829,6 +3903,7 @@ func (ec *executionContext) field_Mutation_updateUsers_args(ctx context.Context,
 	args["filter"] = arg0
 	var arg1 UserUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNUserUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3843,6 +3918,7 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["name"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
 		arg0, err = ec.unmarshalNString2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3857,6 +3933,7 @@ func (ec *executionContext) field_Query_commentLike_args(ctx context.Context, ra
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3869,30 +3946,42 @@ func (ec *executionContext) field_Query_commentLike_args(ctx context.Context, ra
 func (ec *executionContext) field_Query_commentLikes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 boilergql.ConnectionPagination
-	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionPagination(ctx, tmp)
+	var arg0 int
+	if tmp, ok := rawArgs["first"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("first"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["pagination"] = arg0
-	var arg1 []*CommentLikeOrdering
+	args["first"] = arg0
+	var arg1 *string
+	if tmp, ok := rawArgs["after"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("after"))
+		arg1, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["after"] = arg1
+	var arg2 []*CommentLikeOrdering
 	if tmp, ok := rawArgs["ordering"]; ok {
-		arg1, err = ec.unmarshalOCommentLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeOrderingᚄ(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ordering"))
+		arg2, err = ec.unmarshalOCommentLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeOrderingᚄ(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["ordering"] = arg1
-	var arg2 *CommentLikeFilter
+	args["ordering"] = arg2
+	var arg3 *CommentLikeFilter
 	if tmp, ok := rawArgs["filter"]; ok {
-		arg2, err = ec.unmarshalOCommentLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeFilter(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+		arg3, err = ec.unmarshalOCommentLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg2
+	args["filter"] = arg3
 	return args, nil
 }
 
@@ -3901,6 +3990,7 @@ func (ec *executionContext) field_Query_comment_args(ctx context.Context, rawArg
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3913,30 +4003,42 @@ func (ec *executionContext) field_Query_comment_args(ctx context.Context, rawArg
 func (ec *executionContext) field_Query_comments_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 boilergql.ConnectionPagination
-	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionPagination(ctx, tmp)
+	var arg0 int
+	if tmp, ok := rawArgs["first"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("first"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["pagination"] = arg0
-	var arg1 []*CommentOrdering
+	args["first"] = arg0
+	var arg1 *string
+	if tmp, ok := rawArgs["after"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("after"))
+		arg1, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["after"] = arg1
+	var arg2 []*CommentOrdering
 	if tmp, ok := rawArgs["ordering"]; ok {
-		arg1, err = ec.unmarshalOCommentOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentOrderingᚄ(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ordering"))
+		arg2, err = ec.unmarshalOCommentOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentOrderingᚄ(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["ordering"] = arg1
-	var arg2 *CommentFilter
+	args["ordering"] = arg2
+	var arg3 *CommentFilter
 	if tmp, ok := rawArgs["filter"]; ok {
-		arg2, err = ec.unmarshalOCommentFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentFilter(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+		arg3, err = ec.unmarshalOCommentFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg2
+	args["filter"] = arg3
 	return args, nil
 }
 
@@ -3945,6 +4047,7 @@ func (ec *executionContext) field_Query_friendship_args(ctx context.Context, raw
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -3957,30 +4060,42 @@ func (ec *executionContext) field_Query_friendship_args(ctx context.Context, raw
 func (ec *executionContext) field_Query_friendships_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 boilergql.ConnectionPagination
-	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionPagination(ctx, tmp)
+	var arg0 int
+	if tmp, ok := rawArgs["first"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("first"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["pagination"] = arg0
-	var arg1 []*FriendshipOrdering
+	args["first"] = arg0
+	var arg1 *string
+	if tmp, ok := rawArgs["after"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("after"))
+		arg1, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["after"] = arg1
+	var arg2 []*FriendshipOrdering
 	if tmp, ok := rawArgs["ordering"]; ok {
-		arg1, err = ec.unmarshalOFriendshipOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipOrderingᚄ(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ordering"))
+		arg2, err = ec.unmarshalOFriendshipOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipOrderingᚄ(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["ordering"] = arg1
-	var arg2 *FriendshipFilter
+	args["ordering"] = arg2
+	var arg3 *FriendshipFilter
 	if tmp, ok := rawArgs["filter"]; ok {
-		arg2, err = ec.unmarshalOFriendshipFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipFilter(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+		arg3, err = ec.unmarshalOFriendshipFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg2
+	args["filter"] = arg3
 	return args, nil
 }
 
@@ -3989,6 +4104,7 @@ func (ec *executionContext) field_Query_imageVariation_args(ctx context.Context,
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -4001,30 +4117,42 @@ func (ec *executionContext) field_Query_imageVariation_args(ctx context.Context,
 func (ec *executionContext) field_Query_imageVariations_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 boilergql.ConnectionPagination
-	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionPagination(ctx, tmp)
+	var arg0 int
+	if tmp, ok := rawArgs["first"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("first"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["pagination"] = arg0
-	var arg1 []*ImageVariationOrdering
+	args["first"] = arg0
+	var arg1 *string
+	if tmp, ok := rawArgs["after"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("after"))
+		arg1, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["after"] = arg1
+	var arg2 []*ImageVariationOrdering
 	if tmp, ok := rawArgs["ordering"]; ok {
-		arg1, err = ec.unmarshalOImageVariationOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationOrderingᚄ(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ordering"))
+		arg2, err = ec.unmarshalOImageVariationOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationOrderingᚄ(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["ordering"] = arg1
-	var arg2 *ImageVariationFilter
+	args["ordering"] = arg2
+	var arg3 *ImageVariationFilter
 	if tmp, ok := rawArgs["filter"]; ok {
-		arg2, err = ec.unmarshalOImageVariationFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationFilter(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+		arg3, err = ec.unmarshalOImageVariationFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg2
+	args["filter"] = arg3
 	return args, nil
 }
 
@@ -4033,6 +4161,7 @@ func (ec *executionContext) field_Query_image_args(ctx context.Context, rawArgs 
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -4045,30 +4174,42 @@ func (ec *executionContext) field_Query_image_args(ctx context.Context, rawArgs 
 func (ec *executionContext) field_Query_images_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 boilergql.ConnectionPagination
-	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionPagination(ctx, tmp)
+	var arg0 int
+	if tmp, ok := rawArgs["first"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("first"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["pagination"] = arg0
-	var arg1 []*ImageOrdering
+	args["first"] = arg0
+	var arg1 *string
+	if tmp, ok := rawArgs["after"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("after"))
+		arg1, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["after"] = arg1
+	var arg2 []*ImageOrdering
 	if tmp, ok := rawArgs["ordering"]; ok {
-		arg1, err = ec.unmarshalOImageOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageOrderingᚄ(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ordering"))
+		arg2, err = ec.unmarshalOImageOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageOrderingᚄ(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["ordering"] = arg1
-	var arg2 *ImageFilter
+	args["ordering"] = arg2
+	var arg3 *ImageFilter
 	if tmp, ok := rawArgs["filter"]; ok {
-		arg2, err = ec.unmarshalOImageFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageFilter(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+		arg3, err = ec.unmarshalOImageFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg2
+	args["filter"] = arg3
 	return args, nil
 }
 
@@ -4077,6 +4218,7 @@ func (ec *executionContext) field_Query_like_args(ctx context.Context, rawArgs m
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -4089,30 +4231,42 @@ func (ec *executionContext) field_Query_like_args(ctx context.Context, rawArgs m
 func (ec *executionContext) field_Query_likes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 boilergql.ConnectionPagination
-	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionPagination(ctx, tmp)
+	var arg0 int
+	if tmp, ok := rawArgs["first"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("first"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["pagination"] = arg0
-	var arg1 []*LikeOrdering
+	args["first"] = arg0
+	var arg1 *string
+	if tmp, ok := rawArgs["after"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("after"))
+		arg1, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["after"] = arg1
+	var arg2 []*LikeOrdering
 	if tmp, ok := rawArgs["ordering"]; ok {
-		arg1, err = ec.unmarshalOLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeOrderingᚄ(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ordering"))
+		arg2, err = ec.unmarshalOLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeOrderingᚄ(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["ordering"] = arg1
-	var arg2 *LikeFilter
+	args["ordering"] = arg2
+	var arg3 *LikeFilter
 	if tmp, ok := rawArgs["filter"]; ok {
-		arg2, err = ec.unmarshalOLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeFilter(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+		arg3, err = ec.unmarshalOLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg2
+	args["filter"] = arg3
 	return args, nil
 }
 
@@ -4121,6 +4275,7 @@ func (ec *executionContext) field_Query_node_args(ctx context.Context, rawArgs m
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -4135,6 +4290,7 @@ func (ec *executionContext) field_Query_post_args(ctx context.Context, rawArgs m
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -4147,30 +4303,42 @@ func (ec *executionContext) field_Query_post_args(ctx context.Context, rawArgs m
 func (ec *executionContext) field_Query_posts_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 boilergql.ConnectionPagination
-	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionPagination(ctx, tmp)
+	var arg0 int
+	if tmp, ok := rawArgs["first"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("first"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["pagination"] = arg0
-	var arg1 []*PostOrdering
+	args["first"] = arg0
+	var arg1 *string
+	if tmp, ok := rawArgs["after"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("after"))
+		arg1, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["after"] = arg1
+	var arg2 []*PostOrdering
 	if tmp, ok := rawArgs["ordering"]; ok {
-		arg1, err = ec.unmarshalOPostOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostOrderingᚄ(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ordering"))
+		arg2, err = ec.unmarshalOPostOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostOrderingᚄ(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["ordering"] = arg1
-	var arg2 *PostFilter
+	args["ordering"] = arg2
+	var arg3 *PostFilter
 	if tmp, ok := rawArgs["filter"]; ok {
-		arg2, err = ec.unmarshalOPostFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostFilter(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+		arg3, err = ec.unmarshalOPostFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg2
+	args["filter"] = arg3
 	return args, nil
 }
 
@@ -4179,6 +4347,7 @@ func (ec *executionContext) field_Query_user_args(ctx context.Context, rawArgs m
 	args := map[string]interface{}{}
 	var arg0 string
 	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -4191,30 +4360,42 @@ func (ec *executionContext) field_Query_user_args(ctx context.Context, rawArgs m
 func (ec *executionContext) field_Query_users_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 boilergql.ConnectionPagination
-	if tmp, ok := rawArgs["pagination"]; ok {
-		arg0, err = ec.unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionPagination(ctx, tmp)
+	var arg0 int
+	if tmp, ok := rawArgs["first"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("first"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["pagination"] = arg0
-	var arg1 []*UserOrdering
+	args["first"] = arg0
+	var arg1 *string
+	if tmp, ok := rawArgs["after"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("after"))
+		arg1, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["after"] = arg1
+	var arg2 []*UserOrdering
 	if tmp, ok := rawArgs["ordering"]; ok {
-		arg1, err = ec.unmarshalOUserOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserOrderingᚄ(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ordering"))
+		arg2, err = ec.unmarshalOUserOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserOrderingᚄ(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["ordering"] = arg1
-	var arg2 *UserFilter
+	args["ordering"] = arg2
+	var arg3 *UserFilter
 	if tmp, ok := rawArgs["filter"]; ok {
-		arg2, err = ec.unmarshalOUserFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserFilter(ctx, tmp)
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+		arg3, err = ec.unmarshalOUserFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserFilter(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg2
+	args["filter"] = arg3
 	return args, nil
 }
 
@@ -4223,6 +4404,7 @@ func (ec *executionContext) field___Type_enumValues_args(ctx context.Context, ra
 	args := map[string]interface{}{}
 	var arg0 bool
 	if tmp, ok := rawArgs["includeDeprecated"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("includeDeprecated"))
 		arg0, err = ec.unmarshalOBoolean2bool(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -4237,6 +4419,7 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 	args := map[string]interface{}{}
 	var arg0 bool
 	if tmp, ok := rawArgs["includeDeprecated"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("includeDeprecated"))
 		arg0, err = ec.unmarshalOBoolean2bool(ctx, tmp)
 		if err != nil {
 			return nil, err
@@ -4262,10 +4445,11 @@ func (ec *executionContext) _Comment_id(ctx context.Context, field graphql.Colle
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Comment",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Comment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4296,10 +4480,11 @@ func (ec *executionContext) _Comment_content(ctx context.Context, field graphql.
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Comment",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Comment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4330,10 +4515,11 @@ func (ec *executionContext) _Comment_post(ctx context.Context, field graphql.Col
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Comment",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Comment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4364,10 +4550,11 @@ func (ec *executionContext) _Comment_user(ctx context.Context, field graphql.Col
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Comment",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Comment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4398,10 +4585,11 @@ func (ec *executionContext) _Comment_commentLikes(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Comment",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Comment",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4429,10 +4617,11 @@ func (ec *executionContext) _CommentConnection_edges(ctx context.Context, field 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4460,10 +4649,11 @@ func (ec *executionContext) _CommentConnection_pageInfo(ctx context.Context, fie
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4494,10 +4684,11 @@ func (ec *executionContext) _CommentDeletePayload_id(ctx context.Context, field 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4528,10 +4719,11 @@ func (ec *executionContext) _CommentEdge_cursor(ctx context.Context, field graph
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4562,10 +4754,11 @@ func (ec *executionContext) _CommentEdge_node(ctx context.Context, field graphql
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4593,10 +4786,11 @@ func (ec *executionContext) _CommentLike_id(ctx context.Context, field graphql.C
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentLike",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentLike",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4627,10 +4821,11 @@ func (ec *executionContext) _CommentLike_comment(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentLike",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentLike",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4661,10 +4856,11 @@ func (ec *executionContext) _CommentLike_user(ctx context.Context, field graphql
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentLike",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentLike",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4695,10 +4891,11 @@ func (ec *executionContext) _CommentLike_likeType(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentLike",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentLike",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4729,10 +4926,11 @@ func (ec *executionContext) _CommentLike_createdAt(ctx context.Context, field gr
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentLike",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentLike",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4760,10 +4958,11 @@ func (ec *executionContext) _CommentLikeConnection_edges(ctx context.Context, fi
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentLikeConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentLikeConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4791,10 +4990,11 @@ func (ec *executionContext) _CommentLikeConnection_pageInfo(ctx context.Context,
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentLikeConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentLikeConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4825,10 +5025,11 @@ func (ec *executionContext) _CommentLikeDeletePayload_id(ctx context.Context, fi
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentLikeDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentLikeDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4859,10 +5060,11 @@ func (ec *executionContext) _CommentLikeEdge_cursor(ctx context.Context, field g
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentLikeEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentLikeEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4893,10 +5095,11 @@ func (ec *executionContext) _CommentLikeEdge_node(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentLikeEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentLikeEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4924,10 +5127,11 @@ func (ec *executionContext) _CommentLikePayload_commentLike(ctx context.Context,
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentLikePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentLikePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4958,10 +5162,11 @@ func (ec *executionContext) _CommentLikesDeletePayload_ids(ctx context.Context, 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentLikesDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentLikesDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -4992,10 +5197,11 @@ func (ec *executionContext) _CommentLikesPayload_commentLikes(ctx context.Contex
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentLikesPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentLikesPayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5026,10 +5232,11 @@ func (ec *executionContext) _CommentLikesUpdatePayload_ok(ctx context.Context, f
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentLikesUpdatePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentLikesUpdatePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5060,10 +5267,11 @@ func (ec *executionContext) _CommentPayload_comment(ctx context.Context, field g
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentPayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5094,10 +5302,11 @@ func (ec *executionContext) _CommentsDeletePayload_ids(ctx context.Context, fiel
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentsDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentsDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5128,10 +5337,11 @@ func (ec *executionContext) _CommentsPayload_comments(ctx context.Context, field
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentsPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentsPayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5162,10 +5372,11 @@ func (ec *executionContext) _CommentsUpdatePayload_ok(ctx context.Context, field
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "CommentsUpdatePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "CommentsUpdatePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5196,10 +5407,11 @@ func (ec *executionContext) _Friendship_id(ctx context.Context, field graphql.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Friendship",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Friendship",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5230,10 +5442,11 @@ func (ec *executionContext) _Friendship_createdAt(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Friendship",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Friendship",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5261,10 +5474,11 @@ func (ec *executionContext) _Friendship_users(ctx context.Context, field graphql
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Friendship",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Friendship",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5292,10 +5506,11 @@ func (ec *executionContext) _FriendshipConnection_edges(ctx context.Context, fie
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "FriendshipConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "FriendshipConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5323,10 +5538,11 @@ func (ec *executionContext) _FriendshipConnection_pageInfo(ctx context.Context, 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "FriendshipConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "FriendshipConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5357,10 +5573,11 @@ func (ec *executionContext) _FriendshipDeletePayload_id(ctx context.Context, fie
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "FriendshipDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "FriendshipDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5391,10 +5608,11 @@ func (ec *executionContext) _FriendshipEdge_cursor(ctx context.Context, field gr
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "FriendshipEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "FriendshipEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5425,10 +5643,11 @@ func (ec *executionContext) _FriendshipEdge_node(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "FriendshipEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "FriendshipEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5456,10 +5675,11 @@ func (ec *executionContext) _FriendshipPayload_friendship(ctx context.Context, f
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "FriendshipPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "FriendshipPayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5490,10 +5710,11 @@ func (ec *executionContext) _FriendshipsDeletePayload_ids(ctx context.Context, f
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "FriendshipsDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "FriendshipsDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5524,10 +5745,11 @@ func (ec *executionContext) _FriendshipsPayload_friendships(ctx context.Context,
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "FriendshipsPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "FriendshipsPayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5558,10 +5780,11 @@ func (ec *executionContext) _FriendshipsUpdatePayload_ok(ctx context.Context, fi
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "FriendshipsUpdatePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "FriendshipsUpdatePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5592,10 +5815,11 @@ func (ec *executionContext) _Image_id(ctx context.Context, field graphql.Collect
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Image",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Image",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5626,10 +5850,11 @@ func (ec *executionContext) _Image_post(ctx context.Context, field graphql.Colle
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Image",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Image",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5660,10 +5885,11 @@ func (ec *executionContext) _Image_views(ctx context.Context, field graphql.Coll
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Image",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Image",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5691,10 +5917,11 @@ func (ec *executionContext) _Image_originalUrl(ctx context.Context, field graphq
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Image",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Image",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5722,10 +5949,11 @@ func (ec *executionContext) _Image_imageVariations(ctx context.Context, field gr
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Image",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Image",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5753,10 +5981,11 @@ func (ec *executionContext) _ImageConnection_edges(ctx context.Context, field gr
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5784,10 +6013,11 @@ func (ec *executionContext) _ImageConnection_pageInfo(ctx context.Context, field
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5818,10 +6048,11 @@ func (ec *executionContext) _ImageDeletePayload_id(ctx context.Context, field gr
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5852,10 +6083,11 @@ func (ec *executionContext) _ImageEdge_cursor(ctx context.Context, field graphql
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5886,10 +6118,11 @@ func (ec *executionContext) _ImageEdge_node(ctx context.Context, field graphql.C
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5917,10 +6150,11 @@ func (ec *executionContext) _ImagePayload_image(ctx context.Context, field graph
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImagePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImagePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5951,10 +6185,11 @@ func (ec *executionContext) _ImageVariation_id(ctx context.Context, field graphq
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageVariation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageVariation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -5985,10 +6220,11 @@ func (ec *executionContext) _ImageVariation_image(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageVariation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageVariation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6019,10 +6255,11 @@ func (ec *executionContext) _ImageVariationConnection_edges(ctx context.Context,
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageVariationConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageVariationConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6050,10 +6287,11 @@ func (ec *executionContext) _ImageVariationConnection_pageInfo(ctx context.Conte
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageVariationConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageVariationConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6084,10 +6322,11 @@ func (ec *executionContext) _ImageVariationDeletePayload_id(ctx context.Context,
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageVariationDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageVariationDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6118,10 +6357,11 @@ func (ec *executionContext) _ImageVariationEdge_cursor(ctx context.Context, fiel
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageVariationEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageVariationEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6152,10 +6392,11 @@ func (ec *executionContext) _ImageVariationEdge_node(ctx context.Context, field 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageVariationEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageVariationEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6183,10 +6424,11 @@ func (ec *executionContext) _ImageVariationPayload_imageVariation(ctx context.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageVariationPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageVariationPayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6217,10 +6459,11 @@ func (ec *executionContext) _ImageVariationsDeletePayload_ids(ctx context.Contex
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageVariationsDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageVariationsDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6251,10 +6494,11 @@ func (ec *executionContext) _ImageVariationsPayload_imageVariations(ctx context.
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageVariationsPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageVariationsPayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6285,10 +6529,11 @@ func (ec *executionContext) _ImageVariationsUpdatePayload_ok(ctx context.Context
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImageVariationsUpdatePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImageVariationsUpdatePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6319,10 +6564,11 @@ func (ec *executionContext) _ImagesDeletePayload_ids(ctx context.Context, field 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImagesDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImagesDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6353,10 +6599,11 @@ func (ec *executionContext) _ImagesPayload_images(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImagesPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImagesPayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6387,10 +6634,11 @@ func (ec *executionContext) _ImagesUpdatePayload_ok(ctx context.Context, field g
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "ImagesUpdatePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "ImagesUpdatePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6421,10 +6669,11 @@ func (ec *executionContext) _Like_id(ctx context.Context, field graphql.Collecte
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Like",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Like",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6455,10 +6704,11 @@ func (ec *executionContext) _Like_post(ctx context.Context, field graphql.Collec
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Like",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Like",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6489,10 +6739,11 @@ func (ec *executionContext) _Like_user(ctx context.Context, field graphql.Collec
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Like",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Like",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6523,10 +6774,11 @@ func (ec *executionContext) _Like_likeType(ctx context.Context, field graphql.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Like",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Like",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6557,10 +6809,11 @@ func (ec *executionContext) _Like_createdAt(ctx context.Context, field graphql.C
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Like",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Like",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6588,10 +6841,11 @@ func (ec *executionContext) _LikeConnection_edges(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "LikeConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "LikeConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6619,10 +6873,11 @@ func (ec *executionContext) _LikeConnection_pageInfo(ctx context.Context, field 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "LikeConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "LikeConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6653,10 +6908,11 @@ func (ec *executionContext) _LikeDeletePayload_id(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "LikeDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "LikeDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6687,10 +6943,11 @@ func (ec *executionContext) _LikeEdge_cursor(ctx context.Context, field graphql.
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "LikeEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "LikeEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6721,10 +6978,11 @@ func (ec *executionContext) _LikeEdge_node(ctx context.Context, field graphql.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "LikeEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "LikeEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6752,10 +7010,11 @@ func (ec *executionContext) _LikePayload_like(ctx context.Context, field graphql
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "LikePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "LikePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6786,10 +7045,11 @@ func (ec *executionContext) _LikesDeletePayload_ids(ctx context.Context, field g
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "LikesDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "LikesDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6820,10 +7080,11 @@ func (ec *executionContext) _LikesPayload_likes(ctx context.Context, field graph
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "LikesPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "LikesPayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6854,10 +7115,11 @@ func (ec *executionContext) _LikesUpdatePayload_ok(ctx context.Context, field gr
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "LikesUpdatePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "LikesUpdatePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6888,10 +7150,11 @@ func (ec *executionContext) _Mutation_createComment(ctx context.Context, field g
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6916,7 +7179,7 @@ func (ec *executionContext) _Mutation_createComment(ctx context.Context, field g
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -6949,10 +7212,11 @@ func (ec *executionContext) _Mutation_createComments(ctx context.Context, field 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -6977,7 +7241,7 @@ func (ec *executionContext) _Mutation_createComments(ctx context.Context, field 
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7010,10 +7274,11 @@ func (ec *executionContext) _Mutation_updateComment(ctx context.Context, field g
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7038,7 +7303,7 @@ func (ec *executionContext) _Mutation_updateComment(ctx context.Context, field g
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7071,10 +7336,11 @@ func (ec *executionContext) _Mutation_updateComments(ctx context.Context, field 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7099,7 +7365,7 @@ func (ec *executionContext) _Mutation_updateComments(ctx context.Context, field 
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7132,10 +7398,11 @@ func (ec *executionContext) _Mutation_deleteComment(ctx context.Context, field g
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7160,7 +7427,7 @@ func (ec *executionContext) _Mutation_deleteComment(ctx context.Context, field g
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7193,10 +7460,11 @@ func (ec *executionContext) _Mutation_deleteComments(ctx context.Context, field 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7221,7 +7489,7 @@ func (ec *executionContext) _Mutation_deleteComments(ctx context.Context, field 
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7254,10 +7522,11 @@ func (ec *executionContext) _Mutation_createCommentLike(ctx context.Context, fie
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7282,7 +7551,7 @@ func (ec *executionContext) _Mutation_createCommentLike(ctx context.Context, fie
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7315,10 +7584,11 @@ func (ec *executionContext) _Mutation_createCommentLikes(ctx context.Context, fi
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7343,7 +7613,7 @@ func (ec *executionContext) _Mutation_createCommentLikes(ctx context.Context, fi
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7376,10 +7646,11 @@ func (ec *executionContext) _Mutation_updateCommentLike(ctx context.Context, fie
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7404,7 +7675,7 @@ func (ec *executionContext) _Mutation_updateCommentLike(ctx context.Context, fie
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7437,10 +7708,11 @@ func (ec *executionContext) _Mutation_updateCommentLikes(ctx context.Context, fi
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7465,7 +7737,7 @@ func (ec *executionContext) _Mutation_updateCommentLikes(ctx context.Context, fi
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7498,10 +7770,11 @@ func (ec *executionContext) _Mutation_deleteCommentLike(ctx context.Context, fie
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7526,7 +7799,7 @@ func (ec *executionContext) _Mutation_deleteCommentLike(ctx context.Context, fie
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7559,10 +7832,11 @@ func (ec *executionContext) _Mutation_deleteCommentLikes(ctx context.Context, fi
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7587,7 +7861,7 @@ func (ec *executionContext) _Mutation_deleteCommentLikes(ctx context.Context, fi
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7620,10 +7894,11 @@ func (ec *executionContext) _Mutation_createFriendship(ctx context.Context, fiel
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7648,7 +7923,7 @@ func (ec *executionContext) _Mutation_createFriendship(ctx context.Context, fiel
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7681,10 +7956,11 @@ func (ec *executionContext) _Mutation_createFriendships(ctx context.Context, fie
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7709,7 +7985,7 @@ func (ec *executionContext) _Mutation_createFriendships(ctx context.Context, fie
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7742,10 +8018,11 @@ func (ec *executionContext) _Mutation_updateFriendship(ctx context.Context, fiel
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7770,7 +8047,7 @@ func (ec *executionContext) _Mutation_updateFriendship(ctx context.Context, fiel
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7803,10 +8080,11 @@ func (ec *executionContext) _Mutation_updateFriendships(ctx context.Context, fie
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7831,7 +8109,7 @@ func (ec *executionContext) _Mutation_updateFriendships(ctx context.Context, fie
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7864,10 +8142,11 @@ func (ec *executionContext) _Mutation_deleteFriendship(ctx context.Context, fiel
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7892,7 +8171,7 @@ func (ec *executionContext) _Mutation_deleteFriendship(ctx context.Context, fiel
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7925,10 +8204,11 @@ func (ec *executionContext) _Mutation_deleteFriendships(ctx context.Context, fie
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -7953,7 +8233,7 @@ func (ec *executionContext) _Mutation_deleteFriendships(ctx context.Context, fie
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -7986,10 +8266,11 @@ func (ec *executionContext) _Mutation_createImage(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8014,7 +8295,7 @@ func (ec *executionContext) _Mutation_createImage(ctx context.Context, field gra
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8047,10 +8328,11 @@ func (ec *executionContext) _Mutation_createImages(ctx context.Context, field gr
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8075,7 +8357,7 @@ func (ec *executionContext) _Mutation_createImages(ctx context.Context, field gr
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8108,10 +8390,11 @@ func (ec *executionContext) _Mutation_updateImage(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8136,7 +8419,7 @@ func (ec *executionContext) _Mutation_updateImage(ctx context.Context, field gra
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8169,10 +8452,11 @@ func (ec *executionContext) _Mutation_updateImages(ctx context.Context, field gr
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8197,7 +8481,7 @@ func (ec *executionContext) _Mutation_updateImages(ctx context.Context, field gr
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8230,10 +8514,11 @@ func (ec *executionContext) _Mutation_deleteImage(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8258,7 +8543,7 @@ func (ec *executionContext) _Mutation_deleteImage(ctx context.Context, field gra
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8291,10 +8576,11 @@ func (ec *executionContext) _Mutation_deleteImages(ctx context.Context, field gr
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8319,7 +8605,7 @@ func (ec *executionContext) _Mutation_deleteImages(ctx context.Context, field gr
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8352,10 +8638,11 @@ func (ec *executionContext) _Mutation_createImageVariation(ctx context.Context, 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8380,7 +8667,7 @@ func (ec *executionContext) _Mutation_createImageVariation(ctx context.Context, 
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8413,10 +8700,11 @@ func (ec *executionContext) _Mutation_createImageVariations(ctx context.Context,
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8441,7 +8729,7 @@ func (ec *executionContext) _Mutation_createImageVariations(ctx context.Context,
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8474,10 +8762,11 @@ func (ec *executionContext) _Mutation_updateImageVariation(ctx context.Context, 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8502,7 +8791,7 @@ func (ec *executionContext) _Mutation_updateImageVariation(ctx context.Context, 
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8535,10 +8824,11 @@ func (ec *executionContext) _Mutation_updateImageVariations(ctx context.Context,
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8563,7 +8853,7 @@ func (ec *executionContext) _Mutation_updateImageVariations(ctx context.Context,
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8596,10 +8886,11 @@ func (ec *executionContext) _Mutation_deleteImageVariation(ctx context.Context, 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8624,7 +8915,7 @@ func (ec *executionContext) _Mutation_deleteImageVariation(ctx context.Context, 
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8657,10 +8948,11 @@ func (ec *executionContext) _Mutation_deleteImageVariations(ctx context.Context,
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8685,7 +8977,7 @@ func (ec *executionContext) _Mutation_deleteImageVariations(ctx context.Context,
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8718,10 +9010,11 @@ func (ec *executionContext) _Mutation_createLike(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8746,7 +9039,7 @@ func (ec *executionContext) _Mutation_createLike(ctx context.Context, field grap
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8779,10 +9072,11 @@ func (ec *executionContext) _Mutation_createLikes(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8807,7 +9101,7 @@ func (ec *executionContext) _Mutation_createLikes(ctx context.Context, field gra
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8840,10 +9134,11 @@ func (ec *executionContext) _Mutation_updateLike(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8868,7 +9163,7 @@ func (ec *executionContext) _Mutation_updateLike(ctx context.Context, field grap
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8901,10 +9196,11 @@ func (ec *executionContext) _Mutation_updateLikes(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8929,7 +9225,7 @@ func (ec *executionContext) _Mutation_updateLikes(ctx context.Context, field gra
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -8962,10 +9258,11 @@ func (ec *executionContext) _Mutation_deleteLike(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -8990,7 +9287,7 @@ func (ec *executionContext) _Mutation_deleteLike(ctx context.Context, field grap
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -9023,10 +9320,11 @@ func (ec *executionContext) _Mutation_deleteLikes(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9051,7 +9349,7 @@ func (ec *executionContext) _Mutation_deleteLikes(ctx context.Context, field gra
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -9084,10 +9382,11 @@ func (ec *executionContext) _Mutation_createPost(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9112,7 +9411,7 @@ func (ec *executionContext) _Mutation_createPost(ctx context.Context, field grap
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -9145,10 +9444,11 @@ func (ec *executionContext) _Mutation_createPosts(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9173,7 +9473,7 @@ func (ec *executionContext) _Mutation_createPosts(ctx context.Context, field gra
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -9206,10 +9506,11 @@ func (ec *executionContext) _Mutation_updatePost(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9234,7 +9535,7 @@ func (ec *executionContext) _Mutation_updatePost(ctx context.Context, field grap
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -9267,10 +9568,11 @@ func (ec *executionContext) _Mutation_updatePosts(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9295,7 +9597,7 @@ func (ec *executionContext) _Mutation_updatePosts(ctx context.Context, field gra
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -9328,10 +9630,11 @@ func (ec *executionContext) _Mutation_deletePost(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9356,7 +9659,7 @@ func (ec *executionContext) _Mutation_deletePost(ctx context.Context, field grap
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -9389,10 +9692,11 @@ func (ec *executionContext) _Mutation_deletePosts(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9417,7 +9721,7 @@ func (ec *executionContext) _Mutation_deletePosts(ctx context.Context, field gra
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -9450,10 +9754,11 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9478,7 +9783,7 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -9511,10 +9816,11 @@ func (ec *executionContext) _Mutation_createUsers(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9539,7 +9845,7 @@ func (ec *executionContext) _Mutation_createUsers(ctx context.Context, field gra
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -9572,10 +9878,11 @@ func (ec *executionContext) _Mutation_updateUser(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9600,7 +9907,7 @@ func (ec *executionContext) _Mutation_updateUser(ctx context.Context, field grap
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -9633,10 +9940,11 @@ func (ec *executionContext) _Mutation_updateUsers(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9661,7 +9969,7 @@ func (ec *executionContext) _Mutation_updateUsers(ctx context.Context, field gra
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -9694,10 +10002,11 @@ func (ec *executionContext) _Mutation_deleteUser(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9722,7 +10031,7 @@ func (ec *executionContext) _Mutation_deleteUser(ctx context.Context, field grap
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -9755,10 +10064,11 @@ func (ec *executionContext) _Mutation_deleteUsers(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9783,7 +10093,7 @@ func (ec *executionContext) _Mutation_deleteUsers(ctx context.Context, field gra
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -9816,10 +10126,11 @@ func (ec *executionContext) _PageInfo_hasNextPage(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "PageInfo",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "PageInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9850,10 +10161,11 @@ func (ec *executionContext) _PageInfo_hasPreviousPage(ctx context.Context, field
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "PageInfo",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "PageInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9884,10 +10196,11 @@ func (ec *executionContext) _PageInfo_startCursor(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "PageInfo",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "PageInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9915,10 +10228,11 @@ func (ec *executionContext) _PageInfo_endCursor(ctx context.Context, field graph
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "PageInfo",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "PageInfo",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9946,10 +10260,11 @@ func (ec *executionContext) _Post_id(ctx context.Context, field graphql.Collecte
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Post",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Post",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -9980,10 +10295,11 @@ func (ec *executionContext) _Post_content(ctx context.Context, field graphql.Col
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Post",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Post",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10014,10 +10330,11 @@ func (ec *executionContext) _Post_user(ctx context.Context, field graphql.Collec
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Post",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Post",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10048,10 +10365,11 @@ func (ec *executionContext) _Post_comments(ctx context.Context, field graphql.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Post",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Post",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10079,10 +10397,11 @@ func (ec *executionContext) _Post_images(ctx context.Context, field graphql.Coll
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Post",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Post",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10110,10 +10429,11 @@ func (ec *executionContext) _Post_likes(ctx context.Context, field graphql.Colle
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Post",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "Post",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10141,10 +10461,11 @@ func (ec *executionContext) _PostConnection_edges(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "PostConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "PostConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10172,10 +10493,11 @@ func (ec *executionContext) _PostConnection_pageInfo(ctx context.Context, field 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "PostConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "PostConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10206,10 +10528,11 @@ func (ec *executionContext) _PostDeletePayload_id(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "PostDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "PostDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10240,10 +10563,11 @@ func (ec *executionContext) _PostEdge_cursor(ctx context.Context, field graphql.
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "PostEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "PostEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10274,10 +10598,11 @@ func (ec *executionContext) _PostEdge_node(ctx context.Context, field graphql.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "PostEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "PostEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10305,10 +10630,11 @@ func (ec *executionContext) _PostPayload_post(ctx context.Context, field graphql
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "PostPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "PostPayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10339,10 +10665,11 @@ func (ec *executionContext) _PostsDeletePayload_ids(ctx context.Context, field g
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "PostsDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "PostsDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10373,10 +10700,11 @@ func (ec *executionContext) _PostsPayload_posts(ctx context.Context, field graph
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "PostsPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "PostsPayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10407,10 +10735,11 @@ func (ec *executionContext) _PostsUpdatePayload_ok(ctx context.Context, field gr
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "PostsUpdatePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "PostsUpdatePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10441,10 +10770,11 @@ func (ec *executionContext) _Query_node(ctx context.Context, field graphql.Colle
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10479,10 +10809,11 @@ func (ec *executionContext) _Query_comment(ctx context.Context, field graphql.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10507,7 +10838,7 @@ func (ec *executionContext) _Query_comment(ctx context.Context, field graphql.Co
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -10540,10 +10871,11 @@ func (ec *executionContext) _Query_comments(ctx context.Context, field graphql.C
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10557,7 +10889,7 @@ func (ec *executionContext) _Query_comments(ctx context.Context, field graphql.C
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Comments(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*CommentOrdering), args["filter"].(*CommentFilter))
+			return ec.resolvers.Query().Comments(rctx, args["first"].(int), args["after"].(*string), args["ordering"].([]*CommentOrdering), args["filter"].(*CommentFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -10568,7 +10900,7 @@ func (ec *executionContext) _Query_comments(ctx context.Context, field graphql.C
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -10601,10 +10933,11 @@ func (ec *executionContext) _Query_commentLike(ctx context.Context, field graphq
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10629,7 +10962,7 @@ func (ec *executionContext) _Query_commentLike(ctx context.Context, field graphq
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -10662,10 +10995,11 @@ func (ec *executionContext) _Query_commentLikes(ctx context.Context, field graph
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10679,7 +11013,7 @@ func (ec *executionContext) _Query_commentLikes(ctx context.Context, field graph
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().CommentLikes(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*CommentLikeOrdering), args["filter"].(*CommentLikeFilter))
+			return ec.resolvers.Query().CommentLikes(rctx, args["first"].(int), args["after"].(*string), args["ordering"].([]*CommentLikeOrdering), args["filter"].(*CommentLikeFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -10690,7 +11024,7 @@ func (ec *executionContext) _Query_commentLikes(ctx context.Context, field graph
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -10723,10 +11057,11 @@ func (ec *executionContext) _Query_friendship(ctx context.Context, field graphql
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10751,7 +11086,7 @@ func (ec *executionContext) _Query_friendship(ctx context.Context, field graphql
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -10784,10 +11119,11 @@ func (ec *executionContext) _Query_friendships(ctx context.Context, field graphq
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10801,7 +11137,7 @@ func (ec *executionContext) _Query_friendships(ctx context.Context, field graphq
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Friendships(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*FriendshipOrdering), args["filter"].(*FriendshipFilter))
+			return ec.resolvers.Query().Friendships(rctx, args["first"].(int), args["after"].(*string), args["ordering"].([]*FriendshipOrdering), args["filter"].(*FriendshipFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -10812,7 +11148,7 @@ func (ec *executionContext) _Query_friendships(ctx context.Context, field graphq
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -10845,10 +11181,11 @@ func (ec *executionContext) _Query_image(ctx context.Context, field graphql.Coll
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10873,7 +11210,7 @@ func (ec *executionContext) _Query_image(ctx context.Context, field graphql.Coll
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -10906,10 +11243,11 @@ func (ec *executionContext) _Query_images(ctx context.Context, field graphql.Col
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10923,7 +11261,7 @@ func (ec *executionContext) _Query_images(ctx context.Context, field graphql.Col
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Images(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*ImageOrdering), args["filter"].(*ImageFilter))
+			return ec.resolvers.Query().Images(rctx, args["first"].(int), args["after"].(*string), args["ordering"].([]*ImageOrdering), args["filter"].(*ImageFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -10934,7 +11272,7 @@ func (ec *executionContext) _Query_images(ctx context.Context, field graphql.Col
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -10967,10 +11305,11 @@ func (ec *executionContext) _Query_imageVariation(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -10995,7 +11334,7 @@ func (ec *executionContext) _Query_imageVariation(ctx context.Context, field gra
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -11028,10 +11367,11 @@ func (ec *executionContext) _Query_imageVariations(ctx context.Context, field gr
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11045,7 +11385,7 @@ func (ec *executionContext) _Query_imageVariations(ctx context.Context, field gr
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().ImageVariations(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*ImageVariationOrdering), args["filter"].(*ImageVariationFilter))
+			return ec.resolvers.Query().ImageVariations(rctx, args["first"].(int), args["after"].(*string), args["ordering"].([]*ImageVariationOrdering), args["filter"].(*ImageVariationFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -11056,7 +11396,7 @@ func (ec *executionContext) _Query_imageVariations(ctx context.Context, field gr
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -11089,10 +11429,11 @@ func (ec *executionContext) _Query_like(ctx context.Context, field graphql.Colle
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11117,7 +11458,7 @@ func (ec *executionContext) _Query_like(ctx context.Context, field graphql.Colle
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -11150,10 +11491,11 @@ func (ec *executionContext) _Query_likes(ctx context.Context, field graphql.Coll
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11167,7 +11509,7 @@ func (ec *executionContext) _Query_likes(ctx context.Context, field graphql.Coll
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Likes(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*LikeOrdering), args["filter"].(*LikeFilter))
+			return ec.resolvers.Query().Likes(rctx, args["first"].(int), args["after"].(*string), args["ordering"].([]*LikeOrdering), args["filter"].(*LikeFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -11178,7 +11520,7 @@ func (ec *executionContext) _Query_likes(ctx context.Context, field graphql.Coll
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -11211,10 +11553,11 @@ func (ec *executionContext) _Query_post(ctx context.Context, field graphql.Colle
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11239,7 +11582,7 @@ func (ec *executionContext) _Query_post(ctx context.Context, field graphql.Colle
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -11272,10 +11615,11 @@ func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.Coll
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11289,7 +11633,7 @@ func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.Coll
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Posts(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*PostOrdering), args["filter"].(*PostFilter))
+			return ec.resolvers.Query().Posts(rctx, args["first"].(int), args["after"].(*string), args["ordering"].([]*PostOrdering), args["filter"].(*PostFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -11300,7 +11644,7 @@ func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.Coll
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -11333,10 +11677,11 @@ func (ec *executionContext) _Query_user(ctx context.Context, field graphql.Colle
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11361,7 +11706,7 @@ func (ec *executionContext) _Query_user(ctx context.Context, field graphql.Colle
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -11394,10 +11739,11 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11411,7 +11757,7 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Users(rctx, args["pagination"].(boilergql.ConnectionPagination), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter))
+			return ec.resolvers.Query().Users(rctx, args["first"].(int), args["after"].(*string), args["ordering"].([]*UserOrdering), args["filter"].(*UserFilter))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.IsAuthenticated == nil {
@@ -11422,7 +11768,7 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 
 		tmp, err := directive1(rctx)
 		if err != nil {
-			return nil, err
+			return nil, graphql.ErrorOnPath(ctx, err)
 		}
 		if tmp == nil {
 			return nil, nil
@@ -11455,10 +11801,11 @@ func (ec *executionContext) _Query___type(ctx context.Context, field graphql.Col
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11493,10 +11840,11 @@ func (ec *executionContext) _Query___schema(ctx context.Context, field graphql.C
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Query",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11524,10 +11872,11 @@ func (ec *executionContext) _User_id(ctx context.Context, field graphql.Collecte
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "User",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11558,10 +11907,11 @@ func (ec *executionContext) _User_firstName(ctx context.Context, field graphql.C
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "User",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11592,10 +11942,11 @@ func (ec *executionContext) _User_lastName(ctx context.Context, field graphql.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "User",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11626,16 +11977,52 @@ func (ec *executionContext) _User_email(ctx context.Context, field graphql.Colle
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "User",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Email, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_password(ctx context.Context, field graphql.CollectedField, obj *User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Password, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11660,10 +12047,11 @@ func (ec *executionContext) _User_comments(ctx context.Context, field graphql.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "User",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11691,10 +12079,11 @@ func (ec *executionContext) _User_commentLikes(ctx context.Context, field graphq
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "User",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11722,10 +12111,11 @@ func (ec *executionContext) _User_likes(ctx context.Context, field graphql.Colle
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "User",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11753,10 +12143,11 @@ func (ec *executionContext) _User_posts(ctx context.Context, field graphql.Colle
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "User",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11784,10 +12175,11 @@ func (ec *executionContext) _User_friendships(ctx context.Context, field graphql
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "User",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11815,10 +12207,11 @@ func (ec *executionContext) _UserConnection_edges(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "UserConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "UserConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11846,10 +12239,11 @@ func (ec *executionContext) _UserConnection_pageInfo(ctx context.Context, field 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "UserConnection",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "UserConnection",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11880,10 +12274,11 @@ func (ec *executionContext) _UserDeletePayload_id(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "UserDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "UserDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11914,10 +12309,11 @@ func (ec *executionContext) _UserEdge_cursor(ctx context.Context, field graphql.
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "UserEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "UserEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11948,10 +12344,11 @@ func (ec *executionContext) _UserEdge_node(ctx context.Context, field graphql.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "UserEdge",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "UserEdge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -11979,10 +12376,11 @@ func (ec *executionContext) _UserPayload_user(ctx context.Context, field graphql
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "UserPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "UserPayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12013,10 +12411,11 @@ func (ec *executionContext) _UsersDeletePayload_ids(ctx context.Context, field g
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "UsersDeletePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "UsersDeletePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12047,10 +12446,11 @@ func (ec *executionContext) _UsersPayload_users(ctx context.Context, field graph
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "UsersPayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "UsersPayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12081,10 +12481,11 @@ func (ec *executionContext) _UsersUpdatePayload_ok(ctx context.Context, field gr
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "UsersUpdatePayload",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "UsersUpdatePayload",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12115,10 +12516,11 @@ func (ec *executionContext) ___Directive_name(ctx context.Context, field graphql
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Directive",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "__Directive",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12149,10 +12551,11 @@ func (ec *executionContext) ___Directive_description(ctx context.Context, field 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Directive",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "__Directive",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12180,10 +12583,11 @@ func (ec *executionContext) ___Directive_locations(ctx context.Context, field gr
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Directive",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "__Directive",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12214,10 +12618,11 @@ func (ec *executionContext) ___Directive_args(ctx context.Context, field graphql
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Directive",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "__Directive",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12248,10 +12653,11 @@ func (ec *executionContext) ___EnumValue_name(ctx context.Context, field graphql
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__EnumValue",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "__EnumValue",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12282,10 +12688,11 @@ func (ec *executionContext) ___EnumValue_description(ctx context.Context, field 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__EnumValue",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "__EnumValue",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12313,10 +12720,11 @@ func (ec *executionContext) ___EnumValue_isDeprecated(ctx context.Context, field
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__EnumValue",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__EnumValue",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12347,10 +12755,11 @@ func (ec *executionContext) ___EnumValue_deprecationReason(ctx context.Context, 
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__EnumValue",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__EnumValue",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12378,10 +12787,11 @@ func (ec *executionContext) ___Field_name(ctx context.Context, field graphql.Col
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Field",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "__Field",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12412,10 +12822,11 @@ func (ec *executionContext) ___Field_description(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Field",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "__Field",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12443,10 +12854,11 @@ func (ec *executionContext) ___Field_args(ctx context.Context, field graphql.Col
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Field",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "__Field",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12477,10 +12889,11 @@ func (ec *executionContext) ___Field_type(ctx context.Context, field graphql.Col
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Field",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "__Field",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12511,10 +12924,11 @@ func (ec *executionContext) ___Field_isDeprecated(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Field",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Field",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12545,10 +12959,11 @@ func (ec *executionContext) ___Field_deprecationReason(ctx context.Context, fiel
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Field",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Field",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12576,10 +12991,11 @@ func (ec *executionContext) ___InputValue_name(ctx context.Context, field graphq
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__InputValue",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "__InputValue",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12610,10 +13026,11 @@ func (ec *executionContext) ___InputValue_description(ctx context.Context, field
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__InputValue",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "__InputValue",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12641,10 +13058,11 @@ func (ec *executionContext) ___InputValue_type(ctx context.Context, field graphq
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__InputValue",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "__InputValue",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12675,10 +13093,11 @@ func (ec *executionContext) ___InputValue_defaultValue(ctx context.Context, fiel
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__InputValue",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
+		Object:     "__InputValue",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12706,10 +13125,11 @@ func (ec *executionContext) ___Schema_types(ctx context.Context, field graphql.C
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Schema",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Schema",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12740,10 +13160,11 @@ func (ec *executionContext) ___Schema_queryType(ctx context.Context, field graph
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Schema",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Schema",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12774,10 +13195,11 @@ func (ec *executionContext) ___Schema_mutationType(ctx context.Context, field gr
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Schema",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Schema",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12805,10 +13227,11 @@ func (ec *executionContext) ___Schema_subscriptionType(ctx context.Context, fiel
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Schema",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Schema",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12836,10 +13259,11 @@ func (ec *executionContext) ___Schema_directives(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Schema",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Schema",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12870,10 +13294,11 @@ func (ec *executionContext) ___Type_kind(ctx context.Context, field graphql.Coll
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Type",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Type",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12904,10 +13329,11 @@ func (ec *executionContext) ___Type_name(ctx context.Context, field graphql.Coll
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Type",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Type",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12935,10 +13361,11 @@ func (ec *executionContext) ___Type_description(ctx context.Context, field graph
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Type",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Type",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -12966,10 +13393,11 @@ func (ec *executionContext) ___Type_fields(ctx context.Context, field graphql.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Type",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Type",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -13004,10 +13432,11 @@ func (ec *executionContext) ___Type_interfaces(ctx context.Context, field graphq
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Type",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Type",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -13035,10 +13464,11 @@ func (ec *executionContext) ___Type_possibleTypes(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Type",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Type",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -13066,10 +13496,11 @@ func (ec *executionContext) ___Type_enumValues(ctx context.Context, field graphq
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Type",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Type",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -13104,10 +13535,11 @@ func (ec *executionContext) ___Type_inputFields(ctx context.Context, field graph
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Type",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Type",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -13135,10 +13567,11 @@ func (ec *executionContext) ___Type_ofType(ctx context.Context, field graphql.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "__Type",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
+		Object:     "__Type",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -13170,12 +13603,16 @@ func (ec *executionContext) unmarshalInputBooleanFilter(ctx context.Context, obj
 		switch k {
 		case "equalTo":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("equalTo"))
 			it.EqualTo, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "notEqualTo":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notEqualTo"))
 			it.NotEqualTo, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
@@ -13194,18 +13631,24 @@ func (ec *executionContext) unmarshalInputCommentCreateInput(ctx context.Context
 		switch k {
 		case "content":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("content"))
 			it.Content, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "postId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("postId"))
 			it.PostID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "userId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
 			it.UserID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
@@ -13224,12 +13667,16 @@ func (ec *executionContext) unmarshalInputCommentFilter(ctx context.Context, obj
 		switch k {
 		case "search":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
 			it.Search, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "where":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("where"))
 			it.Where, err = ec.unmarshalOCommentWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -13248,24 +13695,32 @@ func (ec *executionContext) unmarshalInputCommentLikeCreateInput(ctx context.Con
 		switch k {
 		case "commentId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("commentId"))
 			it.CommentID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "userId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
 			it.UserID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "likeType":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("likeType"))
 			it.LikeType, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "createdAt":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt"))
 			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
@@ -13284,12 +13739,16 @@ func (ec *executionContext) unmarshalInputCommentLikeFilter(ctx context.Context,
 		switch k {
 		case "search":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
 			it.Search, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "where":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("where"))
 			it.Where, err = ec.unmarshalOCommentLikeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -13312,12 +13771,16 @@ func (ec *executionContext) unmarshalInputCommentLikeOrdering(ctx context.Contex
 		switch k {
 		case "sort":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sort"))
 			it.Sort, err = ec.unmarshalNCommentLikeSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeSort(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "direction":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("direction"))
 			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
@@ -13336,24 +13799,32 @@ func (ec *executionContext) unmarshalInputCommentLikeUpdateInput(ctx context.Con
 		switch k {
 		case "commentId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("commentId"))
 			it.CommentID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "userId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
 			it.UserID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "likeType":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("likeType"))
 			it.LikeType, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "createdAt":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt"))
 			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
@@ -13372,42 +13843,56 @@ func (ec *executionContext) unmarshalInputCommentLikeWhere(ctx context.Context, 
 		switch k {
 		case "id":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "comment":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comment"))
 			it.Comment, err = ec.unmarshalOCommentWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "user":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("user"))
 			it.User, err = ec.unmarshalOUserWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "likeType":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("likeType"))
 			it.LikeType, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐStringFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "createdAt":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt"))
 			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "or":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
 			it.Or, err = ec.unmarshalOCommentLikeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "and":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
 			it.And, err = ec.unmarshalOCommentLikeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -13426,6 +13911,8 @@ func (ec *executionContext) unmarshalInputCommentLikesCreateInput(ctx context.Co
 		switch k {
 		case "commentLikes":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("commentLikes"))
 			it.CommentLikes, err = ec.unmarshalNCommentLikeCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeCreateInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
@@ -13448,12 +13935,16 @@ func (ec *executionContext) unmarshalInputCommentOrdering(ctx context.Context, o
 		switch k {
 		case "sort":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sort"))
 			it.Sort, err = ec.unmarshalNCommentSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentSort(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "direction":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("direction"))
 			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
@@ -13472,18 +13963,24 @@ func (ec *executionContext) unmarshalInputCommentUpdateInput(ctx context.Context
 		switch k {
 		case "content":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("content"))
 			it.Content, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "postId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("postId"))
 			it.PostID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "userId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
 			it.UserID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
@@ -13502,42 +13999,56 @@ func (ec *executionContext) unmarshalInputCommentWhere(ctx context.Context, obj 
 		switch k {
 		case "id":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "content":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("content"))
 			it.Content, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐStringFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "post":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("post"))
 			it.Post, err = ec.unmarshalOPostWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "user":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("user"))
 			it.User, err = ec.unmarshalOUserWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "commentLikes":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("commentLikes"))
 			it.CommentLikes, err = ec.unmarshalOCommentLikeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "or":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
 			it.Or, err = ec.unmarshalOCommentWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "and":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
 			it.And, err = ec.unmarshalOCommentWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -13556,79 +14067,9 @@ func (ec *executionContext) unmarshalInputCommentsCreateInput(ctx context.Contex
 		switch k {
 		case "comments":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comments"))
 			it.Comments, err = ec.unmarshalNCommentCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentCreateInputᚄ(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputConnectionBackwardPagination(ctx context.Context, obj interface{}) (boilergql.ConnectionBackwardPagination, error) {
-	var it boilergql.ConnectionBackwardPagination
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "last":
-			var err error
-			it.Last, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "before":
-			var err error
-			it.Before, err = ec.unmarshalOID2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputConnectionForwardPagination(ctx context.Context, obj interface{}) (boilergql.ConnectionForwardPagination, error) {
-	var it boilergql.ConnectionForwardPagination
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "first":
-			var err error
-			it.First, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "after":
-			var err error
-			it.After, err = ec.unmarshalOID2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputConnectionPagination(ctx context.Context, obj interface{}) (boilergql.ConnectionPagination, error) {
-	var it boilergql.ConnectionPagination
-	var asMap = obj.(map[string]interface{})
-
-	for k, v := range asMap {
-		switch k {
-		case "forward":
-			var err error
-			it.Forward, err = ec.unmarshalOConnectionForwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionForwardPagination(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "backward":
-			var err error
-			it.Backward, err = ec.unmarshalOConnectionBackwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionBackwardPagination(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -13646,48 +14087,64 @@ func (ec *executionContext) unmarshalInputFloatFilter(ctx context.Context, obj i
 		switch k {
 		case "equalTo":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("equalTo"))
 			it.EqualTo, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "notEqualTo":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notEqualTo"))
 			it.NotEqualTo, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "lessThan":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lessThan"))
 			it.LessThan, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "lessThanOrEqualTo":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lessThanOrEqualTo"))
 			it.LessThanOrEqualTo, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "moreThan":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("moreThan"))
 			it.MoreThan, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "moreThanOrEqualTo":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("moreThanOrEqualTo"))
 			it.MoreThanOrEqualTo, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "in":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("in"))
 			it.In, err = ec.unmarshalOFloat2ᚕfloat64ᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "notIn":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notIn"))
 			it.NotIn, err = ec.unmarshalOFloat2ᚕfloat64ᚄ(ctx, v)
 			if err != nil {
 				return it, err
@@ -13706,6 +14163,8 @@ func (ec *executionContext) unmarshalInputFriendshipCreateInput(ctx context.Cont
 		switch k {
 		case "createdAt":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt"))
 			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
@@ -13724,12 +14183,16 @@ func (ec *executionContext) unmarshalInputFriendshipFilter(ctx context.Context, 
 		switch k {
 		case "search":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
 			it.Search, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "where":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("where"))
 			it.Where, err = ec.unmarshalOFriendshipWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -13752,12 +14215,16 @@ func (ec *executionContext) unmarshalInputFriendshipOrdering(ctx context.Context
 		switch k {
 		case "sort":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sort"))
 			it.Sort, err = ec.unmarshalNFriendshipSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipSort(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "direction":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("direction"))
 			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
@@ -13776,6 +14243,8 @@ func (ec *executionContext) unmarshalInputFriendshipUpdateInput(ctx context.Cont
 		switch k {
 		case "createdAt":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt"))
 			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
@@ -13794,30 +14263,40 @@ func (ec *executionContext) unmarshalInputFriendshipWhere(ctx context.Context, o
 		switch k {
 		case "id":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "createdAt":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt"))
 			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "users":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("users"))
 			it.Users, err = ec.unmarshalOUserWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "or":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
 			it.Or, err = ec.unmarshalOFriendshipWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "and":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
 			it.And, err = ec.unmarshalOFriendshipWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -13836,6 +14315,8 @@ func (ec *executionContext) unmarshalInputFriendshipsCreateInput(ctx context.Con
 		switch k {
 		case "friendships":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("friendships"))
 			it.Friendships, err = ec.unmarshalNFriendshipCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipCreateInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
@@ -13854,24 +14335,32 @@ func (ec *executionContext) unmarshalInputIDFilter(ctx context.Context, obj inte
 		switch k {
 		case "equalTo":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("equalTo"))
 			it.EqualTo, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "notEqualTo":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notEqualTo"))
 			it.NotEqualTo, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "in":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("in"))
 			it.In, err = ec.unmarshalOID2ᚕstringᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "notIn":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notIn"))
 			it.NotIn, err = ec.unmarshalOID2ᚕstringᚄ(ctx, v)
 			if err != nil {
 				return it, err
@@ -13890,18 +14379,24 @@ func (ec *executionContext) unmarshalInputImageCreateInput(ctx context.Context, 
 		switch k {
 		case "postId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("postId"))
 			it.PostID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "views":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("views"))
 			it.Views, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "originalUrl":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalUrl"))
 			it.OriginalURL, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
@@ -13920,12 +14415,16 @@ func (ec *executionContext) unmarshalInputImageFilter(ctx context.Context, obj i
 		switch k {
 		case "search":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
 			it.Search, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "where":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("where"))
 			it.Where, err = ec.unmarshalOImageWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -13948,12 +14447,16 @@ func (ec *executionContext) unmarshalInputImageOrdering(ctx context.Context, obj
 		switch k {
 		case "sort":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sort"))
 			it.Sort, err = ec.unmarshalNImageSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageSort(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "direction":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("direction"))
 			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
@@ -13972,18 +14475,24 @@ func (ec *executionContext) unmarshalInputImageUpdateInput(ctx context.Context, 
 		switch k {
 		case "postId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("postId"))
 			it.PostID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "views":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("views"))
 			it.Views, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "originalUrl":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalUrl"))
 			it.OriginalURL, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
@@ -14002,6 +14511,8 @@ func (ec *executionContext) unmarshalInputImageVariationCreateInput(ctx context.
 		switch k {
 		case "imageId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("imageId"))
 			it.ImageID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
@@ -14020,12 +14531,16 @@ func (ec *executionContext) unmarshalInputImageVariationFilter(ctx context.Conte
 		switch k {
 		case "search":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
 			it.Search, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "where":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("where"))
 			it.Where, err = ec.unmarshalOImageVariationWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -14048,12 +14563,16 @@ func (ec *executionContext) unmarshalInputImageVariationOrdering(ctx context.Con
 		switch k {
 		case "sort":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sort"))
 			it.Sort, err = ec.unmarshalNImageVariationSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationSort(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "direction":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("direction"))
 			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
@@ -14072,6 +14591,8 @@ func (ec *executionContext) unmarshalInputImageVariationUpdateInput(ctx context.
 		switch k {
 		case "imageId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("imageId"))
 			it.ImageID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
@@ -14090,24 +14611,32 @@ func (ec *executionContext) unmarshalInputImageVariationWhere(ctx context.Contex
 		switch k {
 		case "id":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "image":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("image"))
 			it.Image, err = ec.unmarshalOImageWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "or":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
 			it.Or, err = ec.unmarshalOImageVariationWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "and":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
 			it.And, err = ec.unmarshalOImageVariationWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -14126,6 +14655,8 @@ func (ec *executionContext) unmarshalInputImageVariationsCreateInput(ctx context
 		switch k {
 		case "imageVariations":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("imageVariations"))
 			it.ImageVariations, err = ec.unmarshalNImageVariationCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationCreateInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
@@ -14144,42 +14675,56 @@ func (ec *executionContext) unmarshalInputImageWhere(ctx context.Context, obj in
 		switch k {
 		case "id":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "post":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("post"))
 			it.Post, err = ec.unmarshalOPostWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "views":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("views"))
 			it.Views, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "originalUrl":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("originalUrl"))
 			it.OriginalURL, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐStringFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "imageVariations":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("imageVariations"))
 			it.ImageVariations, err = ec.unmarshalOImageVariationWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "or":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
 			it.Or, err = ec.unmarshalOImageWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "and":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
 			it.And, err = ec.unmarshalOImageWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -14198,6 +14743,8 @@ func (ec *executionContext) unmarshalInputImagesCreateInput(ctx context.Context,
 		switch k {
 		case "images":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("images"))
 			it.Images, err = ec.unmarshalNImageCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageCreateInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
@@ -14216,48 +14763,64 @@ func (ec *executionContext) unmarshalInputIntFilter(ctx context.Context, obj int
 		switch k {
 		case "equalTo":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("equalTo"))
 			it.EqualTo, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "notEqualTo":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notEqualTo"))
 			it.NotEqualTo, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "lessThan":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lessThan"))
 			it.LessThan, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "lessThanOrEqualTo":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lessThanOrEqualTo"))
 			it.LessThanOrEqualTo, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "moreThan":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("moreThan"))
 			it.MoreThan, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "moreThanOrEqualTo":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("moreThanOrEqualTo"))
 			it.MoreThanOrEqualTo, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "in":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("in"))
 			it.In, err = ec.unmarshalOInt2ᚕintᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "notIn":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notIn"))
 			it.NotIn, err = ec.unmarshalOInt2ᚕintᚄ(ctx, v)
 			if err != nil {
 				return it, err
@@ -14276,24 +14839,32 @@ func (ec *executionContext) unmarshalInputLikeCreateInput(ctx context.Context, o
 		switch k {
 		case "postId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("postId"))
 			it.PostID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "userId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
 			it.UserID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "likeType":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("likeType"))
 			it.LikeType, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "createdAt":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt"))
 			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
@@ -14312,12 +14883,16 @@ func (ec *executionContext) unmarshalInputLikeFilter(ctx context.Context, obj in
 		switch k {
 		case "search":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
 			it.Search, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "where":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("where"))
 			it.Where, err = ec.unmarshalOLikeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -14340,12 +14915,16 @@ func (ec *executionContext) unmarshalInputLikeOrdering(ctx context.Context, obj 
 		switch k {
 		case "sort":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sort"))
 			it.Sort, err = ec.unmarshalNLikeSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeSort(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "direction":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("direction"))
 			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
@@ -14364,24 +14943,32 @@ func (ec *executionContext) unmarshalInputLikeUpdateInput(ctx context.Context, o
 		switch k {
 		case "postId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("postId"))
 			it.PostID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "userId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
 			it.UserID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "likeType":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("likeType"))
 			it.LikeType, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "createdAt":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt"))
 			it.CreatedAt, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
@@ -14400,42 +14987,56 @@ func (ec *executionContext) unmarshalInputLikeWhere(ctx context.Context, obj int
 		switch k {
 		case "id":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "post":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("post"))
 			it.Post, err = ec.unmarshalOPostWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "user":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("user"))
 			it.User, err = ec.unmarshalOUserWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "likeType":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("likeType"))
 			it.LikeType, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐStringFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "createdAt":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt"))
 			it.CreatedAt, err = ec.unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIntFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "or":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
 			it.Or, err = ec.unmarshalOLikeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "and":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
 			it.And, err = ec.unmarshalOLikeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -14454,6 +15055,8 @@ func (ec *executionContext) unmarshalInputLikesCreateInput(ctx context.Context, 
 		switch k {
 		case "likes":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("likes"))
 			it.Likes, err = ec.unmarshalNLikeCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeCreateInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
@@ -14472,12 +15075,16 @@ func (ec *executionContext) unmarshalInputPostCreateInput(ctx context.Context, o
 		switch k {
 		case "content":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("content"))
 			it.Content, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "userId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
 			it.UserID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
@@ -14496,12 +15103,16 @@ func (ec *executionContext) unmarshalInputPostFilter(ctx context.Context, obj in
 		switch k {
 		case "search":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
 			it.Search, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "where":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("where"))
 			it.Where, err = ec.unmarshalOPostWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -14524,12 +15135,16 @@ func (ec *executionContext) unmarshalInputPostOrdering(ctx context.Context, obj 
 		switch k {
 		case "sort":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sort"))
 			it.Sort, err = ec.unmarshalNPostSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostSort(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "direction":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("direction"))
 			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
@@ -14548,12 +15163,16 @@ func (ec *executionContext) unmarshalInputPostUpdateInput(ctx context.Context, o
 		switch k {
 		case "content":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("content"))
 			it.Content, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "userId":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
 			it.UserID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
@@ -14572,48 +15191,64 @@ func (ec *executionContext) unmarshalInputPostWhere(ctx context.Context, obj int
 		switch k {
 		case "id":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "content":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("content"))
 			it.Content, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐStringFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "user":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("user"))
 			it.User, err = ec.unmarshalOUserWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "comments":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comments"))
 			it.Comments, err = ec.unmarshalOCommentWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "images":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("images"))
 			it.Images, err = ec.unmarshalOImageWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "likes":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("likes"))
 			it.Likes, err = ec.unmarshalOLikeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "or":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
 			it.Or, err = ec.unmarshalOPostWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "and":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
 			it.And, err = ec.unmarshalOPostWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -14632,6 +15267,8 @@ func (ec *executionContext) unmarshalInputPostsCreateInput(ctx context.Context, 
 		switch k {
 		case "posts":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("posts"))
 			it.Posts, err = ec.unmarshalNPostCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostCreateInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
@@ -14650,96 +15287,128 @@ func (ec *executionContext) unmarshalInputStringFilter(ctx context.Context, obj 
 		switch k {
 		case "equalTo":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("equalTo"))
 			it.EqualTo, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "notEqualTo":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notEqualTo"))
 			it.NotEqualTo, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "in":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("in"))
 			it.In, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "notIn":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notIn"))
 			it.NotIn, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "startWith":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startWith"))
 			it.StartWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "notStartWith":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notStartWith"))
 			it.NotStartWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "endWith":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endWith"))
 			it.EndWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "notEndWith":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notEndWith"))
 			it.NotEndWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "contain":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("contain"))
 			it.Contain, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "notContain":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notContain"))
 			it.NotContain, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "startWithStrict":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startWithStrict"))
 			it.StartWithStrict, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "notStartWithStrict":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notStartWithStrict"))
 			it.NotStartWithStrict, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "endWithStrict":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endWithStrict"))
 			it.EndWithStrict, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "notEndWithStrict":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notEndWithStrict"))
 			it.NotEndWithStrict, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "containStrict":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("containStrict"))
 			it.ContainStrict, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "notContainStrict":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notContainStrict"))
 			it.NotContainStrict, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
@@ -14758,19 +15427,33 @@ func (ec *executionContext) unmarshalInputUserCreateInput(ctx context.Context, o
 		switch k {
 		case "firstName":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("firstName"))
 			it.FirstName, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "lastName":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lastName"))
 			it.LastName, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "email":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
 			it.Email, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "password":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("password"))
+			it.Password, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -14788,12 +15471,16 @@ func (ec *executionContext) unmarshalInputUserFilter(ctx context.Context, obj in
 		switch k {
 		case "search":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
 			it.Search, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "where":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("where"))
 			it.Where, err = ec.unmarshalOUserWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -14816,12 +15503,16 @@ func (ec *executionContext) unmarshalInputUserOrdering(ctx context.Context, obj 
 		switch k {
 		case "sort":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sort"))
 			it.Sort, err = ec.unmarshalNUserSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserSort(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "direction":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("direction"))
 			it.Direction, err = ec.unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐSortDirection(ctx, v)
 			if err != nil {
 				return it, err
@@ -14840,19 +15531,33 @@ func (ec *executionContext) unmarshalInputUserUpdateInput(ctx context.Context, o
 		switch k {
 		case "firstName":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("firstName"))
 			it.FirstName, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "lastName":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lastName"))
 			it.LastName, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "email":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
 			it.Email, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "password":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("password"))
+			it.Password, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -14870,66 +15575,96 @@ func (ec *executionContext) unmarshalInputUserWhere(ctx context.Context, obj int
 		switch k {
 		case "id":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 			it.ID, err = ec.unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIDFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "firstName":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("firstName"))
 			it.FirstName, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐStringFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "lastName":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lastName"))
 			it.LastName, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐStringFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "email":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
 			it.Email, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐStringFilter(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "password":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("password"))
+			it.Password, err = ec.unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐStringFilter(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "comments":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comments"))
 			it.Comments, err = ec.unmarshalOCommentWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "commentLikes":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("commentLikes"))
 			it.CommentLikes, err = ec.unmarshalOCommentLikeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "likes":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("likes"))
 			it.Likes, err = ec.unmarshalOLikeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "posts":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("posts"))
 			it.Posts, err = ec.unmarshalOPostWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "friendships":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("friendships"))
 			it.Friendships, err = ec.unmarshalOFriendshipWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "or":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
 			it.Or, err = ec.unmarshalOUserWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserWhere(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "and":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
 			it.And, err = ec.unmarshalOUserWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserWhere(ctx, v)
 			if err != nil {
 				return it, err
@@ -14948,6 +15683,8 @@ func (ec *executionContext) unmarshalInputUsersCreateInput(ctx context.Context, 
 		switch k {
 		case "users":
 			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("users"))
 			it.Users, err = ec.unmarshalNUserCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserCreateInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
@@ -17256,6 +17993,11 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "password":
+			out.Values[i] = ec._User_password(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "comments":
 			out.Values[i] = ec._User_comments(ctx, field, obj)
 		case "commentLikes":
@@ -17716,7 +18458,8 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 // region    ***************************** type.gotpl *****************************
 
 func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
-	return graphql.UnmarshalBoolean(v)
+	res, err := graphql.UnmarshalBoolean(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.SelectionSet, v bool) graphql.Marshaler {
@@ -17795,7 +18538,8 @@ func (ec *executionContext) marshalNCommentConnection2ᚖgithubᚗcomᚋwebᚑri
 }
 
 func (ec *executionContext) unmarshalNCommentCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentCreateInput(ctx context.Context, v interface{}) (CommentCreateInput, error) {
-	return ec.unmarshalInputCommentCreateInput(ctx, v)
+	res, err := ec.unmarshalInputCommentCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNCommentCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentCreateInputᚄ(ctx context.Context, v interface{}) ([]*CommentCreateInput, error) {
@@ -17810,6 +18554,7 @@ func (ec *executionContext) unmarshalNCommentCreateInput2ᚕᚖgithubᚗcomᚋwe
 	var err error
 	res := make([]*CommentCreateInput, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNCommentCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentCreateInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -17819,11 +18564,8 @@ func (ec *executionContext) unmarshalNCommentCreateInput2ᚕᚖgithubᚗcomᚋwe
 }
 
 func (ec *executionContext) unmarshalNCommentCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentCreateInput(ctx context.Context, v interface{}) (*CommentCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNCommentCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentCreateInput(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputCommentCreateInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNCommentDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentDeletePayload(ctx context.Context, sel ast.SelectionSet, v CommentDeletePayload) graphql.Marshaler {
@@ -17906,7 +18648,8 @@ func (ec *executionContext) marshalNCommentLikeConnection2ᚖgithubᚗcomᚋweb�
 }
 
 func (ec *executionContext) unmarshalNCommentLikeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeCreateInput(ctx context.Context, v interface{}) (CommentLikeCreateInput, error) {
-	return ec.unmarshalInputCommentLikeCreateInput(ctx, v)
+	res, err := ec.unmarshalInputCommentLikeCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNCommentLikeCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeCreateInputᚄ(ctx context.Context, v interface{}) ([]*CommentLikeCreateInput, error) {
@@ -17921,6 +18664,7 @@ func (ec *executionContext) unmarshalNCommentLikeCreateInput2ᚕᚖgithubᚗcom�
 	var err error
 	res := make([]*CommentLikeCreateInput, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNCommentLikeCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeCreateInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -17930,11 +18674,8 @@ func (ec *executionContext) unmarshalNCommentLikeCreateInput2ᚕᚖgithubᚗcom�
 }
 
 func (ec *executionContext) unmarshalNCommentLikeCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeCreateInput(ctx context.Context, v interface{}) (*CommentLikeCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNCommentLikeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeCreateInput(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputCommentLikeCreateInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNCommentLikeDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeDeletePayload(ctx context.Context, sel ast.SelectionSet, v CommentLikeDeletePayload) graphql.Marshaler {
@@ -17951,16 +18692,9 @@ func (ec *executionContext) marshalNCommentLikeDeletePayload2ᚖgithubᚗcomᚋw
 	return ec._CommentLikeDeletePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNCommentLikeOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeOrdering(ctx context.Context, v interface{}) (CommentLikeOrdering, error) {
-	return ec.unmarshalInputCommentLikeOrdering(ctx, v)
-}
-
 func (ec *executionContext) unmarshalNCommentLikeOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeOrdering(ctx context.Context, v interface{}) (*CommentLikeOrdering, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNCommentLikeOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeOrdering(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputCommentLikeOrdering(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNCommentLikePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikePayload(ctx context.Context, sel ast.SelectionSet, v CommentLikePayload) graphql.Marshaler {
@@ -17979,7 +18713,8 @@ func (ec *executionContext) marshalNCommentLikePayload2ᚖgithubᚗcomᚋwebᚑr
 
 func (ec *executionContext) unmarshalNCommentLikeSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeSort(ctx context.Context, v interface{}) (CommentLikeSort, error) {
 	var res CommentLikeSort
-	return res, res.UnmarshalGQL(v)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNCommentLikeSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeSort(ctx context.Context, sel ast.SelectionSet, v CommentLikeSort) graphql.Marshaler {
@@ -17987,11 +18722,13 @@ func (ec *executionContext) marshalNCommentLikeSort2githubᚗcomᚋwebᚑridge�
 }
 
 func (ec *executionContext) unmarshalNCommentLikeUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeUpdateInput(ctx context.Context, v interface{}) (CommentLikeUpdateInput, error) {
-	return ec.unmarshalInputCommentLikeUpdateInput(ctx, v)
+	res, err := ec.unmarshalInputCommentLikeUpdateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNCommentLikesCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikesCreateInput(ctx context.Context, v interface{}) (CommentLikesCreateInput, error) {
-	return ec.unmarshalInputCommentLikesCreateInput(ctx, v)
+	res, err := ec.unmarshalInputCommentLikesCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNCommentLikesDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikesDeletePayload(ctx context.Context, sel ast.SelectionSet, v CommentLikesDeletePayload) graphql.Marshaler {
@@ -18036,16 +18773,9 @@ func (ec *executionContext) marshalNCommentLikesUpdatePayload2ᚖgithubᚗcomᚋ
 	return ec._CommentLikesUpdatePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNCommentOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentOrdering(ctx context.Context, v interface{}) (CommentOrdering, error) {
-	return ec.unmarshalInputCommentOrdering(ctx, v)
-}
-
 func (ec *executionContext) unmarshalNCommentOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentOrdering(ctx context.Context, v interface{}) (*CommentOrdering, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNCommentOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentOrdering(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputCommentOrdering(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNCommentPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentPayload(ctx context.Context, sel ast.SelectionSet, v CommentPayload) graphql.Marshaler {
@@ -18064,7 +18794,8 @@ func (ec *executionContext) marshalNCommentPayload2ᚖgithubᚗcomᚋwebᚑridge
 
 func (ec *executionContext) unmarshalNCommentSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentSort(ctx context.Context, v interface{}) (CommentSort, error) {
 	var res CommentSort
-	return res, res.UnmarshalGQL(v)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNCommentSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentSort(ctx context.Context, sel ast.SelectionSet, v CommentSort) graphql.Marshaler {
@@ -18072,11 +18803,13 @@ func (ec *executionContext) marshalNCommentSort2githubᚗcomᚋwebᚑridgeᚋgql
 }
 
 func (ec *executionContext) unmarshalNCommentUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentUpdateInput(ctx context.Context, v interface{}) (CommentUpdateInput, error) {
-	return ec.unmarshalInputCommentUpdateInput(ctx, v)
+	res, err := ec.unmarshalInputCommentUpdateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNCommentsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentsCreateInput(ctx context.Context, v interface{}) (CommentsCreateInput, error) {
-	return ec.unmarshalInputCommentsCreateInput(ctx, v)
+	res, err := ec.unmarshalInputCommentsCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNCommentsDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentsDeletePayload(ctx context.Context, sel ast.SelectionSet, v CommentsDeletePayload) graphql.Marshaler {
@@ -18121,12 +18854,9 @@ func (ec *executionContext) marshalNCommentsUpdatePayload2ᚖgithubᚗcomᚋweb�
 	return ec._CommentsUpdatePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNConnectionPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionPagination(ctx context.Context, v interface{}) (boilergql.ConnectionPagination, error) {
-	return ec.unmarshalInputConnectionPagination(ctx, v)
-}
-
 func (ec *executionContext) unmarshalNFloat2float64(ctx context.Context, v interface{}) (float64, error) {
-	return graphql.UnmarshalFloat(v)
+	res, err := graphql.UnmarshalFloat(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNFloat2float64(ctx context.Context, sel ast.SelectionSet, v float64) graphql.Marshaler {
@@ -18205,7 +18935,8 @@ func (ec *executionContext) marshalNFriendshipConnection2ᚖgithubᚗcomᚋweb�
 }
 
 func (ec *executionContext) unmarshalNFriendshipCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipCreateInput(ctx context.Context, v interface{}) (FriendshipCreateInput, error) {
-	return ec.unmarshalInputFriendshipCreateInput(ctx, v)
+	res, err := ec.unmarshalInputFriendshipCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNFriendshipCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipCreateInputᚄ(ctx context.Context, v interface{}) ([]*FriendshipCreateInput, error) {
@@ -18220,6 +18951,7 @@ func (ec *executionContext) unmarshalNFriendshipCreateInput2ᚕᚖgithubᚗcom�
 	var err error
 	res := make([]*FriendshipCreateInput, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNFriendshipCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipCreateInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -18229,11 +18961,8 @@ func (ec *executionContext) unmarshalNFriendshipCreateInput2ᚕᚖgithubᚗcom�
 }
 
 func (ec *executionContext) unmarshalNFriendshipCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipCreateInput(ctx context.Context, v interface{}) (*FriendshipCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNFriendshipCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipCreateInput(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputFriendshipCreateInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNFriendshipDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipDeletePayload(ctx context.Context, sel ast.SelectionSet, v FriendshipDeletePayload) graphql.Marshaler {
@@ -18250,16 +18979,9 @@ func (ec *executionContext) marshalNFriendshipDeletePayload2ᚖgithubᚗcomᚋwe
 	return ec._FriendshipDeletePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNFriendshipOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipOrdering(ctx context.Context, v interface{}) (FriendshipOrdering, error) {
-	return ec.unmarshalInputFriendshipOrdering(ctx, v)
-}
-
 func (ec *executionContext) unmarshalNFriendshipOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipOrdering(ctx context.Context, v interface{}) (*FriendshipOrdering, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNFriendshipOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipOrdering(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputFriendshipOrdering(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNFriendshipPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipPayload(ctx context.Context, sel ast.SelectionSet, v FriendshipPayload) graphql.Marshaler {
@@ -18278,7 +19000,8 @@ func (ec *executionContext) marshalNFriendshipPayload2ᚖgithubᚗcomᚋwebᚑri
 
 func (ec *executionContext) unmarshalNFriendshipSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipSort(ctx context.Context, v interface{}) (FriendshipSort, error) {
 	var res FriendshipSort
-	return res, res.UnmarshalGQL(v)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNFriendshipSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipSort(ctx context.Context, sel ast.SelectionSet, v FriendshipSort) graphql.Marshaler {
@@ -18286,11 +19009,13 @@ func (ec *executionContext) marshalNFriendshipSort2githubᚗcomᚋwebᚑridgeᚋ
 }
 
 func (ec *executionContext) unmarshalNFriendshipUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipUpdateInput(ctx context.Context, v interface{}) (FriendshipUpdateInput, error) {
-	return ec.unmarshalInputFriendshipUpdateInput(ctx, v)
+	res, err := ec.unmarshalInputFriendshipUpdateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNFriendshipsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipsCreateInput(ctx context.Context, v interface{}) (FriendshipsCreateInput, error) {
-	return ec.unmarshalInputFriendshipsCreateInput(ctx, v)
+	res, err := ec.unmarshalInputFriendshipsCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNFriendshipsDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipsDeletePayload(ctx context.Context, sel ast.SelectionSet, v FriendshipsDeletePayload) graphql.Marshaler {
@@ -18336,7 +19061,8 @@ func (ec *executionContext) marshalNFriendshipsUpdatePayload2ᚖgithubᚗcomᚋw
 }
 
 func (ec *executionContext) unmarshalNID2string(ctx context.Context, v interface{}) (string, error) {
-	return graphql.UnmarshalID(v)
+	res, err := graphql.UnmarshalID(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.SelectionSet, v string) graphql.Marshaler {
@@ -18361,6 +19087,7 @@ func (ec *executionContext) unmarshalNID2ᚕstringᚄ(ctx context.Context, v int
 	var err error
 	res := make([]string, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNID2string(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -18444,7 +19171,8 @@ func (ec *executionContext) marshalNImageConnection2ᚖgithubᚗcomᚋwebᚑridg
 }
 
 func (ec *executionContext) unmarshalNImageCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageCreateInput(ctx context.Context, v interface{}) (ImageCreateInput, error) {
-	return ec.unmarshalInputImageCreateInput(ctx, v)
+	res, err := ec.unmarshalInputImageCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNImageCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageCreateInputᚄ(ctx context.Context, v interface{}) ([]*ImageCreateInput, error) {
@@ -18459,6 +19187,7 @@ func (ec *executionContext) unmarshalNImageCreateInput2ᚕᚖgithubᚗcomᚋweb�
 	var err error
 	res := make([]*ImageCreateInput, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNImageCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageCreateInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -18468,11 +19197,8 @@ func (ec *executionContext) unmarshalNImageCreateInput2ᚕᚖgithubᚗcomᚋweb�
 }
 
 func (ec *executionContext) unmarshalNImageCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageCreateInput(ctx context.Context, v interface{}) (*ImageCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNImageCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageCreateInput(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputImageCreateInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNImageDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageDeletePayload(ctx context.Context, sel ast.SelectionSet, v ImageDeletePayload) graphql.Marshaler {
@@ -18489,16 +19215,9 @@ func (ec *executionContext) marshalNImageDeletePayload2ᚖgithubᚗcomᚋwebᚑr
 	return ec._ImageDeletePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNImageOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageOrdering(ctx context.Context, v interface{}) (ImageOrdering, error) {
-	return ec.unmarshalInputImageOrdering(ctx, v)
-}
-
 func (ec *executionContext) unmarshalNImageOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageOrdering(ctx context.Context, v interface{}) (*ImageOrdering, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNImageOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageOrdering(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputImageOrdering(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNImagePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImagePayload(ctx context.Context, sel ast.SelectionSet, v ImagePayload) graphql.Marshaler {
@@ -18517,7 +19236,8 @@ func (ec *executionContext) marshalNImagePayload2ᚖgithubᚗcomᚋwebᚑridge�
 
 func (ec *executionContext) unmarshalNImageSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageSort(ctx context.Context, v interface{}) (ImageSort, error) {
 	var res ImageSort
-	return res, res.UnmarshalGQL(v)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNImageSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageSort(ctx context.Context, sel ast.SelectionSet, v ImageSort) graphql.Marshaler {
@@ -18525,7 +19245,8 @@ func (ec *executionContext) marshalNImageSort2githubᚗcomᚋwebᚑridgeᚋgqlge
 }
 
 func (ec *executionContext) unmarshalNImageUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageUpdateInput(ctx context.Context, v interface{}) (ImageUpdateInput, error) {
-	return ec.unmarshalInputImageUpdateInput(ctx, v)
+	res, err := ec.unmarshalInputImageUpdateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNImageVariation2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariation(ctx context.Context, sel ast.SelectionSet, v ImageVariation) graphql.Marshaler {
@@ -18594,7 +19315,8 @@ func (ec *executionContext) marshalNImageVariationConnection2ᚖgithubᚗcomᚋw
 }
 
 func (ec *executionContext) unmarshalNImageVariationCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationCreateInput(ctx context.Context, v interface{}) (ImageVariationCreateInput, error) {
-	return ec.unmarshalInputImageVariationCreateInput(ctx, v)
+	res, err := ec.unmarshalInputImageVariationCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNImageVariationCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationCreateInputᚄ(ctx context.Context, v interface{}) ([]*ImageVariationCreateInput, error) {
@@ -18609,6 +19331,7 @@ func (ec *executionContext) unmarshalNImageVariationCreateInput2ᚕᚖgithubᚗc
 	var err error
 	res := make([]*ImageVariationCreateInput, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNImageVariationCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationCreateInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -18618,11 +19341,8 @@ func (ec *executionContext) unmarshalNImageVariationCreateInput2ᚕᚖgithubᚗc
 }
 
 func (ec *executionContext) unmarshalNImageVariationCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationCreateInput(ctx context.Context, v interface{}) (*ImageVariationCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNImageVariationCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationCreateInput(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputImageVariationCreateInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNImageVariationDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationDeletePayload(ctx context.Context, sel ast.SelectionSet, v ImageVariationDeletePayload) graphql.Marshaler {
@@ -18639,16 +19359,9 @@ func (ec *executionContext) marshalNImageVariationDeletePayload2ᚖgithubᚗcom�
 	return ec._ImageVariationDeletePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNImageVariationOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationOrdering(ctx context.Context, v interface{}) (ImageVariationOrdering, error) {
-	return ec.unmarshalInputImageVariationOrdering(ctx, v)
-}
-
 func (ec *executionContext) unmarshalNImageVariationOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationOrdering(ctx context.Context, v interface{}) (*ImageVariationOrdering, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNImageVariationOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationOrdering(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputImageVariationOrdering(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNImageVariationPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationPayload(ctx context.Context, sel ast.SelectionSet, v ImageVariationPayload) graphql.Marshaler {
@@ -18667,7 +19380,8 @@ func (ec *executionContext) marshalNImageVariationPayload2ᚖgithubᚗcomᚋweb�
 
 func (ec *executionContext) unmarshalNImageVariationSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationSort(ctx context.Context, v interface{}) (ImageVariationSort, error) {
 	var res ImageVariationSort
-	return res, res.UnmarshalGQL(v)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNImageVariationSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationSort(ctx context.Context, sel ast.SelectionSet, v ImageVariationSort) graphql.Marshaler {
@@ -18675,11 +19389,13 @@ func (ec *executionContext) marshalNImageVariationSort2githubᚗcomᚋwebᚑridg
 }
 
 func (ec *executionContext) unmarshalNImageVariationUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationUpdateInput(ctx context.Context, v interface{}) (ImageVariationUpdateInput, error) {
-	return ec.unmarshalInputImageVariationUpdateInput(ctx, v)
+	res, err := ec.unmarshalInputImageVariationUpdateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNImageVariationsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationsCreateInput(ctx context.Context, v interface{}) (ImageVariationsCreateInput, error) {
-	return ec.unmarshalInputImageVariationsCreateInput(ctx, v)
+	res, err := ec.unmarshalInputImageVariationsCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNImageVariationsDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationsDeletePayload(ctx context.Context, sel ast.SelectionSet, v ImageVariationsDeletePayload) graphql.Marshaler {
@@ -18725,7 +19441,8 @@ func (ec *executionContext) marshalNImageVariationsUpdatePayload2ᚖgithubᚗcom
 }
 
 func (ec *executionContext) unmarshalNImagesCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImagesCreateInput(ctx context.Context, v interface{}) (ImagesCreateInput, error) {
-	return ec.unmarshalInputImagesCreateInput(ctx, v)
+	res, err := ec.unmarshalInputImagesCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNImagesDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImagesDeletePayload(ctx context.Context, sel ast.SelectionSet, v ImagesDeletePayload) graphql.Marshaler {
@@ -18771,7 +19488,8 @@ func (ec *executionContext) marshalNImagesUpdatePayload2ᚖgithubᚗcomᚋwebᚑ
 }
 
 func (ec *executionContext) unmarshalNInt2int(ctx context.Context, v interface{}) (int, error) {
-	return graphql.UnmarshalInt(v)
+	res, err := graphql.UnmarshalInt(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.SelectionSet, v int) graphql.Marshaler {
@@ -18850,7 +19568,8 @@ func (ec *executionContext) marshalNLikeConnection2ᚖgithubᚗcomᚋwebᚑridge
 }
 
 func (ec *executionContext) unmarshalNLikeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeCreateInput(ctx context.Context, v interface{}) (LikeCreateInput, error) {
-	return ec.unmarshalInputLikeCreateInput(ctx, v)
+	res, err := ec.unmarshalInputLikeCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNLikeCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeCreateInputᚄ(ctx context.Context, v interface{}) ([]*LikeCreateInput, error) {
@@ -18865,6 +19584,7 @@ func (ec *executionContext) unmarshalNLikeCreateInput2ᚕᚖgithubᚗcomᚋweb�
 	var err error
 	res := make([]*LikeCreateInput, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNLikeCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeCreateInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -18874,11 +19594,8 @@ func (ec *executionContext) unmarshalNLikeCreateInput2ᚕᚖgithubᚗcomᚋweb�
 }
 
 func (ec *executionContext) unmarshalNLikeCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeCreateInput(ctx context.Context, v interface{}) (*LikeCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNLikeCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeCreateInput(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputLikeCreateInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNLikeDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeDeletePayload(ctx context.Context, sel ast.SelectionSet, v LikeDeletePayload) graphql.Marshaler {
@@ -18895,16 +19612,9 @@ func (ec *executionContext) marshalNLikeDeletePayload2ᚖgithubᚗcomᚋwebᚑri
 	return ec._LikeDeletePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNLikeOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeOrdering(ctx context.Context, v interface{}) (LikeOrdering, error) {
-	return ec.unmarshalInputLikeOrdering(ctx, v)
-}
-
 func (ec *executionContext) unmarshalNLikeOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeOrdering(ctx context.Context, v interface{}) (*LikeOrdering, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNLikeOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeOrdering(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputLikeOrdering(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNLikePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikePayload(ctx context.Context, sel ast.SelectionSet, v LikePayload) graphql.Marshaler {
@@ -18923,7 +19633,8 @@ func (ec *executionContext) marshalNLikePayload2ᚖgithubᚗcomᚋwebᚑridgeᚋ
 
 func (ec *executionContext) unmarshalNLikeSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeSort(ctx context.Context, v interface{}) (LikeSort, error) {
 	var res LikeSort
-	return res, res.UnmarshalGQL(v)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNLikeSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeSort(ctx context.Context, sel ast.SelectionSet, v LikeSort) graphql.Marshaler {
@@ -18931,11 +19642,13 @@ func (ec *executionContext) marshalNLikeSort2githubᚗcomᚋwebᚑridgeᚋgqlgen
 }
 
 func (ec *executionContext) unmarshalNLikeUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeUpdateInput(ctx context.Context, v interface{}) (LikeUpdateInput, error) {
-	return ec.unmarshalInputLikeUpdateInput(ctx, v)
+	res, err := ec.unmarshalInputLikeUpdateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNLikesCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikesCreateInput(ctx context.Context, v interface{}) (LikesCreateInput, error) {
-	return ec.unmarshalInputLikesCreateInput(ctx, v)
+	res, err := ec.unmarshalInputLikesCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNLikesDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikesDeletePayload(ctx context.Context, sel ast.SelectionSet, v LikesDeletePayload) graphql.Marshaler {
@@ -18978,10 +19691,6 @@ func (ec *executionContext) marshalNLikesUpdatePayload2ᚖgithubᚗcomᚋwebᚑr
 		return graphql.Null
 	}
 	return ec._LikesUpdatePayload(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNPageInfo2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPageInfo(ctx context.Context, sel ast.SelectionSet, v PageInfo) graphql.Marshaler {
-	return ec._PageInfo(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNPageInfo2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPageInfo(ctx context.Context, sel ast.SelectionSet, v *PageInfo) graphql.Marshaler {
@@ -19060,7 +19769,8 @@ func (ec *executionContext) marshalNPostConnection2ᚖgithubᚗcomᚋwebᚑridge
 }
 
 func (ec *executionContext) unmarshalNPostCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostCreateInput(ctx context.Context, v interface{}) (PostCreateInput, error) {
-	return ec.unmarshalInputPostCreateInput(ctx, v)
+	res, err := ec.unmarshalInputPostCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNPostCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostCreateInputᚄ(ctx context.Context, v interface{}) ([]*PostCreateInput, error) {
@@ -19075,6 +19785,7 @@ func (ec *executionContext) unmarshalNPostCreateInput2ᚕᚖgithubᚗcomᚋweb�
 	var err error
 	res := make([]*PostCreateInput, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNPostCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostCreateInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -19084,11 +19795,8 @@ func (ec *executionContext) unmarshalNPostCreateInput2ᚕᚖgithubᚗcomᚋweb�
 }
 
 func (ec *executionContext) unmarshalNPostCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostCreateInput(ctx context.Context, v interface{}) (*PostCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNPostCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostCreateInput(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputPostCreateInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNPostDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostDeletePayload(ctx context.Context, sel ast.SelectionSet, v PostDeletePayload) graphql.Marshaler {
@@ -19105,16 +19813,9 @@ func (ec *executionContext) marshalNPostDeletePayload2ᚖgithubᚗcomᚋwebᚑri
 	return ec._PostDeletePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNPostOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostOrdering(ctx context.Context, v interface{}) (PostOrdering, error) {
-	return ec.unmarshalInputPostOrdering(ctx, v)
-}
-
 func (ec *executionContext) unmarshalNPostOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostOrdering(ctx context.Context, v interface{}) (*PostOrdering, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNPostOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostOrdering(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputPostOrdering(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNPostPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostPayload(ctx context.Context, sel ast.SelectionSet, v PostPayload) graphql.Marshaler {
@@ -19133,7 +19834,8 @@ func (ec *executionContext) marshalNPostPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋ
 
 func (ec *executionContext) unmarshalNPostSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostSort(ctx context.Context, v interface{}) (PostSort, error) {
 	var res PostSort
-	return res, res.UnmarshalGQL(v)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNPostSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostSort(ctx context.Context, sel ast.SelectionSet, v PostSort) graphql.Marshaler {
@@ -19141,11 +19843,13 @@ func (ec *executionContext) marshalNPostSort2githubᚗcomᚋwebᚑridgeᚋgqlgen
 }
 
 func (ec *executionContext) unmarshalNPostUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostUpdateInput(ctx context.Context, v interface{}) (PostUpdateInput, error) {
-	return ec.unmarshalInputPostUpdateInput(ctx, v)
+	res, err := ec.unmarshalInputPostUpdateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNPostsCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostsCreateInput(ctx context.Context, v interface{}) (PostsCreateInput, error) {
-	return ec.unmarshalInputPostsCreateInput(ctx, v)
+	res, err := ec.unmarshalInputPostsCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNPostsDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostsDeletePayload(ctx context.Context, sel ast.SelectionSet, v PostsDeletePayload) graphql.Marshaler {
@@ -19192,7 +19896,8 @@ func (ec *executionContext) marshalNPostsUpdatePayload2ᚖgithubᚗcomᚋwebᚑr
 
 func (ec *executionContext) unmarshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐSortDirection(ctx context.Context, v interface{}) (boilergql.SortDirection, error) {
 	var res boilergql.SortDirection
-	return res, res.UnmarshalGQL(v)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐSortDirection(ctx context.Context, sel ast.SelectionSet, v boilergql.SortDirection) graphql.Marshaler {
@@ -19200,7 +19905,8 @@ func (ec *executionContext) marshalNSortDirection2githubᚗcomᚋwebᚑridgeᚋu
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {
-	return graphql.UnmarshalString(v)
+	res, err := graphql.UnmarshalString(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.SelectionSet, v string) graphql.Marshaler {
@@ -19279,7 +19985,8 @@ func (ec *executionContext) marshalNUserConnection2ᚖgithubᚗcomᚋwebᚑridge
 }
 
 func (ec *executionContext) unmarshalNUserCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserCreateInput(ctx context.Context, v interface{}) (UserCreateInput, error) {
-	return ec.unmarshalInputUserCreateInput(ctx, v)
+	res, err := ec.unmarshalInputUserCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNUserCreateInput2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserCreateInputᚄ(ctx context.Context, v interface{}) ([]*UserCreateInput, error) {
@@ -19294,6 +20001,7 @@ func (ec *executionContext) unmarshalNUserCreateInput2ᚕᚖgithubᚗcomᚋweb�
 	var err error
 	res := make([]*UserCreateInput, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNUserCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserCreateInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -19303,11 +20011,8 @@ func (ec *executionContext) unmarshalNUserCreateInput2ᚕᚖgithubᚗcomᚋweb�
 }
 
 func (ec *executionContext) unmarshalNUserCreateInput2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserCreateInput(ctx context.Context, v interface{}) (*UserCreateInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNUserCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserCreateInput(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputUserCreateInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNUserDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserDeletePayload(ctx context.Context, sel ast.SelectionSet, v UserDeletePayload) graphql.Marshaler {
@@ -19324,16 +20029,9 @@ func (ec *executionContext) marshalNUserDeletePayload2ᚖgithubᚗcomᚋwebᚑri
 	return ec._UserDeletePayload(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNUserOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserOrdering(ctx context.Context, v interface{}) (UserOrdering, error) {
-	return ec.unmarshalInputUserOrdering(ctx, v)
-}
-
 func (ec *executionContext) unmarshalNUserOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserOrdering(ctx context.Context, v interface{}) (*UserOrdering, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalNUserOrdering2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserOrdering(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputUserOrdering(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNUserPayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserPayload(ctx context.Context, sel ast.SelectionSet, v UserPayload) graphql.Marshaler {
@@ -19352,7 +20050,8 @@ func (ec *executionContext) marshalNUserPayload2ᚖgithubᚗcomᚋwebᚑridgeᚋ
 
 func (ec *executionContext) unmarshalNUserSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserSort(ctx context.Context, v interface{}) (UserSort, error) {
 	var res UserSort
-	return res, res.UnmarshalGQL(v)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNUserSort2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserSort(ctx context.Context, sel ast.SelectionSet, v UserSort) graphql.Marshaler {
@@ -19360,11 +20059,13 @@ func (ec *executionContext) marshalNUserSort2githubᚗcomᚋwebᚑridgeᚋgqlgen
 }
 
 func (ec *executionContext) unmarshalNUserUpdateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserUpdateInput(ctx context.Context, v interface{}) (UserUpdateInput, error) {
-	return ec.unmarshalInputUserUpdateInput(ctx, v)
+	res, err := ec.unmarshalInputUserUpdateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNUsersCreateInput2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUsersCreateInput(ctx context.Context, v interface{}) (UsersCreateInput, error) {
-	return ec.unmarshalInputUsersCreateInput(ctx, v)
+	res, err := ec.unmarshalInputUsersCreateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNUsersDeletePayload2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUsersDeletePayload(ctx context.Context, sel ast.SelectionSet, v UsersDeletePayload) graphql.Marshaler {
@@ -19451,7 +20152,8 @@ func (ec *executionContext) marshalN__Directive2ᚕgithubᚗcomᚋ99designsᚋgq
 }
 
 func (ec *executionContext) unmarshalN__DirectiveLocation2string(ctx context.Context, v interface{}) (string, error) {
-	return graphql.UnmarshalString(v)
+	res, err := graphql.UnmarshalString(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalN__DirectiveLocation2string(ctx context.Context, sel ast.SelectionSet, v string) graphql.Marshaler {
@@ -19476,6 +20178,7 @@ func (ec *executionContext) unmarshalN__DirectiveLocation2ᚕstringᚄ(ctx conte
 	var err error
 	res := make([]string, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalN__DirectiveLocation2string(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -19622,7 +20325,8 @@ func (ec *executionContext) marshalN__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgen�
 }
 
 func (ec *executionContext) unmarshalN__TypeKind2string(ctx context.Context, v interface{}) (string, error) {
-	return graphql.UnmarshalString(v)
+	res, err := graphql.UnmarshalString(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel ast.SelectionSet, v string) graphql.Marshaler {
@@ -19636,7 +20340,8 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 }
 
 func (ec *executionContext) unmarshalOBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
-	return graphql.UnmarshalBoolean(v)
+	res, err := graphql.UnmarshalBoolean(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOBoolean2bool(ctx context.Context, sel ast.SelectionSet, v bool) graphql.Marshaler {
@@ -19647,19 +20352,15 @@ func (ec *executionContext) unmarshalOBoolean2ᚖbool(ctx context.Context, v int
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOBoolean2bool(ctx, v)
-	return &res, err
+	res, err := graphql.UnmarshalBoolean(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast.SelectionSet, v *bool) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
-	return ec.marshalOBoolean2bool(ctx, sel, *v)
-}
-
-func (ec *executionContext) marshalOComment2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐComment(ctx context.Context, sel ast.SelectionSet, v Comment) graphql.Marshaler {
-	return ec._Comment(ctx, sel, &v)
+	return graphql.MarshalBoolean(*v)
 }
 
 func (ec *executionContext) marshalOComment2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐComment(ctx context.Context, sel ast.SelectionSet, v []*Comment) graphql.Marshaler {
@@ -19709,10 +20410,6 @@ func (ec *executionContext) marshalOComment2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlg
 	return ec._Comment(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOCommentEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentEdge(ctx context.Context, sel ast.SelectionSet, v CommentEdge) graphql.Marshaler {
-	return ec._CommentEdge(ctx, sel, &v)
-}
-
 func (ec *executionContext) marshalOCommentEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentEdge(ctx context.Context, sel ast.SelectionSet, v []*CommentEdge) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -19760,20 +20457,12 @@ func (ec *executionContext) marshalOCommentEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋ
 	return ec._CommentEdge(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOCommentFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentFilter(ctx context.Context, v interface{}) (CommentFilter, error) {
-	return ec.unmarshalInputCommentFilter(ctx, v)
-}
-
 func (ec *executionContext) unmarshalOCommentFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentFilter(ctx context.Context, v interface{}) (*CommentFilter, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOCommentFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentFilter(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) marshalOCommentLike2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLike(ctx context.Context, sel ast.SelectionSet, v CommentLike) graphql.Marshaler {
-	return ec._CommentLike(ctx, sel, &v)
+	res, err := ec.unmarshalInputCommentFilter(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOCommentLike2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLike(ctx context.Context, sel ast.SelectionSet, v []*CommentLike) graphql.Marshaler {
@@ -19823,10 +20512,6 @@ func (ec *executionContext) marshalOCommentLike2ᚖgithubᚗcomᚋwebᚑridgeᚋ
 	return ec._CommentLike(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOCommentLikeEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeEdge(ctx context.Context, sel ast.SelectionSet, v CommentLikeEdge) graphql.Marshaler {
-	return ec._CommentLikeEdge(ctx, sel, &v)
-}
-
 func (ec *executionContext) marshalOCommentLikeEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeEdge(ctx context.Context, sel ast.SelectionSet, v []*CommentLikeEdge) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -19874,19 +20559,18 @@ func (ec *executionContext) marshalOCommentLikeEdge2ᚖgithubᚗcomᚋwebᚑridg
 	return ec._CommentLikeEdge(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOCommentLikeFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeFilter(ctx context.Context, v interface{}) (CommentLikeFilter, error) {
-	return ec.unmarshalInputCommentLikeFilter(ctx, v)
-}
-
 func (ec *executionContext) unmarshalOCommentLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeFilter(ctx context.Context, v interface{}) (*CommentLikeFilter, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOCommentLikeFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeFilter(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputCommentLikeFilter(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOCommentLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeOrderingᚄ(ctx context.Context, v interface{}) ([]*CommentLikeOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
 	var vSlice []interface{}
 	if v != nil {
 		if tmp1, ok := v.([]interface{}); ok {
@@ -19898,6 +20582,7 @@ func (ec *executionContext) unmarshalOCommentLikeOrdering2ᚕᚖgithubᚗcomᚋw
 	var err error
 	res := make([]*CommentLikeOrdering, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNCommentLikeOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeOrdering(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -19906,19 +20591,18 @@ func (ec *executionContext) unmarshalOCommentLikeOrdering2ᚕᚖgithubᚗcomᚋw
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOCommentLikeWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeWhere(ctx context.Context, v interface{}) (CommentLikeWhere, error) {
-	return ec.unmarshalInputCommentLikeWhere(ctx, v)
-}
-
 func (ec *executionContext) unmarshalOCommentLikeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeWhere(ctx context.Context, v interface{}) (*CommentLikeWhere, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOCommentLikeWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentLikeWhere(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputCommentLikeWhere(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOCommentOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentOrderingᚄ(ctx context.Context, v interface{}) ([]*CommentOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
 	var vSlice []interface{}
 	if v != nil {
 		if tmp1, ok := v.([]interface{}); ok {
@@ -19930,6 +20614,7 @@ func (ec *executionContext) unmarshalOCommentOrdering2ᚕᚖgithubᚗcomᚋweb�
 	var err error
 	res := make([]*CommentOrdering, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNCommentOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentOrdering(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -19938,51 +20623,18 @@ func (ec *executionContext) unmarshalOCommentOrdering2ᚕᚖgithubᚗcomᚋweb�
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOCommentWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentWhere(ctx context.Context, v interface{}) (CommentWhere, error) {
-	return ec.unmarshalInputCommentWhere(ctx, v)
-}
-
 func (ec *executionContext) unmarshalOCommentWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentWhere(ctx context.Context, v interface{}) (*CommentWhere, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOCommentWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐCommentWhere(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) unmarshalOConnectionBackwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionBackwardPagination(ctx context.Context, v interface{}) (boilergql.ConnectionBackwardPagination, error) {
-	return ec.unmarshalInputConnectionBackwardPagination(ctx, v)
-}
-
-func (ec *executionContext) unmarshalOConnectionBackwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionBackwardPagination(ctx context.Context, v interface{}) (*boilergql.ConnectionBackwardPagination, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalOConnectionBackwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionBackwardPagination(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) unmarshalOConnectionForwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionForwardPagination(ctx context.Context, v interface{}) (boilergql.ConnectionForwardPagination, error) {
-	return ec.unmarshalInputConnectionForwardPagination(ctx, v)
-}
-
-func (ec *executionContext) unmarshalOConnectionForwardPagination2ᚖgithubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionForwardPagination(ctx context.Context, v interface{}) (*boilergql.ConnectionForwardPagination, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalOConnectionForwardPagination2githubᚗcomᚋwebᚑridgeᚋutilsᚑgoᚋboilergqlᚋv3ᚐConnectionForwardPagination(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) unmarshalOFloat2float64(ctx context.Context, v interface{}) (float64, error) {
-	return graphql.UnmarshalFloat(v)
-}
-
-func (ec *executionContext) marshalOFloat2float64(ctx context.Context, sel ast.SelectionSet, v float64) graphql.Marshaler {
-	return graphql.MarshalFloat(v)
+	res, err := ec.unmarshalInputCommentWhere(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOFloat2ᚕfloat64ᚄ(ctx context.Context, v interface{}) ([]float64, error) {
+	if v == nil {
+		return nil, nil
+	}
 	var vSlice []interface{}
 	if v != nil {
 		if tmp1, ok := v.([]interface{}); ok {
@@ -19994,6 +20646,7 @@ func (ec *executionContext) unmarshalOFloat2ᚕfloat64ᚄ(ctx context.Context, v
 	var err error
 	res := make([]float64, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNFloat2float64(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -20018,19 +20671,15 @@ func (ec *executionContext) unmarshalOFloat2ᚖfloat64(ctx context.Context, v in
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOFloat2float64(ctx, v)
-	return &res, err
+	res, err := graphql.UnmarshalFloat(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOFloat2ᚖfloat64(ctx context.Context, sel ast.SelectionSet, v *float64) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
-	return ec.marshalOFloat2float64(ctx, sel, *v)
-}
-
-func (ec *executionContext) marshalOFriendship2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendship(ctx context.Context, sel ast.SelectionSet, v Friendship) graphql.Marshaler {
-	return ec._Friendship(ctx, sel, &v)
+	return graphql.MarshalFloat(*v)
 }
 
 func (ec *executionContext) marshalOFriendship2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendship(ctx context.Context, sel ast.SelectionSet, v []*Friendship) graphql.Marshaler {
@@ -20080,10 +20729,6 @@ func (ec *executionContext) marshalOFriendship2ᚖgithubᚗcomᚋwebᚑridgeᚋg
 	return ec._Friendship(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOFriendshipEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipEdge(ctx context.Context, sel ast.SelectionSet, v FriendshipEdge) graphql.Marshaler {
-	return ec._FriendshipEdge(ctx, sel, &v)
-}
-
 func (ec *executionContext) marshalOFriendshipEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipEdge(ctx context.Context, sel ast.SelectionSet, v []*FriendshipEdge) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -20131,19 +20776,18 @@ func (ec *executionContext) marshalOFriendshipEdge2ᚖgithubᚗcomᚋwebᚑridge
 	return ec._FriendshipEdge(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOFriendshipFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipFilter(ctx context.Context, v interface{}) (FriendshipFilter, error) {
-	return ec.unmarshalInputFriendshipFilter(ctx, v)
-}
-
 func (ec *executionContext) unmarshalOFriendshipFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipFilter(ctx context.Context, v interface{}) (*FriendshipFilter, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOFriendshipFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipFilter(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputFriendshipFilter(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOFriendshipOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipOrderingᚄ(ctx context.Context, v interface{}) ([]*FriendshipOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
 	var vSlice []interface{}
 	if v != nil {
 		if tmp1, ok := v.([]interface{}); ok {
@@ -20155,6 +20799,7 @@ func (ec *executionContext) unmarshalOFriendshipOrdering2ᚕᚖgithubᚗcomᚋwe
 	var err error
 	res := make([]*FriendshipOrdering, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNFriendshipOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipOrdering(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -20163,27 +20808,18 @@ func (ec *executionContext) unmarshalOFriendshipOrdering2ᚕᚖgithubᚗcomᚋwe
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOFriendshipWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipWhere(ctx context.Context, v interface{}) (FriendshipWhere, error) {
-	return ec.unmarshalInputFriendshipWhere(ctx, v)
-}
-
 func (ec *executionContext) unmarshalOFriendshipWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipWhere(ctx context.Context, v interface{}) (*FriendshipWhere, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOFriendshipWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐFriendshipWhere(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) unmarshalOID2string(ctx context.Context, v interface{}) (string, error) {
-	return graphql.UnmarshalID(v)
-}
-
-func (ec *executionContext) marshalOID2string(ctx context.Context, sel ast.SelectionSet, v string) graphql.Marshaler {
-	return graphql.MarshalID(v)
+	res, err := ec.unmarshalInputFriendshipWhere(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOID2ᚕstringᚄ(ctx context.Context, v interface{}) ([]string, error) {
+	if v == nil {
+		return nil, nil
+	}
 	var vSlice []interface{}
 	if v != nil {
 		if tmp1, ok := v.([]interface{}); ok {
@@ -20195,6 +20831,7 @@ func (ec *executionContext) unmarshalOID2ᚕstringᚄ(ctx context.Context, v int
 	var err error
 	res := make([]string, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNID2string(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -20219,31 +20856,23 @@ func (ec *executionContext) unmarshalOID2ᚖstring(ctx context.Context, v interf
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOID2string(ctx, v)
-	return &res, err
+	res, err := graphql.UnmarshalID(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOID2ᚖstring(ctx context.Context, sel ast.SelectionSet, v *string) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
-	return ec.marshalOID2string(ctx, sel, *v)
-}
-
-func (ec *executionContext) unmarshalOIDFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIDFilter(ctx context.Context, v interface{}) (IDFilter, error) {
-	return ec.unmarshalInputIDFilter(ctx, v)
+	return graphql.MarshalID(*v)
 }
 
 func (ec *executionContext) unmarshalOIDFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIDFilter(ctx context.Context, v interface{}) (*IDFilter, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOIDFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIDFilter(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) marshalOImage2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImage(ctx context.Context, sel ast.SelectionSet, v Image) graphql.Marshaler {
-	return ec._Image(ctx, sel, &v)
+	res, err := ec.unmarshalInputIDFilter(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOImage2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImage(ctx context.Context, sel ast.SelectionSet, v []*Image) graphql.Marshaler {
@@ -20293,10 +20922,6 @@ func (ec *executionContext) marshalOImage2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen
 	return ec._Image(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOImageEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageEdge(ctx context.Context, sel ast.SelectionSet, v ImageEdge) graphql.Marshaler {
-	return ec._ImageEdge(ctx, sel, &v)
-}
-
 func (ec *executionContext) marshalOImageEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageEdge(ctx context.Context, sel ast.SelectionSet, v []*ImageEdge) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -20344,19 +20969,18 @@ func (ec *executionContext) marshalOImageEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgq
 	return ec._ImageEdge(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOImageFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageFilter(ctx context.Context, v interface{}) (ImageFilter, error) {
-	return ec.unmarshalInputImageFilter(ctx, v)
-}
-
 func (ec *executionContext) unmarshalOImageFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageFilter(ctx context.Context, v interface{}) (*ImageFilter, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOImageFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageFilter(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputImageFilter(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOImageOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageOrderingᚄ(ctx context.Context, v interface{}) ([]*ImageOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
 	var vSlice []interface{}
 	if v != nil {
 		if tmp1, ok := v.([]interface{}); ok {
@@ -20368,16 +20992,13 @@ func (ec *executionContext) unmarshalOImageOrdering2ᚕᚖgithubᚗcomᚋwebᚑr
 	var err error
 	res := make([]*ImageOrdering, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNImageOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageOrdering(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
 	}
 	return res, nil
-}
-
-func (ec *executionContext) marshalOImageVariation2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariation(ctx context.Context, sel ast.SelectionSet, v ImageVariation) graphql.Marshaler {
-	return ec._ImageVariation(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalOImageVariation2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariation(ctx context.Context, sel ast.SelectionSet, v []*ImageVariation) graphql.Marshaler {
@@ -20427,10 +21048,6 @@ func (ec *executionContext) marshalOImageVariation2ᚖgithubᚗcomᚋwebᚑridge
 	return ec._ImageVariation(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOImageVariationEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationEdge(ctx context.Context, sel ast.SelectionSet, v ImageVariationEdge) graphql.Marshaler {
-	return ec._ImageVariationEdge(ctx, sel, &v)
-}
-
 func (ec *executionContext) marshalOImageVariationEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationEdge(ctx context.Context, sel ast.SelectionSet, v []*ImageVariationEdge) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -20478,19 +21095,18 @@ func (ec *executionContext) marshalOImageVariationEdge2ᚖgithubᚗcomᚋwebᚑr
 	return ec._ImageVariationEdge(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOImageVariationFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationFilter(ctx context.Context, v interface{}) (ImageVariationFilter, error) {
-	return ec.unmarshalInputImageVariationFilter(ctx, v)
-}
-
 func (ec *executionContext) unmarshalOImageVariationFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationFilter(ctx context.Context, v interface{}) (*ImageVariationFilter, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOImageVariationFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationFilter(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputImageVariationFilter(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOImageVariationOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationOrderingᚄ(ctx context.Context, v interface{}) ([]*ImageVariationOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
 	var vSlice []interface{}
 	if v != nil {
 		if tmp1, ok := v.([]interface{}); ok {
@@ -20502,6 +21118,7 @@ func (ec *executionContext) unmarshalOImageVariationOrdering2ᚕᚖgithubᚗcom�
 	var err error
 	res := make([]*ImageVariationOrdering, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNImageVariationOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationOrdering(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -20510,39 +21127,26 @@ func (ec *executionContext) unmarshalOImageVariationOrdering2ᚕᚖgithubᚗcom�
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOImageVariationWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationWhere(ctx context.Context, v interface{}) (ImageVariationWhere, error) {
-	return ec.unmarshalInputImageVariationWhere(ctx, v)
-}
-
 func (ec *executionContext) unmarshalOImageVariationWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationWhere(ctx context.Context, v interface{}) (*ImageVariationWhere, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOImageVariationWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageVariationWhere(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) unmarshalOImageWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageWhere(ctx context.Context, v interface{}) (ImageWhere, error) {
-	return ec.unmarshalInputImageWhere(ctx, v)
+	res, err := ec.unmarshalInputImageVariationWhere(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOImageWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageWhere(ctx context.Context, v interface{}) (*ImageWhere, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOImageWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐImageWhere(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) unmarshalOInt2int(ctx context.Context, v interface{}) (int, error) {
-	return graphql.UnmarshalInt(v)
-}
-
-func (ec *executionContext) marshalOInt2int(ctx context.Context, sel ast.SelectionSet, v int) graphql.Marshaler {
-	return graphql.MarshalInt(v)
+	res, err := ec.unmarshalInputImageWhere(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOInt2ᚕintᚄ(ctx context.Context, v interface{}) ([]int, error) {
+	if v == nil {
+		return nil, nil
+	}
 	var vSlice []interface{}
 	if v != nil {
 		if tmp1, ok := v.([]interface{}); ok {
@@ -20554,6 +21158,7 @@ func (ec *executionContext) unmarshalOInt2ᚕintᚄ(ctx context.Context, v inter
 	var err error
 	res := make([]int, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNInt2int(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -20578,31 +21183,23 @@ func (ec *executionContext) unmarshalOInt2ᚖint(ctx context.Context, v interfac
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOInt2int(ctx, v)
-	return &res, err
+	res, err := graphql.UnmarshalInt(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.SelectionSet, v *int) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
-	return ec.marshalOInt2int(ctx, sel, *v)
-}
-
-func (ec *executionContext) unmarshalOIntFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIntFilter(ctx context.Context, v interface{}) (IntFilter, error) {
-	return ec.unmarshalInputIntFilter(ctx, v)
+	return graphql.MarshalInt(*v)
 }
 
 func (ec *executionContext) unmarshalOIntFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIntFilter(ctx context.Context, v interface{}) (*IntFilter, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOIntFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐIntFilter(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) marshalOLike2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLike(ctx context.Context, sel ast.SelectionSet, v Like) graphql.Marshaler {
-	return ec._Like(ctx, sel, &v)
+	res, err := ec.unmarshalInputIntFilter(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOLike2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLike(ctx context.Context, sel ast.SelectionSet, v []*Like) graphql.Marshaler {
@@ -20652,10 +21249,6 @@ func (ec *executionContext) marshalOLike2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen�
 	return ec._Like(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOLikeEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeEdge(ctx context.Context, sel ast.SelectionSet, v LikeEdge) graphql.Marshaler {
-	return ec._LikeEdge(ctx, sel, &v)
-}
-
 func (ec *executionContext) marshalOLikeEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeEdge(ctx context.Context, sel ast.SelectionSet, v []*LikeEdge) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -20703,19 +21296,18 @@ func (ec *executionContext) marshalOLikeEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgql
 	return ec._LikeEdge(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOLikeFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeFilter(ctx context.Context, v interface{}) (LikeFilter, error) {
-	return ec.unmarshalInputLikeFilter(ctx, v)
-}
-
 func (ec *executionContext) unmarshalOLikeFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeFilter(ctx context.Context, v interface{}) (*LikeFilter, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOLikeFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeFilter(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputLikeFilter(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeOrderingᚄ(ctx context.Context, v interface{}) ([]*LikeOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
 	var vSlice []interface{}
 	if v != nil {
 		if tmp1, ok := v.([]interface{}); ok {
@@ -20727,6 +21319,7 @@ func (ec *executionContext) unmarshalOLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑri
 	var err error
 	res := make([]*LikeOrdering, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNLikeOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeOrdering(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -20735,16 +21328,12 @@ func (ec *executionContext) unmarshalOLikeOrdering2ᚕᚖgithubᚗcomᚋwebᚑri
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOLikeWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeWhere(ctx context.Context, v interface{}) (LikeWhere, error) {
-	return ec.unmarshalInputLikeWhere(ctx, v)
-}
-
 func (ec *executionContext) unmarshalOLikeWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeWhere(ctx context.Context, v interface{}) (*LikeWhere, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOLikeWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐLikeWhere(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputLikeWhere(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalONode2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐNode(ctx context.Context, sel ast.SelectionSet, v Node) graphql.Marshaler {
@@ -20752,10 +21341,6 @@ func (ec *executionContext) marshalONode2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑs
 		return graphql.Null
 	}
 	return ec._Node(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalOPost2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPost(ctx context.Context, sel ast.SelectionSet, v Post) graphql.Marshaler {
-	return ec._Post(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalOPost2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPost(ctx context.Context, sel ast.SelectionSet, v []*Post) graphql.Marshaler {
@@ -20805,10 +21390,6 @@ func (ec *executionContext) marshalOPost2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen�
 	return ec._Post(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOPostEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostEdge(ctx context.Context, sel ast.SelectionSet, v PostEdge) graphql.Marshaler {
-	return ec._PostEdge(ctx, sel, &v)
-}
-
 func (ec *executionContext) marshalOPostEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostEdge(ctx context.Context, sel ast.SelectionSet, v []*PostEdge) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -20856,19 +21437,18 @@ func (ec *executionContext) marshalOPostEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgql
 	return ec._PostEdge(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOPostFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostFilter(ctx context.Context, v interface{}) (PostFilter, error) {
-	return ec.unmarshalInputPostFilter(ctx, v)
-}
-
 func (ec *executionContext) unmarshalOPostFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostFilter(ctx context.Context, v interface{}) (*PostFilter, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOPostFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostFilter(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputPostFilter(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOPostOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostOrderingᚄ(ctx context.Context, v interface{}) ([]*PostOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
 	var vSlice []interface{}
 	if v != nil {
 		if tmp1, ok := v.([]interface{}); ok {
@@ -20880,6 +21460,7 @@ func (ec *executionContext) unmarshalOPostOrdering2ᚕᚖgithubᚗcomᚋwebᚑri
 	var err error
 	res := make([]*PostOrdering, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNPostOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostOrdering(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -20888,20 +21469,17 @@ func (ec *executionContext) unmarshalOPostOrdering2ᚕᚖgithubᚗcomᚋwebᚑri
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOPostWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostWhere(ctx context.Context, v interface{}) (PostWhere, error) {
-	return ec.unmarshalInputPostWhere(ctx, v)
-}
-
 func (ec *executionContext) unmarshalOPostWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostWhere(ctx context.Context, v interface{}) (*PostWhere, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOPostWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐPostWhere(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputPostWhere(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOString2string(ctx context.Context, v interface{}) (string, error) {
-	return graphql.UnmarshalString(v)
+	res, err := graphql.UnmarshalString(v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOString2string(ctx context.Context, sel ast.SelectionSet, v string) graphql.Marshaler {
@@ -20909,6 +21487,9 @@ func (ec *executionContext) marshalOString2string(ctx context.Context, sel ast.S
 }
 
 func (ec *executionContext) unmarshalOString2ᚕstringᚄ(ctx context.Context, v interface{}) ([]string, error) {
+	if v == nil {
+		return nil, nil
+	}
 	var vSlice []interface{}
 	if v != nil {
 		if tmp1, ok := v.([]interface{}); ok {
@@ -20920,6 +21501,7 @@ func (ec *executionContext) unmarshalOString2ᚕstringᚄ(ctx context.Context, v
 	var err error
 	res := make([]string, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNString2string(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -20944,31 +21526,23 @@ func (ec *executionContext) unmarshalOString2ᚖstring(ctx context.Context, v in
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOString2string(ctx, v)
-	return &res, err
+	res, err := graphql.UnmarshalString(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel ast.SelectionSet, v *string) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
-	return ec.marshalOString2string(ctx, sel, *v)
-}
-
-func (ec *executionContext) unmarshalOStringFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐStringFilter(ctx context.Context, v interface{}) (StringFilter, error) {
-	return ec.unmarshalInputStringFilter(ctx, v)
+	return graphql.MarshalString(*v)
 }
 
 func (ec *executionContext) unmarshalOStringFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐStringFilter(ctx context.Context, v interface{}) (*StringFilter, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOStringFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐStringFilter(ctx, v)
-	return &res, err
-}
-
-func (ec *executionContext) marshalOUser2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUser(ctx context.Context, sel ast.SelectionSet, v User) graphql.Marshaler {
-	return ec._User(ctx, sel, &v)
+	res, err := ec.unmarshalInputStringFilter(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOUser2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUser(ctx context.Context, sel ast.SelectionSet, v []*User) graphql.Marshaler {
@@ -21018,10 +21592,6 @@ func (ec *executionContext) marshalOUser2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgen�
 	return ec._User(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOUserEdge2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserEdge(ctx context.Context, sel ast.SelectionSet, v UserEdge) graphql.Marshaler {
-	return ec._UserEdge(ctx, sel, &v)
-}
-
 func (ec *executionContext) marshalOUserEdge2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserEdge(ctx context.Context, sel ast.SelectionSet, v []*UserEdge) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -21069,19 +21639,18 @@ func (ec *executionContext) marshalOUserEdge2ᚖgithubᚗcomᚋwebᚑridgeᚋgql
 	return ec._UserEdge(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOUserFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserFilter(ctx context.Context, v interface{}) (UserFilter, error) {
-	return ec.unmarshalInputUserFilter(ctx, v)
-}
-
 func (ec *executionContext) unmarshalOUserFilter2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserFilter(ctx context.Context, v interface{}) (*UserFilter, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOUserFilter2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserFilter(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputUserFilter(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOUserOrdering2ᚕᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserOrderingᚄ(ctx context.Context, v interface{}) ([]*UserOrdering, error) {
+	if v == nil {
+		return nil, nil
+	}
 	var vSlice []interface{}
 	if v != nil {
 		if tmp1, ok := v.([]interface{}); ok {
@@ -21093,6 +21662,7 @@ func (ec *executionContext) unmarshalOUserOrdering2ᚕᚖgithubᚗcomᚋwebᚑri
 	var err error
 	res := make([]*UserOrdering, len(vSlice))
 	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
 		res[i], err = ec.unmarshalNUserOrdering2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserOrdering(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
@@ -21101,16 +21671,12 @@ func (ec *executionContext) unmarshalOUserOrdering2ᚕᚖgithubᚗcomᚋwebᚑri
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOUserWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserWhere(ctx context.Context, v interface{}) (UserWhere, error) {
-	return ec.unmarshalInputUserWhere(ctx, v)
-}
-
 func (ec *executionContext) unmarshalOUserWhere2ᚖgithubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserWhere(ctx context.Context, v interface{}) (*UserWhere, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOUserWhere2githubᚗcomᚋwebᚑridgeᚋgqlgenᚑsqlboilerᚑexamplesᚋsocialᚑnetworkᚋgraphql_modelsᚐUserWhere(ctx, v)
-	return &res, err
+	res, err := ec.unmarshalInputUserWhere(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalO__EnumValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐEnumValueᚄ(ctx context.Context, sel ast.SelectionSet, v []introspection.EnumValue) graphql.Marshaler {
@@ -21233,19 +21799,11 @@ func (ec *executionContext) marshalO__InputValue2ᚕgithubᚗcomᚋ99designsᚋg
 	return ret
 }
 
-func (ec *executionContext) marshalO__Schema2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐSchema(ctx context.Context, sel ast.SelectionSet, v introspection.Schema) graphql.Marshaler {
-	return ec.___Schema(ctx, sel, &v)
-}
-
 func (ec *executionContext) marshalO__Schema2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐSchema(ctx context.Context, sel ast.SelectionSet, v *introspection.Schema) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec.___Schema(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalO__Type2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType(ctx context.Context, sel ast.SelectionSet, v introspection.Type) graphql.Marshaler {
-	return ec.___Type(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalO__Type2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐTypeᚄ(ctx context.Context, sel ast.SelectionSet, v []introspection.Type) graphql.Marshaler {

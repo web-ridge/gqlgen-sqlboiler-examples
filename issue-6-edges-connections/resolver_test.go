@@ -9,6 +9,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/helpers"
+
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/stretchr/testify/assert"
 	"github.com/volatiletech/sqlboiler/v4/boil"
@@ -21,7 +23,7 @@ import (
 	fm "github.com/web-ridge/gqlgen-sqlboiler-examples/issue-6-edges-connections/graphql_models"
 )
 
-func getDependencies() (context.Context, *sql.DB, *Resolver) {
+func getDependencies() (context.Context, *sql.DB) {
 	operationCtx := &graphql.OperationContext{
 		Variables: map[string]interface{}{},
 	}
@@ -32,14 +34,12 @@ func getDependencies() (context.Context, *sql.DB, *Resolver) {
 	ctx = graphql.WithOperationContext(ctx, operationCtx)
 	ctx = graphql.WithFieldContext(ctx, fieldCtx)
 	db := getDatabase()
-	resolver := &Resolver{
-		db: db,
-	}
-	return ctx, db, resolver
+
+	return ctx, db
 }
 
 func TestConnections(t *testing.T) {
-	ctx, db, resolver := getDependencies()
+	ctx, db := getDependencies()
 
 	_, err := models.Users().DeleteAll(ctx, db)
 	handleErr(t, err)
@@ -67,12 +67,12 @@ func TestConnections(t *testing.T) {
 	}
 
 	////
-	userConnection, err := resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+	userConnection, err := helpers.UserConnection(ctx, db, nil, boilergql.ConnectionPagination{
 		Forward: &boilergql.ConnectionForwardPagination{
 			First: 10,
 			After: nil,
 		},
-	}, nil, nil)
+	}, nil)
 	handleErr(t, err)
 	if assert.Equal(t, 10, len(userConnection.Edges), "edges not equal") {
 		assert.Equal(t, "Eve20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
@@ -83,12 +83,12 @@ func TestConnections(t *testing.T) {
 
 	endCursor := userConnection.PageInfo.EndCursor
 
-	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+	userConnection, err = helpers.UserConnection(ctx, db, nil, boilergql.ConnectionPagination{
 		Forward: &boilergql.ConnectionForwardPagination{
 			First: 10,
 			After: endCursor,
 		},
-	}, nil, nil)
+	}, nil)
 	handleErr(t, err)
 	if assert.Equal(t, 10, len(userConnection.Edges), "edges not equal") {
 		assert.Equal(t, "Eve10", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
@@ -99,12 +99,12 @@ func TestConnections(t *testing.T) {
 
 	endCursor = userConnection.PageInfo.EndCursor
 
-	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+	userConnection, err = helpers.UserConnection(ctx, db, nil, boilergql.ConnectionPagination{
 		Forward: &boilergql.ConnectionForwardPagination{
 			First: 10,
 			After: endCursor,
 		},
-	}, nil, nil)
+	}, nil)
 	handleErr(t, err)
 	if assert.Equal(t, 10, len(userConnection.Edges), "edges not equal") {
 		assert.Equal(t, "Adam20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
@@ -112,12 +112,12 @@ func TestConnections(t *testing.T) {
 		assert.Equal(t, true, userConnection.PageInfo.HasNextPage, "nextPage not equal")
 		assert.Equal(t, true, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
 	}
-	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+	userConnection, err = helpers.UserConnection(ctx, db, nil, boilergql.ConnectionPagination{
 		Forward: &boilergql.ConnectionForwardPagination{
 			First: 100,
 			After: nil,
 		},
-	}, nil, nil)
+	}, nil)
 	handleErr(t, err)
 	if assert.Equal(t, 40, len(userConnection.Edges), "edges not equal") {
 		assert.Equal(t, "Eve20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
@@ -126,12 +126,12 @@ func TestConnections(t *testing.T) {
 		assert.Equal(t, false, userConnection.PageInfo.HasPreviousPage, "previousPage not equal")
 	}
 	// BACKWARD PAGINATION
-	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+	userConnection, err = helpers.UserConnection(ctx, db, nil, boilergql.ConnectionPagination{
 		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   10,
 			Before: nil,
 		},
-	}, nil, nil)
+	}, nil)
 	handleErr(t, err)
 	if assert.Equal(t, 10, len(userConnection.Edges), "edges not equal") {
 		assert.Equal(t, "Adam10", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
@@ -141,12 +141,12 @@ func TestConnections(t *testing.T) {
 	}
 	startCursor := userConnection.PageInfo.StartCursor
 
-	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+	userConnection, err = helpers.UserConnection(ctx, db, nil, boilergql.ConnectionPagination{
 		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   10,
 			Before: startCursor,
 		},
-	}, nil, nil)
+	}, nil)
 	handleErr(t, err)
 
 	if assert.Equal(t, 10, len(userConnection.Edges), "edges not equal") {
@@ -155,12 +155,12 @@ func TestConnections(t *testing.T) {
 		assert.Equal(t, true, userConnection.PageInfo.HasPreviousPage, "nextPage not equal")
 		assert.Equal(t, true, userConnection.PageInfo.HasNextPage, "previousPage not equal")
 	}
-	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+	userConnection, err = helpers.UserConnection(ctx, db, nil, boilergql.ConnectionPagination{
 		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   100,
 			Before: nil,
 		},
-	}, nil, nil)
+	}, nil)
 	handleErr(t, err)
 	if assert.Equal(t, 40, len(userConnection.Edges), "edges not equal") {
 		assert.Equal(t, "Eve20", firstNameFromUser(userConnection.Edges[0]), "edges not equal")
@@ -190,12 +190,12 @@ func TestConnections(t *testing.T) {
 			Direction: boilergql.SortDirectionAsc,
 		},
 	}
-	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+	userConnection, err = helpers.UserConnection(ctx, db, nil, boilergql.ConnectionPagination{
 		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   20,
 			Before: nil,
 		},
-	}, sort, nil)
+	}, sort)
 	handleErr(t, err)
 
 	startCursor = userConnection.PageInfo.StartCursor
@@ -207,12 +207,12 @@ func TestConnections(t *testing.T) {
 			}
 		}
 	}
-	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+	userConnection, err = helpers.UserConnection(ctx, db, nil, boilergql.ConnectionPagination{
 		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   20,
 			Before: startCursor,
 		},
-	}, sort, nil)
+	}, sort)
 	handleErr(t, err)
 	startCursor = userConnection.PageInfo.StartCursor
 	if assert.Equal(t, 20, len(userConnection.Edges), "edges not equal backward sorting ASC Dirk") {
@@ -224,12 +224,12 @@ func TestConnections(t *testing.T) {
 		}
 	}
 
-	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+	userConnection, err = helpers.UserConnection(ctx, db, nil, boilergql.ConnectionPagination{
 		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   20,
 			Before: startCursor,
 		},
-	}, sort, nil)
+	}, sort)
 	handleErr(t, err)
 	if assert.Equal(t, 20, len(userConnection.Edges), "edges not equal backward sorting ASC Adam") {
 		for _, edge := range userConnection.Edges {
@@ -252,12 +252,12 @@ func TestConnections(t *testing.T) {
 			Direction: boilergql.SortDirectionDesc,
 		},
 	}
-	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+	userConnection, err = helpers.UserConnection(ctx, db, nil, boilergql.ConnectionPagination{
 		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   20,
 			Before: nil,
 		},
-	}, sort, nil)
+	}, sort)
 	handleErr(t, err)
 	startCursor = userConnection.PageInfo.StartCursor
 	if assert.Equal(t, 20, len(userConnection.Edges), "edges not equal backward sorting DESC Adam") {
@@ -268,12 +268,12 @@ func TestConnections(t *testing.T) {
 			}
 		}
 	}
-	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+	userConnection, err = helpers.UserConnection(ctx, db, nil, boilergql.ConnectionPagination{
 		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   20,
 			Before: startCursor,
 		},
-	}, sort, nil)
+	}, sort)
 	handleErr(t, err)
 	startCursor = userConnection.PageInfo.StartCursor
 	if assert.Equal(t, 20, len(userConnection.Edges), "edges not equal backward sorting DESC Dirk") {
@@ -285,12 +285,12 @@ func TestConnections(t *testing.T) {
 		}
 	}
 
-	userConnection, err = resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+	userConnection, err = helpers.UserConnection(ctx, db, nil, boilergql.ConnectionPagination{
 		Backward: &boilergql.ConnectionBackwardPagination{
 			Last:   20,
 			Before: startCursor,
 		},
-	}, sort, nil)
+	}, sort)
 	handleErr(t, err)
 
 	startCursor = userConnection.PageInfo.StartCursor //nolint: ineffassign,staticcheck
@@ -305,7 +305,7 @@ func TestConnections(t *testing.T) {
 }
 
 func TestAscDescSortingAtOnce(t *testing.T) {
-	ctx, db, resolver := getDependencies()
+	ctx, db := getDependencies()
 	_, err := models.Users().DeleteAll(ctx, db)
 	handleErr(t, err)
 
@@ -336,7 +336,6 @@ func TestAscDescSortingAtOnce(t *testing.T) {
 		err = user.Insert(ctx, db, boil.Infer())
 		handleErr(t, err)
 	}
-	fmt.Println(resolver)
 
 	dbUsers, err := models.Users().All(ctx, db)
 	handleErr(t, err)
@@ -359,12 +358,12 @@ func TestAscDescSortingAtOnce(t *testing.T) {
 			// forward
 			var endCursor *string
 			for i := 0; i < 3; i++ {
-				userConnection, err := resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+				userConnection, err := helpers.UserConnection(ctx, db, nil, boilergql.ConnectionPagination{
 					Forward: &boilergql.ConnectionForwardPagination{
 						First: 20,
 						After: endCursor,
 					},
-				}, ordering, nil)
+				}, ordering)
 				handleErr(t, err)
 				endCursor = userConnection.PageInfo.EndCursor
 
@@ -386,12 +385,12 @@ func TestAscDescSortingAtOnce(t *testing.T) {
 			// backward
 			var startCursorBackward *string
 			for i := 0; i < 3; i++ {
-				userConnection, err := resolver.Query().Users(ctx, boilergql.ConnectionPagination{
+				userConnection, err := helpers.UserConnection(ctx, db, nil, boilergql.ConnectionPagination{
 					Backward: &boilergql.ConnectionBackwardPagination{
 						Last:   20,
 						Before: startCursorBackward,
 					},
-				}, ordering, nil)
+				}, ordering)
 				handleErr(t, err)
 				startCursorBackward = userConnection.PageInfo.StartCursor
 

@@ -8,17 +8,10 @@ import (
 
 	"github.com/99designs/gqlgen/api"
 	"github.com/99designs/gqlgen/codegen/config"
-
 	gbgen "github.com/web-ridge/gqlgen-sqlboiler/v3"
 )
 
 func main() {
-	cfg, err := config.LoadConfigFromDefaultLocations()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, "failed to load config", err.Error())
-		os.Exit(2)
-	}
-
 	output := gbgen.Config{
 		Directory:   "helpers", // supports root or sub directories
 		PackageName: "helpers",
@@ -32,7 +25,7 @@ func main() {
 		PackageName: "graphql_models",
 	}
 
-	if err = gbgen.SchemaWrite(gbgen.SchemaConfig{
+	if err := gbgen.SchemaWrite(gbgen.SchemaConfig{
 		BoilerModelDirectory: backend,
 		Directives:           []string{"IsAuthenticated"},
 		GenerateBatchCreate:  false,
@@ -45,6 +38,12 @@ func main() {
 		fmt.Println("error while trying to generate schema.graphql")
 		fmt.Fprintln(os.Stderr, err.Error())
 		os.Exit(3)
+	}
+
+	cfg, err := config.LoadConfigFromDefaultLocations()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "failed to load config", err.Error())
+		os.Exit(2)
 	}
 
 	if err = api.Generate(cfg,
@@ -60,7 +59,7 @@ func main() {
 			output,
 			backend,
 			frontend,
-			"", // leave empty if you don't have auth
+			gbgen.ResolverPluginConfig{}, // leave empty if you don't have auth
 		)),
 	); err != nil {
 		fmt.Println("error while trying generate resolver and converts")

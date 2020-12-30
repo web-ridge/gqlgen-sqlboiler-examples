@@ -19,7 +19,7 @@ TODO: make Youtube video for this example
 
    --no-back-referencing if you don't set it your program will crash with recursive converts!
 
-3. Generate /graphql_models/\* + resolver.go  
+3. Generate schema.grapql, converts (helpers/*) and resolver.go
    `go run convert_plugin.go`
 
 4. ...Let's go!  

@@ -597,6 +597,7 @@ type User struct {
 	FirstName    string         `json:"firstName"`
 	LastName     string         `json:"lastName"`
 	Email        string         `json:"email"`
+	Password     string         `json:"password"`
 	Comments     []*Comment     `json:"comments"`
 	CommentLikes []*CommentLike `json:"commentLikes"`
 	Likes        []*Like        `json:"likes"`
@@ -615,6 +616,7 @@ type UserCreateInput struct {
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
 	Email     string `json:"email"`
+	Password  string `json:"password"`
 }
 
 type UserDeletePayload struct {
@@ -644,6 +646,7 @@ type UserUpdateInput struct {
 	FirstName *string `json:"firstName"`
 	LastName  *string `json:"lastName"`
 	Email     *string `json:"email"`
+	Password  *string `json:"password"`
 }
 
 type UserWhere struct {
@@ -651,6 +654,7 @@ type UserWhere struct {
 	FirstName    *StringFilter     `json:"firstName"`
 	LastName     *StringFilter     `json:"lastName"`
 	Email        *StringFilter     `json:"email"`
+	Password     *StringFilter     `json:"password"`
 	Comments     *CommentWhere     `json:"comments"`
 	CommentLikes *CommentLikeWhere `json:"commentLikes"`
 	Likes        *LikeWhere        `json:"likes"`
@@ -974,6 +978,7 @@ const (
 	UserSortFirstName UserSort = "FIRST_NAME"
 	UserSortLastName  UserSort = "LAST_NAME"
 	UserSortEmail     UserSort = "EMAIL"
+	UserSortPassword  UserSort = "PASSWORD"
 )
 
 var AllUserSort = []UserSort{
@@ -981,11 +986,12 @@ var AllUserSort = []UserSort{
 	UserSortFirstName,
 	UserSortLastName,
 	UserSortEmail,
+	UserSortPassword,
 }
 
 func (e UserSort) IsValid() bool {
 	switch e {
-	case UserSortID, UserSortFirstName, UserSortLastName, UserSortEmail:
+	case UserSortID, UserSortFirstName, UserSortLastName, UserSortEmail, UserSortPassword:
 		return true
 	}
 	return false
