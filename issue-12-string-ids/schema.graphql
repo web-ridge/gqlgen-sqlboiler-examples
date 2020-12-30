@@ -1,0 +1,780 @@
+directive @IsAuthenticated on FIELD_DEFINITION
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+enum SortDirection {
+  ASC
+  DESC
+}
+
+enum CommentSort {
+  ID
+  CONTENT
+}
+
+input CommentOrdering {
+  sort: CommentSort!
+  direction: SortDirection! = ASC
+}
+
+enum CommentLikeSort {
+  ID
+  LIKE_TYPE
+  CREATED_AT
+}
+
+input CommentLikeOrdering {
+  sort: CommentLikeSort!
+  direction: SortDirection! = ASC
+}
+
+enum FriendshipSort {
+  ID
+  CREATED_AT
+}
+
+input FriendshipOrdering {
+  sort: FriendshipSort!
+  direction: SortDirection! = ASC
+}
+
+enum ImageSort {
+  ID
+  VIEWS
+  ORIGINAL_URL
+}
+
+input ImageOrdering {
+  sort: ImageSort!
+  direction: SortDirection! = ASC
+}
+
+enum ImageVariationSort {
+  ID
+}
+
+input ImageVariationOrdering {
+  sort: ImageVariationSort!
+  direction: SortDirection! = ASC
+}
+
+enum LikeSort {
+  ID
+  LIKE_TYPE
+  CREATED_AT
+}
+
+input LikeOrdering {
+  sort: LikeSort!
+  direction: SortDirection! = ASC
+}
+
+enum PostSort {
+  ID
+  CONTENT
+}
+
+input PostOrdering {
+  sort: PostSort!
+  direction: SortDirection! = ASC
+}
+
+enum UserSort {
+  ID
+  FIRST_NAME
+  LAST_NAME
+  EMAIL
+  PASSWORD
+}
+
+input UserOrdering {
+  sort: UserSort!
+  direction: SortDirection! = ASC
+}
+
+type Comment implements Node {
+  id: ID!
+  content: String!
+  post: Post
+  user: User!
+  commentLikes: [CommentLike]
+}
+
+type CommentLike implements Node {
+  id: ID!
+  comment: Comment!
+  user: User!
+  likeType: String!
+  createdAt: Int
+}
+
+type Friendship implements Node {
+  id: ID!
+  createdAt: Int
+  users: [User]
+}
+
+type Image implements Node {
+  id: ID!
+  post: Post!
+  views: Int
+  originalUrl: String
+  imageVariations: [ImageVariation]
+}
+
+type ImageVariation implements Node {
+  id: ID!
+  image: Image!
+}
+
+type Like implements Node {
+  id: ID!
+  post: Post!
+  user: User!
+  likeType: String!
+  createdAt: Int
+}
+
+type Post implements Node {
+  id: ID!
+  content: String!
+  user: User!
+  comments: [Comment]
+  images: [Image]
+  likes: [Like]
+}
+
+type User implements Node {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  comments: [Comment]
+  commentLikes: [CommentLike]
+  likes: [Like]
+  posts: [Post]
+  friendships: [Friendship]
+}
+
+type CommentEdge {
+  cursor: String!
+  node: Comment
+}
+
+type CommentLikeEdge {
+  cursor: String!
+  node: CommentLike
+}
+
+type FriendshipEdge {
+  cursor: String!
+  node: Friendship
+}
+
+type ImageEdge {
+  cursor: String!
+  node: Image
+}
+
+type ImageVariationEdge {
+  cursor: String!
+  node: ImageVariation
+}
+
+type LikeEdge {
+  cursor: String!
+  node: Like
+}
+
+type PostEdge {
+  cursor: String!
+  node: Post
+}
+
+type UserEdge {
+  cursor: String!
+  node: User
+}
+
+type CommentConnection {
+  edges: [CommentEdge]
+  pageInfo: PageInfo!
+}
+
+type CommentLikeConnection {
+  edges: [CommentLikeEdge]
+  pageInfo: PageInfo!
+}
+
+type FriendshipConnection {
+  edges: [FriendshipEdge]
+  pageInfo: PageInfo!
+}
+
+type ImageConnection {
+  edges: [ImageEdge]
+  pageInfo: PageInfo!
+}
+
+type ImageVariationConnection {
+  edges: [ImageVariationEdge]
+  pageInfo: PageInfo!
+}
+
+type LikeConnection {
+  edges: [LikeEdge]
+  pageInfo: PageInfo!
+}
+
+type PostConnection {
+  edges: [PostEdge]
+  pageInfo: PageInfo!
+}
+
+type UserConnection {
+  edges: [UserEdge]
+  pageInfo: PageInfo!
+}
+
+input IDFilter {
+  equalTo: ID
+  notEqualTo: ID
+  in: [ID!]
+  notIn: [ID!]
+}
+
+input StringFilter {
+  equalTo: String
+  notEqualTo: String
+
+  in: [String!]
+  notIn: [String!]
+
+  startWith: String
+  notStartWith: String
+
+  endWith: String
+  notEndWith: String
+
+  contain: String
+  notContain: String
+
+  startWithStrict: String # Camel sensitive
+  notStartWithStrict: String # Camel sensitive
+  endWithStrict: String # Camel sensitive
+  notEndWithStrict: String # Camel sensitive
+  containStrict: String # Camel sensitive
+  notContainStrict: String # Camel sensitive
+}
+
+input IntFilter {
+  equalTo: Int
+  notEqualTo: Int
+  lessThan: Int
+  lessThanOrEqualTo: Int
+  moreThan: Int
+  moreThanOrEqualTo: Int
+  in: [Int!]
+  notIn: [Int!]
+}
+
+input FloatFilter {
+  equalTo: Float
+  notEqualTo: Float
+  lessThan: Float
+  lessThanOrEqualTo: Float
+  moreThan: Float
+  moreThanOrEqualTo: Float
+  in: [Float!]
+  notIn: [Float!]
+}
+
+input BooleanFilter {
+  equalTo: Boolean
+  notEqualTo: Boolean
+}
+
+input CommentFilter {
+  search: String
+  where: CommentWhere
+}
+
+input CommentWhere {
+  id: IDFilter
+  content: StringFilter
+  post: PostWhere
+  user: UserWhere
+  commentLikes: CommentLikeWhere
+  or: CommentWhere
+  and: CommentWhere
+}
+
+input CommentLikeFilter {
+  search: String
+  where: CommentLikeWhere
+}
+
+input CommentLikeWhere {
+  id: IDFilter
+  comment: CommentWhere
+  user: UserWhere
+  likeType: StringFilter
+  createdAt: IntFilter
+  or: CommentLikeWhere
+  and: CommentLikeWhere
+}
+
+input FriendshipFilter {
+  search: String
+  where: FriendshipWhere
+}
+
+input FriendshipWhere {
+  id: IDFilter
+  createdAt: IntFilter
+  users: UserWhere
+  or: FriendshipWhere
+  and: FriendshipWhere
+}
+
+input ImageFilter {
+  search: String
+  where: ImageWhere
+}
+
+input ImageWhere {
+  id: IDFilter
+  post: PostWhere
+  views: IntFilter
+  originalUrl: StringFilter
+  imageVariations: ImageVariationWhere
+  or: ImageWhere
+  and: ImageWhere
+}
+
+input ImageVariationFilter {
+  search: String
+  where: ImageVariationWhere
+}
+
+input ImageVariationWhere {
+  id: IDFilter
+  image: ImageWhere
+  or: ImageVariationWhere
+  and: ImageVariationWhere
+}
+
+input LikeFilter {
+  search: String
+  where: LikeWhere
+}
+
+input LikeWhere {
+  id: IDFilter
+  post: PostWhere
+  user: UserWhere
+  likeType: StringFilter
+  createdAt: IntFilter
+  or: LikeWhere
+  and: LikeWhere
+}
+
+input PostFilter {
+  search: String
+  where: PostWhere
+}
+
+input PostWhere {
+  id: IDFilter
+  content: StringFilter
+  user: UserWhere
+  comments: CommentWhere
+  images: ImageWhere
+  likes: LikeWhere
+  or: PostWhere
+  and: PostWhere
+}
+
+input UserFilter {
+  search: String
+  where: UserWhere
+}
+
+input UserWhere {
+  id: IDFilter
+  firstName: StringFilter
+  lastName: StringFilter
+  email: StringFilter
+  password: StringFilter
+  comments: CommentWhere
+  commentLikes: CommentLikeWhere
+  likes: LikeWhere
+  posts: PostWhere
+  friendships: FriendshipWhere
+  or: UserWhere
+  and: UserWhere
+}
+
+type Query {
+  node(id: ID!): Node
+  comment(id: ID!): Comment! @IsAuthenticated
+  comments(
+    first: Int!
+    after: String
+    ordering: [CommentOrdering!]
+    filter: CommentFilter
+  ): CommentConnection! @IsAuthenticated
+  commentLike(id: ID!): CommentLike! @IsAuthenticated
+  commentLikes(
+    first: Int!
+    after: String
+    ordering: [CommentLikeOrdering!]
+    filter: CommentLikeFilter
+  ): CommentLikeConnection! @IsAuthenticated
+  friendship(id: ID!): Friendship! @IsAuthenticated
+  friendships(
+    first: Int!
+    after: String
+    ordering: [FriendshipOrdering!]
+    filter: FriendshipFilter
+  ): FriendshipConnection! @IsAuthenticated
+  image(id: ID!): Image! @IsAuthenticated
+  images(
+    first: Int!
+    after: String
+    ordering: [ImageOrdering!]
+    filter: ImageFilter
+  ): ImageConnection! @IsAuthenticated
+  imageVariation(id: ID!): ImageVariation! @IsAuthenticated
+  imageVariations(
+    first: Int!
+    after: String
+    ordering: [ImageVariationOrdering!]
+    filter: ImageVariationFilter
+  ): ImageVariationConnection! @IsAuthenticated
+  like(id: ID!): Like! @IsAuthenticated
+  likes(
+    first: Int!
+    after: String
+    ordering: [LikeOrdering!]
+    filter: LikeFilter
+  ): LikeConnection! @IsAuthenticated
+  post(id: ID!): Post! @IsAuthenticated
+  posts(
+    first: Int!
+    after: String
+    ordering: [PostOrdering!]
+    filter: PostFilter
+  ): PostConnection! @IsAuthenticated
+  user(id: ID!): User! @IsAuthenticated
+  users(
+    first: Int!
+    after: String
+    ordering: [UserOrdering!]
+    filter: UserFilter
+  ): UserConnection! @IsAuthenticated
+}
+
+input CommentCreateInput {
+  content: String!
+  postId: ID
+}
+
+input CommentUpdateInput {
+  content: String
+  postId: ID
+}
+
+type CommentPayload {
+  comment: Comment!
+}
+
+type CommentDeletePayload {
+  id: ID!
+}
+
+type CommentsDeletePayload {
+  ids: [ID!]!
+}
+
+type CommentsUpdatePayload {
+  ok: Boolean!
+}
+
+input CommentLikeCreateInput {
+  commentId: ID!
+  likeType: String!
+  createdAt: Int
+}
+
+input CommentLikeUpdateInput {
+  commentId: ID
+  likeType: String
+  createdAt: Int
+}
+
+type CommentLikePayload {
+  commentLike: CommentLike!
+}
+
+type CommentLikeDeletePayload {
+  id: ID!
+}
+
+type CommentLikesDeletePayload {
+  ids: [ID!]!
+}
+
+type CommentLikesUpdatePayload {
+  ok: Boolean!
+}
+
+input FriendshipCreateInput {
+  createdAt: Int
+}
+
+input FriendshipUpdateInput {
+  createdAt: Int
+}
+
+type FriendshipPayload {
+  friendship: Friendship!
+}
+
+type FriendshipDeletePayload {
+  id: ID!
+}
+
+type FriendshipsDeletePayload {
+  ids: [ID!]!
+}
+
+type FriendshipsUpdatePayload {
+  ok: Boolean!
+}
+
+input ImageCreateInput {
+  postId: ID!
+  views: Int
+  originalUrl: String
+}
+
+input ImageUpdateInput {
+  postId: ID
+  views: Int
+  originalUrl: String
+}
+
+type ImagePayload {
+  image: Image!
+}
+
+type ImageDeletePayload {
+  id: ID!
+}
+
+type ImagesDeletePayload {
+  ids: [ID!]!
+}
+
+type ImagesUpdatePayload {
+  ok: Boolean!
+}
+
+input ImageVariationCreateInput {
+  imageId: ID!
+}
+
+input ImageVariationUpdateInput {
+  imageId: ID
+}
+
+type ImageVariationPayload {
+  imageVariation: ImageVariation!
+}
+
+type ImageVariationDeletePayload {
+  id: ID!
+}
+
+type ImageVariationsDeletePayload {
+  ids: [ID!]!
+}
+
+type ImageVariationsUpdatePayload {
+  ok: Boolean!
+}
+
+input LikeCreateInput {
+  postId: ID!
+  likeType: String!
+  createdAt: Int
+}
+
+input LikeUpdateInput {
+  postId: ID
+  likeType: String
+  createdAt: Int
+}
+
+type LikePayload {
+  like: Like!
+}
+
+type LikeDeletePayload {
+  id: ID!
+}
+
+type LikesDeletePayload {
+  ids: [ID!]!
+}
+
+type LikesUpdatePayload {
+  ok: Boolean!
+}
+
+input PostCreateInput {
+  content: String!
+}
+
+input PostUpdateInput {
+  content: String
+}
+
+type PostPayload {
+  post: Post!
+}
+
+type PostDeletePayload {
+  id: ID!
+}
+
+type PostsDeletePayload {
+  ids: [ID!]!
+}
+
+type PostsUpdatePayload {
+  ok: Boolean!
+}
+
+input UserCreateInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+input UserUpdateInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+}
+
+type UserPayload {
+  user: User!
+}
+
+type UserDeletePayload {
+  id: ID!
+}
+
+type UsersDeletePayload {
+  ids: [ID!]!
+}
+
+type UsersUpdatePayload {
+  ok: Boolean!
+}
+
+type Mutation {
+  createComment(input: CommentCreateInput!): CommentPayload! @IsAuthenticated
+  updateComment(id: ID!, input: CommentUpdateInput!): CommentPayload!
+    @IsAuthenticated
+  updateComments(
+    filter: CommentFilter
+    input: CommentUpdateInput!
+  ): CommentsUpdatePayload! @IsAuthenticated
+  deleteComment(id: ID!): CommentDeletePayload! @IsAuthenticated
+  deleteComments(filter: CommentFilter): CommentsDeletePayload! @IsAuthenticated
+  createCommentLike(input: CommentLikeCreateInput!): CommentLikePayload!
+    @IsAuthenticated
+  updateCommentLike(
+    id: ID!
+    input: CommentLikeUpdateInput!
+  ): CommentLikePayload! @IsAuthenticated
+  updateCommentLikes(
+    filter: CommentLikeFilter
+    input: CommentLikeUpdateInput!
+  ): CommentLikesUpdatePayload! @IsAuthenticated
+  deleteCommentLike(id: ID!): CommentLikeDeletePayload! @IsAuthenticated
+  deleteCommentLikes(filter: CommentLikeFilter): CommentLikesDeletePayload!
+    @IsAuthenticated
+  createFriendship(input: FriendshipCreateInput!): FriendshipPayload!
+    @IsAuthenticated
+  updateFriendship(id: ID!, input: FriendshipUpdateInput!): FriendshipPayload!
+    @IsAuthenticated
+  updateFriendships(
+    filter: FriendshipFilter
+    input: FriendshipUpdateInput!
+  ): FriendshipsUpdatePayload! @IsAuthenticated
+  deleteFriendship(id: ID!): FriendshipDeletePayload! @IsAuthenticated
+  deleteFriendships(filter: FriendshipFilter): FriendshipsDeletePayload!
+    @IsAuthenticated
+  createImage(input: ImageCreateInput!): ImagePayload! @IsAuthenticated
+  updateImage(id: ID!, input: ImageUpdateInput!): ImagePayload! @IsAuthenticated
+  updateImages(
+    filter: ImageFilter
+    input: ImageUpdateInput!
+  ): ImagesUpdatePayload! @IsAuthenticated
+  deleteImage(id: ID!): ImageDeletePayload! @IsAuthenticated
+  deleteImages(filter: ImageFilter): ImagesDeletePayload! @IsAuthenticated
+  createImageVariation(
+    input: ImageVariationCreateInput!
+  ): ImageVariationPayload! @IsAuthenticated
+  updateImageVariation(
+    id: ID!
+    input: ImageVariationUpdateInput!
+  ): ImageVariationPayload! @IsAuthenticated
+  updateImageVariations(
+    filter: ImageVariationFilter
+    input: ImageVariationUpdateInput!
+  ): ImageVariationsUpdatePayload! @IsAuthenticated
+  deleteImageVariation(id: ID!): ImageVariationDeletePayload! @IsAuthenticated
+  deleteImageVariations(
+    filter: ImageVariationFilter
+  ): ImageVariationsDeletePayload! @IsAuthenticated
+  createLike(input: LikeCreateInput!): LikePayload! @IsAuthenticated
+  updateLike(id: ID!, input: LikeUpdateInput!): LikePayload! @IsAuthenticated
+  updateLikes(filter: LikeFilter, input: LikeUpdateInput!): LikesUpdatePayload!
+    @IsAuthenticated
+  deleteLike(id: ID!): LikeDeletePayload! @IsAuthenticated
+  deleteLikes(filter: LikeFilter): LikesDeletePayload! @IsAuthenticated
+  createPost(input: PostCreateInput!): PostPayload! @IsAuthenticated
+  updatePost(id: ID!, input: PostUpdateInput!): PostPayload! @IsAuthenticated
+  updatePosts(filter: PostFilter, input: PostUpdateInput!): PostsUpdatePayload!
+    @IsAuthenticated
+  deletePost(id: ID!): PostDeletePayload! @IsAuthenticated
+  deletePosts(filter: PostFilter): PostsDeletePayload! @IsAuthenticated
+  createUser(input: UserCreateInput!): UserPayload! @IsAuthenticated
+  updateUser(id: ID!, input: UserUpdateInput!): UserPayload! @IsAuthenticated
+  updateUsers(filter: UserFilter, input: UserUpdateInput!): UsersUpdatePayload!
+    @IsAuthenticated
+  deleteUser(id: ID!): UserDeletePayload! @IsAuthenticated
+  deleteUsers(filter: UserFilter): UsersDeletePayload! @IsAuthenticated
+}
